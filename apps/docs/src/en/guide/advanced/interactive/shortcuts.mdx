@@ -1,0 +1,21 @@
+# Shortcuts
+
+## Custom Shortcuts
+
+```ts pure
+// Add to EditorProps
+{
+  shortcuts(shorcutsRegistry: ShortcutsRegistry, ctx) {
+      // Select all nodes when pressing command + a or ctrl + a
+      shorcutsRegistry.addHandlers({
+        commandId: 'selectAll',
+        shortcuts: ['meta a', 'ctrl a'],
+        execute() {
+          const allNodes = ctx.document.getAllNodes();
+          ctx.playground.selectionService.selection = allNodes;
+        },
+      });
+  },
+}
+
+```
