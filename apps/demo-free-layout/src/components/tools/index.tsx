@@ -17,6 +17,7 @@ import { Interactive } from './interactive';
 import { FitView } from './fit-view';
 import { AutoLayout } from './auto-layout';
 import { useClientContext } from '@flowgram.ai/free-layout-editor';
+import { SwitchLine } from './switch-line';
 
 export const DemoTools = () => {
   const { history, playground } = useClientContext();
@@ -42,6 +43,7 @@ export const DemoTools = () => {
       <ToolSection>
         <Interactive />
         <AutoLayout />
+        <SwitchLine />
         <ZoomSelect />
         <FitView />
         <MinimapSwitch minimapVisible={minimapVisible} setMinimapVisible={setMinimapVisible} />
