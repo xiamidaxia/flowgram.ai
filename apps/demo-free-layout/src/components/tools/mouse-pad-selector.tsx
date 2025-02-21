@@ -2,8 +2,8 @@ import React, { type CSSProperties, useState } from 'react';
 
 import { Popover, Typography } from '@douyinfe/semi-ui';
 
-import { PadIcon, PadToolIcon } from '../../assets/icon-pad';
-import { MouseIcon, MouseToolIcon } from '../../assets/icon-mouse';
+import { IconPad, IconPadTool } from '../../assets/icon-pad';
+import { IconMouse, IconMouseTool } from '../../assets/icon-mouse';
 
 import './mouse-pad-selector.less';
 
@@ -83,7 +83,7 @@ export const MousePadSelector: React.FC<
               subTitle={'Drag the canvas with the left mouse button, zoom with the scroll wheel.'}
               value={InteractiveType.Mouse}
               selected={value === InteractiveType.Mouse}
-              icon={<MouseIcon />}
+              icon={<IconMouse />}
               onChange={onChange}
             />
 
@@ -94,7 +94,7 @@ export const MousePadSelector: React.FC<
               }
               value={InteractiveType.Pad}
               selected={value === InteractiveType.Pad}
-              icon={<PadIcon />}
+              icon={<IconPad />}
               onChange={onChange}
             />
           </div>
@@ -109,7 +109,7 @@ export const MousePadSelector: React.FC<
         style={containerStyle}
       >
         <div className={'ui-mouse-pad-selector-icon'} style={iconStyle}>
-          {isMouse ? <MouseToolIcon /> : <PadToolIcon />}
+          {isMouse ? <IconMouseTool /> : <IconPadTool />}
         </div>
       </div>
     </Popover>

@@ -10,8 +10,8 @@ export const Readonly = () => {
     playground.config.readonly = !playground.config.readonly;
   }, [playground]);
   return playground.config.readonly ? (
-    <IconButton theme="borderless" type="tertiary" icon={<IconLock />} onClick={toggleReadonly} />
+    <IconButton theme="borderless" type="tertiary" icon={<IconLock size='default' />} onClick={toggleReadonly} />
   ) : (
-    <IconButton theme="borderless" type="tertiary" icon={<IconUnlock />} onClick={toggleReadonly} />
+    <IconButton theme="borderless" type="tertiary" icon={<IconUnlock size='default' />} onClick={toggleReadonly} />
   );
 };
