@@ -1,4 +1,5 @@
 {
+  "extends": "@flowgram.ai/ts-config/tsconfig.flow.path.json",
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",

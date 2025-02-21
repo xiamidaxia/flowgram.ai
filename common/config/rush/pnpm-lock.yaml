@@ -90,6 +90,12 @@ importers:
         specifier: ^5
         version: 5.3.11(react-dom@18.3.1)(react@18.3.1)
     devDependencies:
+      '@flowgram.ai/eslint-config':
+        specifier: workspace:*
+        version: link:../../config/eslint-config
+      '@flowgram.ai/ts-config':
+        specifier: workspace:*
+        version: link:../../config/ts-config
       '@rspack/cli':
         specifier: 0.2.1
         version: 0.2.1
@@ -129,6 +135,9 @@ importers:
       '@douyinfe/semi-ui':
         specifier: ^2.72.3
         version: 2.72.3(react-dom@18.3.1)(react@18.3.1)
+      '@flowgram.ai/eslint-config':
+        specifier: workspace:*
+        version: link:../../config/eslint-config
       '@flowgram.ai/fixed-layout-editor':
         specifier: workspace:*
         version: link:../../packages/client/fixed-layout-editor
@@ -138,6 +147,9 @@ importers:
       '@flowgram.ai/minimap-plugin':
         specifier: workspace:*
         version: link:../../packages/plugins/minimap-plugin
+      '@flowgram.ai/ts-config':
+        specifier: workspace:*
+        version: link:../../config/ts-config
       nanoid:
         specifier: ^4.0.2
         version: 4.0.2
@@ -206,6 +218,12 @@ importers:
         specifier: ^5
         version: 5.3.11(react-dom@18.3.1)(react@18.3.1)
     devDependencies:
+      '@flowgram.ai/eslint-config':
+        specifier: workspace:*
+        version: link:../../config/eslint-config
+      '@flowgram.ai/ts-config':
+        specifier: workspace:*
+        version: link:../../config/ts-config
       '@rspack/cli':
         specifier: 0.2.1
         version: 0.2.1
@@ -258,6 +276,12 @@ importers:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
     devDependencies:
+      '@flowgram.ai/eslint-config':
+        specifier: workspace:*
+        version: link:../../config/eslint-config
+      '@flowgram.ai/ts-config':
+        specifier: workspace:*
+        version: link:../../config/ts-config
       '@rspack/cli':
         specifier: 0.2.1
         version: 0.2.1
