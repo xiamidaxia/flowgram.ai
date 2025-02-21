@@ -42,14 +42,14 @@ export function Save(props: { disabled: boolean }) {
 
   if (errorCount === 0) {
     return (
-      <Button disabled={props.disabled} onClick={onSave}>
+      <Button disabled={props.disabled} onClick={onSave} style={{ backgroundColor: "rgba(171,181,255,0.3)", borderRadius: "8px" }}>
         Save
       </Button>
     );
   }
   return (
     <Badge count={errorCount} position="rightTop" type="danger">
-      <Button type="danger" disabled={props.disabled} onClick={onSave}>
+      <Button type="danger" disabled={props.disabled} onClick={onSave} style={{ backgroundColor: "rgba(255, 179, 171, 0.3)", borderRadius: "8px" }} > 
         Save
       </Button>
     </Badge>

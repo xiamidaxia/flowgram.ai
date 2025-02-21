@@ -49,6 +49,8 @@ export const DemoTools = () => {
         <Readonly />
         <Tooltip content="Undo">
           <IconButton
+            type="tertiary"
+            theme="borderless"
             icon={<IconUndo />}
             disabled={!canUndo}
             onClick={() => history.undo()}
@@ -56,6 +58,8 @@ export const DemoTools = () => {
         </Tooltip>
         <Tooltip content="Redo">
           <IconButton
+            type="tertiary"
+            theme="borderless"
             icon={<IconRedo />}
             disabled={!canRedo}
             onClick={() => history.redo()}
@@ -63,6 +67,7 @@ export const DemoTools = () => {
         </Tooltip>
         <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
         <AddNode disabled={playground.config.readonly} />
+        <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
         <Save disabled={playground.config.readonly} />
       </ToolSection>
     </ToolContainer>

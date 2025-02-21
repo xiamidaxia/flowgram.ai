@@ -11,6 +11,8 @@ export const MinimapSwitch = (props: {
   return (
     <Tooltip content="Minimap">
       <IconButton
+        type="tertiary"
+        theme="borderless"
         icon={<UIIconGridRectangle visible={minimapVisible} />}
         onClick={() => setMinimapVisible(!minimapVisible)}
       />

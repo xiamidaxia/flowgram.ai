@@ -26,7 +26,9 @@ export const AutoLayout = () => {
 
   return (
     <Tooltip content={'Auto Layout'}>
-      <IconButton onClick={autoLayout} icon={icon} />
+      <IconButton
+        type="tertiary"
+        theme="borderless" onClick={autoLayout} icon={icon} />
     </Tooltip>
   );
 };

@@ -12,7 +12,7 @@ export const AddNode = (props: { disabled: boolean }) => {
   return (
     <Popover
       visible={visible}
-      onVisibleChange={props.disabled ? () => {} : setVisible}
+      onVisibleChange={props.disabled ? () => { } : setVisible}
       content={!props.disabled && <NodeList />}
       placement="right"
       trigger="click"
@@ -21,7 +21,7 @@ export const AddNode = (props: { disabled: boolean }) => {
         padding: 0,
       }}
     >
-      <Button icon={<IconPlus />} color="highlight" disabled={props.disabled}>
+      <Button icon={<IconPlus />} color="highlight" style={{ backgroundColor: "rgba(171,181,255,0.3)", borderRadius: "8px" }} disabled={props.disabled}>
         Add Node
       </Button>
     </Popover>
