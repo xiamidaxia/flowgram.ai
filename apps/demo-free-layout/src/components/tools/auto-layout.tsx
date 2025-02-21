@@ -2,9 +2,8 @@ import { useCallback } from 'react';
 
 import { usePlayground, usePlaygroundTools } from '@flowgram.ai/free-layout-editor';
 import { IconButton, Tooltip } from '@douyinfe/semi-ui';
+
 import { IconAutoLayout } from '../../assets/icon-auto-layout';
-
-
 
 export const AutoLayout = () => {
   const tools = usePlaygroundTools();
@@ -18,7 +17,10 @@ export const AutoLayout = () => {
       <IconButton
         disabled={playground.config.readonly}
         type="tertiary"
-        theme="borderless" onClick={autoLayout} icon={IconAutoLayout} />
+        theme="borderless"
+        onClick={autoLayout}
+        icon={IconAutoLayout}
+      />
     </Tooltip>
   );
 };

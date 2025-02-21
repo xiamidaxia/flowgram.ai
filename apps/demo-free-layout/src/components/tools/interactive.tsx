@@ -34,7 +34,7 @@ export const Interactive = () => {
   const [visible, setVisible] = useState(false);
 
   const [interactiveType, setInteractiveType] = useState<InteractiveType>(
-    () => getPreferInteractiveType() as InteractiveType,
+    () => getPreferInteractiveType() as InteractiveType
   );
 
   const [showInteractivePanel, setShowInteractivePanel] = useState(false);
@@ -43,7 +43,7 @@ export const Interactive = () => {
     interactiveType === InteractiveType.Mouse ? 'Mouse-Friendly' : 'Touchpad-Friendly';
 
   useEffect(() => {
-    tools.setMouseScrollDelta(zoom => zoom / 20);
+    tools.setMouseScrollDelta((zoom) => zoom / 20);
 
     // read from localStorage
     const preferInteractiveType = getPreferInteractiveType();
@@ -63,7 +63,7 @@ export const Interactive = () => {
         <div className="workflow-toolbar-interactive">
           <MousePadSelector
             value={interactiveType}
-            onChange={value => {
+            onChange={(value) => {
               setInteractiveType(value);
               setPreferInteractiveType(value);
               tools.setInteractiveType(value as unknown as IdeInteractiveType);

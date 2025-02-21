@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 
-import {
-  useRefresh,
-} from '@flowgram.ai/free-layout-editor';
+import { useRefresh } from '@flowgram.ai/free-layout-editor';
+import { useClientContext } from '@flowgram.ai/free-layout-editor';
 import { Tooltip, IconButton, Divider } from '@douyinfe/semi-ui';
 import { IconUndo, IconRedo } from '@douyinfe/semi-icons';
 
 import { AddNode } from '../add-node';
 import { ZoomSelect } from './zoom-select';
+import { SwitchLine } from './switch-line';
 import { ToolContainer, ToolSection } from './styles';
 import { Save } from './save';
 import { Readonly } from './readonly';
@@ -16,8 +16,6 @@ import { Minimap } from './minimap';
 import { Interactive } from './interactive';
 import { FitView } from './fit-view';
 import { AutoLayout } from './auto-layout';
-import { useClientContext } from '@flowgram.ai/free-layout-editor';
-import { SwitchLine } from './switch-line';
 
 export const DemoTools = () => {
   const { history, playground } = useClientContext();

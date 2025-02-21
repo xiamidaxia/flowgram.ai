@@ -67,7 +67,7 @@ export const MousePadSelector: React.FC<
       position="topLeft"
       closeOnEsc
       visible={visible}
-      onVisibleChange={v => {
+      onVisibleChange={(v) => {
         onPopupVisibleChange?.(v);
       }}
       onClickOutSide={() => {

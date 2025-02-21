@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { IconMinimap } from '../../assets/icon-minimap';
 
 export const ToolContainer = styled.div`
@@ -42,5 +43,5 @@ export const MinimapContainer = styled.div`
 `;
 
 export const UIIconMinimap = styled(IconMinimap)<{ visible: boolean }>`
-  color: ${props => (props.visible ? undefined : '#060709cc')};
+  color: ${(props) => (props.visible ? undefined : '#060709cc')};
 `;
