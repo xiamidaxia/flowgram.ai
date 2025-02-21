@@ -71,8 +71,8 @@ export const Interactive = () => {
             onPopupVisibleChange={setShowInteractivePanel}
             containerStyle={{
               border: 'none',
-              height: '24px',
-              width: '38px',
+              height: '32px',
+              width: '32px',
               justifyContent: 'center',
               alignItems: 'center',
               gap: '2px',

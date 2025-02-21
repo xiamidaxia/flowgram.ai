@@ -2,8 +2,8 @@ import React, { type CSSProperties, useState } from 'react';
 
 import { Popover, Typography } from '@douyinfe/semi-ui';
 
-import { PadIcon } from '../../assets/icon-pad';
-import { MouseIcon } from '../../assets/icon-mouse';
+import { PadIcon, PadToolIcon } from '../../assets/icon-pad';
+import { MouseIcon, MouseToolIcon } from '../../assets/icon-mouse';
 
 import './mouse-pad-selector.less';
 
@@ -109,7 +109,7 @@ export const MousePadSelector: React.FC<
         style={containerStyle}
       >
         <div className={'ui-mouse-pad-selector-icon'} style={iconStyle}>
-          {isMouse ? <MouseIcon width={15} height={20} /> : <PadIcon width={20} height={15} />}
+          {isMouse ? <MouseToolIcon /> : <PadToolIcon />}
         </div>
       </div>
     </Popover>
