@@ -14,7 +14,7 @@ import { BaseNode } from '../components';
 
 export function useEditorProps(
   initialData: FlowDocumentJSON,
-  nodeRegistries: FlowNodeRegistry[],
+  nodeRegistries: FlowNodeRegistry[]
 ): FreeLayoutProps {
   return useMemo<FreeLayoutProps>(
     () => ({
@@ -90,7 +90,6 @@ export function useEditorProps(
        */
       variableEngine: {
         enable: true,
-        layout: 'free',
       },
       /**
        * Redo/Undo enable
@@ -167,6 +166,6 @@ export function useEditorProps(
         }),
       ],
     }),
-    [],
+    []
   );
 }

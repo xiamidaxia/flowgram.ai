@@ -24,7 +24,7 @@ import { DragNode } from '../components';
 
 export function useEditorProps(
   initialData: FlowDocumentJSON,
-  nodeRegistries: FlowNodeRegistry[],
+  nodeRegistries: FlowNodeRegistry[]
 ): FixedLayoutProps {
   return useMemo<FixedLayoutProps>(
     () => ({
@@ -94,7 +94,7 @@ export function useEditorProps(
       },
       // Config shortcuts
       shortcuts: (registry: ShortcutsRegistry, ctx) => {
-        registry.addHandlers(...shortcutGetter.map(getter => getter(ctx)));
+        registry.addHandlers(...shortcutGetter.map((getter) => getter(ctx)));
       },
       /**
        * Drag/Drop config
@@ -141,7 +141,6 @@ export function useEditorProps(
        */
       variableEngine: {
         enable: true,
-        layout: 'fixed',
       },
       /**
        * Materials, components can be customized based on the key
@@ -165,7 +164,7 @@ export function useEditorProps(
       /**
        * Playground init
        */
-      onInit: ctx => {
+      onInit: (ctx) => {
         /**
          * Data can also be dynamically loaded via fromJSON
          * 也可以通过 fromJSON 动态加载数据
@@ -176,7 +175,7 @@ export function useEditorProps(
       /**
        * Playground render
        */
-      onAllLayersRendered: ctx => {
+      onAllLayersRendered: (ctx) => {
         setTimeout(() => {
           ctx.playground.config.fitView(ctx.document.root.bounds.pad(30));
         }, 10);
@@ -236,6 +235,6 @@ export function useEditorProps(
         createClipboardPlugin(),
       ],
     }),
-    [],
+    []
   );
 }
