@@ -53,7 +53,7 @@ export const createVariablePlugin: PluginCreator<VariablePluginOptions> = define
         syncOutputs(form.getValueIn('outputs'));
         // Listen outputs change
         form.onFormValuesChange(props => {
-          if (props.name === 'outputs') {
+          if (props.name.match(/^outputs/)) {
             syncOutputs(form.getValueIn('outputs'));
           }
         });
