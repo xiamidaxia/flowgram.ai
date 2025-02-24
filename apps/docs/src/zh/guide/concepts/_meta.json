@@ -1,5 +1,7 @@
 [
   "canvas-engine",
   "node-engine",
-  "variable-engine"
+  "variable-engine",
+  "ECS",
+  "IOC"
 ]

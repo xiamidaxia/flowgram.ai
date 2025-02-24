@@ -20,12 +20,12 @@
     "label": "Components"
   },
   {
-    "type": "services",
+    "type": "dir",
     "name": "services",
     "label": "Services"
   },
   {
-    "type": "utils",
+    "type": "dir",
     "name": "utils",
     "label": "Utils"
   }

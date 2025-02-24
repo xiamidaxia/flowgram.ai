@@ -1,14 +1,4 @@
 [
-  {
-    "type": "dir",
-    "name": "fixed-layout",
-    "label": "固定布局"
-  },
-  {
-    "type": "dir",
-    "name": "free-layout",
-    "label": "自由布局"
-  },
   "form",
   "variable",
   "history",
