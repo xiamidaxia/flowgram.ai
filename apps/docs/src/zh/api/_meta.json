@@ -2,16 +2,31 @@
   {
     "type": "file",
     "name": "index",
-    "label": "API 预览"
-  },
-  {
-    "type": "file",
-    "name": "common-apis",
-    "label": "常用 API"
+    "label": "API Overview"
   },
   {
     "type": "dir",
-    "name": "plugins",
-    "label": "插件"
+    "name": "core",
+    "label": "Core"
+  },
+  {
+    "type": "dir",
+    "name": "hooks",
+    "label": "Hooks"
+  },
+  {
+    "type": "dir",
+    "name": "components",
+    "label": "Components"
+  },
+  {
+    "type": "services",
+    "name": "services",
+    "label": "Services"
+  },
+  {
+    "type": "utils",
+    "name": "utils",
+    "label": "Utils"
   }
 ]
