@@ -10,7 +10,7 @@ our name.
 <div align="center">
 
 [![License](https://img.shields.io/github/license/coze-dev/flowgram.ai)](https://github.com/coze-dev/flowgram.ai/blob/main/LICENSE)
-[![@flowgram.ai/editor](https://img.shields.io/npm/dw/%40flowgram.ai%2Feditor
+[![@flowgram.ai/editor](https://img.shields.io/npm/dw/%40flowgram.ai%2Fcore
 )](https://www.npmjs.com/package/@flowgram.ai/editor)
 
 </div>
