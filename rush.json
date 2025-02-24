@@ -465,7 +465,7 @@
       "packageName": "@flowgram.ai/demo-fixed-layout",
       "projectFolder": "apps/demo-fixed-layout",
       "tags": [ "level-1", "team-flow", "demo" ],
-      "versionPolicyName": "publishPolicy"
+      "versionPolicyName": "appPolicy"
     },
     {
        "packageName": "@flowgram.ai/utils",
@@ -753,12 +753,12 @@
         "team-flow",
         "demo"
       ],
-      "versionPolicyName": "publishPolicy"
+      "versionPolicyName": "appPolicy"
     },
     {
       "packageName": "@flowgram.ai/demo-fixed-layout-simple",
       "projectFolder": "apps/demo-fixed-layout-simple",
-      "versionPolicyName": "publishPolicy",
+      "versionPolicyName": "appPolicy",
       "tags": [
         "level-1",
         "team-flow",
@@ -768,7 +768,7 @@
     {
       "packageName": "@flowgram.ai/demo-free-layout-simple",
       "projectFolder": "apps/demo-free-layout-simple",
-      "versionPolicyName": "publishPolicy",
+      "versionPolicyName": "appPolicy",
       "tags": [
         "level-1",
         "team-flow",

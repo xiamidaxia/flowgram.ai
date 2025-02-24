@@ -3,6 +3,12 @@
     "policyName": "publishPolicy",
     "definitionName": "lockStepVersion",
     "version": "0.1.0",
-    "nextBump": "minor"
+    "nextBump": "patch"
+  },
+  {
+    "policyName": "appPolicy",
+    "definitionName": "lockStepVersion",
+    "version": "0.1.0",
+    "nextBump": "patch"
   }
 ]

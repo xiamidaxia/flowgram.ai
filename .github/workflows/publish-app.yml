@@ -25,7 +25,7 @@ jobs:
       - name: Get latest npm version
         id: get_version
         run: |
-          LATEST_VERSION=$(npm view @flowgram.ai/core version --tag=latest latest)
+          LATEST_VERSION=$(npm view @flowgram.ai/demo-fixed-layout version --tag=latest latest)
           echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
           echo "::set-output name=version::$LATEST_VERSION"
       - name: Echo version
@@ -45,7 +45,7 @@ jobs:
         run: |
           echo "[
             {
-              \"policyName\": \"publishPolicy\",
+              \"policyName\": \"appPolicy\",
               \"definitionName\": \"lockStepVersion\",
               \"version\": \"$LATEST_VERSION\",
               \"nextBump\": \"patch\"
@@ -56,4 +56,4 @@ jobs:
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-        run: node common/scripts/install-run-rush.js publish --version-policy publishPolicy -p --tag latest
+        run: node common/scripts/install-run-rush.js publish --version-policy appPolicy -p --tag latest
