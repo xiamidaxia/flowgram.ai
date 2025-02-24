@@ -57,7 +57,7 @@ export function NodeList() {
   };
   return (
     <NodesWrap style={{ width: 80 * 2 + 20 }}>
-      {nodeRegistries.map(registry => (
+      {nodeRegistries.map((registry) => (
         <Node
           key={registry.type}
           disabled={!(registry.canAdd?.(context) ?? true)}

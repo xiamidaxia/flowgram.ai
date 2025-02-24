@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 
-import {
-  useRefresh,
-} from '@flowgram.ai/free-layout-editor';
+import { useRefresh } from '@flowgram.ai/free-layout-editor';
+import { useClientContext } from '@flowgram.ai/free-layout-editor';
 import { Tooltip, IconButton, Divider } from '@douyinfe/semi-ui';
 import { IconUndo, IconRedo } from '@douyinfe/semi-icons';
 
 import { AddNode } from '../add-node';
 import { ZoomSelect } from './zoom-select';
+import { SwitchLine } from './switch-line';
 import { ToolContainer, ToolSection } from './styles';
 import { Save } from './save';
 import { Readonly } from './readonly';
@@ -16,7 +16,6 @@ import { Minimap } from './minimap';
 import { Interactive } from './interactive';
 import { FitView } from './fit-view';
 import { AutoLayout } from './auto-layout';
-import { useClientContext } from '@flowgram.ai/free-layout-editor';
 
 export const DemoTools = () => {
   const { history, playground } = useClientContext();
@@ -42,6 +41,7 @@ export const DemoTools = () => {
       <ToolSection>
         <Interactive />
         <AutoLayout />
+        <SwitchLine />
         <ZoomSelect />
         <FitView />
         <MinimapSwitch minimapVisible={minimapVisible} setMinimapVisible={setMinimapVisible} />
@@ -49,6 +49,8 @@ export const DemoTools = () => {
         <Readonly />
         <Tooltip content="Undo">
           <IconButton
+            type="tertiary"
+            theme="borderless"
             icon={<IconUndo />}
             disabled={!canUndo}
             onClick={() => history.undo()}
@@ -56,6 +58,8 @@ export const DemoTools = () => {
         </Tooltip>
         <Tooltip content="Redo">
           <IconButton
+            type="tertiary"
+            theme="borderless"
             icon={<IconRedo />}
             disabled={!canRedo}
             onClick={() => history.redo()}
@@ -63,6 +67,7 @@ export const DemoTools = () => {
         </Tooltip>
         <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
         <AddNode disabled={playground.config.readonly} />
+        <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
         <Save disabled={playground.config.readonly} />
       </ToolSection>
     </ToolContainer>
