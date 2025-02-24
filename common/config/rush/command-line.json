@@ -192,6 +192,26 @@
       "autoinstallerName": "rush-commands",
       "shellCommand": "node common/autoinstallers/rush-commands/check-circular-dependency.mjs"
     },
+    {
+      "commandKind": "bulk",
+      "name": "test",
+      "description": "Executes automated tests.",
+      "allowWarningsInSuccessfulBuild": true,
+      "ignoreMissingScript": true,
+      "enableParallelism": true,
+      "incremental": true,
+      "summary": "⭐️️ Run test command for each package"
+    },
+    {
+      "commandKind": "bulk",
+      "name": "test:cov",
+      "description": "Executes automated tests with coverage collection.",
+      "allowWarningsInSuccessfulBuild": true,
+      "ignoreMissingScript": true,
+      "enableParallelism": true,
+      "incremental": true,
+      "summary": "⭐️️ Run coverage command for each package"
+    },
     // 本地包构建 + watch
     {
       "name": "build:watch",
