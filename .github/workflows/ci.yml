@@ -29,4 +29,4 @@ jobs:
       - name: Rush build
         run: node common/scripts/install-run-rush.js build
       - name: Test (coverage)
-        run: node common/scripts/install-run-rush.js test:cov -v
+        run: node common/scripts/install-run-rush.js test:cov

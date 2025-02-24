@@ -1,4 +1,4 @@
-name: Publish
+name: Publish-Apps
 on:
   workflow_dispatch
 
