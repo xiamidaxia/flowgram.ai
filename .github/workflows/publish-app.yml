@@ -22,6 +22,10 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
         run: |
           npm whoami
+      - name: Config Git User
+        run: |
+          git config --local user.name "dragooncjw"
+          git config --local user.email "289056872@qq.com"
       - name: Get latest npm version
         id: get_version
         run: |
