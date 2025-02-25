@@ -17,3 +17,4 @@ export * from './expression';
 
 export { ASTFactory } from './factory';
 export { injectToAST, postConstructAST } from './utils/inversify';
+export { isMatchAST } from './utils/helpers';

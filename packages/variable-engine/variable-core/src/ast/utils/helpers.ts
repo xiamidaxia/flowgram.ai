@@ -13,7 +13,7 @@ export function updateChildNodeHelper(
     updateChildNode: (nextNode: ASTNode) => void;
     removeChildNode: () => void;
     nextJSON?: ASTNodeJSON;
-  },
+  }
 ): ASTNode | undefined {
   const currNode: ASTNode | undefined = getChildNode();
 
@@ -50,5 +50,12 @@ export function parseTypeJsonOrKind(typeJSONOrKind?: ASTNodeJSONOrKind): ASTNode
 
 // 获取所有的 children
 export function getAllChildren(ast: ASTNode): ASTNode[] {
-  return [...ast.children, ...ast.children.map(_child => getAllChildren(_child)).flat()];
+  return [...ast.children, ...ast.children.map((_child) => getAllChildren(_child)).flat()];
+}
+
+export function isMatchAST<TargetASTNode extends ASTNode>(
+  node?: ASTNode,
+  targetType?: { kind: string; new (...args: any[]): TargetASTNode }
+): node is TargetASTNode {
+  return node?.kind === targetType?.kind;
 }

@@ -1,6 +1,13 @@
 import { vi, describe, test, expect } from 'vitest';
 
-import { ASTKind, ObjectType, VariableEngine, VariableDeclaration } from '../../src';
+import {
+  ASTKind,
+  ObjectType,
+  NumberType,
+  VariableEngine,
+  VariableDeclaration,
+  isMatchAST,
+} from '../../src';
 import { simpleVariableList } from '../../__mocks__/variables';
 import { getContainer } from '../../__mocks__/container';
 
@@ -26,7 +33,7 @@ describe('test Basic Variable Declaration', () => {
   });
 
   test('test globalVariableTable variables', () => {
-    expect(globalVariableTable.variables.map(_v => _v.key)).toMatchSnapshot();
+    expect(globalVariableTable.variables.map((_v) => _v.key)).toMatchSnapshot();
   });
 
   test('test get variable by key path', () => {
@@ -47,7 +54,7 @@ describe('test Basic Variable Declaration', () => {
       expect(globalVariableTable.getByKeyPath(_case)?.type.kind).toEqual(_resType);
     });
 
-    undefinedCases.forEach(_case => {
+    undefinedCases.forEach((_case) => {
       expect(globalVariableTable.getByKeyPath(_case)).toBeUndefined();
     });
   });
@@ -95,9 +102,9 @@ describe('test Basic Variable Declaration', () => {
     expect(previousVariable3.disposed).toBe(false);
     expect(previousVariable3.version).toBe(1); // 更新次数为一次
     expect(testScope.ast.version).toBe(2); // 调用了两次 fromJSON，因此更新了两次
-    expect(globalVariableTable.variables.map(_v => _v.key)).toMatchSnapshot();
+    expect(globalVariableTable.variables.map((_v) => _v.key)).toMatchSnapshot();
     expect(globalVariableTable.version).toBe(2); // 调用了两次 fromJSON，因此 version 是 2
-    expect(testScope.available.variables.map(_v => _v.key)).toMatchSnapshot();
+    expect(testScope.available.variables.map((_v) => _v.key)).toMatchSnapshot();
   });
 
   test('remove variables', () => {
@@ -141,7 +148,7 @@ describe('test Basic Variable Declaration', () => {
     declaration.subscribe(() => {
       declarationChangeTimes++;
     });
-    declaration.onTypeChange(type => {
+    declaration.onTypeChange((type) => {
       expect(type?.toJSON()).toMatchSnapshot();
       typeChangeTimes++;
     });
@@ -160,6 +167,7 @@ describe('test Basic Variable Declaration', () => {
       type: ASTKind.Number,
       meta: { label: 'test Label' },
     });
+    expect(isMatchAST(declaration.type, NumberType)).toBeTruthy();
     expect(declarationChangeTimes).toBe(2);
     expect(anyVariableChangeTimes).toBe(2);
     expect(typeChangeTimes).toBe(1);
@@ -178,6 +186,7 @@ describe('test Basic Variable Declaration', () => {
       },
       meta: { label: 'test Label' },
     });
+    expect(isMatchAST(declaration.type, ObjectType)).toBeTruthy();
     expect(declarationChangeTimes).toBe(3);
     expect(anyVariableChangeTimes).toBe(3);
     expect(typeChangeTimes).toBe(2);
