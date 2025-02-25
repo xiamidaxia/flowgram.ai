@@ -62,7 +62,7 @@ jobs:
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-        run: node common/scripts/install-run-rush.js publish --version-policy publishPolicy -p --tag latest
+        run: node common/scripts/install-run-rush.js publish --include-all -p --tag latest
       - name: Get new Version
         id: get_new_version
         run: |
