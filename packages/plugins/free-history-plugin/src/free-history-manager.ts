@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { cloneDeep } from 'lodash';
 import { injectable, inject } from 'inversify';
-import { FlowNodeFormData } from '@flowgram.ai/form-core';
-import { type PluginContext, PositionData } from '@flowgram.ai/core';
+import { DisposableCollection } from '@flowgram.ai/utils';
+import { HistoryService } from '@flowgram.ai/history';
 import {
   WorkflowDocument,
   WorkflowResetLayoutService,
   WorkflowDragService,
 } from '@flowgram.ai/free-layout-core';
-import { DisposableCollection } from '@flowgram.ai/utils';
-import { HistoryService } from '@flowgram.ai/history';
+import { FlowNodeFormData } from '@flowgram.ai/form-core';
+import { FormManager } from '@flowgram.ai/form-core';
+import { type PluginContext, PositionData } from '@flowgram.ai/core';
 
 import { type FreeHistoryPluginOptions, FreeOperationType } from './types';
 import { HistoryEntityManager } from './history-entity-manager';
@@ -34,6 +35,9 @@ export class FreeHistoryManager {
   @inject(HistoryEntityManager)
   private _entityManager: HistoryEntityManager;
 
+  @inject(FormManager)
+  private _formManager: FormManager;
+
   private _toDispose: DisposableCollection = new DisposableCollection();
 
   onInit(ctx: PluginContext, opts: FreeHistoryPluginOptions) {
@@ -49,7 +53,7 @@ export class FreeHistoryManager {
     historyService.context.source = ctx;
 
     this._toDispose.pushAll([
-      dragService.onNodesDrag(async event => {
+      dragService.onNodesDrag(async (event) => {
         if (event.type !== 'onDragEnd') {
           return;
         }
@@ -60,28 +64,31 @@ export class FreeHistoryManager {
         if (positionData) {
           this._entityManager.addEntityData(positionData);
         }
+      }),
+      this._formManager.onFormModelWillInit(({ model, data }) => {
+        const node = model.flowNodeEntity;
         const formData = node.getData<FlowNodeFormData>(FlowNodeFormData);
 
         if (formData) {
-          this._entityManager.setValue(formData, cloneDeep(data.data));
+          this._entityManager.setValue(formData, cloneDeep(data));
 
           this._toDispose.push(
-            formData.onDetailChange(event => {
+            formData.onDetailChange((event) => {
               this._changeNodeDataHandler.handle({
                 ...event,
                 node,
               });
-            }),
+            })
           );
         }
       }),
-      document.onContentChange(async event => {
+      document.onContentChange(async (event) => {
         await this._changeContentHandler.handle(event, ctx);
       }),
-      document.onReload(_event => {
+      document.onReload((_event) => {
         historyService.clear();
       }),
-      resetLayoutService.onResetLayout(event => {
+      resetLayoutService.onResetLayout((event) => {
         historyService.pushOperation(
           {
             type: FreeOperationType.resetLayout,
@@ -91,7 +98,7 @@ export class FreeHistoryManager {
               oldValue: event.oldPositionMap,
             },
           },
-          { noApply: true },
+          { noApply: true }
         );
       }),
     ]);

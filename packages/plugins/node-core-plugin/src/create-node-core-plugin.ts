@@ -46,6 +46,9 @@ export const createNodeCorePlugin = definePluginCreator<NodeCorePluginOptions>({
 
     registerNodeMaterial({ nodeManager, formManager, material: options.materials! });
   },
+  onDispose(ctx) {
+    ctx.get<FormManager>(FormManager)?.dispose();
+  },
   containerModules: createNodeContainerModules(),
   // onBind: ({ bind }) => {
   //   bindContributions(bind, FormNodeContribution, [NodeContribution]);
