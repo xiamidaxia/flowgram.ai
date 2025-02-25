@@ -1,6 +1,8 @@
 {
   "name": "@flowgram.ai/renderer",
   "version": "0.1.0",
+  "homepage": "https://coze-dev.github.io/flowgram.ai/",
+  "repository": "https://github.com/coze-dev/flowgram.ai",
   "license": "MIT",
   "exports": {
     "types": "./dist/index.d.ts",

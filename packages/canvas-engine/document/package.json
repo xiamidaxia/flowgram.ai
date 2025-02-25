@@ -6,7 +6,8 @@
     "flow",
     "engine"
   ],
-  "homepage": "",
+  "homepage": "https://coze-dev.github.io/flowgram.ai/",
+  "repository": "https://github.com/coze-dev/flowgram.ai",
   "license": "MIT",
   "exports": {
     "types": "./dist/index.d.ts",

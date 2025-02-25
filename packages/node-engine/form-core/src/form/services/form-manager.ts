@@ -1,9 +1,10 @@
 import { mapValues } from 'lodash';
 import { inject, injectable, multiInject, optional, postConstruct } from 'inversify';
+import { Emitter } from '@flowgram.ai/utils';
 import { injectPlaygroundContext, PlaygroundContext } from '@flowgram.ai/core';
 
 import { AbilityClass, FormItemAbility } from '../models/form-item-ability';
-import { FormAbilityExtensionRegistry } from '../models';
+import { FormAbilityExtensionRegistry, FormModel } from '../models';
 import { FormContribution } from '../form-contribution';
 import {
   DecoratorAbility,
@@ -29,6 +30,13 @@ export class FormManager {
   @injectPlaygroundContext() readonly playgroundContext: PlaygroundContext;
 
   @multiInject(FormContribution) @optional() protected formContributions: FormContribution[] = [];
+
+  private readonly onFormModelWillInitEmitter = new Emitter<{
+    model: FormModel;
+    data: any;
+  }>();
+
+  readonly onFormModelWillInit = this.onFormModelWillInitEmitter.event;
 
   get components(): Record<string, any> {
     return mapValues(
@@ -79,6 +87,17 @@ export class FormManager {
    */
   registerSetterHoc(hoc: SetterHoc): void {
     this.setterHocs.push(hoc);
+  }
+
+  fireFormModelWillInit(model: FormModel, data: any) {
+    this.onFormModelWillInitEmitter.fire({
+      model,
+      data,
+    });
+  }
+
+  dispose() {
+    this.onFormModelWillInitEmitter.dispose();
   }
 
   @postConstruct()
