@@ -17,7 +17,7 @@ program
   .description('Create a demo project')
   .action(async () => {
     console.log(chalk.green('Welcome to @flowgram.ai/create-app CLI!'));
-    const latest = execSync('npm view @flowgram.ai/core version --tag=latest latest').toString().trim();
+    const latest = execSync('npm view @flowgram.ai/demo-fixed-layout version --tag=latest latest').toString().trim();
 
     let folderName = ''
 
