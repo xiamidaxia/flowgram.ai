@@ -5,8 +5,13 @@
 [> API Detail](https://coze-dev.github.io/flowgram.ai/auto-docs/fixed-layout-editor/interfaces/FlowOperationService.html)
 
 ```typescript pure
+const operationService = useService<FlowOperationService>(FlowOperationService)
+operationService.addNode({ id: 'xxx', type: 'custom', data: {} })
+
+// or
 const ctx = useClientContext();
 ctx.operation.addNode({ id: 'xxx', type: 'custom', data: {} })
+
 
 ```
 

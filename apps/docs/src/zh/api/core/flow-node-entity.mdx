@@ -1,6 +1,6 @@
 # FlowNodeEntity/WorkflowNodeEntity
 
-节点实体，`WorkflowNodeEntity` 为节点别名用于自由布局节点, 节点实体采用 [ECS](/flowgram.ai/guide/concepts/ECS.html) 架构
+节点实体，`WorkflowNodeEntity` 为节点别名用于自由布局节点, 节点实体采用 [ECS](/flowgram.ai/guide/concepts/ECS.html) 架构, 为 `Entity`
 
 [> API Detail](https://coze-dev.github.io/flowgram.ai/auto-docs/document/classes/FlowNodeEntity-1.html)
 
@@ -56,7 +56,38 @@ const nodeRegistry = node.getNodeRegistry<FlowNodeRegistry>()
 
 ### getData
 
+等价于 [ECS](/flowgram.ai/guide/concepts/ECS.html) 架构 里获取 Entity 的 Component，目前内置两个核心 Component
+
+```ts pure
+node.getData(FlowNodeTransformData) // transform 矩阵数据, 包含节点的 x，y，width，height 等信息
+node.getData(FlowNodeRenderData) // 节点的渲染数据, 包含渲染状态等数据
+
+```
+
 ### addData
+
+等价于 [ECS](/flowgram.ai/guide/concepts/ECS.html) 架构 里添加 Entity 的 Component
+
+```ts pure
+
+// 自定义 EntityData
+class CustomEntityData extends EntityData<{ key0: string }> {
+  static type = 'CustomEntityData';
+  getDefaultData() {
+    return {
+      key0: 'test'
+    }
+  }
+}
+
+// 添加 Enitty Component
+node.addData(CustomEntityData)
+
+
+// 更新 Entity Component 数据
+node.getData(CustomEntityData).update({ key0: 'new value' })
+
+```
 
 ### getService
 

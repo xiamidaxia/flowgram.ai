@@ -1,1 +1,29 @@
 # WorkflowLinesManager (free)
+
+自由布局线条管理, 目前挂在自由布局 document 下边
+
+[> API Detail](https://coze-dev.github.io/flowgram.ai/auto-docs/free-layout-core/classes/WorkflowLinesManager.html)
+
+```
+import { useClientContext } from '@flowgram.ai/free-layout-editor'
+
+const ctx = useClientContext();
+console.log(ctx.document.linesManager)
+```
+
+## getAllLines
+
+获取所有线条的实体
+
+```ts pure
+const allLines = ctx.document.linesManager.getAllLines()
+
+```
+
+## toJSON
+
+导出线条数据
+
+```ts pure
+const json = ctx.document.linesManager.toJSON()
+```

@@ -29,4 +29,7 @@ const commandService = useService(CommandService)
  * 调用命令服务, args 参数会透传给 execute 和 isEnabled
  */
 commandService.executeCommand('selectAll', ...args)
+
+// OR
+ctx.get(CommandService).executeCommand('selectAll', ...args)
 ```
