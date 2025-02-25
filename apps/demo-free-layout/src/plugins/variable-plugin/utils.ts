@@ -1,29 +1,16 @@
-import { get, set } from 'lodash-es';
-import {
-  type ArrayType,
-  ASTKind,
-  type ASTNodeJSON,
-  type BaseType,
-  type ObjectType,
-} from '@flowgram.ai/free-layout-editor';
+import { get } from 'lodash-es';
+import { ASTKind, type ASTNodeJSON } from '@flowgram.ai/free-layout-editor';
 
 import { type JsonSchema } from '../../typings';
 
 function sortProperties(properties: Record<string, JsonSchema>) {
   return Object.entries(properties).sort(
-    (a, b) => (get(a?.[1], 'extra.index') || 0) - (get(b?.[1], 'extra.index') || 0),
+    (a, b) => (get(a?.[1], 'extra.index') || 0) - (get(b?.[1], 'extra.index') || 0)
   );
 }
 
 export function createASTFromJSONSchema(jsonSchema: JsonSchema): ASTNodeJSON | undefined {
-  const { type, $ref } = jsonSchema || {};
-
-  if ($ref) {
-    return {
-      kind: 'RefCustomType',
-      $ref,
-    };
-  }
+  const { type } = jsonSchema || {};
 
   if (!type) {
     return undefined;
@@ -51,40 +38,6 @@ export function createASTFromJSONSchema(jsonSchema: JsonSchema): ASTNodeJSON | u
       return {
         kind: type.charAt(0).toUpperCase() + type.slice(1),
         enum: jsonSchema.enum,
-      };
-  }
-}
-
-export function parseASTToJSONSchema(type?: BaseType): JsonSchema | undefined {
-  switch (type?.kind) {
-    case ASTKind.Object:
-      return {
-        type: 'object',
-        properties: (type as ObjectType).properties.reduce<Record<string, JsonSchema>>(
-          (acm: any, curr, index) => {
-            acm[curr.key] = parseASTToJSONSchema(curr.type);
-            set(acm[curr.key], 'extra.index', index);
-            return acm;
-          },
-          {},
-        ),
-      };
-
-    case ASTKind.Array:
-      return {
-        type: 'array',
-        items: parseASTToJSONSchema((type as ArrayType).items),
-      };
-
-    case 'RefCustomType':
-      return {
-        $ref: type?.$ref as string,
-      };
-
-    default:
-      return {
-        type: type?.kind.toLowerCase() as JsonSchema['type'],
-        enum: type?.enum as string[],
       };
   }
 }

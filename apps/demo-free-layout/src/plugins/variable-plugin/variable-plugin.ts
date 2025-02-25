@@ -1,10 +1,10 @@
 import {
-  ASTKind,
   definePluginCreator,
   FlowNodeVariableData,
   getNodeForm,
   PluginCreator,
   FreeLayoutPluginContext,
+  ASTFactory,
 } from '@flowgram.ai/free-layout-editor';
 
 import { createASTFromJSONSchema } from './utils';
@@ -28,7 +28,7 @@ export const createVariablePlugin: PluginCreator<VariablePluginOptions> = define
 
       const syncOutputs = (value: any) => {
         if (!value) {
-          variableData.public.ast.remove('outputs');
+          variableData.clearVar();
           return;
         }
 
@@ -36,23 +36,25 @@ export const createVariablePlugin: PluginCreator<VariablePluginOptions> = define
 
         if (typeAST) {
           const title = form?.getValueIn('title') || node.id;
-          variableData.public.ast.set('outputs', {
-            kind: ASTKind.VariableDeclaration,
-            meta: {
-              title: `${title}.outputs`,
-            },
-            key: `${node.id}.outputs`,
-            type: typeAST,
-          });
+
+          variableData.setVar(
+            ASTFactory.createVariableDeclaration({
+              meta: {
+                title: `${title}.outputs`,
+              },
+              key: `${node.id}.outputs`,
+              type: typeAST,
+            })
+          );
           return;
         } else {
-          variableData.public.ast.remove('outputs');
+          variableData.clearVar();
         }
       };
       if (form) {
         syncOutputs(form.getValueIn('outputs'));
         // Listen outputs change
-        form.onFormValuesChange(props => {
+        form.onFormValuesChange((props) => {
           if (props.name.match(/^outputs/)) {
             syncOutputs(form.getValueIn('outputs'));
           }
