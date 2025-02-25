@@ -1,10 +1,12 @@
-/* eslint-disable max-lines-per-function */
 import { useCallback, useMemo } from 'react';
 
 import {
+  ArrayType,
+  ASTFactory,
   ASTKind,
   type BaseType,
-  type ObjectType,
+  isMatchAST,
+  ObjectType,
   type UnionJSON,
   useScopeAvailable,
 } from '@flowgram.ai/free-layout-editor';
@@ -42,7 +44,7 @@ export function useVariableTree<TreeData>({
   const available = useScopeAvailable();
 
   const getVariableTypeIcon = useCallback((variable: VariableField) => {
-    if (variable.type?.kind === ASTKind.Array) {
+    if (isMatchAST(variable.type, ArrayType)) {
       return (
         (ArrayIcons as any)[variable.type.items?.kind.toLowerCase()] ||
         VariableTypeIcons[ASTKind.Array.toLowerCase()]
@@ -53,14 +55,14 @@ export function useVariableTree<TreeData>({
   }, []);
 
   const targetTypeAST: UnionJSON = useMemo(
-    () => ({
-      kind: ASTKind.Union,
-      types: targetSchemas.map(_targetSchema => {
-        const typeAst = createASTFromJSONSchema(_targetSchema)!;
-        return strongEqual ? typeAst : { ...typeAst, weak: true };
+    () =>
+      ASTFactory.createUnion({
+        types: targetSchemas.map((_targetSchema) => {
+          const typeAst = createASTFromJSONSchema(_targetSchema)!;
+          return strongEqual ? typeAst : { ...typeAst, weak: true };
+        }),
       }),
-    }),
-    [strongEqual, ...targetSchemas],
+    [strongEqual, ...targetSchemas]
   );
 
   const checkTypeFiltered = useCallback(
@@ -75,21 +77,21 @@ export function useVariableTree<TreeData>({
 
       return false;
     },
-    [strongEqual, targetTypeAST],
+    [strongEqual, targetTypeAST]
   );
 
   const renderVariable = (
     variable: VariableField,
-    parentFields: VariableField[] = [],
+    parentFields: VariableField[] = []
   ): TreeData | null => {
     let type = variable?.type;
 
     const isTypeFiltered = checkTypeFiltered(type);
 
     let children: TreeData[] | undefined;
-    if (type?.kind === ASTKind.Object) {
-      children = ((type as ObjectType).properties || [])
-        .map(_property => renderVariable(_property as VariableField, [...parentFields, variable]))
+    if (isMatchAST(type, ObjectType)) {
+      children = (type.properties || [])
+        .map((_property) => renderVariable(_property as VariableField, [...parentFields, variable]))
         .filter(Boolean) as TreeData[];
     }
 
@@ -98,7 +100,7 @@ export function useVariableTree<TreeData>({
     }
 
     const currPath = [
-      ...parentFields.map(_field => _field.meta?.titleKey || _field.key),
+      ...parentFields.map((_field) => _field.meta?.titleKey || _field.key),
       variable.meta?.titleKey || variable.key,
     ].join('.');
 
@@ -114,7 +116,7 @@ export function useVariableTree<TreeData>({
 
   return [
     ...available.variables
-      .filter(_v => {
+      .filter((_v) => {
         if (ignoreReadonly) {
           return !_v.meta?.readonly;
         }
@@ -123,6 +125,6 @@ export function useVariableTree<TreeData>({
       .slice(0)
       .reverse(),
   ]
-    .map(_variable => renderVariable(_variable as VariableField))
+    .map((_variable) => renderVariable(_variable as VariableField))
     .filter(Boolean) as TreeData[];
 }

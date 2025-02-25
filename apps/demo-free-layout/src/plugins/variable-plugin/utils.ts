@@ -1,5 +1,5 @@
 import { get } from 'lodash-es';
-import { ASTKind, type ASTNodeJSON } from '@flowgram.ai/free-layout-editor';
+import { ASTFactory, type ASTNodeJSON } from '@flowgram.ai/free-layout-editor';
 
 import { type JsonSchema } from '../../typings';
 
@@ -18,26 +18,28 @@ export function createASTFromJSONSchema(jsonSchema: JsonSchema): ASTNodeJSON | u
 
   switch (type) {
     case 'object':
-      return {
-        kind: ASTKind.Object,
+      return ASTFactory.createObject({
         properties: sortProperties(jsonSchema.properties || {}).map(([key, _property]) => ({
           key,
           type: createASTFromJSONSchema(_property),
           meta: { description: _property.description },
         })),
-      };
-
+      });
     case 'array':
-      return {
-        kind: ASTKind.Array,
+      return ASTFactory.createArray({
         items: createASTFromJSONSchema(jsonSchema.items!),
-      };
+      });
+    case 'string':
+      return ASTFactory.createString();
+    case 'number':
+      return ASTFactory.createNumber();
+    case 'boolean':
+      return ASTFactory.createBoolean();
+    case 'integer':
+      return ASTFactory.createInteger();
 
     default:
       // Camel case to variable-core type
-      return {
-        kind: type.charAt(0).toUpperCase() + type.slice(1),
-        enum: jsonSchema.enum,
-      };
+      return;
   }
 }
