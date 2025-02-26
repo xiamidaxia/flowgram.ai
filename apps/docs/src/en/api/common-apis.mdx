@@ -1,102 +1,102 @@
-# 常用 API
+# Common APIs
 
-## FlowDocument （自动化布局文档数据）
+## FlowDocument (Automated Layout Document Data)
 
 ```ts
-// 通过 hook 获取，也可以通过ctx
+// Can be obtained through hook or ctx
 const doc = useService<FlowDocument>(FlowDocument)
 
-doc.fromJSON(data) // 加载数据
-doc.getAllNodes() // 获取所有节点
-doc.traverseDFS(node => {}) // 深度遍历节点
-doc.toJSON() // TODO 这里老版本的数据，还没优化，业务最好自己使用 traverseDFS 实现 json 转换
+doc.fromJSON(data) // Load data
+doc.getAllNodes() // Get all nodes
+doc.traverseDFS(node => {}) // Depth-first traversal of nodes
+doc.toJSON() // TODO This is the old version data, not yet optimized. Business logic should implement JSON conversion using traverseDFS
 
-doc.addFromNode(targetNode, json) // 插入到指定节点的后边
+doc.addFromNode(targetNode, json) // Insert after the specified node
 
-doc.onNodeCreate(({ node, data}) => {}) // 监听节点创建，data 为创建时候的json数据
-doc.onNodeDispose(({ node }) => {}) // 监听节点删除
+doc.onNodeCreate(({ node, data}) => {}) // Listen to node creation, data is the JSON data at creation time
+doc.onNodeDispose(({ node }) => {}) // Listen to node deletion
 ```
 
-## WorkflowDocument (自由连线布局文档数据) 继承自 FlowDocument
+## WorkflowDocument (Free Connection Layout Document Data) Inherits from FlowDocument
 
 ```ts
 const doc = useService<WorkflowDocument>(WorkflowDocument)
 
-doc.fromJSON(data) // 加载数据
-doc.toJSON() // 导出数据
-doc.getAllNodes() // 获取所有节点
-doc.linesManager.getAllLines() // 获取所有线条
+doc.fromJSON(data) // Load data
+doc.toJSON() // Export data
+doc.getAllNodes() // Get all nodes
+doc.linesManager.getAllLines() // Get all lines
 
-// 创建节点
+// Create node
 doc.createWorkflowNode({ id: nanoid(), type: 'xxx', data: {}, meta: { position: { x: 0, y: 0 } } })
-// 创建线条，from和to 为对应要连线的节点id， fromPort, toPort 如果为单个端口可以不指定
+// Create line, from and to are the node IDs to connect, fromPort and toPort can be omitted for single ports
 doc.linesManager.createLine({ from, to, fromPort, toPort })
 
-// 监听变化，这里会监听线条和节点等事件
+// Listen to changes, this will monitor events for lines and nodes
 doc.onContentChange((e) => {
 
 })
 ```
 
-## FlowNodeEntity（节点）
+## FlowNodeEntity (Node)
 
 ```ts
-node.flowNodeType // 当前节点的type类型
-node.transform.bounds // 获取节点的外围矩形框, 包含 x,y,width,height
-node.updateExtInfo({ title: 'xxx' }) // 设置扩展数据, 响应式会刷新节点
-node.getExtInfo<T>() // 获取扩展数据
-node.getNodeRegister() // 拿到当前节点的定义
+node.flowNodeType // Current node type
+node.transform.bounds // Get node's bounding rectangle, includes x,y,width,height
+node.updateExtInfo({ title: 'xxx' }) // Set extension data, reactive will refresh node
+node.getExtInfo<T>() // Get extension data
+node.getNodeRegister() // Get current node definition
 
-node.dispose() // 删除节点
+node.dispose() // Delete node
 
-// renderData 是 节点 ui相关数据
+// renderData is node UI-related data
 const renderData = node.renderData
-renderData.node // 当前节点的domNode
-renderData.expanded // 当前节点是否展开，可以设置
+renderData.node // Current node's DOM node
+renderData.expanded // Whether current node is expanded, can be set
 
-// 拿到所有上游输入和输出节点（自由连线布局）
+// Get all upstream input and output nodes (free connection layout)
 node.getData<WorkflowNodeLinesData>(WorkflowNodeLinesData).allInputNodes
 node.getData<WorkflowNodeLinesData>(WorkflowNodeLinesData).allOutputNodes
 ```
 
-## Playground （画布）
+## Playground (Canvas)
 
 ```ts
-// 通过 hook 获取，也可以通过ctx
+// Can be obtained through hook or ctx
 const playground = useService(Playground)
 
-// 滚动到指定的节点并居中
+// Scroll to specified node and center it
 ctx.playground.config.scrollToView({
    entities: [node]
-   scrollToCenter： true
-   easing: true // 缓动动画
+   scrollToCenter: true
+   easing: true // Easing animation
 })
 
-// 滚动画布
+// Scroll canvas
 ctx.playground.config.scroll({
   scrollX: 0
   scrollY: 0
 })
 
-// 适配屏幕
+// Fit to screen
 ctx.playground.config.fitView(
-  doc.root.getData<FlowNodeTransformData>().bounds, // 需要居中的矩形框，这里拿节点根节点的大小代表最大的框
-  true， // 是否缓动
-  20, // padding，留出空白间距
+  doc.root.getData<FlowNodeTransformData>().bounds, // Rectangle to center, here using root node size to represent maximum frame
+  true, // Whether to use easing
+  20, // padding, leave blank spacing
 )
 
-// 缩放
+// Zoom
 ctx.playground.config.zoomin()
 ctx.playground.config.zoomout()
-ctx.playground.config.finalScale // 当前缩放比例
+ctx.playground.config.finalScale // Current zoom scale
 ```
 
-## SelectionService (选择器)
+## SelectionService (Selector)
 
 ```ts
 const selectionService = useService<SelectionService>()
 
-selection.selection // 返回当前选中的节点数组，也可以修改，如选中节点 seleciton.selection = [node]
+selection.selection // Returns currently selected node array, can also be modified, e.g., select node: selection.selection = [node]
 
-selection.onSelectionChanged(() => {}) // 监听变化
+selection.onSelectionChanged(() => {}) // Listen to changes
 ```

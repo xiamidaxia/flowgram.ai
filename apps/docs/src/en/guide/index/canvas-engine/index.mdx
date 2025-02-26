@@ -1,6 +1,6 @@
 # Core Modeling
 
-Playground provides an underlying coordinate system
+Playground provides a coordinate system at its foundation
 
 ```ts
 interface Playground {
@@ -8,33 +8,32 @@ interface Playground {
    scrollToView({
      entities?: Entity[] // Specified nodes
      easing?: boolean // Enable easing
-     bounds?: Reactangle // Specify target bbox position
-    }) // Smoothly scroll canvas to center on specific node
+     bounds?: Reactangle // Scroll to specific bbox position
+    }) // Make canvas scroll smoothly to a specific node and center it
    toReactComponent() // Render as React node
    readonly: boolean // Read-only mode
    config: PlaygroundConfigEntity // Contains canvas data like zoom, scroll etc.
 }
-// Hook for quick access
+// Quick access hook
 const playground = usePlayground()
 ```
 
 ## Layer
 
 :::warning P.S.
-- The rendering layer establishes its own coordinate system at the bottom layer, implementing simulated scrolling, zooming and other logic based on this system. Nodes also need to be transformed to this coordinate system when calculating viewport
-- Rendering is split into multiple layers (Layer) on canvas. The layered design is based on ECS data splitting concept, where different Layers only monitor their desired data and render independently without interference. Layer can be understood as ECS's System, i.e. where Entity data is ultimately consumed
-- Layer implements mobx-like observer reactive dynamic dependency collection, where data updates trigger autorun or render
-
+- The rendering layer establishes its own coordinate system at the bottom layer, implementing simulated scrolling, zooming and other logic based on this coordinate system. When calculating viewport, nodes also need to be transformed to this coordinate system
+- Rendering is split into multiple layers (Layer) on the canvas. The layered design is based on ECS data splitting concept. Different Layers only listen to the data they want and render independently without interference. Layer can be understood as the System in ECS, which is where Entity data is ultimately consumed
+- Layer implements observer reactive dynamic dependency collection similar to mobx, data updates will trigger autorun or render
 :::
 
-![Aspect-Oriented Programming](../assets/layer-uml.jpg)
+![Aspect Programming](../assets/layer-uml.jpg)
 
 - Layer lifecycle
 
 ```ts
 interface Layer {
     /**
-     * Triggered on initialization
+     * Triggered during initialization
      */
     onReady?(): void;
 
@@ -54,22 +53,22 @@ interface Layer {
     onBlur?(): void;
 
     /**
-     * Monitor zoom
+     * Listen to zoom changes
      */
     onZoom?(scale: number): void;
 
     /**
-     * Monitor scroll
+     * Listen to scroll changes
      */
     onScroll?(scroll: { scrollX: number; scrollY: number }): void;
 
     /**
-     * Triggered on viewport update
+     * Triggered when viewport updates
      */
     onViewportChange?(): void;
 
     /**
-     * readonly or disable state changes
+     * Triggered when readonly or disable state changes
      * @param state
      */
     onReadonlyOrDisabledChange?(state: { disabled: boolean; readonly: boolean }): void;
@@ -81,7 +80,7 @@ interface Layer {
 }
 ```
 
-Layer's positioning is actually similar to Unity game engine's [MonoBehaviour](https://docs.unity3d.com/ScriptReference/MonoBehaviour.html). Unity game engine's script extensions are all based on this, which can be considered the core design, also based on C#'s reflection capability for dependency injection
+Layer's positioning is actually similar to Unity game engine's [MonoBehaviour](https://docs.unity3d.com/ScriptReference/MonoBehaviour.html). Unity game engine's script extensions are all based on this, which can be considered the core design, and the underlying implementation is also based on C#'s Reflection dependency injection capability
 
 ```C#
 using System.Collections;
@@ -108,13 +107,13 @@ public class MyMonoBehavior : MonoBehaviour
 
 ```ts
 export class DemoLayer extends Layer {
-    // Injection of any inversify module
+    // Any inversify module injection
     @inject(FlowDocument) document: FlowDocument
-    // Monitor single Entity
+    // Observe single Entity
     @observeEntity(SomeEntity) entity: SomeEntity
-    // Monitor multiple Entities
+    // Observe multiple Entities
     @observeEntities(SomeEntity) entities: SomeEntity[]
-    // Monitor Entity data block (ECS - Component) changes
+    // Observe Entity data block (ECS - Component) changes
     @observeEntityDatas(SomeEntity, SomeEntityData) transforms: SomeEntityData[]
     autorun() {}
     render() {
@@ -124,11 +123,11 @@ export class DemoLayer extends Layer {
 ```
 
 ## FlowNodeEntity
-- Node is a tree, in free canvas mode, nodes are flat without child nodes
+- Nodes form a tree. In free canvas mode, nodes are flat without child nodes
 ```ts
-interface FlowNodeEntity {
-    id: string
-    children?: FlowNodeEntity[]
+inteface FlowNodeEntity {
+    id： string
+    children？: FlowNodeEntity[]
     pre?: FlowNodeEntity
     next?: FlowNodeEntity
     parent?: FlowNodeEntity
@@ -142,13 +141,13 @@ interface FlowNodeEntity {
 
 ```ts
 class FlowNodeTransformData {
-    localTransform: Matrix, // Relative offset, only relative to previous Sibling node offset in same Block
-    worldTransform: Matrix, // Absolute offset, accumulated offset relative to Parent and Sibling nodes
-    delta: Point // Center/left alignment offset, independent of Matrix, controlled by each node
+    localTransform: Matrix, // Relative offset, only relative to the previous Sibling node offset in the same Block
+    worldTransform: Matrix, // Absolute offset, relative to the accumulated offset of Parent and Sibling nodes
+    delta：Point // Center/left alignment offset, independent from Matrix, controlled by each node itself
     getSize(): Size, // Calculated from own (independent node) or child branch node width/height spacing
     getBounds(): Rectangle // Calculated from worldMatrix and size, used for final rendering, this range can also be used to determine highlight selection area
-    inputPoint(): Point // Input point position, generally the center-top position of Block's first node (centered layout)
-    outputPoint(): Point // Output point position, default is node's center-bottom position, but for conditional branches, determined by specific logic like built-in end nodes
+    inputPoint(): Point // Input point position, generally the top center position of the first node in Block (centered layout)
+    outputPoint(): Point // Output point position, default is node's bottom center position, but for conditional branches, determined by built-in end node and specific logic
 }
 ```
 
@@ -156,21 +155,21 @@ class FlowNodeTransformData {
 
 ```ts
 class FlowNodeRenderData {
-  node: HTMLDivElement // Current node's DOM
-  expanded: boolean // Whether expanded
-  activated: boolean // Whether activated
-  hidden: boolean // Whether hidden
+  node: HTMLDivElement // Current node's DOM element
+  expanded：boolean // Whether expanded
+  activated： boolean // Whether activated
+  hidden： boolean // Whether hidden
 }
 ```
 
 ## FlowDocument
 
 ```ts
-interface FlowDocument {
+interface FLowDocument {
     root: FlowNodeEntity // Canvas root node
     fromJSON(data): void // Import data
     toJSON(): FlowDocumentJSON // Export data
     addNode(type: string, meta: any): FlowNodeEntity // Add node
-    traverseDFS(fn: (node: FlowNodeEntity) => void, startNode = this.root) // Traverse
+    traveseDFS(fn: (node: flowNodeEntity) => void, startNode = this.root) // Traverse
 }
 ```

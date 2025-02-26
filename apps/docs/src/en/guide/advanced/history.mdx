@@ -1,109 +1,110 @@
 # History
 
-Undo/Redo is a plugin for FlowGram.AI, available in both @flowgram.ai/fixed-layout-editor and @flowgram.ai/free-layout-editor modes.
+Undo/Redo is a plugin of FlowGram.AI, which is provided in both @flowgram.ai/fixed-layout-editor and @flowgram.ai/free-layout-editor.
+
 
 ## 1. Quick Start
 
-### 1.1. Enable History
-Before using the Undo/Redo functionality, you need to import the editor. Here's an example using the fixed layout editor.
+### 1.1. Enable history
+Before using the Undo/Redo feature, you need to introduce the editor, using the fixed layout editor as an example.
 
-1. Add dependency in package.json
+1. Add dependencies in package.json
 ```tsx pure title="use-editor-props.tsx"
 export function useEditorProps() {
   return useMemo(
     () => ({
-      ...
       history: {
-        enable: true
+        enable: true,
+        enableChangeNode: true // Listen Node engine data change
       }
     })
   )
 }
 ```
 
-After enabling, you'll get the following capabilities:
+After enabling, you will get the following capabilities:
 
 <table className="rs-table">
   <tr>
-    <td>Overview</td>
+    <td>Introduction</td>
     <td>Description</td>
     <td>Free Layout</td>
     <td>Fixed Layout</td>
   </tr>
   <tr>
-    <td rowSpan={2}>Undo/Redo Shortcuts</td>
-    <td>Use Cmd/Ctrl + Z on canvas to trigger Undo</td>
+    <td rowSpan={2}>Undo/Redo Shortcut</td>
+    <td>Use Cmd/Ctrl + Z to trigger Undo</td>
     <td>✅</td>
     <td>✅</td>
   </tr>
   <tr>
-    <td>Use Cmd/Ctrl + Shift + Z on canvas to trigger Redo</td>
+    <td>Use Cmd/Ctrl + Shift + Z to trigger Redo</td>
     <td>✅</td>
     <td>✅</td>
   </tr>
   <tr>
-    <td rowSpan={7}>Canvas Node Operations Support Undo/Redo</td>
-    <td>Add/Delete Nodes</td>
+    <td rowSpan={7}>Canvas node operation supports undo/redo</td>
+    <td>Add/Delete node</td>
     <td>✅</td>
     <td>✅</td>
   </tr>
   <tr>
-    <td>Add/Delete Connections</td>
+    <td>Add/Delete line</td>
     <td>✅</td>
     <td>❌</td>
   </tr>
   <tr>
-    <td>Move Nodes</td>
+    <td>Move node</td>
     <td>✅</td>
     <td>✅</td>
   </tr>
   <tr>
-    <td>Add/Delete Branches</td>
+    <td>Add/Delete branch</td>
     <td>❌</td>
     <td>✅</td>
   </tr>
   <tr>
-    <td>Move Branches</td>
+    <td>Move branch</td>
     <td>❌</td>
     <td>✅</td>
   </tr>
   <tr>
-    <td>Add Groups</td>
+    <td>Add group</td>
     <td>❌</td>
     <td>✅</td>
   </tr>
   <tr>
-    <td>Ungroup</td>
+    <td>Cancel group</td>
     <td>❌</td>
     <td>✅</td>
   </tr>
   <tr>
-    <td rowSpan={2}>Canvas Batch Operations</td>
-    <td>Delete Nodes</td>
+    <td rowSpan={2}>Canvas batch operation</td>
+    <td>Delete node</td>
     <td>✅</td>
     <td>✅</td>
   </tr>
   <tr>
-    <td>Move Nodes</td>
+    <td>Move node</td>
     <td>✅</td>
     <td>✅</td>
   </tr>
+
 </table>
 
-### 1.2. Disable History
-If you don't want certain system-triggered data changes to be monitored by undo/redo, you can actively stop the history service, perform the operations, and then restart it.
+### 1.2. Disable history
+If some data changes triggered by the system do not want to be monitored by undo/redo, you can actively stop the history service and restart it after the data operation is completed
 
 ```tsx pure
 const { history } = useClientContext();
 history.stop()
-// Perform operations that you don't want to be captured
-// These changes won't be recorded in the operation stack
+// Do some operations that do not want to be captured, these changes will not be recorded in the operation stack
 ...
 history.start()
 ```
 
-### 1.3. Undo/Redo Implementation
-Generally, Undo/Redo will have two button entries in the interface. Clicking them triggers Undo and Redo, and the buttons themselves need to indicate whether Undo/Redo is possible.
+### 1.3. Undo/Redo Call
+Undo/Redo is generally provided with two button entries on the interface, clicking which can trigger Undo and Redo, and the buttons themselves need to have the status of whether Undo/Redo is possible.
 
 ```tsx pure
 export function useUndoRedo(): UndoRedo {
@@ -130,7 +131,7 @@ export function useUndoRedo(): UndoRedo {
 }
 ```
 
-## 2. Feature Extensions
+## 2. Extension Function
 ### 2.1. Operation Registration
 Operations are registered through operationMetas
 
@@ -147,33 +148,32 @@ history={{
   ]
 }}
 ```
-
-Core definition of `OperationMeta`:
-  - `type` is the unique identifier for the operation
-  - `inverse` is a function that returns the inverse operation of the current operation
+`OperationMeta` Core Definition:
+  - `type` is the unique identifier of the operation
+  - `inverse` is a function, which returns the inverse operation of the current operation
   - `apply` is the logic executed when the operation is triggered
 
 ```tsx pure
 export interface OperationMeta {
   /**
-   * Operation type (must be unique)
+   * Operation type, needs to be unique
    */
   type: string;
   /**
-   * Converts an operation into its inverse operation, e.g., insert to delete
-   * @param op operation
-   * @returns inverse operation
+   * Convert an operation to another inverse operation, such as insert to delete
+   * @param op Operation
+   * @returns Inverse operation
    */
   inverse: (op: Operation) => Operation;
   /**
    * Execute operation
-   * @param operation operation
+   * @param operation Operation
    */
   apply(operation: Operation, source: any): void | Promise<void>;
 }
 ```
 
-For example, to support Undo/Redo for adding and deleting nodes, you need to add two operations:
+Suppose I want to add a function to support Undo/Redo for adding and deleting nodes, I need to add two operations
 
 <div style={{marginTop: 16, display: 'flex', gap: 8 }}>
   <div>
@@ -206,16 +206,17 @@ For example, to support Undo/Redo for adding and deleting nodes, you need to add
   </div>
 </div>
 
-### 2.2. Operation Merging
-operationMeta supports shouldMerge to customize merging strategies for frequently triggered operations
+### 2.2. Operation Merge
+operationMeta supports shouldMerge to customize the merge strategy, if frequent operations can be merged
 
 :::warning shouldMerge returns
-- false means no merging
-- true means merge into one stack element
-- Operation means merge into one operation
+- Return false means not merged
+- Return true means merged into one operation stack element
+- Return Operation means merged into one operation
+
 :::
 
-The following example merges edits to the same field within 500ms:
+The following example is a merge of operations that edit the same field within 500ms
 
 ```tsx pure
 {
@@ -246,9 +247,9 @@ The following example merges edits to the same field within 500ms:
 ```
 
 ### 2.3. Operation Execution
-1. Single Operation Execution
+1. Single operation execution
 
-Triggered through pushOperation. Here's an example of how to trigger the previously defined operation in business logic:
+Trigger through pushOperation, the following example uses the operation defined in the business
 
 ```tsx pure
 function handleAddNode () {
@@ -263,9 +264,9 @@ function handleAddNode () {
 }
 ```
 
-2. Batch Execution
-All operations executed within a function called through transact will be merged into one stack element. During undo/redo, they will be executed together.
-Here's an example implementing batch deletion:
+2. Batch execution
+All operations executed in the function called by transact will be merged into one stack element, and will be executed together when undo/redo
+The following is an example of implementing a batch delete:
 
 ```tsx pure
 function deleteNodes(nodes: FlowNodeEntity[]) {
@@ -286,8 +287,8 @@ function deleteNodes(nodes: FlowNodeEntity[]) {
 
 ### 2.4. Undo/Redo
 1. Undo/Redo
-Execute history.undo method for undoing
-Execute history.redo method for redoing
+Undo execution history.undo method
+Redo execution history.redo method
 
 ```tsx pure
 function undo() {
@@ -301,10 +302,9 @@ function redo() {
 }
 ```
 
-2. Monitoring Undo/Redo
+2. Listen Undo/Redo
 Listen to the onChange event of undoRedoService.onChange
-Here's an example of routing to corresponding operation URIs (selecting corresponding nodes or form items) after undo/redo:
-
+The following is an example of triggering the uri of the corresponding operation after undo/redo (selecting the corresponding node or form item)
 ```tsx pure
 function listenHistoryChange() {
   const { history } = useClientContext();
@@ -326,27 +326,27 @@ function listenHistoryChange() {
 ```
 
 ### 2.5. Operation History
-1. View Refresh
-You can get the history records through HistoryStack.items and refresh the interface by monitoring the HistoryStack.onChange event
+1. View refresh
+You can get the history record through HistoryStack.items, and refresh the interface by listening to HistoryStack.onChange
 
 ```tsx pure
 import React from 'react';
 
 export function HistoryList() {
   const { historyStack } = useService<HistoryManager>(HistoryManager)
-  const { refresh } = useRefresh() 
+  const { refresh } = useRefresh()
   let items = historyManager.historyStack.items;
-  
+
   useEffect(() => {
       const disposable = historyStack.onChange(() => {
           refresh()
       ])
-      
+
       return () => {
           disposable.dispose()
       }
   }, [])
-  
+
   return (
       <ul>
         {items.map((item, index) => (
@@ -362,20 +362,19 @@ export function HistoryList() {
                 </Tooltip>
               ))}
             </div>
-         
+
           </li>
         ))}
       </ul>
   );
 }
 ```
-
 2. Persistence
 Persistence is implemented through the history-storage plugin
-- databaseName: Database name
-- resourceStorageLimit: Resource storage limit count
+- databaseName: database name
+- resourceStorageLimit: resource storage limit number
 
-After importing the @flowgram.ai/history-storage package, you can use this plugin:
+After introducing the @flowgram.ai/history-storage package, the plugin can be used
 
 ```tsx pure
 import { createHistoryStoragePlugin } from '@flowgram.ai/history-storage';
@@ -386,7 +385,7 @@ createHistoryStoragePlugin({
 }),
 ```
 
-Query database list using useStorageHistoryItems:
+Query the database list through useStorageHistoryItems
 
 ```tsx pure
 import {
@@ -400,16 +399,16 @@ export const HistoryList = () => {
     storage,
     uri.withoutQuery().toString(),
   );
-  
+
   return <>
     { JSON.stringify(items) }
-  </>  
+  </>
 }
 ```
 
 ## 3. API List
 ### 3.1. [OperationMeta](https://coze-dev.github.io/flowgram.ai/auto-docs/fixed-history-plugin/interfaces/OperationMeta.html)
-Operation metadata, used to define an operation
+OperationMeta, used to define an operation
 
 ### 3.2. [Operation](https://coze-dev.github.io/flowgram.ai/auto-docs/fixed-history-plugin/interfaces/Operation.html)
 Operation data, associated with OperationMeta through type
@@ -417,23 +416,23 @@ Operation data, associated with OperationMeta through type
 ### 3.3. [OperationService](https://coze-dev.github.io/flowgram.ai/auto-docs/fixed-history-plugin/classes/OperationService.html)
 
 [onApply](https://coze-dev.github.io/flowgram.ai/auto-docs/fixed-history-plugin/classes/OperationService.html#onapply)
-Use onApply to monitor triggered operations
+Use onApply to listen to a triggered operation
 
 ```tsx pure
 useService(OperationService).onApply((op: Operation) => {
     console.log(op)
-    // Execute your business logic here based on type
+    // Here you can execute your own business logic according to type
 })
 ```
 
 ### 3.4. [HistoryService](https://coze-dev.github.io/flowgram.ai/auto-docs/fixed-history-plugin/classes/HistoryService.html)
-Core API Service exposed by the History module
+The core API of the History module exposed Service
 
 ### 3.5. [UndoRedoService](https://coze-dev.github.io/flowgram.ai/auto-docs/fixed-history-plugin/classes/UndoRedoService.html)
-Service managing the UndoRedo stack
+The service that manages the UndoRedo stack
 
 ### 3.6. [HistoryStack](https://coze-dev.github.io/flowgram.ai/auto-docs/fixed-history-plugin/classes/HistoryStack.html)
-History stack, monitoring all push, undo, redo operations and recording them in the stack
+History stack, listen to all push undo redo operations, and record them in the stack
 
 ### 3.7. [HistoryDatabase](https://coze-dev.github.io/flowgram.ai/auto-docs/history-storage/classes/HistoryDatabase.html)
-Persistent database operations
+Persistence database operations

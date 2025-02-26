@@ -3,8 +3,8 @@ pageType: home
 
 hero:
   name: FlowGram.AI
-  text: Plugin-based build process engine
-  tagline: High-performance, scalable, customizable
+  text: Build Flow Engine with Plugins
+  tagline: High Performance, Scalable, Customizable
   actions:
     - theme: brand
       text: Quick Start
@@ -19,10 +19,10 @@ features:
   - title: Coze
     details: <div class="rspress-doc" style="height&#58 180px; min-height&#58 0px"><img class="medium-zoom-image" style="border-radius&#58 8px;height&#58 180px;" src="https://coze-dev.github.io/flowgram.ai/ref-coze.png"/></div>
     icon: 🏃🏻‍♀️
-  - title: Feishu aPaaS
+  - title: Feishu Low-Code Platform Workflow
     details: <div class="rspress-doc" style="height&#58 180px; min-height&#58 0px"><img class="medium-zoom-image" style="border-radius&#58 8px;height&#58 180px;" src="https://coze-dev.github.io/flowgram.ai/ref-apaas.png"/></div>
     icon: 📦
-  - title: Lark BiTable
+  - title: Feishu Bitable
     details: <div class="rspress-doc" style="height&#58 180px; min-height&#58 0px"><img class="medium-zoom-image" style="border-radius&#58 8px;height&#58 180px;" src="https://coze-dev.github.io/flowgram.ai/ref-bitable.png"/></div>
     icon: 🎨
 ---

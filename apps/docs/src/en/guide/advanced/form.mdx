@@ -1,25 +1,26 @@
-# Using Forms
+# Form
 
-## Configuration
+## Config
 
 ### Enable Node Engine
 
-The node engine needs to be enabled to use forms
+Node engine is required to use form
 
 ```tsx pure title="use-editor-props.ts"
+
 // EditorProps
 {
   nodeEngine: {
     /**
-     * Node engine must be enabled to use
+     * Node engine is required to use form
      */
     enable: true
     /**
-     * Component for rendering node internal errors
+     * The component to render when the node has an error
      */
     nodeErrorRender?: NodeErrorRender;
     /**
-     * Component for rendering when node has no content
+     * The component to render when the node has no content
      */
     nodePlaceholderRender?: NodePlaceholderRender;
   }
@@ -35,7 +36,7 @@ export const nodeRegistries: FlowNodeRegistry[] = [
   {
     type: 'start',
     /**
-     * Configure node form validation and rendering
+     * Configure the validation and rendering of the node form
      */
     formMeta: {
       validateTrigger: ValidateTrigger.onChange,
@@ -63,32 +64,35 @@ export const nodeRegistries: FlowNodeRegistry[] = [
     },
   }
 ]
+
 ```
 
-### Add Form to Node Rendering
+### Add form to node rendering
 
 ```tsx pure title="base-node.tsx"
+
 export const BaseNode = () => {
   /**
-   * Provides node rendering related methods
+   * Provide methods related to node rendering
    */
   const { form } = useNodeRender()
   return (
     <div className="demo-free-node" className={form?.state.invalid && "error"}>
       {
-        // Form rendering is generated through formMeta
+        // The form is rendered through formMeta
         form?.render()
       }
     </div>
   )
 };
+
 ```
 
 ## Field
 
-The Field rendering part supports three approaches as follows:
+The rendering part of Field, supports three writing methods, as follows:
 
-:::note `renderProps` parameters
+:::note `renderProps` parameter
 
 - field
 - fieldState
@@ -99,30 +103,31 @@ The Field rendering part supports three approaches as follows:
 ```tsx pure
 const render = () => (
   <div>
-    <Label> 1. Via children </Label>
-    // This approach is suitable for simple scenarios, Field will directly inject properties like value, onChange into the first level children component
+    <Label> 1. Through children </Label>
+    // This method is suitable for simple scenarios, Field will inject value onChange, etc. directly into the first layer of children components
     <Field name="c">
       <Input />
     </Field>
-    <Label> 2. Via Render Props </Label>
-    // This approach is suitable for complex scenarios, when the returned component has multiple nested levels, users can actively inject field properties into desired components
+    <Label> 2. Through Render Props  </Label>
+    // This method is suitable for complex scenarios, when the returned component has multiple layers of nesting, the user can actively inject the attributes of field into the desired component
     <Field name="a">
         {({ field, fieldState, formState }: FieldRenderProps<string>) => <div><Input {...field} /><Feedbacks errors={fieldState.errors}/></div>}
     </Field>
 
-    <Label> 3. Via render function prop</Label>
-    // This approach is similar to approach 2, but passed through props
+    <Label> 3. Through render function </Label>
+    // This method is similar to method 2, but the props are passed in
     <Field name="b" render={({ field }: FieldRenderProps<string>) => <Input {...field} />} />
   </div>
 );
 ```
 
-## FieldArray
 
-The following example demonstrates:
-1. Array syntax
-2. How to configure array item validation
-3. Display of array item errors
+## FiledArray
+
+The following example shows:
+1. The writing method of the array
+2. How to configure the validation of the array item
+3. How to display the error of the array item
 
 <div className="rs-center" >
   <img src="@/public/field-array.gif"  style={{ maxWidth: 600 }}/>
@@ -184,7 +189,7 @@ export const renderNodeWithArray = ({ form }: FormRenderProps<FormData>) => (
 export const arrayMeta: FormMeta = {
   render: renderNodeWithArray,
   validateTrigger: ValidateTrigger.onChange,
-  // Names in validation map support fuzzy matching
+  // The name in the validate map supports fuzzy matching
   validate: {
     ['arr.*']: () => 'array item error',
   },
@@ -195,7 +200,7 @@ export const arrayMeta: FormMeta = {
 
 ### Validation Configuration
 
-Validation logic is configured globally, declared through form item paths
+Validation logic is configured globally, and the validation logic is declared by the form item path
 
 <div className="rs-center" >
   <img src="@/public/form-validate.gif"  style={{ maxWidth: 600 }}/>
@@ -204,7 +209,7 @@ Validation logic is configured globally, declared through form item paths
 ```tsx pure
 export const renderValidateExample = ({ form }: FormRenderProps<FormData>) => (
   <>
-    <Label> a (maximum length is 5)</Label>
+    <Label> a (Maximum length is 5)</Label>
     <Field name="a">
       {({ field: { value, onChange }, fieldState }: FieldRenderProps<string>) => (
         <>
@@ -213,7 +218,7 @@ export const renderValidateExample = ({ form }: FormRenderProps<FormData>) => (
         </>
       )}
     </Field>
-    <Label> b (optional if a exists) </Label>
+    <Label> b (If a exists, b can be optional) </Label>
     <Field
       name="b"
       render={({ field: { value, onChange }, fieldState }: FieldRenderProps<string>) => (
@@ -228,76 +233,75 @@ export const renderValidateExample = ({ form }: FormRenderProps<FormData>) => (
 
 export const VALIDATE_EXAMPLE: FormMeta = {
   render: renderValidateExample,
-  // Configure validation timing
+  // Validation timing configuration
   validateTrigger: ValidateTrigger.onChange,
   validate: {
-    // Simply validate value
+    // Simply validate the value
     a: ({ value }) => (value.length > 5 ? 'Maximum length is 5' : undefined),
-    // Validation depends on other form item values
+    // Validate the value depends on the value of other form items
     b: ({ value, formValues }) => {
       if (formValues.a) {
         return undefined;
       } else {
-        return value ? 'undefined' : 'b is required when a exists';
+        return value ? 'undefined' : 'a exists when b is required';
       }
     },
-    // Validation depends on node or canvas information
+    // Validate the value depends on the node or canvas information
     c: ({ value, formValues, context }) => {
-      const { node, playgroundContext } = context;
-      // Logic omitted here
+      const { node， playgroundContext } = context;
+      // The logic is omitted here
     },
   },
 };
 ```
-
 ### Validation Timing
 
 <table className="rs-table">
   <tr>
     <td>`ValidateTrigger.onChange`</td>
-    <td>Validate when form data changes (excluding initialization data)</td>
+    <td>Validate when the form data changes (does not include initial data)</td>
   </tr>
   <tr>
     <td>`ValidateTrigger.onBlur`</td>
-    <td>Validate when form item input control onBlur</td>
+    <td>Validate when the form item input control is onBlur</td>
   </tr>
 </table>
 
 ### Path Fuzzy Matching
 
-The paths (i.e., keys) in validation configuration support fuzzy matching, typically used in array scenarios, as shown in the following examples
+The path (key) of the validation configuration supports fuzzy matching, which is usually used in the array scenario, see the following example
 
 <div className="rs-red">
-  Note: * only represents drilling down one level
+  Note: * represents only one level of drilling down
 </div>
 
 <table className="rs-table">
   <tr>
     <td>`arr.*`</td>
-    <td>All first-level items under the `arr` field</td>
+    <td>`arr` field's all first-level sub-items</td>
   </tr>
   <tr>
     <td>`arr.x.*`</td>
-    <td>All first-level items under `arr.x`</td>
+    <td>`arr.x` all first-level sub-items</td>
   </tr>
   <tr>
     <td>`arr.*.x`</td>
-    <td>Item `x` under all first-level items of `arr`</td>
+    <td>`arr` all first-level sub-items' sub-items `x`</td>
   </tr>
 </table>
 
-## Side Effects
+## Side Effects (effect)
 
-### Effect Configuration
+### Side Effects Configuration
 
-The following example demonstrates:
+The following example shows:
 
-- How to configure effects for regular fields
-- How to configure effects for array fields in the following events:
-  - onValueChange
-  - onValueInit
-  - onArrayAppend
-  - onArrayDelete
+- How to configure the effect of a normal field
+- How to configure the effect of an array field on the following events
+- onValueChange
+- onValueInit
+- onArrayAppend
+- onArrayDelete
 
 <div className="rs-center" >
   <img src="@/public/form-effect.gif"  style={{ maxWidth: 600 }}/>
@@ -375,7 +379,7 @@ export const renderEffectExample = ({ form }: FormRenderProps<FormData>) => (
 
 export const EFFECT_V2: FormMeta = {
   render: renderEffectExample,
-  // effect configuration is a map with form item paths as keys and effect configurations as values
+  // The effect configuration is a map of the form item path to the effect configuration
   effect: {
     a: [
       createEffectOptions<Effect>(DataEvent.onValueChange, ({ value, prevValue }) => {
@@ -398,26 +402,27 @@ export const EFFECT_V2: FormMeta = {
   },
 };
 ```
-
-### Effect Events
+### Side Effects Event
 
 ```ts pure
 export enum DataEvent {
-  /* Triggered when value changes compared to initial value or previous value */
+  /* Triggered when the value is different from the initial value or the previous value */
   onValueChange = 'onValueChange',
   /**
-   * Triggered when initial value is set, trigger scenarios include:
-   * - When form has defaultValue configured, triggered during form initialization
-   * - When a form item has defaultValue configured and no initial value, defaultValue will be set and triggered
+   * Triggered when the initial value is set, the triggering scenarios are:
+   * - The form is configured with defaultValue, and the form is initialized
+   * - A form item is configured with defaultValue, and the form item is initialized without a value
    */
   onValueInit = 'onValueInit',
   /**
-   * Triggered for both value changes and initial value setting, can be considered as union of onValueChange and onValueInit
+   * Triggered when the initial value is set, the triggering scenarios are:
+   * - The form is configured with defaultValue, and the form is initialized
+   * - A form item is configured with defaultValue, and the form item is initialized without a value
    */
   onValueInitOrChange = 'onValueInitOrChange',
-  /* Not recommended, this event depends on FieldArray rendering, value events may not trigger when not rendering */
+  /* Not recommended, this event depends on FieldArray rendering, and the value event may not be triggered in the case of non-rendering */
   onArrayAppend = 'onArrayAppend',
-  /* Not recommended, this event depends on FieldArray rendering, value events may not trigger when not rendering */
+  /* Not recommended, this event depends on FieldArray rendering, and the value event may not be triggered in the case of non-rendering */
   onArrayDelete = 'onArrayDelete',
 }
 ```
@@ -425,7 +430,7 @@ export enum DataEvent {
 ### API
 
 ```ts pure
-// onValueChange and onValueInit effects follow this interface
+// The effect of onValueChange and onValueInit follows this interface
 export type Effect<TFieldValue = any, TFormValues = any> = (props: {
   value?: TFieldValue;
   prevValue?: TFieldValue;
@@ -449,9 +454,9 @@ export type ArrayDeleteEffect<TFieldValue = any, TFormValues = any> = (props: {
 }) => void;
 ```
 
-## Dependencies
+## Dynamic Dependencies
 
-Declare dependencies using deps
+Declare dependencies through deps
 
 ```tsx pure
 import * as React from 'react';
@@ -494,7 +499,7 @@ export const renderDynamicExample = ({ form }: FormRenderProps<FormData>) => (
           <></>
         )
       }
-      // Configure through deps which other form item values this form item's rendering depends on
+      // Configure the dependencies of the form item through deps
       deps={['isBatch']}
     />
   </>

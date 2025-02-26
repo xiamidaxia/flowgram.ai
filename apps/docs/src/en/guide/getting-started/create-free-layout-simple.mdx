@@ -1,6 +1,6 @@
-# Creating a Free Layout Canvas
+# Create a Free Layout Canvas
 
-This example can be installed using `npx @flowgram.ai/create-app@latest free-layout-simple`. For complete code and demo, see:
+This case can be installed via `npx @flowgram.ai/create-app@latest free-layout-simple`. For complete code and effects, see:
 
 <div className="rs-tip">
   <a className="rs-link" href="/flowgram.ai/examples/free-layout/free-layout-simple.html">
@@ -10,10 +10,11 @@ This example can be installed using `npx @flowgram.ai/create-app@latest free-lay
 
 ### 1. Canvas Entry
 
-- `FreeLayoutEditorProvider`: Canvas configurator that generates a react-context for child components to consume
-- `EditorRenderer`: The final rendered canvas that can be wrapped under other components for customizing canvas position
+- `FreeLayoutEditorProvider`: Canvas configurator that generates react-context internally for child component consumption
+- `EditorRenderer`: The final rendered canvas that can be wrapped under other components for convenient canvas positioning
 
 ```tsx pure title="app.tsx"
+
 import {
   FreeLayoutEditorProvider,
   EditorRenderer,
@@ -35,23 +36,23 @@ function App() {
 
 ### 2. Configure Canvas
 
-Canvas configuration is declarative, providing data, rendering, events, and plugin-related configurations
+Canvas configuration is declarative, providing data, rendering, event, and plugin-related configurations
 
 ```tsx pure title="use-editor-props.tsx"
 import { useMemo } from 'react';
 import { type FixedLayoutProps } from '@flowgram.ai/free-layout-editor';
 import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin';
 
-import { intialData } from './initial-data' // Initialization data
-import { nodeRegistries } from './node-registries' // Node declaration configuration
-import { BaseNode } from './base-node' // Node rendering
+import { intialData } from './initial-data' // 初始化数据
+import { nodeRegistries } from './node-registries' // 节点声明配置
+import { BaseNode } from './base-node' // 节点渲染
 
 export function useEditorProps(
 ): FixedLayoutProps {
   return useMemo<FixedLayoutProps>(
     () => ({
       /**
-       * Initialization data
+       * Initialize data
        */
       initialData,
       /**
@@ -65,31 +66,31 @@ export function useEditorProps(
         renderDefaultNode: BaseNode, // Node rendering component
       },
       /**
-       * Node engine for rendering node forms
+       * Node engine, used for rendering node forms
        */
       nodeEngine: {
         enable: true,
       },
       /**
-       * Canvas history for controlling redo/undo
+       * Canvas history record, used to control redo/undo
        */
       history: {
         enable: true,
-        enableChangeNode: true, // Monitor node form data changes
+        enableChangeNode: true, // Used to monitor node form data changes
       },
       /**
        * Canvas initialization callback
        */
       onInit: ctx => {
-        // For dynamic data loading, use the following method asynchronously
+        // If you need to load data dynamically, you can execute asynchronously using the following method
         // ctx.docuemnt.fromJSON(initialData)
       },
       /**
-       * Callback after first complete canvas render
+       * Callback when canvas first renders completely
        */
       onAllLayersRendered: (ctx) => {},
       /**
-       * Canvas disposal callback
+       * Canvas destruction callback
        */
       onDispose: () => { },
       plugins: () => [
@@ -102,11 +103,12 @@ export function useEditorProps(
     [],
   );
 }
+
 ```
 
 ### 3. Configure Data
 
-Canvas document data uses a tree structure that supports nesting
+Canvas document data uses a tree structure and supports nesting
 
 :::note Document Data Basic Structure:
 
@@ -117,22 +119,23 @@ Canvas document data uses a tree structure that supports nesting
 
 :::note Node Data Basic Structure:
 
-- id: `string` Unique node identifier
-- meta: `object` Node UI configuration info, such as free layout `position` information
+- id: `string` Unique node identifier, must ensure uniqueness
+- meta: `object` Node UI configuration information, such as free layout `position` information goes here
 - type: `string | number` Node type, corresponds to `type` in `nodeRegistries`
-- data: `object` Node form data, customizable by business
-- blocks: `array` Node branches, using `block` to align with `Gramming`
+- data: `object` Node form data, business can customize
+- blocks: `array` Node branches, using `block` is closer to `Gramming`
 
 :::
 
 :::note Edge Data Basic Structure:
 
-- sourceNodeID: `string` Start node ID
-- targetNodeID: `string` Target node ID
-- sourcePortID?: `string | number` Start port ID, defaults to node's default port if omitted
-- targetPortID?: `string | number` Target port ID, defaults to node's default port if omitted
+- sourceNodeID: `string` Start node id
+- targetNodeID: `string` Target node id
+- sourcePortID?: `string | number` Start port id, defaults to start node's default port if omitted
+- targetPortID?: `string | number` Target port id, defaults to target node's default port if omitted
 
 :::
+
 
 ```tsx pure title="initial-data.tsx"
 import { WorkflowJSON } from '@flowgram.ai/free-layout-editor';
@@ -184,11 +187,13 @@ export const initialData: WorkflowJSON = {
     },
   ],
 };
+
+
 ```
 
 ### 4. Declare Nodes
 
-Node declarations are used to determine node types and rendering methods
+Node declaration can be used to determine node types and rendering methods
 
 ```tsx pure title="node-registries.tsx"
 import { WorkflowNodeRegistry, ValidateTrigger } from '@flowgram.ai/free-layout-editor';
@@ -203,12 +208,12 @@ export const nodeRegistries: WorkflowNodeRegistry[] = [
       isStart: true, // Mark as start node
       deleteDisable: true, // Start node cannot be deleted
       copyDisable: true, // Start node cannot be copied
-      defaultPorts: [{ type: 'output' }], // Define input/output ports, start node only has output port
-      // dynamicPort: true, // For dynamic ports, will look for DOM elements with data-port-id and data-port-type attributes
+      defaultPorts: [{ type: 'output' }], // Used to define node input and output ports, start node only has output port
+      // dynamicPort: true, // Used for dynamic ports, will look for DOM elements with data-port-id and data-port-type attributes as ports
     },
     /**
-     * Configure node form validation and rendering
-     * Note: validate uses data and rendering separation to ensure validation even without rendering
+     * Configure node form validation and rendering,
+     * Note: validate uses data and rendering separation to ensure nodes can validate data even without rendering
      */
     formMeta: {
       validateTrigger: ValidateTrigger.onChange,
@@ -248,14 +253,14 @@ export const nodeRegistries: WorkflowNodeRegistry[] = [
     formMeta: {
       // ...
     },
-    defaultPorts: [{ type: 'output' }, { type: 'input' }], // Regular nodes have two ports
+    defaultPorts: [{ type: 'output' }, { type: 'input' }], // 普通节点有两个端口
   },
 ];
-```
 
+```
 ### 5. Render Nodes
 
-Node rendering is used to add styles, events, and form rendering positions
+Rendering nodes is used for adding styles, events, and form rendering positions
 
 ```tsx pure title="base-node.tsx"
 import { useNodeRender, WorkflowNodeRenderer } from '@flowgram.ai/free-layout-editor';
@@ -266,24 +271,25 @@ export const BaseNode = () => {
    */
   const { form } = useNodeRender()
   /**
-   * WorkflowNodeRenderer adds node drag events and port rendering
-   * For deep customization, see the component source code:
+   * WorkflowNodeRenderer will add node drag events and port rendering, for deep customization, 
+   * you can check the component source code at:
    * https://github.com/coze-dev/flowgram.ai/blob/main/packages/client/free-layout-editor/src/components/workflow-node-renderer.tsx
    */
   return (
     <WorkflowNodeRenderer className="demo-free-node" node={props.node}>
       {
-        // Form rendering generated through formMeta
+        // Form rendering is generated through formMeta
         form?.render()
       }
     </WorkflowNodeRenderer>
   )
 };
+
 ```
 
 ### 6. Add Tools
 
-Tools are mainly used to control canvas zoom and other operations. Tools are consolidated in `usePlaygroundTools`, while `useClientContext` is used to get canvas context containing core modules like `history`
+Tools are mainly used to control canvas zooming and other operations. Tools are consolidated in `usePlaygroundTools`, while `useClientContext` is used to get the canvas context, which contains core modules such as `history`
 
 ```tsx pure title="tools.tsx"
 import { useEffect, useState } from 'react'
@@ -314,8 +320,7 @@ export function Tools() {
   </div>
 }
 ```
-
-### 7. Result
+### 7. Effect
 
 import { FreeLayoutSimple } from '../../../../components';
 
