@@ -23,6 +23,27 @@ console.log(ctx.document)
 ```ts pure
 console.log(ctx.document.root);
 ```
+
+## originTree
+
+画布真实的节点树
+
+```ts pure
+// 监听节点树的变化，如 节点添加/删除/移动
+const refresh = useRefresh()
+useEffect(() => {
+  const toDispose = ctx.document.originTree.onTreeChange(() => {
+    // Tree Change
+    refresh()
+  });
+  return () => toDispose.dispose()
+}, [])
+```
+
+### renderTree
+
+画布渲染时的节点树，为了提升性能，渲染的树会随着节点分支折叠而变化，并非真实的树
+
 ## getAllNodes
 
 获取所有节点数据
