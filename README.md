@@ -32,7 +32,7 @@ our name.
 
 <div>
   <p>
-    <a href="https://flowgram.aiexamples/fixed-layout/fixed-feature-overview.html">
+    <a href="https://flowgram.ai/examples/fixed-layout/fixed-feature-overview.html">
         Fixed Layout
     </a>
   </p>
@@ -45,7 +45,7 @@ our name.
   </div>
   <div>
   <p>
-    <a href="https://flowgram.aiexamples/free-layout/free-feature-overview.html">
+    <a href="https://flowgram.ai/examples/free-layout/free-feature-overview.html">
       Free Layout
     </a>
   </p>
