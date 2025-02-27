@@ -31,7 +31,7 @@ jobs:
         run: |
           LATEST_VERSION=$(npm view @flowgram.ai/demo-fixed-layout version --tag=latest latest)
           echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
-          echo "::set-output name=version::$LATEST_VERSION"
+      # https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
       - name: Echo version
         run: |
           echo "The package version is : $LATEST_VERSION"
