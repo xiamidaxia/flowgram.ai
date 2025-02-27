@@ -14,7 +14,7 @@ export const BaseNode = () => {
   const { form } = useNodeRender()
   /**
    * WorkflowNodeRenderer 会添加节点拖拽事件及 端口渲染，如果要深度定制，可以看该组件源代码:
-   * https://github.com/coze-dev/flowgram.ai/blob/main/packages/client/free-layout-editor/src/components/workflow-node-renderer.tsx
+   * https://github.com/bytedance/flowgram.ai/blob/main/packages/client/free-layout-editor/src/components/workflow-node-renderer.tsx
    */
   return (
     <WorkflowNodeRenderer className="demo-free-node" node={props.node}>

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
-import { defaultFixedSemiMaterials } from '@flowgram.ai/fixed-semi-materials';
 import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin';
+import { defaultFixedSemiMaterials } from '@flowgram.ai/fixed-semi-materials';
 import {
   type FixedLayoutProps,
   FlowDocumentJSON,
@@ -11,15 +11,15 @@ import {
   FlowRendererKey,
 } from '@flowgram.ai/fixed-layout-editor';
 
-import { BaseNode } from '../components/base-node'
-import { BranchAdder } from '../components/branch-adder'
 import { NodeAdder } from '../components/node-adder';
+import { BranchAdder } from '../components/branch-adder';
+import { BaseNode } from '../components/base-node';
 
 /** semi materials */
 
 export function useEditorProps(
   initialData: FlowDocumentJSON, // 初始化数据
-  nodeRegistries: FlowNodeRegistry[], // 节点定义
+  nodeRegistries: FlowNodeRegistry[] // 节点定义
 ): FixedLayoutProps {
   return useMemo<FixedLayoutProps>(
     () => ({
@@ -54,22 +54,24 @@ export function useEditorProps(
             /**
              * Render form
              */
-            render: () => <>
-              <Field<string> name="title">
-                {({ field }) => <div className="demo-fixed-node-title">{field.value}</div>}
-              </Field>
-              <div className="demo-fixed-node-content">
-                <Field<string> name="content">
-                  <input />
+            render: () => (
+              <>
+                <Field<string> name="title">
+                  {({ field }) => <div className="demo-fixed-node-title">{field.value}</div>}
                 </Field>
-              </div>
-            </>
-          }
+                <div className="demo-fixed-node-content">
+                  <Field<string> name="content">
+                    <input />
+                  </Field>
+                </div>
+              </>
+            ),
+          },
         };
       },
       /**
        * Materials, components can be customized based on the key
-       * @see https://github.com/coze-dev/flowgram.ai/blob/main/packages/materials/fixed-semi-materials/src/components/index.tsx
+       * @see https://github.com/bytedance/flowgram.ai/blob/main/packages/materials/fixed-semi-materials/src/components/index.tsx
        * 可以通过 key 自定义 UI 组件
        */
       materials: {
@@ -106,7 +108,7 @@ export function useEditorProps(
       /**
        * 画布初始化
        */
-      onInit: ctx => {
+      onInit: (ctx) => {
         /**
          * Data can also be dynamically loaded via fromJSON
          * 也可以通过 fromJSON 动态加载数据
@@ -149,6 +151,6 @@ export function useEditorProps(
         }),
       ],
     }),
-    [],
+    []
   );
 }

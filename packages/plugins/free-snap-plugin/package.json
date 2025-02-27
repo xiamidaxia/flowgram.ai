@@ -1,8 +1,8 @@
 {
   "name": "@flowgram.ai/free-snap-plugin",
   "version": "0.1.0",
-  "homepage": "https://coze-dev.github.io/flowgram.ai/",
-  "repository": "https://github.com/coze-dev/flowgram.ai",
+  "homepage": "https://flowgram.ai",
+  "repository": "https://github.com/bytedance/flowgram.ai",
   "license": "MIT",
   "exports": {
     "import": "./dist/esm/index.js",

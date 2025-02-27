@@ -144,7 +144,7 @@ export function useEditorProps(
       },
       /**
        * Materials, components can be customized based on the key
-       * @see @see https://github.com/coze-dev/flowgram.ai/blob/main/packages/materials/fixed-semi-materials/src/components/index.tsx
+       * @see @see https://github.com/bytedance/flowgram.ai/blob/main/packages/materials/fixed-semi-materials/src/components/index.tsx
        * 可以通过 key 自定义 UI 组件
        */
       materials: {

@@ -11,18 +11,18 @@ hero:
       link: /guide/introduction
     - theme: alt
       text: GitHub
-      link: https://github.com/coze-dev/flowgram.ai
+      link: https://github.com/bytedance/flowgram.ai
   image:
     src: /logo.png
     alt: Logo
 features:
   - title: Coze
-    details: <div class="rspress-doc" style="height&#58 180px; min-height&#58 0px"><img class="medium-zoom-image" style="border-radius&#58 8px;height&#58 180px;" src="https://coze-dev.github.io/flowgram.ai/ref-coze.png"/></div>
+    details: <div class="rspress-doc" style="height&#58 180px; min-height&#58 0px"><img class="medium-zoom-image" style="border-radius&#58 8px;height&#58 180px;" src="https://flowgram.airef-coze.png"/></div>
     icon: 🏃🏻‍♀️
   - title: Feishu Low-Code Platform Workflow
-    details: <div class="rspress-doc" style="height&#58 180px; min-height&#58 0px"><img class="medium-zoom-image" style="border-radius&#58 8px;height&#58 180px;" src="https://coze-dev.github.io/flowgram.ai/ref-apaas.png"/></div>
+    details: <div class="rspress-doc" style="height&#58 180px; min-height&#58 0px"><img class="medium-zoom-image" style="border-radius&#58 8px;height&#58 180px;" src="https://flowgram.airef-apaas.png"/></div>
     icon: 📦
   - title: Feishu Bitable
-    details: <div class="rspress-doc" style="height&#58 180px; min-height&#58 0px"><img class="medium-zoom-image" style="border-radius&#58 8px;height&#58 180px;" src="https://coze-dev.github.io/flowgram.ai/ref-bitable.png"/></div>
+    details: <div class="rspress-doc" style="height&#58 180px; min-height&#58 0px"><img class="medium-zoom-image" style="border-radius&#58 8px;height&#58 180px;" src="https://flowgram.airef-bitable.png"/></div>
     icon: 🎨
 ---

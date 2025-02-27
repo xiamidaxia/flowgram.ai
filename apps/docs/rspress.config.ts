@@ -73,7 +73,7 @@ export default defineConfig({
       {
         icon: 'github',
         mode: 'link',
-        content: 'https://github.com/coze-dev/flowgram.ai',
+        content: 'https://github.com/bytedance/flowgram.ai',
       },
       {
         icon: 'discord',

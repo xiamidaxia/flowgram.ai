@@ -9,7 +9,7 @@ our name.
 
 <div align="center">
 
-[![License](https://img.shields.io/github/license/coze-dev/flowgram.ai)](https://github.com/coze-dev/flowgram.ai/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/bytedance/flowgram.ai)](https://github.com/bytedance/flowgram.ai/blob/main/LICENSE)
 [![@flowgram.ai/editor](https://img.shields.io/npm/dw/%40flowgram.ai%2Fcore
 )](https://www.npmjs.com/package/@flowgram.ai/editor)
 
@@ -17,8 +17,8 @@ our name.
 
 ## 📖 Documentation
 
-- [Official Documentation](https://coze-dev.github.io/flowgram.ai/)
-- [Contributing Guidelines](https://github.com/coze-dev/flowgram.ai/blob/main/CONTRIBUTING.md)
+- [Official Documentation](https://flowgram.ai)
+- [Contributing Guidelines](https://github.com/bytedance/flowgram.ai/blob/main/CONTRIBUTING.md)
 
 ## 📦 Packages
 
@@ -32,7 +32,7 @@ our name.
 
 <div>
   <p>
-    <a href="https://coze-dev.github.io/flowgram.ai/examples/fixed-layout/fixed-feature-overview.html">
+    <a href="https://flowgram.aiexamples/fixed-layout/fixed-feature-overview.html">
         Fixed Layout
     </a>
   </p>
@@ -45,7 +45,7 @@ our name.
   </div>
   <div>
   <p>
-    <a href="https://coze-dev.github.io/flowgram.ai/examples/free-layout/free-feature-overview.html">
+    <a href="https://flowgram.aiexamples/free-layout/free-feature-overview.html">
       Free Layout
     </a>
   </p>
@@ -83,7 +83,7 @@ nvm use lts/hydrogen
 2. **Clone the repository**
 
 ``` bash
-git clone git@github.com:coze-dev/flowgram.ai.git
+git clone git@github.com:bytedance/flowgram.ai.git
 ```
 
 3. **Install required global dependencies**
@@ -118,7 +118,7 @@ Enjoy it!
 
 ## 🌟 Contributors
 
-[![FlowGram.AI Contributors](https://contrib.rocks/image?repo=coze-dev/flowgram.ai)](https://github.com/coze-dev/flowgram.ai/graphs/contributors)
+[![FlowGram.AI Contributors](https://contrib.rocks/image?repo=bytedance/flowgram.ai)](https://github.com/bytedance/flowgram.ai/graphs/contributors)
 
 <!-- ## Star History
-[![Star History](https://api.star-history.com/svg?repos=coze-dev/flowgram.ai&type=Timeline)](https://api.star-history.com/svg?repos=coze-dev/flowgram.ai&type=Timeline) -->
+[![Star History](https://api.star-history.com/svg?repos=bytedance/flowgram.ai&type=Timeline)](https://api.star-history.com/svg?repos=bytedance/flowgram.ai&type=Timeline) -->

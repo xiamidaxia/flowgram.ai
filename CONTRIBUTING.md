@@ -21,7 +21,7 @@ nvm use lts/hydrogen
 2. **Clone the repository**
 
 ``` bash
-git clone git@github.com:coze-dev/flowgram.ai.git
+git clone git@github.com:bytedance/flowgram.ai.git
 ```
 
 3. **Install required global dependencies**
@@ -90,7 +90,7 @@ After that, you can start to develop projects inside this repository.
 
 ## Reporting Bugs
 
-Report bugs via [GitHub Issues](https://github.com/coze-dev/flowgram.ai/issues/new/choose). Please include:
+Report bugs via [GitHub Issues](https://github.com/bytedance/flowgram.ai/issues/new/choose). Please include:
 
 - Issue description
 - Steps to reproduce
