@@ -3,5 +3,6 @@
   "node-engine",
   "variable-engine",
   "ECS",
-  "IOC"
+  "IOC",
+  "reactflow"
 ]
