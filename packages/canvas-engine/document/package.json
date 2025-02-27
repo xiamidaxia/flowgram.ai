@@ -6,7 +6,7 @@
     "flow",
     "engine"
   ],
-  "homepage": "https://flowgram.ai",
+  "homepage": "https://flowgram.ai/",
   "repository": "https://github.com/bytedance/flowgram.ai",
   "license": "MIT",
   "exports": {
