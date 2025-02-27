@@ -12,6 +12,14 @@ const program = new Command();
 
 const args = process.argv.slice(2);
 
+const updateFlowGramVersions = (dependencies: any[], latestVersion: string) => {
+  for(const packageName in dependencies) {
+    if (packageName.startsWith('@flowgram.ai')) {
+      dependencies[packageName] = latestVersion
+    }
+  }
+}
+
 program
   .version('1.0.0')
   .description('Create a demo project')
@@ -82,6 +90,25 @@ program
         }
       };
       const res = await downloadPackage();
+
+      // 下载完成后，执行操作，替换 package.json 文件内部的所有 @flowgram.ai 包版本为 latest
+      const pkgJsonPath = path.join(targetDir, folderName, 'package.json');
+      const data = fs.readFileSync(pkgJsonPath, 'utf-8');
+
+      const packageLatestVersion = execSync('npm view @flowgram.ai/core version --tag=latest latest').toString().trim();
+
+      const jsonData = JSON.parse(data);
+      if (jsonData.dependencies) {
+        updateFlowGramVersions(jsonData.dependencies, packageLatestVersion);
+      }
+      
+      if (jsonData.devDependencies) {
+        updateFlowGramVersions(jsonData.devDependencies, packageLatestVersion);
+      }
+
+      // 修改完成后写入
+      fs.writeFileSync(pkgJsonPath, JSON.stringify(jsonData, null, 2), 'utf-8');
+
       if (res) {
         // 克隆项目
         console.log(chalk.green(`${folderName} Demo project created successfully!`));
