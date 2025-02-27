@@ -39,8 +39,8 @@ program
 
       folderName = repo; 
     } else {
-      if (['demo-fixed-layout', 'demo-free-layout', 'demo-fixed-layout-simple', 'demo-free-layout-simple'].includes(args[0])) {
-        folderName = args[0];
+      if (['fixed-layout', 'free-layout', 'fixed-layout-simple', 'free-layout-simple'].includes(args[0])) {
+        folderName = `demo-${args[0]}`;
       } else {
         console.error('Invalid argument. Please run "npx create-app" to choose demo.');
         return;
