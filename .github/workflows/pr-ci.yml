@@ -1,7 +1,8 @@
-name: CI
+name: Fork PR-CI
 on:
-  push:
-    branches: [ "main" ]
+  pull_request_target:
+    branches: 
+      -*
 jobs:
   build:
     runs-on: ubuntu-latest
