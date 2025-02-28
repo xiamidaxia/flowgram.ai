@@ -1,6 +1,6 @@
 # FlowNodeEntity/WorkflowNodeEntity
 
-节点实体，`WorkflowNodeEntity` 为节点别名用于自由布局节点, 节点实体采用 [ECS](/flowgram.ai/guide/concepts/ECS.html) 架构, 为 `Entity`
+节点实体，`WorkflowNodeEntity` 为节点别名用于自由布局节点, 节点实体采用 [ECS](/guide/concepts/ecs.html) 架构, 为 `Entity`
 
 [> API Detail](https://flowgram.ai/auto-docs/document/classes/FlowNodeEntity-1.html)
 
@@ -56,7 +56,7 @@ const nodeRegistry = node.getNodeRegistry<FlowNodeRegistry>()
 
 ### getData
 
-等价于 [ECS](/flowgram.ai/guide/concepts/ECS.html) 架构 里获取 Entity 的 Component
+等价于 [ECS](/guide/concepts/ecs.html) 架构 里获取 Entity 的 Component
 
 ```ts pure
 node.getData(FlowNodeTransformData) // transform 矩阵数据, 包含节点的 x，y，width，height 等信息
@@ -67,7 +67,7 @@ node.getData(WorkflowNodeLinesData) // 自由布局的线条数据
 
 ### addData
 
-等价于 [ECS](/flowgram.ai/guide/concepts/ECS.html) 架构 里添加 Entity 的 Component
+等价于 [ECS](/guide/concepts/ecs.html) 架构 里添加 Entity 的 Component
 
 ```ts pure
 
@@ -92,7 +92,7 @@ node.getData(CustomEntityData).update({ key0: 'new value' })
 
 ### getService
 
-节点访问 [IOC](/flowgram.ai/guide/concepts/IOC.html) 服务
+节点访问 [IOC](/guide/concepts/ioc.html) 服务
 
 ```ts pure
 node.getService(SelectionService)

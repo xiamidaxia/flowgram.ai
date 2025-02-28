@@ -1,6 +1,6 @@
 # FlowNodeEntity/WorkflowNodeEntity
 
-Node entity, `WorkflowNodeEntity` is the alias for the node used for free layout nodes, the node entity uses the [ECS](/flowgram.ai/guide/concepts/ECS.html) architecture, is `Entity`
+Node entity, `WorkflowNodeEntity` is the alias for the node used for free layout nodes, the node entity uses the [ECS](/guide/concepts/ecs.html) architecture, is `Entity`
 
 [> API Detail](https://flowgram.ai/auto-docs/document/classes/FlowNodeEntity-1.html)
 
@@ -57,7 +57,7 @@ const nodeRegistry = node.getNodeRegistry<FlowNodeRegistry>()
 
 ### getData
 
-Equivalent to getting the Component of Entity in the [ECS](/flowgram.ai/guide/concepts/ECS.html) architecture, currently built-in two core Components
+Equivalent to getting the Component of Entity in the [ECS](/guide/concepts/ecs.html) architecture, currently built-in two core Components
 
 ```ts pure
 node.getData(FlowNodeTransformData) // transform matrix data, including the node's x, y, width, height, etc.
@@ -67,7 +67,7 @@ node.getData(FlowNodeRenderData) // node render data, including render status
 
 ### addData
 
-Equivalent to adding the Component of Entity in the [ECS](/flowgram.ai/guide/concepts/ECS.html) architecture
+Equivalent to adding the Component of Entity in the [ECS](/guide/concepts/ecs.html) architecture
 
 ```ts pure
 
@@ -92,7 +92,7 @@ node.getData(CustomEntityData).update({ key0: 'new value' })
 
 ### getService
 
-Node access [IOC](/flowgram.ai/guide/concepts/IOC.html) service
+Node access [IOC](/guide/concepts/ioc.html) service
 
 ```ts pure
 node.getService(SelectionService)

@@ -1,6 +1,7 @@
 
 # 画布引擎
 
+## Playground
 画布引擎底层会提供一套自己的坐标系, 主要由 Playground 驱动
 
 ```ts
@@ -120,11 +121,12 @@ export class DemoLayer extends Layer {
 ```
 
 ## FlowNodeEntity
-- 节点是一颗树，在自由画布模式，则节点是扁平的，无子节点
+
+- 节点是一颗树, 包含子节点 (blocks) 和父亲节点, 节点采用 ECS 架构
 ```ts
 inteface FlowNodeEntity {
     id： string
-    children？: FlowNodeEntity[]
+    blocks: FlowNodeEntity[]
     pre?: FlowNodeEntity
     next?: FlowNodeEntity
     parent?: FlowNodeEntity
@@ -134,7 +136,7 @@ inteface FlowNodeEntity {
 }
 ```
 
-## 2.4.4 FlowNodeTransformData 节点的bbox
+## FlowNodeTransformData 节点的位置及大小数据
 
 ```ts
 class FlowNodeTransformData {
@@ -145,6 +147,7 @@ class FlowNodeTransformData {
     getBounds(): Rectangle // 由worldMatix及 size 计算得出, 用于最终渲染，该范围也可用于确定高亮选中区域
     inputPoint(): Point // 输入点位置，一般是Block的第一个节点的中上位置(居中布局)
     outputPoint(): Point // 输出点位置，默认是节点中下位置，但条件分支，是由内置结束节点等具体逻辑判断得出
+   // ...others
 }
 ```
 
@@ -156,6 +159,7 @@ class FlowNodeRenderData {
   expanded：boolean // 是否展开
   activated： boolean // 是否激活
   hidden： boolean // 是否隐藏
+  // ...others
 }
 ```
 
