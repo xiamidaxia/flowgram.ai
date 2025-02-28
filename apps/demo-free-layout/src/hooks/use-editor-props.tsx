@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 
 import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin';
 import { createFreeSnapPlugin } from '@flowgram.ai/free-snap-plugin';
+import { createFreeNodePanelPlugin } from '@flowgram.ai/free-node-panel-plugin';
 import { FreeLayoutProps } from '@flowgram.ai/free-layout-editor';
 
 import { FlowNodeRegistry, FlowDocumentJSON } from '../typings';
@@ -10,7 +11,7 @@ import { shortcuts } from '../shortcuts';
 import { createVariablePlugin } from '../plugins';
 import { defaultFormMeta } from '../nodes/default-form-meta';
 import { SelectorBoxPopover } from '../components/selector-box-popover';
-import { BaseNode } from '../components';
+import { BaseNode, NodePanel } from '../components';
 
 export function useEditorProps(
   initialData: FlowDocumentJSON,
@@ -163,6 +164,9 @@ export function useEditorProps(
           edgeLineWidth: 1,
           alignLineWidth: 1,
           alignCrossWidth: 8,
+        }),
+        createFreeNodePanelPlugin({
+          renderer: NodePanel,
         }),
       ],
     }),
