@@ -26,6 +26,7 @@ export type {
   FieldWarning,
   IField,
   IFieldArray,
+  IForm
 } from '@flowgram.ai/form';
 
 export {
