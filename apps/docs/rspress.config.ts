@@ -80,6 +80,11 @@ export default defineConfig({
         mode: 'link',
         content: 'https://discord.gg/SwDWdrgA9f',
       },
+      {
+        icon: 'X',
+        mode: 'link',
+        content: 'https://x.com/FlowGramAI',
+      },
     ],
   },
 });
