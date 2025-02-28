@@ -15,6 +15,10 @@ export const ConditionNodeRegistry: FlowNodeRegistry = {
     defaultPorts: [{ type: 'input' }],
     // Condition Outputs use dynamic port
     useDynamicPort: true,
+    size: {
+      width: 360,
+      height: 305,
+    },
   },
   formMeta,
   onAdd() {

@@ -8,6 +8,10 @@ export const EndNodeRegistry: FlowNodeRegistry = {
     deleteDisable: true,
     copyDisable: true,
     defaultPorts: [{ type: 'input' }],
+    size: {
+      width: 360,
+      height: 211,
+    },
   },
   info: {
     icon: iconEnd,

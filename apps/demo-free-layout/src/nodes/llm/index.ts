@@ -11,6 +11,12 @@ export const LLMNodeRegistry: FlowNodeRegistry = {
     description:
       'Call the large language model and use variables and prompt words to generate responses.',
   },
+  meta: {
+    size: {
+      width: 360,
+      height: 94,
+    },
+  },
   onAdd() {
     return {
       id: `llm_${nanoid(5)}`,
