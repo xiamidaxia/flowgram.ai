@@ -3,6 +3,8 @@ import { useMemo } from 'react';
 
 import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin';
 import { createFreeSnapPlugin } from '@flowgram.ai/free-snap-plugin';
+import { createFreeNodePanelPlugin } from '@flowgram.ai/free-node-panel-plugin';
+import { createFreeLinesPlugin } from '@flowgram.ai/free-lines-plugin';
 import { FreeLayoutProps } from '@flowgram.ai/free-layout-editor';
 
 import { FlowNodeRegistry, FlowDocumentJSON } from '../typings';
@@ -10,7 +12,7 @@ import { shortcuts } from '../shortcuts';
 import { createVariablePlugin } from '../plugins';
 import { defaultFormMeta } from '../nodes/default-form-meta';
 import { SelectorBoxPopover } from '../components/selector-box-popover';
-import { BaseNode } from '../components';
+import { BaseNode, LineAddButton, NodePanel } from '../components';
 
 export function useEditorProps(
   initialData: FlowDocumentJSON,
@@ -124,6 +126,13 @@ export function useEditorProps(
       },
       plugins: () => [
         /**
+         * Line render plugin
+         * 连线渲染插件
+         */
+        createFreeLinesPlugin({
+          renderInsideLine: LineAddButton,
+        }),
+        /**
          * Minimap plugin
          * 缩略图插件
          */
@@ -133,18 +142,18 @@ export function useEditorProps(
             canvasWidth: 182,
             canvasHeight: 102,
             canvasPadding: 50,
-            canvasBackground: 'rgba(245, 245, 245, 1)',
+            canvasBackground: 'rgba(242, 243, 245, 1)',
             canvasBorderRadius: 10,
-            viewportBackground: 'rgba(235, 235, 235, 1)',
+            viewportBackground: 'rgba(255, 255, 255, 1)',
             viewportBorderRadius: 4,
-            viewportBorderColor: 'rgba(201, 201, 201, 1)',
+            viewportBorderColor: 'rgba(6, 7, 9, 0.10)',
             viewportBorderWidth: 1,
-            viewportBorderDashLength: 2,
-            nodeColor: 'rgba(255, 255, 255, 1)',
+            viewportBorderDashLength: undefined,
+            nodeColor: 'rgba(0, 0, 0, 0.10)',
             nodeBorderRadius: 2,
             nodeBorderWidth: 0.145,
             nodeBorderColor: 'rgba(6, 7, 9, 0.10)',
-            overlayColor: 'rgba(255, 255, 255, 0)',
+            overlayColor: 'rgba(255, 255, 255, 0.55)',
           },
           inactiveDebounceTime: 1,
         }),
@@ -163,6 +172,9 @@ export function useEditorProps(
           edgeLineWidth: 1,
           alignLineWidth: 1,
           alignCrossWidth: 8,
+        }),
+        createFreeNodePanelPlugin({
+          renderer: NodePanel,
         }),
       ],
     }),

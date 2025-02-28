@@ -9,13 +9,6 @@ export const createFreeLinesPlugin = definePluginCreator({
   onInit: (ctx: PluginContext, opts: FreeLinesPluginOptions) => {
     ctx.playground.registerLayer(WorkflowLinesLayer, {
       ...opts,
-      renderElement: () => {
-        if (typeof opts.renderElement === 'function') {
-          return opts.renderElement(ctx);
-        } else {
-          return opts.renderElement;
-        }
-      },
     });
   },
   onReady: (ctx: PluginContext, opts: FreeLinesPluginOptions) => {

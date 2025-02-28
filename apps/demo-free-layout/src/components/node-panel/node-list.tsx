@@ -1,4 +1,7 @@
+import React, { FC } from 'react';
+
 import styled from 'styled-components';
+import { NodePanelRenderProps } from '@flowgram.ai/free-node-panel-plugin';
 import { useClientContext } from '@flowgram.ai/free-layout-editor';
 
 import { FlowNodeRegistry } from '../../typings';
@@ -24,7 +27,14 @@ const NodeLabel = styled.div`
   margin-left: 10px;
 `;
 
-function Node(props: { label: string; icon: JSX.Element; onClick: () => void; disabled: boolean }) {
+interface NodeProps {
+  label: string;
+  icon: JSX.Element;
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+  disabled: boolean;
+}
+
+function Node(props: NodeProps) {
   return (
     <NodeWrap
       onClick={props.disabled ? undefined : props.onClick}
@@ -44,16 +54,18 @@ const NodesWrap = styled.div`
   }
 `;
 
-export function NodeList() {
+interface NodeListProps {
+  onSelect: NodePanelRenderProps['onSelect'];
+}
+
+export const NodeList: FC<NodeListProps> = (props) => {
+  const { onSelect } = props;
   const context = useClientContext();
-  const clientContext = useClientContext();
-  const handleClick = (registry: FlowNodeRegistry) => {
-    const nodeJSON = registry.onAdd?.(context);
-    if (nodeJSON) {
-      const node = clientContext.document.createWorkflowNode(nodeJSON);
-      // Select New Node
-      clientContext.selection.selection = [node];
-    }
+  const handleClick = (e: React.MouseEvent, registry: FlowNodeRegistry) => {
+    onSelect({
+      nodeType: registry.type as string,
+      selectEvent: e,
+    });
   };
   return (
     <NodesWrap style={{ width: 80 * 2 + 20 }}>
@@ -63,9 +75,9 @@ export function NodeList() {
           disabled={!(registry.canAdd?.(context) ?? true)}
           icon={<img style={{ width: 10, height: 10, borderRadius: 4 }} src={registry.info.icon} />}
           label={registry.type as string}
-          onClick={() => handleClick(registry)}
+          onClick={(e) => handleClick(e, registry)}
         />
       ))}
     </NodesWrap>
   );
-}
+};

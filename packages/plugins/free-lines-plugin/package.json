@@ -28,6 +28,7 @@
   "dependencies": {
     "@flowgram.ai/core": "workspace:*",
     "@flowgram.ai/free-layout-core": "workspace:*",
+    "@flowgram.ai/free-stack-plugin": "workspace:*",
     "@flowgram.ai/renderer": "workspace:*",
     "@flowgram.ai/utils": "workspace:*",
     "bezier-js": "^6.1.4",

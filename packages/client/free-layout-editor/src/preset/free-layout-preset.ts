@@ -198,9 +198,7 @@ export function createFreeLayoutPreset(
       /**
        * 线条渲染插件
        */
-      createFreeLinesPlugin({
-        renderElement: renderElement as FreeLinesPluginOptions['renderElement'],
-      }),
+      createFreeLinesPlugin({}),
       /**
        * 节点 hover 插件
        */

@@ -9,6 +9,10 @@ export const StartNodeRegistry: FlowNodeRegistry = {
     deleteDisable: true,
     copyDisable: true,
     defaultPorts: [{ type: 'output' }],
+    size: {
+      width: 360,
+      height: 211,
+    },
   },
   info: {
     icon: iconStart,

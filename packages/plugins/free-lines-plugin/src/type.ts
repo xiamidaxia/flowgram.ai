@@ -5,7 +5,6 @@ import type {
   WorkflowLineRenderContributionFactory,
 } from '@flowgram.ai/free-layout-core';
 import { LineRenderType } from '@flowgram.ai/free-layout-core';
-import type { PluginContext } from '@flowgram.ai/core';
 
 export interface LineRenderProps {
   key: string;
@@ -19,12 +18,10 @@ export interface LineRenderProps {
 }
 
 export interface LinesLayerOptions {
-  renderElement?: HTMLElement | (() => HTMLElement | undefined);
   renderInsideLine?: FC<LineRenderProps>;
 }
 
-export interface FreeLinesPluginOptions extends Omit<LinesLayerOptions, 'renderElement'> {
-  renderElement?: HTMLElement | ((ctx: PluginContext) => HTMLElement | undefined);
+export interface FreeLinesPluginOptions extends LinesLayerOptions {
   contributions?: WorkflowLineRenderContributionFactory[];
   defaultLineType?: LineRenderType;
 }
