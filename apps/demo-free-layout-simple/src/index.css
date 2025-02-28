@@ -80,6 +80,7 @@
     overflow: hidden;
     padding: 16px;
     position: relative;
+    color: black;
 }
 
 .demo-free-layout {

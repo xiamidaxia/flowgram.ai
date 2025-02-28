@@ -24,6 +24,11 @@
   width: 100%;
 }
 
+input {
+  color: black;
+  background-color: white;
+}
+
 .demo-fixed-adder {
   width: 28px;
   height: 18px;
