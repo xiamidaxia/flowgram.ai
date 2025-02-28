@@ -1,8 +1,13 @@
-import { FlowNodeEntity, FlowOperationService, useClientContext, usePlayground, useService } from "@flowgram.ai/fixed-layout-editor"
+import {
+  FlowNodeEntity,
+  FlowOperationService,
+  useClientContext,
+  usePlayground,
+  useService,
+} from '@flowgram.ai/fixed-layout-editor';
+import { Dropdown } from '@douyinfe/semi-ui';
+import { IconPlusCircle } from '@douyinfe/semi-icons';
 
-import { Dropdown } from '@douyinfe/semi-ui'
-
-import { IconPlusCircle } from "@douyinfe/semi-icons";
 import { nodeRegistries } from '../node-registries';
 
 export const NodeAdder = (props: {
@@ -35,10 +40,17 @@ export const NodeAdder = (props: {
     <Dropdown
       render={
         <Dropdown.Menu>
-          {nodeRegistries.map(registry => <Dropdown.Item onClick={() => {
-            const props = registry?.onAdd(context, from);
-            add(props);
-          }}>{registry.type}</Dropdown.Item>)}
+          {nodeRegistries.map((registry) => (
+            <Dropdown.Item
+              key={registry.type}
+              onClick={() => {
+                const props = registry?.onAdd(context, from);
+                add(props);
+              }}
+            >
+              {registry.type}
+            </Dropdown.Item>
+          ))}
         </Dropdown.Menu>
       }
     >
@@ -49,19 +61,19 @@ export const NodeAdder = (props: {
           backgroundColor: 'rgb(143, 149, 158)',
           color: '#fff',
           borderRadius: '50%',
-          cursor: 'pointer'
+          cursor: 'pointer',
         }}
       >
-        {hoverActivated ?
+        {hoverActivated ? (
           <IconPlusCircle
             style={{
               color: '#3370ff',
               backgroundColor: '#fff',
-              borderRadius: 15
+              borderRadius: 15,
             }}
-          /> : null
-        }
+          />
+        ) : null}
       </div>
     </Dropdown>
   );
-}
+};
