@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { IconGridRectangle } from '@douyinfe/semi-icons';
 
 export const ToolContainer = styled.div`
   position: absolute;
@@ -38,8 +37,4 @@ export const MinimapContainer = styled.div`
   position: absolute;
   bottom: 60px;
   width: 182px;
-`;
-
-export const UIIconGridRectangle = styled(IconGridRectangle)<{ visible: boolean }>`
-  color: ${props => (props.visible ? undefined : '#060709cc')};
 `;
