@@ -104,18 +104,18 @@ Field 的渲染部分，支持三种写法，如下:
 const render = () => (
   <div>
     <Label> 1. 通过 children </Label>
-    // 该方式适用于简单场景，Field 会将  value onChange 等属性直接注入第一层children组件中
+    {/* 该方式适用于简单场景，Field 会将  value onChange 等属性直接注入第一层children组件中  */}
     <Field name="c">
       <Input />
     </Field>
     <Label> 2. 通过 Render Props  </Label>
-    // 该方式适用于复杂场景，当 return 的组件存在多层嵌套，用户可以主动将field 中的属性注入希望注入的组件中
+    {/* 该方式适用于复杂场景，当 return 的组件存在多层嵌套，用户可以主动将field 中的属性注入希望注入的组件中 */}
     <Field name="a">
         {({ field, fieldState, formState }: FieldRenderProps<string>) => <div><Input {...field} /><Feedbacks errors={fieldState.errors}/></div>}
     </Field>
 
     <Label> 3. 通过传 render 函数</Label>
-    // 该方式类似方式2，但通过props 传入
+    {/* 该方式类似方式2，但通过props 传入 */}
     <Field name="b" render={({ field }: FieldRenderProps<string>) => <Input {...field} />} />
   </div>
 );
@@ -497,7 +497,7 @@ export const renderDynamicExample = ({ form }: FormRenderProps<FormData>) => (
           <></>
         )
       }
-      通过 deps 配置，该表单项的渲染依赖哪些其他表单项的值
+      // 通过 deps 配置，该表单项的渲染依赖哪些其他表单项的值
       deps={['isBatch']}
     />
   </>

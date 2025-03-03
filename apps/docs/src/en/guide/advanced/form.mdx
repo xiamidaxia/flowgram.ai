@@ -104,18 +104,18 @@ The rendering part of Field, supports three writing methods, as follows:
 const render = () => (
   <div>
     <Label> 1. Through children </Label>
-    // This method is suitable for simple scenarios, Field will inject value onChange, etc. directly into the first layer of children components
+    {/* This method is suitable for simple scenarios, Field will inject value onChange, etc. directly into the first layer of children components */}
     <Field name="c">
       <Input />
     </Field>
     <Label> 2. Through Render Props  </Label>
-    // This method is suitable for complex scenarios, when the returned component has multiple layers of nesting, the user can actively inject the attributes of field into the desired component
+    {/* This method is suitable for complex scenarios, when the returned component has multiple layers of nesting, the user can actively inject the attributes of field into the desired component */}
     <Field name="a">
         {({ field, fieldState, formState }: FieldRenderProps<string>) => <div><Input {...field} /><Feedbacks errors={fieldState.errors}/></div>}
     </Field>
 
     <Label> 3. Through render function </Label>
-    // This method is similar to method 2, but the props are passed in
+    {/* This method is similar to method 2, but the props are passed in */}
     <Field name="b" render={({ field }: FieldRenderProps<string>) => <Input {...field} />} />
   </div>
 );
