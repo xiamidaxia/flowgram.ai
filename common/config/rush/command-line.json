@@ -236,6 +236,22 @@
       "shellCommand": "concurrently --kill-others --prefix \"{name}\" --names [watch],[demo] -c white,blue \"rush build:watch --to-except @flowgram.ai/docs\" \"cd apps/docs && rushx dev\""
     },
     {
+      "name": "ts-check",
+      "commandKind": "bulk",
+      "summary": "⭐️️ Run ts check in packages",
+      "ignoreMissingScript": true,
+      "enableParallelism": true,
+      "safeForSimultaneousRushProcesses": true
+    },
+    {
+      "name": "lint",
+      "commandKind": "bulk",
+      "summary": "⭐️️ Run eslint check in packages",
+      "ignoreMissingScript": true,
+      "enableParallelism": true,
+      "safeForSimultaneousRushProcesses": true
+    },
+    {
       "name": "dev:demo-fixed-layout",
       "commandKind": "global",
       "summary": "⭐️️ run dev in app/demo-fixed-layout",

@@ -6,7 +6,7 @@
     "build": "rm -rf ./doc_build && rspress build",
     "docs": "sucrase-node ./scripts/auto-generate.ts",
     "dev": "rspress dev",
-    "lint": "eslint .",
+    "lint": "eslint ./components --cache",
     "preview": "rspress preview"
   },
   "dependencies": {

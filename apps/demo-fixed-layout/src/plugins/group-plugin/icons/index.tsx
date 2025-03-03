@@ -29,6 +29,7 @@ const SvgUngroup = () => (
 );
 
 const IconFactory = (svg: ReactNode) =>
+  // eslint-disable-next-line react/display-name
   forwardRef((props: Omit<IconProps, 'svg' | 'ref'>, ref: Ref<HTMLSpanElement>) => (
     <Icon svg={svg} {...props} ref={ref} />
   ));

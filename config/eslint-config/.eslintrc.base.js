@@ -62,7 +62,11 @@ module.exports = {
           },
         },
       },
-      extends: ['plugin:prettier/recommended', 'plugin:react/recommended'],
+      extends: [
+        'plugin:prettier/recommended',
+        'plugin:react/recommended',
+        'plugin:react/jsx-runtime',
+      ],
       plugins: ['@typescript-eslint', 'import'],
 
       parserOptions: {

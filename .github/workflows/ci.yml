@@ -28,5 +28,9 @@ jobs:
         run: node common/scripts/install-run-rush.js install
       - name: Rush build
         run: node common/scripts/install-run-rush.js build
+      # - name: Check Lint
+      #   run: node common/scripts/install-run-rush.js lint
+      - name: Check TS
+        run: node common/scripts/install-run-rush.js ts-check
       - name: Test (coverage)
         run: node common/scripts/install-run-rush.js test:cov

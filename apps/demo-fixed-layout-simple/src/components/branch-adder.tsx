@@ -1,13 +1,11 @@
+import { nanoid } from 'nanoid';
 import { type FlowNodeEntity, useClientContext } from '@flowgram.ai/fixed-layout-editor';
 import { IconPlus } from '@douyinfe/semi-icons';
-import { nanoid } from 'nanoid';
-
 
 interface PropsType {
   activated?: boolean;
   node: FlowNodeEntity;
 }
-
 
 export function BranchAdder(props: PropsType) {
   const { activated, node } = props;
@@ -22,8 +20,8 @@ export function BranchAdder(props: PropsType) {
       type: 'block',
       data: {
         title: 'New Branch',
-        content: ''
-      }
+        content: '',
+      },
     });
 
     setTimeout(() => {
@@ -38,7 +36,7 @@ export function BranchAdder(props: PropsType) {
   const className = [
     'demo-fixed-adder',
     isVertical ? '' : 'isHorizontal',
-    activated ? 'activated' : ''
+    activated ? 'activated' : '',
   ].join(' ');
 
   return (
