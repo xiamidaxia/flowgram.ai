@@ -50,7 +50,7 @@ our name.
     </a>
   </p>
   <p>
-      Free layout where nodes can be moved anywhere and connected through free-form lines.
+      Free layout where nodes can be placed anywhere and connected using free-form lines.
   </p>
   <p>
     <img src="./apps/docs/src/public/free-layout/free-layout-demo.gif"/>
