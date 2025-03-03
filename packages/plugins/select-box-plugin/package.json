@@ -28,7 +28,8 @@
   "dependencies": {
     "@flowgram.ai/core": "workspace:*",
     "@flowgram.ai/renderer": "workspace:*",
-    "inversify": "^6.0.1"
+    "inversify": "^6.0.1",
+    "reflect-metadata": "~0.2.2"
   },
   "devDependencies": {
     "@flowgram.ai/eslint-config": "workspace:*",

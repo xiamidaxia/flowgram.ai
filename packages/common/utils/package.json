@@ -28,6 +28,7 @@
   "dependencies": {
     "clsx": "^1.1.1",
     "inversify": "^6.0.1",
+    "reflect-metadata": "~0.2.2",
     "nanoid": "^4.0.2"
   },
   "devDependencies": {

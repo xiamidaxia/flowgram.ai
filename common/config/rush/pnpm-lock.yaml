@@ -749,6 +749,9 @@ importers:
       react-dom:
         specifier: '>=17'
         version: 18.3.1(react@18.3.1)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -780,9 +783,6 @@ importers:
       eslint:
         specifier: ^8.54.0
         version: 8.57.1
-      reflect-metadata:
-        specifier: ~0.2.2
-        version: 0.2.2
       tsup:
         specifier: ^8.0.1
         version: 8.3.5(typescript@5.0.4)
@@ -1208,6 +1208,9 @@ importers:
       react-dom:
         specifier: '>=17'
         version: 18.3.1(react@18.3.1)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -1236,9 +1239,6 @@ importers:
       jsdom:
         specifier: ^22.1.0
         version: 22.1.0
-      reflect-metadata:
-        specifier: ~0.2.2
-        version: 0.2.2
       tsup:
         specifier: ^8.0.1
         version: 8.3.5(typescript@5.0.4)
@@ -1266,6 +1266,9 @@ importers:
       nanoid:
         specifier: ^4.0.2
         version: 4.0.2
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -1285,9 +1288,6 @@ importers:
       jsdom:
         specifier: ^22.1.0
         version: 22.1.0
-      reflect-metadata:
-        specifier: ~0.2.2
-        version: 0.2.2
       tsup:
         specifier: ^8.0.1
         version: 8.3.5(typescript@5.0.4)
@@ -1324,6 +1324,9 @@ importers:
       nanoid:
         specifier: ^4.0.2
         version: 4.0.2
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -1346,9 +1349,6 @@ importers:
       jsdom:
         specifier: ^22.1.0
         version: 22.1.0
-      reflect-metadata:
-        specifier: ~0.2.2
-        version: 0.2.2
       tsup:
         specifier: ^8.0.1
         version: 8.3.5(typescript@5.0.4)
@@ -1459,6 +1459,9 @@ importers:
       nanoid:
         specifier: ^4.0.2
         version: 4.0.2
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -1761,6 +1764,9 @@ importers:
       react-dom:
         specifier: '>=17'
         version: 18.3.1(react@18.3.1)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -1810,6 +1816,9 @@ importers:
       react-dom:
         specifier: '>=17'
         version: 18.3.1(react@18.3.1)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -1862,6 +1871,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -1914,6 +1926,9 @@ importers:
       react-dom:
         specifier: '>=17'
         version: 18.3.1(react@18.3.1)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -1972,6 +1987,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -2006,9 +2024,6 @@ importers:
       react-dom:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
-      reflect-metadata:
-        specifier: ~0.2.2
-        version: 0.2.2
       styled-components:
         specifier: ^5
         version: 5.3.11(@babel/core@7.26.0)(react-dom@18.3.1)(react-is@18.3.1)(react@18.3.1)
@@ -2051,6 +2066,9 @@ importers:
       react-dom:
         specifier: '>=17'
         version: 18.3.1(react@18.3.1)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -2106,6 +2124,9 @@ importers:
       inversify:
         specifier: ^6.0.1
         version: 6.2.0(reflect-metadata@0.2.2)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -2173,6 +2194,9 @@ importers:
       inversify:
         specifier: ^6.0.1
         version: 6.2.0(reflect-metadata@0.2.2)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -2207,9 +2231,6 @@ importers:
       react-dom:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
-      reflect-metadata:
-        specifier: ~0.2.2
-        version: 0.2.2
       styled-components:
         specifier: ^5
         version: 5.3.11(@babel/core@7.26.0)(react-dom@18.3.1)(react-is@18.3.1)(react@18.3.1)
@@ -2249,6 +2270,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -2283,9 +2307,6 @@ importers:
       react-dom:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
-      reflect-metadata:
-        specifier: ~0.2.2
-        version: 0.2.2
       styled-components:
         specifier: ^5
         version: 5.3.11(@babel/core@7.26.0)(react-dom@18.3.1)(react-is@18.3.1)(react@18.3.1)
@@ -2322,6 +2343,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -2356,9 +2380,6 @@ importers:
       react-dom:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
-      reflect-metadata:
-        specifier: ~0.2.2
-        version: 0.2.2
       styled-components:
         specifier: ^5
         version: 5.3.11(@babel/core@7.26.0)(react-dom@18.3.1)(react-is@18.3.1)(react@18.3.1)
@@ -2395,6 +2416,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -2429,9 +2453,6 @@ importers:
       react-dom:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
-      reflect-metadata:
-        specifier: ~0.2.2
-        version: 0.2.2
       styled-components:
         specifier: ^5
         version: 5.3.11(@babel/core@7.26.0)(react-dom@18.3.1)(react-is@18.3.1)(react@18.3.1)
@@ -2468,6 +2489,9 @@ importers:
       react-dom:
         specifier: '>=17'
         version: 18.3.1(react@18.3.1)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -2526,6 +2550,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -2560,9 +2587,6 @@ importers:
       react-dom:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
-      reflect-metadata:
-        specifier: ~0.2.2
-        version: 0.2.2
       styled-components:
         specifier: ^5
         version: 5.3.11(@babel/core@7.26.0)(react-dom@18.3.1)(react-is@18.3.1)(react@18.3.1)
@@ -2648,6 +2672,9 @@ importers:
       inversify:
         specifier: ^6.0.1
         version: 6.2.0(reflect-metadata@0.2.2)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -2715,6 +2742,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -2749,9 +2779,6 @@ importers:
       react-dom:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
-      reflect-metadata:
-        specifier: ~0.2.2
-        version: 0.2.2
       styled-components:
         specifier: ^5
         version: 5.3.11(@babel/core@7.26.0)(react-dom@18.3.1)(react-is@18.3.1)(react@18.3.1)
@@ -2788,6 +2815,9 @@ importers:
       inversify:
         specifier: ^6.0.1
         version: 6.2.0(reflect-metadata@0.2.2)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -2861,6 +2891,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -2919,6 +2952,9 @@ importers:
       inversify:
         specifier: ^6.0.1
         version: 6.2.0(reflect-metadata@0.2.2)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
       styled-components:
         specifier: ^5
         version: 5.3.11(@babel/core@7.26.0)(react-dom@18.3.1)(react-is@18.3.1)(react@18.3.1)
@@ -2962,6 +2998,9 @@ importers:
       react-dom:
         specifier: '>=17'
         version: 18.3.1(react@18.3.1)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
     devDependencies:
       '@flowgram.ai/eslint-config':
         specifier: workspace:*
@@ -3005,6 +3044,9 @@ importers:
       inversify:
         specifier: ^6.0.1
         version: 6.2.0(reflect-metadata@0.2.2)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
       styled-components:
         specifier: ^5
         version: 5.3.11(@babel/core@7.26.0)(react-dom@18.3.1)(react-is@18.3.1)(react@18.3.1)
@@ -3054,6 +3096,9 @@ importers:
       inversify:
         specifier: ^6.0.1
         version: 6.2.0(reflect-metadata@0.2.2)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
       styled-components:
         specifier: ^5
         version: 5.3.11(@babel/core@7.26.0)(react-dom@18.3.1)(react-is@18.3.1)(react@18.3.1)
