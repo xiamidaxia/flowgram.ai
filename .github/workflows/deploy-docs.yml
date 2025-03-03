@@ -19,7 +19,7 @@ jobs:
         run: |
           if [ "$GITHUB_REF" != "refs/heads/gh-pages" ]; then
             echo "Not on gh-pages branch, exiting workflow."
-            exit 0
+            exit 1
           fi
           echo "On gh-pages branch, continuing workflow."
       - name: Config Git User
