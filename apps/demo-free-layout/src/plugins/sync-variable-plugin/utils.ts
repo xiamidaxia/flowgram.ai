@@ -3,12 +3,32 @@ import { ASTFactory, type ASTNodeJSON } from '@flowgram.ai/free-layout-editor';
 
 import { type JsonSchema } from '../../typings';
 
+/**
+ * Sorts the properties of a JSON schema based on the 'extra.index' field.
+ * If the 'extra.index' field is not present, the property will be treated as having an index of 0.
+ *
+ * @param properties - The properties of the JSON schema to sort.
+ * @returns A sorted array of property entries.
+ */
 function sortProperties(properties: Record<string, JsonSchema>) {
   return Object.entries(properties).sort(
     (a, b) => (get(a?.[1], 'extra.index') || 0) - (get(b?.[1], 'extra.index') || 0)
   );
 }
 
+/**
+ * Converts a JSON schema to an Abstract Syntax Tree (AST) representation.
+ * This function recursively processes the JSON schema and creates corresponding AST nodes.
+ *
+ * For more information on JSON Schema, refer to the official documentation:
+ * https://json-schema.org/
+ *
+ * Note: Depending on your business needs, you can use your own Domain-Specific Language (DSL)
+ * Create a new function to convert your custom DSL to AST directly.
+ *
+ * @param jsonSchema - The JSON schema to convert.
+ * @returns An AST node representing the JSON schema, or undefined if the schema type is not recognized.
+ */
 export function createASTFromJSONSchema(jsonSchema: JsonSchema): ASTNodeJSON | undefined {
   const { type } = jsonSchema || {};
 
@@ -39,7 +59,8 @@ export function createASTFromJSONSchema(jsonSchema: JsonSchema): ASTNodeJSON | u
       return ASTFactory.createInteger();
 
     default:
-      // Camel case to variable-core type
+      // If the type is not recognized, return undefined.
+      // You can extend this function to handle custom types if needed.
       return;
   }
 }

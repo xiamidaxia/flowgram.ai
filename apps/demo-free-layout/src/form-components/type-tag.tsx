@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Tag, Tooltip } from '@douyinfe/semi-ui';
 
-import { VariableTypeIcons, ArrayIcons } from '../plugins/variable-plugin/icons';
+import { VariableTypeIcons, ArrayIcons } from '../plugins/sync-variable-plugin/icons';
 
 interface PropsType {
   name?: string | JSX.Element;
