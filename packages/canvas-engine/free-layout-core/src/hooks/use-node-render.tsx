@@ -87,8 +87,8 @@ export function useNodeRender(nodeFromProps?: WorkflowNodeEntity): NodeRenderRet
     [node]
   );
   const deleteNode = useCallback(() => node.dispose(), [node]);
-  // 监听选中变化
-  useListenEvents(selectionService.onSelectionChanged, portsData.onDataChange);
+  // 监听端口变化
+  useListenEvents(portsData.onDataChange);
 
   /**
    * - 下面的 firefox 为了修复一个 bug：https://meego.feishu.cn/bot_bot/issue/detail/3001017843

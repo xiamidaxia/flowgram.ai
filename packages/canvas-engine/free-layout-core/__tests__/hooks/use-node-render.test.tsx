@@ -31,26 +31,41 @@ describe('use-node-render', () => {
     wrapper = createHookWrapper(container);
   });
   it('select node and listen change', async () => {
+    // 初始化
     const { result } = renderHook(() => useNodeRender(), {
       wrapper,
     });
     expect(result.current.selected).toEqual(false);
     expect(result.current.activated).toEqual(false);
+    // 选中
     result.current.selectNode(createEvent('click', domNode) as any);
-    expect(result.current.selected).toEqual(true);
-    expect(result.current.activated).toEqual(true);
+    const { result: result2 } = renderHook(() => useNodeRender(), {
+      wrapper,
+    });
+    expect(result2.current.selected).toEqual(true);
+    expect(result2.current.activated).toEqual(true);
+    // 清除选中
     container.get<WorkflowSelectService>(WorkflowSelectService).clear();
-    expect(result.current.selected).toEqual(false);
-    expect(result.current.activated).toEqual(false);
+    const { result: result3 } = renderHook(() => useNodeRender(), {
+      wrapper,
+    });
+    expect(result3.current.selected).toEqual(false);
+    expect(result3.current.activated).toEqual(false);
   });
   it('toggle select', async () => {
     const { result } = renderHook(() => useNodeRender(), {
       wrapper,
     });
     result.current.selectNode(new MouseEvent('click', { metaKey: true }) as any);
-    expect(result.current.selected).toEqual(true);
+    const { result: result2 } = renderHook(() => useNodeRender(), {
+      wrapper,
+    });
+    expect(result2.current.selected).toEqual(true);
     result.current.selectNode(new MouseEvent('click', { metaKey: true }) as any);
-    expect(result.current.selected).toEqual(false);
+    const { result: result3 } = renderHook(() => useNodeRender(), {
+      wrapper,
+    });
+    expect(result3.current.selected).toEqual(false);
   });
   it('delete node', async () => {
     const wrapper = createHookWrapper(container);
@@ -78,11 +93,17 @@ describe('use-node-render', () => {
         clientY: 100,
       })
     );
-    expect(result.current.selected).toEqual(true);
+    const { result: result2 } = renderHook(() => useNodeRender(), {
+      wrapper,
+    });
+    expect(result2.current.selected).toEqual(true);
     expect(node.getData(PositionData).toJSON()).toEqual({ x: 100, y: 100 });
     result.current.selectNode(new MouseEvent('click', { metaKey: true }) as any);
+    const { result: result3 } = renderHook(() => useNodeRender(), {
+      wrapper,
+    });
     // 拖拽时候无法再次触发选中事件
-    expect(result.current.selected).toEqual(true);
+    expect(result3.current.selected).toEqual(true);
     fireEvent(
       document,
       new MouseEvent('mouseup', {
@@ -105,7 +126,10 @@ describe('use-node-render', () => {
     render(<input role="input" onClick={result.current.startDrag} />);
     // start Drag
     fireEvent.click(screen.getByRole('input'));
-    expect(result.current.selected).toEqual(true);
+    const { result: result2 } = renderHook(() => useNodeRender(), {
+      wrapper,
+    });
+    expect(result2.current.selected).toEqual(true);
     fireEvent(
       document,
       new MouseEvent('mousemove', {
