@@ -3,7 +3,7 @@ import React, { type SVGProps } from 'react';
 import { Input, Button } from '@douyinfe/semi-ui';
 
 import { FlowRefValueSchema, FlowLiteralValueSchema } from '../../typings';
-import { VariableSelector } from '../../plugins/variable-plugin/variable-selector';
+import { VariableSelector } from '../../plugins/sync-variable-plugin/variable-selector';
 
 export function FxIcon(props: SVGProps<SVGSVGElement>) {
   return (
@@ -45,7 +45,7 @@ export function FxExpression(props: FxExpressionProps) {
           value={value.content}
           hasError={props.hasError}
           style={{ flexGrow: 1 }}
-          onChange={v => onChange({ type: 'expression', content: v })}
+          onChange={(v) => onChange({ type: 'expression', content: v })}
           disabled={disabled}
         />
       ) : (

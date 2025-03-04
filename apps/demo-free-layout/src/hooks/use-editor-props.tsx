@@ -12,7 +12,7 @@ import { FreeLayoutProps } from '@flowgram.ai/free-layout-editor';
 
 import { FlowNodeRegistry, FlowDocumentJSON } from '../typings';
 import { shortcuts } from '../shortcuts';
-import { createVariablePlugin } from '../plugins';
+import { createSyncVariablePlugin } from '../plugins';
 import { defaultFormMeta } from '../nodes/default-form-meta';
 import { SelectorBoxPopover } from '../components/selector-box-popover';
 import { BaseNode, LineAddButton, NodePanel } from '../components';
@@ -184,7 +184,7 @@ export function useEditorProps(
          * Variable plugin
          * 变量插件
          */
-        createVariablePlugin({}),
+        createSyncVariablePlugin({}),
         /**
          * Snap plugin
          * 自动对齐及辅助线插件

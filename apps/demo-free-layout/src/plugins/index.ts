@@ -1,1 +1,1 @@
-export { createVariablePlugin } from './variable-plugin/variable-plugin';
+export { createSyncVariablePlugin } from './sync-variable-plugin/sync-variable-plugin';
