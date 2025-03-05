@@ -193,9 +193,10 @@ export class WorkflowDocument extends FlowDocument {
     });
 
     // 初始化表单数据
-    if (formMeta && formData) {
+    if (formMeta && formData && !formData.formModel.initialized) {
+      // 如果表单数据在前置步骤（fromJSON）内已定义，则跳过表单初始化逻辑
       formData.createForm(formMeta, json.data);
-      // formData.onDataChange(() => node.getData(FlowNodeRenderData)!.fireChange())
+
       formData.onDataChange(() => {
         this.fireContentChange({
           type: WorkflowContentChangeType.NODE_DATA_CHANGE,
