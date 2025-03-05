@@ -220,7 +220,10 @@ export namespace FreeLayoutProps {
             entity: node,
           });
         });
+        return;
       }
+
+      return WorkflowDocumentOptionsDefault.fromNodeJSON?.(node, json);
     },
     toNodeJSON(node: FlowNodeEntity): FlowNodeJSON {
       const formData = node.getData(FlowNodeFormData)!;
