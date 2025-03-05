@@ -3,7 +3,7 @@ pageType: home
 
 hero:
   name: FlowGram.AI
-  text: 插件化构建流程引擎
+  text: 程序化构建流程引擎
   tagline: 高性能，可扩展，可定制
   actions:
     - theme: brand
