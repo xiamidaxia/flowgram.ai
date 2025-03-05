@@ -62,3 +62,18 @@
 .rs-red {
   color: var(--rp-container-danger-text);
 }
+
+.light-mode {
+  color-scheme: light;
+  --background-color: #ffffff !important; /* 强制使用浅色背景 */
+  --text-color: #000000 !important; /* 强制使用深色文本 */
+  --rp-c-bg: #fff !important;
+
+  button {
+    background: transparent;
+  }
+}
+
+.light-mode * {
+  color: var(--text-color) !important;
+}
