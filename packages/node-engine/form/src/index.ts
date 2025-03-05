@@ -14,7 +14,9 @@ export type {
   FieldValue,
   FieldArray as IFieldArray,
   Field as IField,
-  Form as IForm
+  Form as IForm,
+  Errors,
+  Warnings
 } from './types';
 
 export { ValidateTrigger } from './types';
