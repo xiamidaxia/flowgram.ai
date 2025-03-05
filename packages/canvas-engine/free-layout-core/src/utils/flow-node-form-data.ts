@@ -19,12 +19,14 @@ export function initFormDataFromJSON(node: FlowNodeEntity, json: FlowNodeJSON) {
   const registry = node.getNodeRegistry();
   const { formMeta } = registry;
 
-  formData.createForm(formMeta, json.data);
-  formData.onDataChange(() => {
-    (node.document as WorkflowDocument).fireContentChange({
-      type: WorkflowContentChangeType.NODE_DATA_CHANGE,
-      toJSON: () => formData.toJSON(),
-      entity: node,
+  if (formData && formMeta) {
+    formData.createForm(formMeta, json.data);
+    formData.onDataChange(() => {
+      (node.document as WorkflowDocument).fireContentChange({
+        type: WorkflowContentChangeType.NODE_DATA_CHANGE,
+        toJSON: () => formData.toJSON(),
+        entity: node,
+      });
     });
-  });
+  }
 }
