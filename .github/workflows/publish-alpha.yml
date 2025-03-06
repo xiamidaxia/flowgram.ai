@@ -31,7 +31,7 @@ jobs:
       - name: Get alpha latest npm version
         id: get_version
         run: |
-          LATEST_VERSION=$(npm view @flowgram.ai/core version --tag=alpha latest 2>/dev/null)
+          LATEST_VERSION=$(npm view @flowgram.ai/core version --tag=alpha latest 2>/dev/null || true)
           if [ -n "$LATEST_VERSION" ]; then
             echo "Using existing version: $LATEST_VERSION"
           else
