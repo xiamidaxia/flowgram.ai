@@ -320,6 +320,7 @@ export class WorkflowDocument extends FlowDocument {
     }
     return this.createWorkflowNode(
       {
+        ...json,
         id,
         type,
         meta: { position, ...json?.meta }, // TODO title 和 meta 要从注册数据去拿
