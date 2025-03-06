@@ -53,6 +53,7 @@ export default defineConfig({
     }),
   ],
   themeConfig: {
+    localeRedirect: 'auto',
     footer: {
       message: '© 2025 Bytedance Inc. All Rights Reserved.',
     },
