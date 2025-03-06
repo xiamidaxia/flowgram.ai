@@ -3,7 +3,7 @@ pageType: home
 
 hero:
   name: FlowGram.AI
-  text: Programmatic Flow Building Engine
+  text: Build Flow Engine with Plugins
   tagline: High Performance, Scalable, Customizable
   actions:
     - theme: brand
