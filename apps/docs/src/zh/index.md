@@ -7,7 +7,7 @@ hero:
   tagline: 高性能，可扩展，可定制
   actions:
     - theme: brand
-      text: Quick Start
+      text: 快速开始
       link: /guide/introduction
     - theme: alt
       text: GitHub
