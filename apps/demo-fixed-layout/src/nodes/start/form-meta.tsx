@@ -29,7 +29,7 @@ export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON['data']>) => (
   </>
 );
 
-export const formMeta: FormMeta<FlowNodeJSON> = {
+export const formMeta: FormMeta<FlowNodeJSON['data']> = {
   render: renderForm,
   validateTrigger: ValidateTrigger.onChange,
   validate: {
