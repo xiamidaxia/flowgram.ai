@@ -63,6 +63,8 @@ jobs:
               \"nextBump\": \"prerelease\"
             }
           ]" > common/config/rush/version-policies.json
+      - name: replace with alpha version
+        run: node common/scripts/install-run-rush.js version --ensure-version-policy --override-version=$LATEST_VERSION --version-policy=publishPolicy
       - name: Version Bump
         run: node common/scripts/install-run-rush.js version --bump --version-policy publishPolicy
       - name: Publish

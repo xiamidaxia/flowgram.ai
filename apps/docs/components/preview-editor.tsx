@@ -38,7 +38,7 @@ export const PreviewEditor = ({
       }}
     >
       <SandpackLayout style={previewStyle}>
-        {children}
+        <div className="light-mode">{children}</div>
         {/* <SandpackPreview /> */}
       </SandpackLayout>
       <SandpackLayout>
