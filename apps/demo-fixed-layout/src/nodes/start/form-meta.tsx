@@ -9,7 +9,7 @@ import {
 import { FlowNodeJSON, JsonSchema } from '../../typings';
 import { FormHeader, FormContent, FormOutputs, PropertiesEdit } from '../../form-components';
 
-export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => (
+export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON['data']>) => (
   <>
     <FormHeader />
     <FormContent>

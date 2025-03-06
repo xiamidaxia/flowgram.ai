@@ -3,7 +3,7 @@ import { FormRenderProps, FormMeta, ValidateTrigger } from '@flowgram.ai/fixed-l
 import { FlowNodeJSON } from '../typings';
 import { FormHeader, FormContent, FormInputs, FormOutputs } from '../form-components';
 
-export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => (
+export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON['data']>) => (
   <>
     <FormHeader />
     <FormContent>
