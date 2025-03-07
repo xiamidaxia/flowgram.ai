@@ -1,7 +1,6 @@
 import * as path from 'node:path';
 
 import { defineConfig } from 'rspress/config';
-import { pluginPlayground } from '@rspress/plugin-playground';
 
 export default defineConfig({
   root: path.join(__dirname, 'src'),
@@ -63,12 +62,7 @@ export default defineConfig({
   },
   lang: 'zh',
   logoText: 'FlowGram.AI',
-  plugins: [
-    pluginPlayground({
-      defaultDirection: 'vertical',
-      include: [],
-    }),
-  ],
+  plugins: [],
   themeConfig: {
     localeRedirect: 'auto',
     footer: {
