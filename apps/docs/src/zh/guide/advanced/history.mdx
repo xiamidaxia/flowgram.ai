@@ -5,11 +5,13 @@ Undo/Redo 是 FlowGram.AI 的一个插件，在 @flowgram.ai/fixed-layout-editor
 
 ## 1. 快速开始
 
+[> Demo Detail](https://github.com/bytedance/flowgram.ai/blob/main/apps/demo-fixed-layout/src/hooks/use-editor-props.ts#L125)
+
 ### 1.1. 开启 history
 使用 Undo/Redo 功能前需要先引入编辑器，以固定布局编辑器为例。
 
 1. package.json 添加依赖
-```tsx pure title="use-editor-props.tsx"
+```tsx pure title="use-editor-props.tsx" {4}
 export function useEditorProps() {
   return useMemo(
     () => ({

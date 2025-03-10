@@ -2,7 +2,9 @@
 
 ## Enable Variable Engine
 
-```tsx pure title="use-editor-props.ts"
+[> API Detail](https://flowgram.ai/auto-docs/editor/interfaces/VariablePluginOptions.html)
+
+```tsx pure title="use-editor-props.ts" {3}
 
 // EditorProps
 {
@@ -17,9 +19,11 @@
 
 ## Node Output Variables
 
+[> Demo Detail](https://github.com/bytedance/flowgram.ai/blob/main/apps/demo-fixed-layout/src/plugins/sync-variable-plugin/sync-variable-plugin.ts#L25)
+
 ### Set Output Variables through FlowNodeVariableData
 
-```tsx pure title="variable-plugin.tsx"
+```tsx pure title="sync-variable-plugin.tsx"
 import {
   FlowNodeVariableData,
   ASTFactory,

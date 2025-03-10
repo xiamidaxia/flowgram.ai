@@ -6,7 +6,9 @@
 
 Node engine is required to use form
 
-```tsx pure title="use-editor-props.ts"
+[> API Detail](https://github.com/bytedance/flowgram.ai/blob/main/packages/client/editor/src/preset/editor-props.ts#L54)
+
+```tsx pure title="use-editor-props.ts" {3}
 
 // EditorProps
 {
@@ -14,20 +16,24 @@ Node engine is required to use form
     /**
      * Node engine is required to use form
      */
-    enable: true
-    /**
-     * The component to render when the node has an error
-     */
-    nodeErrorRender?: NodeErrorRender;
-    /**
-     * The component to render when the node has no content
-     */
-    nodePlaceholderRender?: NodePlaceholderRender;
+    enable: true;
+    materials: {
+      /**
+       * The component to render when the node has an error
+       */
+      nodeErrorRender?: NodeErrorRender;
+      /**
+       * The component to render when the node has no content
+       */
+      nodePlaceholderRender?: NodePlaceholderRender;
+    }
   }
 }
 ```
 
 ### Node Configuration formMeta
+
+[> node-registries.ts](https://github.com/bytedance/flowgram.ai/blob/main/apps/demo-fixed-layout-simple/src/node-registries.ts)
 
 ```tsx pure title="node-registries.ts"
 import { FlowNodeRegistry, ValidateTrigger } from '@flowgram.ai/fixed-layout-editor';
@@ -69,6 +75,8 @@ export const nodeRegistries: FlowNodeRegistry[] = [
 
 ### Add form to node rendering
 
+[> base-node.tsx](https://github.com/bytedance/flowgram.ai/blob/main/apps/demo-fixed-layout-simple/src/components/base-node.tsx)
+
 ```tsx pure title="base-node.tsx"
 
 export const BaseNode = () => {
@@ -89,6 +97,8 @@ export const BaseNode = () => {
 ```
 
 ## Field
+
+[> Demo Detail](https://github.com/bytedance/flowgram.ai/blob/main/apps/demo-fixed-layout/src/nodes/start/form-meta.tsx)
 
 The rendering part of Field, supports three writing methods, as follows:
 
@@ -197,6 +207,8 @@ export const arrayMeta: FormMeta = {
 ```
 
 ## Validation
+
+[> Demo Detail](https://github.com/bytedance/flowgram.ai/blob/main/apps/demo-fixed-layout/src/form-components/form-inputs/index.tsx#L37)
 
 ### Validation Configuration
 
