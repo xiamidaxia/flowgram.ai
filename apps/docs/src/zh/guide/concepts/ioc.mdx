@@ -51,7 +51,7 @@ interface LifecycleContribution {
 }
 // IOC 的接口实现
 @injectable()
-export class MyApplicationContributionImpl implement LifecycleContribution {
+export class MyApplicationContributionImpl implements LifecycleContribution {
     onStart(): void {
       // 特定的业务逻辑代码
     }

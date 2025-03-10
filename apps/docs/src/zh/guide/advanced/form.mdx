@@ -6,7 +6,9 @@
 
 需要开启节点引擎才能使用
 
-```tsx pure title="use-editor-props.ts"
+[> API Detail](https://github.com/bytedance/flowgram.ai/blob/main/packages/client/editor/src/preset/editor-props.ts#L54)
+
+```tsx pure title="use-editor-props.ts" {3}
 
 // EditorProps
 {
@@ -14,20 +16,24 @@
     /**
      * 需要开启节点引擎才能使用
      */
-    enable: true
-    /**
-     * 节点内部报错的渲染组件
-     */
-    nodeErrorRender?: NodeErrorRender;
-    /**
-     * 节点无内容时的渲染组件
-     */
-    nodePlaceholderRender?: NodePlaceholderRender;
+    enable: true;
+    materials: {
+      /**
+       * 节点内部报错的渲染组件
+       */
+      nodeErrorRender?: NodeErrorRender;
+      /**
+       * 节点无内容时的渲染组件
+       */
+      nodePlaceholderRender?: NodePlaceholderRender;
+    }
   }
 }
 ```
 
 ### 节点配置 formMeta
+
+[> node-registries.ts](https://github.com/bytedance/flowgram.ai/blob/main/apps/demo-fixed-layout-simple/src/node-registries.ts)
 
 ```tsx pure title="node-registries.ts"
 import { FlowNodeRegistry, ValidateTrigger } from '@flowgram.ai/fixed-layout-editor';
@@ -69,6 +75,8 @@ export const nodeRegistries: FlowNodeRegistry[] = [
 
 ### 节点渲染添加表单
 
+[> base-node.tsx](https://github.com/bytedance/flowgram.ai/blob/main/apps/demo-fixed-layout-simple/src/components/base-node.tsx)
+
 ```tsx pure title="base-node.tsx"
 
 export const BaseNode = () => {
@@ -89,6 +97,8 @@ export const BaseNode = () => {
 ```
 
 ## Field
+
+[> Demo Detail](https://github.com/bytedance/flowgram.ai/blob/main/apps/demo-fixed-layout/src/nodes/start/form-meta.tsx)
 
 Field 的渲染部分，支持三种写法，如下:
 
@@ -197,6 +207,8 @@ export const arrayMeta: FormMeta = {
 ```
 
 ## 校验
+
+[> Demo Detail](https://github.com/bytedance/flowgram.ai/blob/main/apps/demo-fixed-layout/src/form-components/form-inputs/index.tsx#L37)
 
 ### 校验配置
 

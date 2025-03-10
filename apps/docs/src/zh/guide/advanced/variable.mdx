@@ -2,7 +2,9 @@
 
 ## 开启变量引擎
 
-```tsx pure title="use-editor-props.ts"
+[> API Detail](https://flowgram.ai/auto-docs/editor/interfaces/VariablePluginOptions.html)
+
+```tsx pure title="use-editor-props.ts" {3}
 
 // EditorProps
 {
@@ -17,9 +19,11 @@
 
 ## 节点输出变量
 
+[> Demo Detail](https://github.com/bytedance/flowgram.ai/blob/main/apps/demo-fixed-layout/src/plugins/sync-variable-plugin/sync-variable-plugin.ts#L25)
+
 ### 通过 FlowNodeVariableData 设置输出变量
 
-```tsx pure title="variable-plugin.tsx"
+```tsx pure title="sync-variable-plugin.tsx"
 import {
   FlowNodeVariableData,
   ASTFactory,

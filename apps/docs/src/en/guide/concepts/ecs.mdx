@@ -1,1 +1,94 @@
 # ECS
+
+## Why do we need ECS
+
+:::warning ECS (Entity-Component-System)
+It is suitable for decoupling large data objects and is often used in games. The data of each character (Entity) in a game is very large and needs to be split into data related to the physics engine, skin, character attributes, etc. (multiple Components), which are consumed by different subsystems (Systems). The data structure of the process is complex, and it is very suitable to be disassembled using ECS.
+:::
+
+<img loading="lazy" className="invert-img" src="/ecs.png"/>
+
+ReduxStore pseudo-code
+```jsx pure
+const store = () => ({
+  nodes: [{
+    position: any
+    form: any
+    data3: any
+
+  }],
+  edges: []
+})
+
+function Playground() {
+  const { nodes } = useStore(store)
+
+  return nodes.map(node => <Node data={node} />)
+}
+```
+Advantages:
+- Centralized data management is easy to use.
+
+Disadvantages:
+- Centralized data management cannot perform precise updates, leading to performance bottlenecks.
+- Poor scalability. When adding new data to a node, it is all coupled into a large JSON.
+
+ECS Solution
+Notes:
+- NodeData corresponds to ECS - Component.
+- Layer corresponds to ECS - System.
+```jsx pure
+class FlowDocument {
+dataDefines: [
+  NodePositionData,
+  NodeFormData,
+  NodeLineData
+]
+nodeEntities: Entity[] = []
+}
+
+
+class Entity {
+id: string // Only has an ID, no data.
+getData: (dataId: string) => EntityData
+}
+
+// Render lines
+class LinesLayer {
+@observeEntityData(NodeLineData) lines
+render() {
+  return lines.map(line => <Line data={line} />)
+}
+}
+
+// Render node positions
+class NodePositionsLayer {
+@observeEntityData(NodePositionData) positions
+return() {
+
+}
+}
+
+// Render node forms
+class  NodeFormsLayer {
+  @observeEntityData(NodeFormData) contents
+return() {}
+}
+
+class Playground {
+layers: [
+  LinesLayer, // Line rendering
+  NodePositionsLayer, // Position rendering
+  NodeFormsLayer // Content rendering
+]
+render() {
+  return this.layers.map(layer => layer.render())
+}
+}
+```
+Advantages:
+- Node data is split for separate rendering control, enabling precise performance updates.
+- High scalability. When adding new node data, simply add a new XXXData + XXXLayer.
+
+Disadvantages:
+- There is a certain learning curve.
