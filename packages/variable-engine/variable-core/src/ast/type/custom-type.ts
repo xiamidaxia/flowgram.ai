@@ -1,6 +1,6 @@
 import { parseTypeJsonOrKind } from '../utils/helpers';
 import { ASTKind, ASTNodeJSONOrKind } from '../types';
-import { UnionJSON } from '../../../dist';
+import { type UnionJSON } from './union';
 import { BaseType } from './base-type';
 
 export interface CustomTypeJSON {
