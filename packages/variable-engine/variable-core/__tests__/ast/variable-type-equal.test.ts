@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 
 import { VariableEngine } from '../../src/variable-engine';
-import { ASTFactory, ASTKind, VariableDeclaration } from '../../src/ast';
+import { ASTFactory, ASTKind, CustomType, VariableDeclaration } from '../../src/ast';
 import { getContainer } from '../../__mocks__/container';
 
 const {
@@ -11,9 +11,11 @@ const {
   createBoolean,
   createString,
   createArray,
+  createCustomType,
   createMap,
   createProperty,
   createUnion,
+  create,
 } = ASTFactory;
 
 describe('Test Variable Type Equal', () => {
@@ -29,6 +31,7 @@ describe('Test Variable Type Equal', () => {
       createProperty({ key: 'd', type: createObject({}) }),
       createProperty({ key: 'e', type: createArray({}) }),
       createProperty({ key: 'f', type: createMap({}) }),
+      createProperty({ key: 'g', type: createCustomType({ typeName: 'Custom' }) }),
     ],
   });
 
@@ -101,24 +104,24 @@ describe('Test Variable Type Equal', () => {
       variable1.type.isTypeEqual(
         createUnion({
           types: [testObject1, testObject2, testObject3],
-        }),
-      ),
+        })
+      )
     ).toBeTruthy();
 
     expect(
       variable2.type.isTypeEqual(
         createUnion({
           types: [testObject1, testObject2, testObject3],
-        }),
-      ),
+        })
+      )
     ).toBeTruthy();
 
     expect(
       variable3.type.isTypeEqual(
         createUnion({
           types: [testObject1, testObject2, testObject3],
-        }),
-      ),
+        })
+      )
     ).toBeTruthy();
 
     expect(variable1.type.isTypeEqual({ kind: ASTKind.Union })).toBeFalsy();
@@ -146,7 +149,7 @@ describe('Test Variable Type Equal', () => {
             type: UnionBasicTypes,
           },
         ],
-      }),
+      })
     );
   });
 
@@ -156,16 +159,32 @@ describe('Test Variable Type Equal', () => {
     expect(variable3.type.isTypeEqual({ kind: ASTKind.Object, weak: true })).toBeTruthy();
 
     expect(
-      variable3.getByKeyPath(['c'])?.type.isTypeEqual({ kind: ASTKind.Array, weak: true }),
+      variable3.getByKeyPath(['c'])?.type.isTypeEqual({ kind: ASTKind.Array, weak: true })
     ).toBeTruthy();
     expect(
-      variable3.getByKeyPath(['d'])?.type.isTypeEqual({ kind: ASTKind.Array, weak: true }),
+      variable3.getByKeyPath(['d'])?.type.isTypeEqual({ kind: ASTKind.Array, weak: true })
     ).toBeTruthy();
     expect(
-      variable3.getByKeyPath(['e'])?.type.isTypeEqual({ kind: ASTKind.Map, weak: true }),
+      variable3.getByKeyPath(['e'])?.type.isTypeEqual({ kind: ASTKind.Map, weak: true })
     ).toBeTruthy();
     expect(
-      variable3.getByKeyPath(['f'])?.type.isTypeEqual({ kind: ASTKind.Map, weak: true }),
+      variable3.getByKeyPath(['f'])?.type.isTypeEqual({ kind: ASTKind.Map, weak: true })
     ).toBeTruthy();
+  });
+
+  test('CustomType Equal', () => {
+    const customType1 = createCustomType({ typeName: 'Custom' });
+    const customType2 = createCustomType({ typeName: 'Custom2' });
+    const customType3 = create(CustomType, { typeName: 'Custom' });
+    const unionCustomTypes = createUnion({
+      types: [customType1, customType2],
+    });
+
+    const customTypeProperty = variable1.getByKeyPath(['g'])?.type;
+
+    expect(customTypeProperty?.isTypeEqual(customType1)).toBeTruthy();
+    expect(customTypeProperty?.isTypeEqual(customType2)).toBeFalsy();
+    expect(customTypeProperty?.isTypeEqual(customType3)).toBeTruthy();
+    expect(customTypeProperty?.isTypeEqual(unionCustomTypes)).toBeTruthy();
   });
 });

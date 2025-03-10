@@ -29,6 +29,7 @@ export enum ASTKind {
   Map = 'Map', // Map
   Union = 'Union', // 联合类型，常用于类型判断，一般不对业务透出
   Any = 'Any', // 任意类型，常用于业务判断
+  CustomType = 'CustomType', // 自定义类型，用于业务自定义类型
 
   /**
    * 声明
@@ -85,7 +86,7 @@ export type GetKindJSONOrKind<KindType extends string, JSON extends ASTNodeJSON>
 export interface GlobalEventActionType<
   Type = string,
   Payload = any,
-  AST extends ASTNode = ASTNode,
+  AST extends ASTNode = ASTNode
 > {
   type: Type;
   payload?: Payload;

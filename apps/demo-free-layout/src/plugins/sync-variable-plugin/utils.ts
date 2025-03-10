@@ -59,8 +59,7 @@ export function createASTFromJSONSchema(jsonSchema: JsonSchema): ASTNodeJSON | u
       return ASTFactory.createInteger();
 
     default:
-      // If the type is not recognized, return undefined.
-      // You can extend this function to handle custom types if needed.
-      return;
+      // If the type is not recognized, return CustomType
+      return ASTFactory.createCustomType({ typeName: type });
   }
 }

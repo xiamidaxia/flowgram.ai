@@ -5,6 +5,7 @@ import {
   ASTFactory,
   ASTKind,
   type BaseType,
+  CustomType,
   isMatchAST,
   ObjectType,
   type UnionJSON,
@@ -44,11 +45,17 @@ export function useVariableTree<TreeData>({
   const available = useScopeAvailable();
 
   const getVariableTypeIcon = useCallback((variable: VariableField) => {
-    if (isMatchAST(variable.type, ArrayType)) {
+    const _type = variable.type;
+
+    if (isMatchAST(_type, ArrayType)) {
       return (
-        (ArrayIcons as any)[variable.type.items?.kind.toLowerCase()] ||
+        (ArrayIcons as any)[_type.items?.kind.toLowerCase()] ||
         VariableTypeIcons[ASTKind.Array.toLowerCase()]
       );
+    }
+
+    if (isMatchAST(_type, CustomType)) {
+      return VariableTypeIcons[_type.typeName.toLowerCase()];
     }
 
     return (VariableTypeIcons as any)[variable.type?.kind.toLowerCase()];

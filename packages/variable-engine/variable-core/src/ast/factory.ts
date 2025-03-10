@@ -1,9 +1,10 @@
-import { ASTKind } from './types';
+import { ASTKind, ASTNodeJSON } from './types';
 import { MapJSON } from './type/map';
 import { ArrayJSON } from './type/array';
-import { ObjectJSON, UnionJSON } from './type';
+import { CustomTypeJSON, ObjectJSON, UnionJSON } from './type';
 import { EnumerateExpressionJSON, KeyPathExpressionJSON } from './expression';
 import { PropertyJSON, VariableDeclarationJSON, VariableDeclarationListJSON } from './declaration';
+import { ASTNode } from './ast-node';
 
 export namespace ASTFactory {
   /**
@@ -30,12 +31,16 @@ export namespace ASTFactory {
     kind: ASTKind.Union,
     ...json,
   });
+  export const createCustomType = (json: CustomTypeJSON) => ({
+    kind: ASTKind.CustomType,
+    ...json,
+  });
 
   /**
    * 声明相关
    */
   export const createVariableDeclaration = <VariableMeta = any>(
-    json: VariableDeclarationJSON<VariableMeta>,
+    json: VariableDeclarationJSON<VariableMeta>
   ) => ({
     kind: ASTKind.VariableDeclaration,
     ...json,
@@ -60,4 +65,12 @@ export namespace ASTFactory {
     kind: ASTKind.KeyPathExpression,
     ...json,
   });
+
+  /**
+   * 通过 AST Class 创建
+   */
+  export const create = <JSON extends ASTNodeJSON>(
+    targetType: { kind: string; new (...args: any[]): ASTNode<JSON> },
+    json: JSON
+  ) => ({ kind: targetType.kind, ...json });
 }
