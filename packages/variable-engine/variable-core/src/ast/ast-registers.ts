@@ -4,7 +4,15 @@ import { injectable } from 'inversify';
 import { POST_CONSTRUCT_AST_SYMBOL } from './utils/inversify';
 import { ASTKindType, ASTNodeJSON, CreateASTParams } from './types';
 import { ArrayType } from './type/array';
-import { BooleanType, IntegerType, MapType, NumberType, ObjectType, StringType } from './type';
+import {
+  BooleanType,
+  CustomType,
+  IntegerType,
+  MapType,
+  NumberType,
+  ObjectType,
+  StringType,
+} from './type';
 import { EnumerateExpression, ExpressionList, KeyPathExpression } from './expression';
 import { Property, VariableDeclaration, VariableDeclarationList } from './declaration';
 import { DataNode, MapNode } from './common';
@@ -29,6 +37,7 @@ export class ASTRegisters {
     this.registerAST(ObjectType);
     this.registerAST(ArrayType);
     this.registerAST(MapType);
+    this.registerAST(CustomType);
     this.registerAST(Property);
     this.registerAST(VariableDeclaration);
     this.registerAST(VariableDeclarationList);
@@ -46,7 +55,7 @@ export class ASTRegisters {
    */
   createAST<ReturnNode extends ASTNode = ASTNode>(
     json: ASTNodeJSON,
-    { parent, scope }: CreateASTParams,
+    { parent, scope }: CreateASTParams
   ): ReturnNode {
     const Registry = this.astMap.get(json.kind!);
 
@@ -62,7 +71,7 @@ export class ASTRegisters {
         scope,
         parent,
       },
-      injector?.() || {},
+      injector?.() || {}
     ) as ReturnNode;
 
     // 初始化创建不触发 fireChange
