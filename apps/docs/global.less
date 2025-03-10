@@ -68,6 +68,7 @@
   --background-color: #ffffff !important; /* 强制使用浅色背景 */
   --text-color: #000000 !important; /* 强制使用深色文本 */
   --rp-c-bg: #fff !important;
+  --rp-c-text-1: #000000 !important; /* 强制使用深色文本 */
 
   button {
     background: transparent;
@@ -76,4 +77,14 @@
 
 .light-mode * {
   color: var(--text-color) !important;
+}
+
+.semi-tooltip-content {
+  color: black;
+}
+
+.dark {
+  .invert-img {
+    filter: invert(0.9);
+  }
 }

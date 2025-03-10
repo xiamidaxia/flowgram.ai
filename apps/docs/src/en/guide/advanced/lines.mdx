@@ -1,0 +1,57 @@
+# Free Layout Lines
+
+The lines in the free layout are managed by [WorkflowLinesManager](/flowgram.ai/api/core/workflow-lines-manager.html).
+
+## Get the Input/Output Nodes of the Current Node
+
+```ts pure
+import { WorkflowNodeLinesData } from '@flowgram.ai/free-layout-editor'
+
+// Get the input nodes of the current node (calculated through connection lines)
+node.geData(WorkflowNodeLinesData).inputNodes;
+// Get all input nodes (recursively get all upward)
+node.geData(WorkflowNodeLinesData).allInputNodes;
+// Get the output nodes
+node.geData(WorkflowNodeLinesData).outputNodes;
+// Get all output nodes
+node.geData(WorkflowNodeLinesData).allOutputNodes;
+```
+
+## Node listens to its own connection changes and refreshes
+
+```tsx pure
+
+import {
+  useRefresh,
+  WorkflowNodeLinesData,
+} from '@flowgram.ai/free-layout-editor';
+
+function NodeRender({ node }) {
+  const refresh = useRefresh()
+  const linesData = node.get(WorkflowNodeLinesData)
+  useEffect(() => {
+    const dispose = linesData.onDataChange(() => refresh())
+    return () => dispose.dispose()
+  }, [])
+  return <div>xxxx</div>
+}
+
+```
+
+## Listen for connection changes of all lines
+
+```ts pure
+import { useEffect } from 'react'
+import { useClientContext, useRefresh } from '@flowgram.ai/free-layout-editor'
+
+
+function SomeReact() {
+  const refresh = useRefresh()
+  const linesManager = useClientContext().document.linesManager
+  useEffect(() => {
+      const dispose = linesManager.onAvailableLinesChange(() => refresh())
+      return () => dispose.dispose()
+  }, [])
+  console.log(ctx.document.linesManager.getAllLines())
+}
+```
