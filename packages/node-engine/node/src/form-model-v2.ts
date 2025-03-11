@@ -200,7 +200,7 @@ export class FormModelV2 extends FormModel implements Disposable {
     // 计算初始值: defaultValues 是默认表单值，不需要被format, 而rawInitialValues 是用户创建form 时传入的初始值，可能不同于表单数据格式，需要被format
     const defaultValues =
       typeof formMeta.defaultValues === 'function'
-        ? formMeta.defaultValues()
+        ? formMeta.defaultValues(this.nodeContext)
         : formMeta.defaultValues;
 
     const initialValues = formMeta.formatOnInit
