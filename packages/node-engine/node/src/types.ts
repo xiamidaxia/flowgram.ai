@@ -95,7 +95,7 @@ export interface FormMeta<TValues = any> {
   /**
    * Form data's complete default value. it will not be sent to formatOnInit, but used directly as form's value when needed.
    */
-  defaultValues?: TValues | ((contest: NodeContext) => TValues);
+  defaultValues?: TValues | ((context: NodeContext) => TValues);
   /**
    * This function is to format the value when initiate the form, the returned value will be used as the initial value of the form.
    * @param value value input to node as initialValue.
