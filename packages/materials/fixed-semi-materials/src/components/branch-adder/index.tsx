@@ -5,9 +5,9 @@ import {
   type FlowNodeEntity,
   FlowNodeRenderData,
   FlowNodeTransformData,
+  FlowOperationService,
   usePlayground,
   useService,
-  FlowOperationService,
 } from '@flowgram.ai/fixed-layout-editor';
 import { IconPlus } from '@douyinfe/semi-icons';
 
@@ -40,7 +40,7 @@ export default function BranchAdder(props: PropsType) {
   return (
     <Container
       isVertical={isVertical}
-      activated={activated}
+      activated={activated || nodeData?.hovered}
       onMouseEnter={() => nodeData?.toggleMouseEnter()}
       onMouseLeave={() => nodeData?.toggleMouseLeave()}
     >
@@ -49,7 +49,7 @@ export default function BranchAdder(props: PropsType) {
           addBranch();
         }}
         aria-hidden="true"
-        style={{ flexGrow: 1, textAlign: 'center' }}
+        style={{ flexGrow: 1, textAlign: 'center', cursor: 'pointer' }}
       >
         <IconPlus />
       </div>
