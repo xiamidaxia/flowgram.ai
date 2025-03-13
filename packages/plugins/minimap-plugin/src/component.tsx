@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 
 import { MinimapInactiveStyle } from './type';
 import { FlowMinimapService } from './service';
@@ -11,7 +11,7 @@ interface MinimapProps {
   inactiveStyle?: Partial<MinimapInactiveStyle>;
 }
 
-export const MinimapRender: FC<MinimapProps> = props => {
+export const MinimapRender: React.FC<MinimapProps> = (props) => {
   const {
     service,
     panelStyles = {},
@@ -72,6 +72,7 @@ export const MinimapRender: FC<MinimapProps> = props => {
           overflow: 'hidden',
           boxShadow:
             '0px 2.289px 6.867px 0px rgba(0, 0, 0, 0.08), 0px 4.578px 13.733px 0px rgba(0, 0, 0, 0.04)',
+          boxSizing: 'border-box',
           padding: 8,
           ...panelStyles,
         }}
