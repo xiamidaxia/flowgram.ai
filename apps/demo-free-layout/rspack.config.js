@@ -37,23 +37,13 @@ module.exports = {
         type: 'asset',
       },
       {
-        test: /\.(css|less)$/,
-        use: [
-          {
-            loader: 'postcss-loader',
-          },
-        ],
-        type: 'css',
-      },
-      {
-        test: /\.module\.css$/i,
-        type: 'css/module',
-      },
-      {
-        test: /\.less$/,
+        test: /\.(less|css)$/,
         use: [
           {
             loader: 'less-loader',
+            options: {
+              // ...
+            },
           },
         ],
         type: 'css',
