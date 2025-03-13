@@ -10,7 +10,7 @@ export const Minimap = () => {
         left: 226,
         bottom: 51,
         zIndex: 100,
-        width: 182,
+        width: 198,
       }}
     >
       <MinimapRender

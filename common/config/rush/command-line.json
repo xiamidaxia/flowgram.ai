@@ -268,12 +268,28 @@
       "shellCommand": "concurrently --kill-others --prefix \"{name}\" --names [watch],[demo] -c white,blue \"rush build:watch --to-except @flowgram.ai/demo-fixed-layout\" \"cd apps/demo-fixed-layout && rushx dev\""
     },
     {
+      "name": "dev:demo-fixed-layout-simple",
+      "commandKind": "global",
+      "summary": "⭐️️ run dev in app/demo-fixed-layout-simple",
+      "autoinstallerName": "rush-commands",
+      "safeForSimultaneousRushProcesses": true,
+      "shellCommand": "concurrently --kill-others --prefix \"{name}\" --names [watch],[demo] -c white,blue \"rush build:watch --to-except @flowgram.ai/demo-fixed-layout-simple\" \"cd apps/demo-fixed-layout-simple && rushx dev\""
+    },
+    {
       "name": "dev:demo-free-layout",
       "commandKind": "global",
       "summary": "⭐️️ run dev in app/demo-free-layout",
       "autoinstallerName": "rush-commands",
       "safeForSimultaneousRushProcesses": true,
       "shellCommand": "concurrently --kill-others --prefix \"{name}\" --names [watch],[demo] -c white,blue \"rush build:watch --to-except @flowgram.ai/demo-free-layout\" \"cd apps/demo-free-layout && rushx dev\""
+    },
+    {
+      "name": "dev:demo-free-layout-simple",
+      "commandKind": "global",
+      "summary": "⭐️️ run dev in app/demo-free-layout-simple",
+      "autoinstallerName": "rush-commands",
+      "safeForSimultaneousRushProcesses": true,
+      "shellCommand": "concurrently --kill-others --prefix \"{name}\" --names [watch],[demo] -c white,blue \"rush build:watch --to-except @flowgram.ai/demo-free-layout-simple\" \"cd apps/demo-free-layout-simple && rushx dev\""
     },
   ],
 

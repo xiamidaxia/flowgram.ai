@@ -3,12 +3,12 @@ import { useMemo } from 'react';
 import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin';
 import { defaultFixedSemiMaterials } from '@flowgram.ai/fixed-semi-materials';
 import {
+  Field,
   type FixedLayoutProps,
   FlowDocumentJSON,
   FlowNodeRegistry,
-  FlowTextKey,
-  Field,
   FlowRendererKey,
+  FlowTextKey,
 } from '@flowgram.ai/fixed-layout-editor';
 
 import { NodeAdder } from '../components/node-adder';
