@@ -13,12 +13,6 @@ module.exports = {
   entry: {
     main: './src/app.tsx',
   },
-  resolve: {
-    alias: {
-      react: require.resolve('react'),
-      'react-dom': require.resolve('react-dom'),
-    },
-  },
   builtins: {
     // https://www.rspack.dev/config/builtins.html#builtinshtml
     html: [
@@ -35,28 +29,6 @@ module.exports = {
       {
         test: /\.(png|gif|jpg|jpeg|svg|woff2)$/,
         type: 'asset',
-      },
-      {
-        test: /\.(css|less)$/,
-        use: [
-          {
-            loader: 'postcss-loader',
-          },
-        ],
-        type: 'css',
-      },
-      {
-        test: /\.module\.css$/i,
-        type: 'css/module',
-      },
-      {
-        test: /\.less$/,
-        use: [
-          {
-            loader: 'less-loader',
-          },
-        ],
-        type: 'css',
       },
     ],
   },
