@@ -5,9 +5,9 @@
 ```ts pure
 // Add to EditorProps
 {
-  shortcuts(shorcutsRegistry, ctx) {
+  shortcuts(shortcutsRegistry, ctx) {
       // Press command + a to select all nodes
-      shorcutsRegistry.addHandlers({
+      shortcutsRegistry.addHandlers({
         commandId: 'selectAll',
         shortcuts: ['meta a', 'ctrl a'],
         isEnabled: (...args) => true,

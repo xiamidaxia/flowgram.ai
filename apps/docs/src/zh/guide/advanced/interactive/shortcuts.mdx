@@ -5,9 +5,9 @@
 ```ts pure
 // 添加到 EditorProps
 {
-  shortcuts(shorcutsRegistry, ctx) {
+  shortcuts(shortcutsRegistry, ctx) {
       // 按住 cmmand + a，选中所有节点
-      shorcutsRegistry.addHandlers({
+      shortcutsRegistry.addHandlers({
         commandId: 'selectAll',
         shortcuts: ['meta a', 'ctrl a'],
         isEnabled: (...args) => true,
