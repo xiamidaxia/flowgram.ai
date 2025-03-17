@@ -39,7 +39,7 @@ export function FxExpression(props: FxExpressionProps) {
     }
   };
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex', maxWidth: 300 }}>
       {isExpression ? (
         <VariableSelector
           value={value.content}
