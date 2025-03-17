@@ -1,6 +1,17 @@
 /* eslint-disable complexity */
 import { inject, injectable } from 'inversify';
+import { type IPoint } from '@flowgram.ai/utils';
 import { SelectorBoxConfigEntity } from '@flowgram.ai/renderer';
+import {
+  WorkflowDocument,
+  WorkflowDragService,
+  WorkflowHoverService,
+  WorkflowLineEntity,
+  WorkflowLinesManager,
+  WorkflowNodeEntity,
+  WorkflowSelectService,
+} from '@flowgram.ai/free-layout-core';
+import { WorkflowPortEntity } from '@flowgram.ai/free-layout-core';
 import { FlowNodeTransformData } from '@flowgram.ai/document';
 import {
   EditorState,
@@ -12,17 +23,6 @@ import {
   observeEntityDatas,
   type LayerOptions,
 } from '@flowgram.ai/core';
-import {
-  WorkflowDocument,
-  WorkflowDragService,
-  WorkflowHoverService,
-  WorkflowLineEntity,
-  WorkflowLinesManager,
-  WorkflowNodeEntity,
-  WorkflowSelectService,
-} from '@flowgram.ai/free-layout-core';
-import { WorkflowPortEntity } from '@flowgram.ai/free-layout-core';
-import { type IPoint } from '@flowgram.ai/utils';
 
 import { getSelectionBounds } from './selection-utils';
 const PORT_BG_CLASS_NAME = 'workflow-port-bg';
@@ -79,9 +79,9 @@ export class HoverLayer extends Layer<HoverLayerOptions> {
   autorun(): void {
     const { activatedNode } = this.selectionService;
     this.nodeTransformsWithSort = this.nodeTransforms
-      .filter(n => n.entity.id !== 'root')
+      .filter((n) => n.entity.id !== 'root')
       .reverse() // 后创建的排在前面
-      .sort(n1 => (n1.entity === activatedNode ? -1 : 0));
+      .sort((n1) => (n1.entity === activatedNode ? -1 : 0));
   }
 
   /**
@@ -145,17 +145,18 @@ export class HoverLayer extends Layer<HoverLayerOptions> {
         const selectionBounds = getSelectionBounds(
           this.selectionService.selection,
           // 这里只考虑多选模式，单选模式已经下沉到 use-node-render 中
-          true,
+          true
         );
         if (selectionBounds.width > 0 && selectionBounds.contains(mousePos.x, mousePos.y)) {
           /**
            * 拖拽选择框
            */
-          this.dragService.startDragSelectedNodes(e).then(dragSuccess => {
+          this.dragService.startDragSelectedNodes(e)?.then((dragSuccess) => {
             if (!dragSuccess) {
               // 拖拽没有成功触发了点击
               if (hoveredNode && hoveredNode instanceof WorkflowNodeEntity) {
-                if (e.metaKey || e.shiftKey || e.ctrlKey) {
+                // 追加选择
+                if (e.shiftKey) {
                   this.selectionService.toggleSelect(hoveredNode);
                 } else {
                   this.selectionService.selectNode(hoveredNode);
@@ -188,8 +189,8 @@ export class HoverLayer extends Layer<HoverLayerOptions> {
     const portHovered = this.linesManager.getPortFromMousePos(mousePos);
 
     const lineDomNodes = this.playgroundNode.querySelectorAll(LINE_CLASS_NAME);
-    const checkTargetFromLine = [...lineDomNodes].some(lineDom =>
-      lineDom.contains(target as HTMLElement),
+    const checkTargetFromLine = [...lineDomNodes].some((lineDom) =>
+      lineDom.contains(target as HTMLElement)
     );
     // 默认 只有 output 点位可以 hover
     if (portHovered) {
@@ -212,13 +213,13 @@ export class HoverLayer extends Layer<HoverLayerOptions> {
     }
 
     const nodeHovered = nodeTransforms.find((trans: FlowNodeTransformData) =>
-      trans.bounds.contains(mousePos.x, mousePos.y),
+      trans.bounds.contains(mousePos.x, mousePos.y)
     )?.entity as WorkflowNodeEntity;
 
     // 判断当前鼠标位置所在元素是否在节点内部
     const nodeDomNodes = this.playgroundNode.querySelectorAll(NODE_CLASS_NAME);
-    const checkTargetFromNode = [...nodeDomNodes].some(nodeDom =>
-      nodeDom.contains(target as HTMLElement),
+    const checkTargetFromNode = [...nodeDomNodes].some((nodeDom) =>
+      nodeDom.contains(target as HTMLElement)
     );
 
     if (nodeHovered || checkTargetFromNode) {
