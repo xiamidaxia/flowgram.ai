@@ -1,25 +1,22 @@
-import { useContext } from 'react';
-
 import {
   Command,
   Field,
   FieldRenderProps,
   useClientContext,
+  useNodeRender,
 } from '@flowgram.ai/free-layout-editor';
-import { IconButton, Dropdown, Typography, Button } from '@douyinfe/semi-ui';
-import { IconSmallTriangleDown, IconSmallTriangleLeft } from '@douyinfe/semi-icons';
+import { IconButton, Dropdown, Typography } from '@douyinfe/semi-ui';
 import { IconMore } from '@douyinfe/semi-icons';
 
 import { Feedback } from '../feedback';
 import { FlowNodeRegistry } from '../../typings';
-import { NodeRenderContext } from '../../context';
 import { getIcon } from './utils';
 import { Header, Operators, Title } from './styles';
 
 const { Text } = Typography;
 
 function DropdownContent() {
-  const { node, deleteNode } = useContext(NodeRenderContext);
+  const { node, deleteNode } = useNodeRender();
   const clientContext = useClientContext();
   const registry = node.getNodeRegistry<FlowNodeRegistry>();
   const handleCopy = () => {
@@ -41,7 +38,7 @@ function DropdownContent() {
 }
 
 export function FormHeader() {
-  const { node, expanded, toggleExpand, readonly } = useContext(NodeRenderContext);
+  const { node, expanded, toggleExpand, readonly } = useNodeRender();
 
   return (
     <Header>
@@ -56,13 +53,6 @@ export function FormHeader() {
           )}
         </Field>
       </Title>
-      <Button
-        type="primary"
-        icon={expanded ? <IconSmallTriangleDown /> : <IconSmallTriangleLeft />}
-        size="small"
-        theme="borderless"
-        onClick={toggleExpand}
-      />
       {readonly ? undefined : (
         <Operators>
           <Dropdown trigger="hover" position="bottomRight" render={<DropdownContent />}>

@@ -9,6 +9,7 @@ import {
 } from '@flowgram.ai/free-node-panel-plugin';
 import { createFreeLinesPlugin } from '@flowgram.ai/free-lines-plugin';
 import { FreeLayoutProps } from '@flowgram.ai/free-layout-editor';
+import { createContainerNodePlugin } from '@flowgram.ai/free-container-plugin';
 
 import { FlowNodeRegistry, FlowDocumentJSON } from '../typings';
 import { shortcuts } from '../shortcuts';
@@ -199,6 +200,7 @@ export function useEditorProps(
         createFreeNodePanelPlugin({
           renderer: NodePanel,
         }),
+        createContainerNodePlugin({}),
       ],
     }),
     []

@@ -1,7 +1,5 @@
-import { useContext } from 'react';
-
 import { nanoid } from 'nanoid';
-import { Field, FieldArray } from '@flowgram.ai/free-layout-editor';
+import { Field, FieldArray, useNodeRender } from '@flowgram.ai/free-layout-editor';
 import { Button } from '@douyinfe/semi-ui';
 import { IconPlus, IconCrossCircleStroked } from '@douyinfe/semi-icons';
 
@@ -9,7 +7,6 @@ import { FlowLiteralValueSchema, FlowRefValueSchema } from '../../../typings';
 import { FxExpression } from '../../../form-components/fx-expression';
 import { FormItem } from '../../../form-components';
 import { Feedback } from '../../../form-components';
-import { NodeRenderContext } from '../../../context';
 import { ConditionPort } from './styles';
 
 interface ConditionValue {
@@ -18,7 +15,7 @@ interface ConditionValue {
 }
 
 export function ConditionInputs() {
-  const { readonly } = useContext(NodeRenderContext);
+  const { readonly } = useNodeRender();
   return (
     <FieldArray name="inputsValues.conditions">
       {({ field }) => (
