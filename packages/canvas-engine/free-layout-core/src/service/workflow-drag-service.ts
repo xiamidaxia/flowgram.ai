@@ -126,10 +126,12 @@ export class WorkflowDragService {
     if (
       selectedNodes.length === 0 ||
       this.playgroundConfig.readonly ||
-      this.playgroundConfig.disabled
+      this.playgroundConfig.disabled ||
+      this.isDragging
     ) {
       return Promise.resolve(false);
     }
+    this.isDragging = true;
     const sameParent = this.childrenOfContainer(selectedNodes);
     if (sameParent && sameParent.flowNodeType !== FlowNodeBaseType.ROOT) {
       selectedNodes = [sameParent];
@@ -146,7 +148,6 @@ export class WorkflowDragService {
     const startTime = Date.now();
     const dragger = new PlaygroundDrag({
       onDragStart: (dragEvent) => {
-        this.isDragging = true;
         this._nodesDragEmitter.fire({
           type: 'onDragStart',
           nodes: selectedNodes,
