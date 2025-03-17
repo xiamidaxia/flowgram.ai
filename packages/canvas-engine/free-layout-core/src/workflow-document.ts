@@ -160,6 +160,9 @@ export class WorkflowDocument extends FlowDocument {
   ): WorkflowNodeEntity {
     // 是否是一个已经存在的节点
     const isExistedNode = this.getNode(json.id);
+    if (isExistedNode) {
+      return isExistedNode;
+    }
     const parent = this.getNode(parentId ?? this.root.id) ?? this.root;
     const node = this.addNode(
       {
