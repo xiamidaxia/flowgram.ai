@@ -102,6 +102,7 @@ export class NodeIntoContainerService {
       x: parentTransform.position.x + nodeJSON.meta!.position!.x,
       y: parentTransform.position.y + nodeJSON.meta!.position!.y,
     });
+    parentTransform.fireChange();
     await this.nextFrame();
     parentTransform.fireChange();
     this.emitter.fire({

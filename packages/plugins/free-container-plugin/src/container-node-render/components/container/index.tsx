@@ -21,35 +21,34 @@ export const ContainerNodeContainer: FC<IContainerNodeContainer> = ({ children }
   const [height, setHeight] = useState(size.height);
 
   const updatePorts = () => {
-    requestAnimationFrame(() => {
-      const portsData = node.getData<WorkflowNodePortsData>(WorkflowNodePortsData);
-      portsData.updateDynamicPorts();
-    });
+    const portsData = node.getData<WorkflowNodePortsData>(WorkflowNodePortsData);
+    portsData.updateDynamicPorts();
+  };
+
+  const updateSize = () => {
+    // 无子节点时
+    if (node.blocks.length === 0) {
+      setWidth(size.width);
+      setHeight(size.height);
+      return;
+    }
+    // 存在子节点时，只监听宽高变化
+    setWidth(transform.bounds.width);
+    setHeight(transform.bounds.height);
   };
 
   useEffect(() => {
-    const updateSize = () => {
-      // 无子节点时
-      if (node.blocks.length === 0) {
-        setWidth(size.width);
-        setHeight(size.height);
-        return;
-      }
-      // 存在子节点时，只监听宽高变化
-      if (width !== transform.bounds.width) {
-        setWidth(transform.bounds.width);
-      }
-      if (height !== transform.bounds.height) {
-        setHeight(transform.bounds.height);
-      }
-    };
-    updateSize();
     const dispose = transform.onDataChange(() => {
       updateSize();
       updatePorts();
     });
     return () => dispose.dispose();
-  }, [transform]);
+  }, [transform, width, height]);
+
+  useEffect(() => {
+    // 初始化触发一次
+    updateSize();
+  }, []);
 
   return (
     <ContainerNodeContainerStyle
