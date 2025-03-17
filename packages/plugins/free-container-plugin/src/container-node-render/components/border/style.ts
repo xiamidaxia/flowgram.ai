@@ -15,7 +15,7 @@ export const ContainerNodeBorderStyle = styled.div`
   border: 1px solid var(--coz-stroke-plus, rgba(6, 7, 9, 15%));
   border-color: var(--coz-bg-plus, rgb(249, 249, 249));
   border-style: solid;
-  border-width: 48px 8px 8px;
+  border-width: 8px;
   border-radius: 8px;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 4%), 0 4px 12px 0 rgba(0, 0, 0, 2%);
 

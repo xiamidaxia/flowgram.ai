@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 export const ContainerNodeHeaderStyle = styled.div`
-  cursor: move;
-
   z-index: 0;
 
   display: flex;
@@ -11,8 +9,7 @@ export const ContainerNodeHeaderStyle = styled.div`
   justify-content: flex-start;
 
   width: 100%;
-  height: 48px;
-  padding: 16px;
+  height: auto;
 
   border-radius: 8px 8px 0 0;
 

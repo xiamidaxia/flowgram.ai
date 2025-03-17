@@ -1,13 +1,13 @@
 import React, { useEffect, useState, type FC, type ReactNode } from 'react';
 
-import { useNodeRender } from '@flowgram.ai/free-layout-core';
+import { useNodeRender, WorkflowNodePortsData } from '@flowgram.ai/free-layout-core';
 import { FlowNodeTransformData } from '@flowgram.ai/document';
 
 import { useContainerNodeRenderProps } from '../../hooks';
 import { ContainerNodeContainerStyle } from './style';
 
 interface IContainerNodeContainer {
-  children: ReactNode[];
+  children: ReactNode | ReactNode[];
 }
 
 export const ContainerNodeContainer: FC<IContainerNodeContainer> = ({ children }) => {
@@ -19,6 +19,13 @@ export const ContainerNodeContainer: FC<IContainerNodeContainer> = ({ children }
   const transform = node.getData<FlowNodeTransformData>(FlowNodeTransformData);
   const [width, setWidth] = useState(size.width);
   const [height, setHeight] = useState(size.height);
+
+  const updatePorts = () => {
+    requestAnimationFrame(() => {
+      const portsData = node.getData<WorkflowNodePortsData>(WorkflowNodePortsData);
+      portsData.updateDynamicPorts();
+    });
+  };
 
   useEffect(() => {
     const updateSize = () => {
@@ -39,6 +46,7 @@ export const ContainerNodeContainer: FC<IContainerNodeContainer> = ({ children }
     updateSize();
     const dispose = transform.onDataChange(() => {
       updateSize();
+      updatePorts();
     });
     return () => dispose.dispose();
   }, [transform]);

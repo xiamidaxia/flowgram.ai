@@ -1,14 +1,15 @@
-import React, { type FC } from 'react';
+import React, { ReactNode, type FC } from 'react';
 
 import { useNodeRender } from '@flowgram.ai/free-layout-core';
 
-import { useContainerNodeRenderProps } from '../../hooks';
 import { ContainerNodeHeaderStyle } from './style';
 
-export const ContainerNodeHeader: FC = () => {
-  const { startDrag, onFocus, onBlur } = useNodeRender();
+interface IContainerNodeHeader {
+  children?: ReactNode | ReactNode[];
+}
 
-  const { title } = useContainerNodeRenderProps();
+export const ContainerNodeHeader: FC<IContainerNodeHeader> = ({ children }) => {
+  const { startDrag, onFocus, onBlur } = useNodeRender();
 
   return (
     <ContainerNodeHeaderStyle
@@ -20,7 +21,7 @@ export const ContainerNodeHeader: FC = () => {
       onFocus={onFocus}
       onBlur={onBlur}
     >
-      <p className="container-node-title">{title}</p>
+      {children}
     </ContainerNodeHeaderStyle>
   );
 };
