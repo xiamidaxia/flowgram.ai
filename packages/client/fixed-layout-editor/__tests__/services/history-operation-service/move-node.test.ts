@@ -105,6 +105,32 @@ describe('history-operation-service moveNode', () => {
     expect(getNodeChildrenIds(root)).toEqual(['start_0', 'dynamicSplit_0', 'end_0']);
   });
 
+  it('move node with parent and without index', async () => {
+    const root = flowDocument.getNode('root');
+    const block0 = flowDocument.getNode('block_0');
+
+    flowOperationService.addNode(
+      { id: 'test0', type: 'test' },
+      {
+        parent: block0,
+      }
+    );
+
+    flowDocument.addFromNode('start_0', {
+      type: 'test',
+      id: 'test1',
+    });
+
+    flowOperationService.moveNode('test1', { parent: 'block_0' });
+
+    expect(getNodeChildrenIds(root)).toEqual(['start_0', 'dynamicSplit_0', 'end_0']);
+    expect(getNodeChildrenIds(block0)).toEqual(['$blockOrderIcon$block_0', 'test0', 'test1']);
+
+    await historyService.undo();
+    expect(getNodeChildrenIds(root)).toEqual(['start_0', 'test1', 'dynamicSplit_0', 'end_0']);
+    expect(getNodeChildrenIds(block0)).toEqual(['$blockOrderIcon$block_0', 'test0']);
+  });
+
   it('move node with parent and index', async () => {
     const root = flowDocument.getNode('root');
     flowDocument.addFromNode('dynamicSplit_0', {

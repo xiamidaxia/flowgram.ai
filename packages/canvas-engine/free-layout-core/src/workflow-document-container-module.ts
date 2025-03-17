@@ -1,6 +1,6 @@
 import { ContainerModule } from 'inversify';
-import { FlowDocument, FlowDocumentContribution } from '@flowgram.ai/document';
 import { bindContributions } from '@flowgram.ai/utils';
+import { FlowDocument, FlowDocumentContribution } from '@flowgram.ai/document';
 
 import { WorkflowLinesManager } from './workflow-lines-manager';
 import {
@@ -10,12 +10,13 @@ import {
 import { WorkflowDocumentContribution } from './workflow-document-contribution';
 import { WorkflowDocument, WorkflowDocumentProvider } from './workflow-document';
 import { getUrlParams } from './utils/get-url-params';
-import { URLParams } from './typings';
+import { URLParams, WorkflowOperationBaseService } from './typings';
 import {
   WorkflowDragService,
   WorkflowHoverService,
   WorkflowSelectService,
   WorkflowResetLayoutService,
+  WorkflowOperationBaseServiceImpl,
 } from './service';
 import { FreeLayout } from './layout';
 
@@ -28,6 +29,7 @@ export const WorkflowDocumentContainerModule = new ContainerModule(
     bind(WorkflowSelectService).toSelf().inSingletonScope();
     bind(WorkflowHoverService).toSelf().inSingletonScope();
     bind(WorkflowResetLayoutService).toSelf().inSingletonScope();
+    bind(WorkflowOperationBaseService).to(WorkflowOperationBaseServiceImpl).inSingletonScope();
     bind(URLParams)
       .toDynamicValue(() => getUrlParams())
       .inSingletonScope();
@@ -37,7 +39,7 @@ export const WorkflowDocumentContainerModule = new ContainerModule(
     });
     rebind(FlowDocument).toService(WorkflowDocument);
     bind(WorkflowDocumentProvider)
-      .toDynamicValue(ctx => () => ctx.container.get(WorkflowDocument))
+      .toDynamicValue((ctx) => () => ctx.container.get(WorkflowDocument))
       .inSingletonScope();
-  },
+  }
 );

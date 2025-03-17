@@ -17,6 +17,7 @@ import {
   FlowNodeJSON,
   MoveNodeConfig,
   OnNodeAddEvent,
+  OnNodeMoveEvent,
 } from '../typings';
 import { FlowDocument } from '../flow-document';
 import { FlowNodeEntity } from '../entities';
@@ -38,9 +39,13 @@ export class FlowOperationBaseServiceImpl implements FlowOperationBaseService {
 
   protected toDispose = new DisposableCollection();
 
+  private onNodeMoveEmitter = new Emitter<OnNodeMoveEvent>();
+
+  readonly onNodeMove = this.onNodeMoveEmitter.event;
+
   @postConstruct()
   protected init() {
-    this.toDispose.push(this.onNodeAddEmitter);
+    this.toDispose.pushAll([this.onNodeAddEmitter, this.onNodeMoveEmitter]);
   }
 
   addNode(nodeJSON: FlowNodeJSON, config: AddNodeConfig = {}): FlowNodeEntity {
@@ -127,7 +132,7 @@ export class FlowOperationBaseServiceImpl implements FlowOperationBaseService {
       return;
     }
 
-    let toIndex = typeof index === 'undefined' ? parent.children.length : index;
+    let toIndex = typeof index === 'undefined' ? newParentEntity.collapsedChildren.length : index;
 
     return this.doMoveNode(entity, newParentEntity, toIndex);
   }
@@ -301,10 +306,23 @@ export class FlowOperationBaseServiceImpl implements FlowOperationBaseService {
   }
 
   protected doMoveNode(node: FlowNodeEntity, newParent: FlowNodeEntity, index: number) {
-    return this.document.moveChildNodes({
+    if (!node.parent) {
+      throw new Error('root node cannot move');
+    }
+
+    const event: OnNodeMoveEvent = {
+      node,
+      fromParent: node.parent,
+      toParent: newParent,
+      fromIndex: this.getNodeIndex(node),
+      toIndex: index,
+    };
+
+    this.document.moveChildNodes({
       nodeIds: [this.toId(node)],
       toParentId: this.toId(newParent),
       toIndex: index,
     });
+    this.onNodeMoveEmitter.fire(event);
   }
 }

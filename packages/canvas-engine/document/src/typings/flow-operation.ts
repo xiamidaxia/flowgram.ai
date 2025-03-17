@@ -233,6 +233,17 @@ export interface OnNodeAddEvent {
   data: AddNodeData;
 }
 
+/**
+ * 节点移动事件
+ */
+export interface OnNodeMoveEvent {
+  node: FlowNodeEntity;
+  fromParent: FlowNodeEntity;
+  fromIndex: number;
+  toParent: FlowNodeEntity;
+  toIndex: number;
+}
+
 export interface FlowOperationBaseService extends Disposable {
   /**
    * 执行操作
@@ -300,6 +311,11 @@ export interface FlowOperationBaseService extends Disposable {
    * 添加节点的回调
    */
   onNodeAdd: Event<OnNodeAddEvent>;
+
+  /**
+   * 节点移动的回调
+   */
+  onNodeMove: Event<OnNodeMoveEvent>;
 }
 
 export const FlowOperationBaseService = Symbol('FlowOperationBaseService');
