@@ -367,11 +367,11 @@ export class WorkflowDocument extends FlowDocument {
     const endNodeId = allNode.find((node) => node.isNodeEnd)!.id;
 
     // 子画布内节点无需开始/结束
-    const nodeInSubCanvas = allNode
-      .filter((node) => node.parent?.flowNodeType === FlowNodeBaseType.SUB_CANVAS)
+    const nodeInContainer = allNode
+      .filter((node) => node.parent?.getNodeMeta<WorkflowNodeMeta>().isContainer)
       .map((node) => node.id);
 
-    const associatedCache = new Set([endNodeId, ...nodeInSubCanvas]);
+    const associatedCache = new Set([endNodeId, ...nodeInContainer]);
     const bfs = (nodeId: string) => {
       if (associatedCache.has(nodeId)) {
         return;

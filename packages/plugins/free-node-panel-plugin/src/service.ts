@@ -8,12 +8,12 @@ import {
   WorkflowPortEntity,
   WorkflowNodePortsData,
   WorkflowNodeEntity,
+  WorkflowNodeMeta,
 } from '@flowgram.ai/free-layout-core';
 import { WorkflowSelectService } from '@flowgram.ai/free-layout-core';
 import { WorkflowNodeJSON } from '@flowgram.ai/free-layout-core';
 import { FreeOperationType, HistoryService } from '@flowgram.ai/free-history-plugin';
 import { FlowNodeTransformData } from '@flowgram.ai/document';
-import { FlowNodeBaseType } from '@flowgram.ai/document';
 import { PlaygroundConfigEntity } from '@flowgram.ai/core';
 import { TransformData } from '@flowgram.ai/core';
 
@@ -293,7 +293,7 @@ export class WorkflowNodePanelService {
     }
     const fromNode = fromPort?.node;
     const fromContainer = fromNode?.parent;
-    if (fromNode?.flowNodeType === FlowNodeBaseType.SUB_CANVAS) {
+    if (this.isContainer(fromNode)) {
       // 子画布内部输入连线
       return fromNode;
     }
@@ -303,7 +303,7 @@ export class WorkflowNodePanelService {
   /** 获取端口矩形 */
   private getPortBox(port: WorkflowPortEntity, offset: IPoint = { x: 0, y: 0 }): Rectangle {
     const node = port.node;
-    if (node.flowNodeType === FlowNodeBaseType.SUB_CANVAS) {
+    if (this.isContainer(node)) {
       // 子画布内部端口需要虚拟节点
       const { point } = port;
       if (port.portType === 'input') {
@@ -424,7 +424,7 @@ export class WorkflowNodePanelService {
 
   /** 获取后续节点 */
   private getSubsequentNodes(node: WorkflowNodeEntity): WorkflowNodeEntity[] {
-    if (node.flowNodeType === FlowNodeBaseType.SUB_CANVAS) {
+    if (this.isContainer(node)) {
       return [];
     }
     const brothers = node.parent?.collapsedChildren ?? [];
@@ -436,7 +436,7 @@ export class WorkflowNodePanelService {
       }
       if (
         !line.to?.id ||
-        line.to.flowNodeType === FlowNodeBaseType.SUB_CANVAS // 子画布内部成环
+        this.isContainer(line.to) // 子画布内部成环
       ) {
         return;
       }
@@ -518,5 +518,10 @@ export class WorkflowNodePanelService {
         ],
       },
     });
+  }
+
+  /** 是否容器节点 */
+  private isContainer(node?: WorkflowNodeEntity): boolean {
+    return node?.getNodeMeta<WorkflowNodeMeta>().isContainer ?? false;
   }
 }
