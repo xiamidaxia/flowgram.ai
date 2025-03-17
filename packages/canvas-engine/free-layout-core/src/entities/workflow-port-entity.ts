@@ -1,4 +1,5 @@
 import { type IPoint, Rectangle, Emitter } from '@flowgram.ai/utils';
+import { FlowNodeTransformData } from '@flowgram.ai/document';
 import {
   Entity,
   type EntityOpts,
@@ -129,7 +130,7 @@ export class WorkflowPortEntity extends Entity<WorkflowPortEntityOpts> {
 
   get point(): IPoint {
     const { targetElement } = this;
-    const { bounds } = this.node.getData(TransformData)!;
+    const { bounds } = this.node.getData(FlowNodeTransformData)!;
     if (targetElement) {
       const pos = domReactToBounds(targetElement.getBoundingClientRect()).center;
       return this.entityManager
@@ -164,7 +165,7 @@ export class WorkflowPortEntity extends Entity<WorkflowPortEntityOpts> {
    */
   get relativePosition(): IPoint {
     const { point } = this;
-    const { bounds } = this.node.getData(TransformData)!;
+    const { bounds } = this.node.getData(FlowNodeTransformData)!;
     return {
       x: point.x - bounds.x,
       y: point.y - bounds.y,
