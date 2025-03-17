@@ -4,8 +4,13 @@ import { TransformData } from '@flowgram.ai/core';
 
 import { type WorkflowLinesManager } from './workflow-lines-manager';
 import { initFormDataFromJSON, toFormJSON } from './utils/flow-node-form-data';
-import { LineColor, LineRenderType, WorkflowNodeJSON, WorkflowNodeMeta } from './typings';
-import { onDragLineEndParams } from './service';
+import {
+  LineColor,
+  LineRenderType,
+  onDragLineEndParams,
+  WorkflowNodeJSON,
+  WorkflowNodeMeta,
+} from './typings';
 import {
   type WorkflowLineEntity,
   type WorkflowLinePortInfo,
