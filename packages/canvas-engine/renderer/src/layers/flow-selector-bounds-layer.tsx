@@ -1,11 +1,9 @@
 import React from 'react';
 
 import { inject, injectable } from 'inversify';
-import {
-  FlowNodeEntity,
-  FlowNodeRenderData,
-  FlowNodeTransformData,
-} from '@flowgram.ai/document';
+import { domUtils } from '@flowgram.ai/utils';
+import { Rectangle } from '@flowgram.ai/utils';
+import { FlowNodeEntity, FlowNodeRenderData, FlowNodeTransformData } from '@flowgram.ai/document';
 import {
   CommandRegistry,
   EditorState,
@@ -16,8 +14,6 @@ import {
   observeEntity,
   observeEntityDatas,
 } from '@flowgram.ai/core';
-import { domUtils } from '@flowgram.ai/utils';
-import { Rectangle } from '@flowgram.ai/utils';
 
 import { FlowRendererKey, FlowRendererRegistry } from '../flow-renderer-registry';
 import { FlowSelectConfigEntity, SelectorBoxConfigEntity } from '../entities';
@@ -32,6 +28,7 @@ export interface SelectorBoxPopoverProps {
 
 export interface FlowSelectorBoundsLayerOptions extends LayerOptions {
   ignoreOneSelect?: boolean;
+  ignoreChildrenLength?: boolean;
   boundsPadding?: number; // 边框留白，默认 10
   disableBackground?: boolean; // 禁用背景框
   backgroundClassName?: string; // 节点下边
@@ -130,6 +127,7 @@ export class FlowSelectorBoundsLayer extends Layer<FlowSelectorBoundsLayerOption
   render(): JSX.Element {
     const {
       ignoreOneSelect,
+      ignoreChildrenLength,
       SelectorBoxPopover: SelectorBoxPopoverFromOpts,
       disableBackground,
       CustomBoundsRenderer,
@@ -148,7 +146,7 @@ export class FlowSelectorBoundsLayer extends Layer<FlowSelectorBoundsLayerOption
       (ignoreOneSelect &&
         selectedNodes.length === 1 &&
         // 选中的节点不包含多个子节点
-        (selectedNodes[0] as FlowNodeEntity).childrenLength <= 1)
+        (ignoreChildrenLength || (selectedNodes[0] as FlowNodeEntity).childrenLength <= 1))
     ) {
       domUtils.setStyle(bg, {
         display: 'none',
