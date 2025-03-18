@@ -51,7 +51,7 @@ export enum DataEvent {
 
 export type EffectReturn = () => void;
 
-export interface EffectProps<TFieldValue = any, TFormValues = any> {
+export interface EffectFuncProps<TFieldValue = any, TFormValues = any> {
   name: FieldName;
   value: TFieldValue;
   prevValue?: TFieldValue;
@@ -61,7 +61,7 @@ export interface EffectProps<TFieldValue = any, TFormValues = any> {
 }
 
 export type Effect<TFieldValue = any, TFormValues = any> = (
-  props: EffectProps<TFieldValue, TFormValues>
+  props: EffectFuncProps<TFieldValue, TFormValues>
 ) => void | EffectReturn;
 
 export type ArrayAppendEffect<TFieldValue = any, TFormValues = any> = (props: {

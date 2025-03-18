@@ -279,7 +279,6 @@ export class FormModel<TValues = any> implements Disposable {
           const warnings = feedbackToFieldErrorsOrWarnings<Warnings>(path, feedback);
 
           if (field) {
-            debugger;
             field.state.errors = errors;
             field.state.warnings = warnings;
             field.state.invalid = hasError(errors);
