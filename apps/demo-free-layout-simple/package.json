@@ -11,7 +11,7 @@
     ".gitignore",
     "index.html",
     "package.json",
-    "rspack.config.js",
+    "rsbuild.config.ts",
     "tsconfig.json"
   ],
   "scripts": {
