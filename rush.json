@@ -774,6 +774,15 @@
         "team-flow",
         "demo"
       ]
+    },
+    {
+      "packageName": "@flowgram.ai/demo-node-form",
+      "projectFolder": "apps/demo-node-form",
+      "tags": [
+        "level-1",
+        "team-flow",
+        "demo"
+      ]
     }
   ]
 }
