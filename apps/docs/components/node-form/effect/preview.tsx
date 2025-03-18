@@ -12,7 +12,7 @@ import { nodeRegistry } from './node-registry.tsx';
 const nodeRegistryFile = {
   code: `import {
   DataEvent,
-  EffectProps,
+  EffectFuncProps,
   Field,
   FieldRenderProps,
   FormMeta,
@@ -70,7 +70,7 @@ const formMeta: FormMeta<FormData> = {
     field1: [
       {
         event: DataEvent.onValueChange,
-        effect: ({ value }: EffectProps<string, FormData>) => {
+        effect: ({ value }: EffectFuncProps<string, FormData>) => {
           console.log('field1 value:', value);
         },
       },
@@ -78,7 +78,7 @@ const formMeta: FormMeta<FormData> = {
     field2: [
       {
         event: DataEvent.onValueChange,
-        effect: ({ value, form }: EffectProps<string, FormData>) => {
+        effect: ({ value, form }: EffectFuncProps<string, FormData>) => {
           form.setValueIn('field3', 'field2 value is ' + value);
         },
       },
