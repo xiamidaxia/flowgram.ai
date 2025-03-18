@@ -42,7 +42,7 @@ function App() {
 
 ```tsx pure title="use-editor-props.tsx"
 import { useMemo } from 'react';
-import { type FixedLayoutProps } from '@flowgram.ai/free-layout-editor';
+import { type FreeLayoutProps } from '@flowgram.ai/free-layout-editor';
 import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin';
 
 import { intialData } from './initial-data' // 初始化数据
@@ -50,8 +50,8 @@ import { nodeRegistries } from './node-registries' // 节点声明配置
 import { BaseNode } from './base-node' // 节点渲染
 
 export function useEditorProps(
-): FixedLayoutProps {
-  return useMemo<FixedLayoutProps>(
+): FreeLayoutProps {
+  return useMemo<FreeLayoutProps>(
     () => ({
       /**
        * 初始化数据
