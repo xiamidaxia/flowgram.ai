@@ -57,7 +57,7 @@ export function useNodeRender(nodeFromProps?: WorkflowNodeEntity): NodeRenderRet
       }
       isDragging.current = true;
       // 拖拽选中的节点
-      dragService.startDragSelectedNodes(e).finally(() =>
+      dragService.startDragSelectedNodes(e)?.finally(() =>
         setTimeout(() => {
           isDragging.current = false;
         })
@@ -75,7 +75,7 @@ export function useNodeRender(nodeFromProps?: WorkflowNodeEntity): NodeRenderRet
         return;
       }
       // 追加选择
-      if (e.metaKey || e.shiftKey || e.ctrlKey) {
+      if (e.shiftKey) {
         selectionService.toggleSelect(node);
       } else {
         selectionService.selectNode(node);

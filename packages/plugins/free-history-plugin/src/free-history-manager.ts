@@ -7,12 +7,14 @@ import {
   WorkflowDocument,
   WorkflowResetLayoutService,
   WorkflowDragService,
+  WorkflowOperationBaseService,
 } from '@flowgram.ai/free-layout-core';
 import { FlowNodeFormData } from '@flowgram.ai/form-core';
 import { FormManager } from '@flowgram.ai/form-core';
+import { OperationType } from '@flowgram.ai/document';
 import { type PluginContext, PositionData } from '@flowgram.ai/core';
 
-import { type FreeHistoryPluginOptions, FreeOperationType } from './types';
+import { DragNodeOperationValue, type FreeHistoryPluginOptions, FreeOperationType } from './types';
 import { HistoryEntityManager } from './history-entity-manager';
 import { DragNodesHandler } from './handlers/drag-nodes-handler';
 import { ChangeNodeDataHandler } from './handlers/change-node-data-handler';
@@ -39,6 +41,9 @@ export class FreeHistoryManager {
   private _formManager: FormManager;
 
   private _toDispose: DisposableCollection = new DisposableCollection();
+
+  @inject(WorkflowOperationBaseService)
+  private _operationService: WorkflowOperationBaseService;
 
   onInit(ctx: PluginContext, opts: FreeHistoryPluginOptions) {
     const document = ctx.get<WorkflowDocument>(WorkflowDocument);
@@ -99,6 +104,39 @@ export class FreeHistoryManager {
             },
           },
           { noApply: true }
+        );
+      }),
+      this._operationService.onNodeMove(({ node, fromParent, fromIndex, toParent, toIndex }) => {
+        historyService.pushOperation(
+          {
+            type: OperationType.moveChildNodes,
+            value: {
+              fromParentId: fromParent.id,
+              fromIndex,
+              nodeIds: [node.id],
+              toParentId: toParent.id,
+              toIndex,
+            },
+          },
+          {
+            noApply: true,
+          }
+        );
+      }),
+      this._operationService.onNodePostionUpdate((event) => {
+        const value: DragNodeOperationValue = {
+          ids: [event.node.id],
+          value: [event.newPosition],
+          oldValue: [event.oldPosition],
+        };
+        historyService.pushOperation(
+          {
+            type: FreeOperationType.dragNodes,
+            value,
+          },
+          {
+            noApply: true,
+          }
         );
       }),
     ]);

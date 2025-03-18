@@ -1,11 +1,11 @@
 import { inject, injectable } from 'inversify';
+import { Disposable, Emitter, Rectangle } from '@flowgram.ai/utils';
+import { IPoint } from '@flowgram.ai/utils';
+import { WorkflowNodeEntity, WorkflowDocument } from '@flowgram.ai/free-layout-core';
+import { WorkflowDragService } from '@flowgram.ai/free-layout-core';
 import { FlowNodeTransformData } from '@flowgram.ai/document';
 import { FlowNodeBaseType } from '@flowgram.ai/document';
 import { EntityManager, PlaygroundConfigEntity, TransformData } from '@flowgram.ai/core';
-import { WorkflowNodeEntity, WorkflowDocument } from '@flowgram.ai/free-layout-core';
-import { WorkflowDragService } from '@flowgram.ai/free-layout-core';
-import { Disposable, Emitter, Rectangle } from '@flowgram.ai/utils';
-import { IPoint } from '@flowgram.ai/utils';
 
 import { isEqual, isGreaterThan, isLessThan, isLessThanOrEqual, isNumber } from './utils';
 import type {
@@ -44,6 +44,8 @@ export class WorkflowSnapService {
 
   public readonly onSnap = this.snapEmitter.event;
 
+  private _disabled = false;
+
   public init(params: Partial<WorkflowSnapServiceOptions> = {}): void {
     this.options = {
       ...SnapDefaultOptions,
@@ -53,18 +55,46 @@ export class WorkflowSnapService {
   }
 
   public dispose(): void {
-    this.disposers.forEach(disposer => disposer.dispose());
+    this.disposers.forEach((disposer) => disposer.dispose());
+  }
+
+  public get disabled(): boolean {
+    return this._disabled;
+  }
+
+  public disable(): void {
+    if (this._disabled) {
+      return;
+    }
+    this._disabled = true;
+    this.clear();
+  }
+
+  public enable(): void {
+    if (!this._disabled) {
+      return;
+    }
+    this._disabled = false;
+    this.clear();
   }
 
   private mountListener(): void {
-    const dragAdjusterDisposer = this.dragService.registerPosAdjuster(params =>
-      this.snapping({
-        targetNodes: params.selectedNodes,
-        position: params.position,
-      }),
-    );
-    const dragEndDisposer = this.dragService.onNodesDrag(event => {
-      if (event.type !== 'onDragEnd') {
+    const dragAdjusterDisposer = this.dragService.registerPosAdjuster((params) => {
+      const { selectedNodes: targetNodes, position } = params;
+      const isMultiSnapping = this.options.enableMultiSnapping ? false : targetNodes.length !== 1;
+      if (this._disabled || !this.options.enableEdgeSnapping || isMultiSnapping) {
+        return {
+          x: 0,
+          y: 0,
+        };
+      }
+      return this.snapping({
+        targetNodes,
+        position,
+      });
+    });
+    const dragEndDisposer = this.dragService.onNodesDrag((event) => {
+      if (event.type !== 'onDragEnd' || this._disabled) {
         return;
       }
       if (this.options.enableGridSnapping) {
@@ -81,24 +111,15 @@ export class WorkflowSnapService {
   }
 
   private snapping(params: { targetNodes: WorkflowNodeEntity[]; position: IPoint }): IPoint {
-    const { targetNodes: targetNodes, position } = params;
+    const { targetNodes, position } = params;
 
-    const isMultiSnapping = this.options.enableMultiSnapping ? false : targetNodes.length !== 1;
-
-    if (!this.options.enableEdgeSnapping || isMultiSnapping) {
-      return {
-        x: 0,
-        y: 0,
-      };
-    }
-
-    const selectedBounds = this.getBounds(targetNodes);
+    const targetBounds = this.getBounds(targetNodes);
 
     const targetRect = new Rectangle(
       position.x,
       position.y,
-      selectedBounds.width,
-      selectedBounds.height,
+      targetBounds.width,
+      targetBounds.height
     );
 
     const snapNodeRects = this.getSnapNodeRects({
@@ -127,7 +148,7 @@ export class WorkflowSnapService {
       position.x + offset.x,
       position.y + offset.y,
       targetRect.width,
-      targetRect.height,
+      targetRect.height
     );
 
     this.snapEmitter.fire({
@@ -155,23 +176,23 @@ export class WorkflowSnapService {
     });
 
     // 找到最近的线条
-    const topYClosestLine = snapLines.horizontal.find(line =>
-      isLessThanOrEqual(Math.abs(line.y - targetRect.top), edgeThreshold),
+    const topYClosestLine = snapLines.horizontal.find((line) =>
+      isLessThanOrEqual(Math.abs(line.y - targetRect.top), edgeThreshold)
     );
-    const bottomYClosestLine = snapLines.horizontal.find(line =>
-      isLessThanOrEqual(Math.abs(line.y - targetRect.bottom), edgeThreshold),
+    const bottomYClosestLine = snapLines.horizontal.find((line) =>
+      isLessThanOrEqual(Math.abs(line.y - targetRect.bottom), edgeThreshold)
     );
-    const leftXClosestLine = snapLines.vertical.find(line =>
-      isLessThanOrEqual(Math.abs(line.x - targetRect.left), edgeThreshold),
+    const leftXClosestLine = snapLines.vertical.find((line) =>
+      isLessThanOrEqual(Math.abs(line.x - targetRect.left), edgeThreshold)
     );
-    const rightXClosestLine = snapLines.vertical.find(line =>
-      isLessThanOrEqual(Math.abs(line.x - targetRect.right), edgeThreshold),
+    const rightXClosestLine = snapLines.vertical.find((line) =>
+      isLessThanOrEqual(Math.abs(line.x - targetRect.right), edgeThreshold)
     );
-    const midYClosestLine = snapLines.midHorizontal.find(line =>
-      isLessThanOrEqual(Math.abs(line.y - targetRect.center.y), edgeThreshold),
+    const midYClosestLine = snapLines.midHorizontal.find((line) =>
+      isLessThanOrEqual(Math.abs(line.y - targetRect.center.y), edgeThreshold)
     );
-    const midXClosestLine = snapLines.midVertical.find(line =>
-      isLessThanOrEqual(Math.abs(line.x - targetRect.center.x), edgeThreshold),
+    const midXClosestLine = snapLines.midVertical.find((line) =>
+      isLessThanOrEqual(Math.abs(line.x - targetRect.center.x), edgeThreshold)
     );
 
     // 计算最近坐标
@@ -227,11 +248,11 @@ export class WorkflowSnapService {
       x: snappedPosition.x - rect.x,
       y: snappedPosition.y - rect.y,
     };
-    targetNodes.forEach(node =>
+    targetNodes.forEach((node) =>
       this.updateNodePositionWithOffset({
         node,
         offset,
-      }),
+      })
     );
   }
 
@@ -256,7 +277,7 @@ export class WorkflowSnapService {
     const midHorizontalLines: SnapMidHorizontalLine[] = [];
     const midVerticalLines: SnapMidVerticalLine[] = [];
 
-    snapNodeRects.forEach(snapNodeRect => {
+    snapNodeRects.forEach((snapNodeRect) => {
       const nodeBounds = snapNodeRect.rect;
       const nodeCenter = nodeBounds.center;
       // 边缘横线
@@ -310,11 +331,11 @@ export class WorkflowSnapService {
     const targetCenter = targetRect.center;
     const targetContainerId = targetNodes[0].parent?.id ?? this.document.root.id;
 
-    const disabledNodeIds = targetNodes.map(n => n.id);
+    const disabledNodeIds = targetNodes.map((n) => n.id);
     disabledNodeIds.push(FlowNodeBaseType.ROOT);
     const availableNodes = this.nodes
-      .filter(n => n.parent?.id === targetContainerId)
-      .filter(n => !disabledNodeIds.includes(n.id))
+      .filter((n) => n.parent?.id === targetContainerId)
+      .filter((n) => !disabledNodeIds.includes(n.id))
       .sort((nodeA, nodeB) => {
         const nodeCenterA = nodeA.getData(FlowNodeTransformData)!.bounds.center;
         const nodeCenterB = nodeB.getData(FlowNodeTransformData)!.bounds.center;
@@ -340,7 +361,7 @@ export class WorkflowSnapService {
     const availableNodes = this.getAvailableNodes(params);
     const viewRect = this.viewRect();
     return availableNodes
-      .map(node => {
+      .map((node) => {
         const snapNodeRect: SnapNodeRect = {
           id: node.id,
           rect: node.getData(FlowNodeTransformData).bounds,
@@ -367,7 +388,7 @@ export class WorkflowSnapService {
     if (nodes.length === 0) {
       return Rectangle.EMPTY;
     }
-    return Rectangle.enlarge(nodes.map(n => n.getData(FlowNodeTransformData)!.bounds));
+    return Rectangle.enlarge(nodes.map((n) => n.getData(FlowNodeTransformData)!.bounds));
   }
 
   private updateNodePositionWithOffset(params: { node: WorkflowNodeEntity; offset: IPoint }): void {
@@ -379,7 +400,7 @@ export class WorkflowSnapService {
     };
     if (node.collapsedChildren?.length > 0) {
       // 嵌套情况下需将子节点 transform 设为 dirty
-      node.collapsedChildren.forEach(childNode => {
+      node.collapsedChildren.forEach((childNode) => {
         const childNodeTransformData =
           childNode.getData<FlowNodeTransformData>(FlowNodeTransformData);
         childNodeTransformData.fireChange();
@@ -451,7 +472,7 @@ export class WorkflowSnapService {
       const rightAlignX = alignRects.right[0].rect.left - alignSpacing.right;
       const isAlignRight = isLessThanOrEqual(
         Math.abs(targetRect.right - rightAlignX),
-        alignThreshold,
+        alignThreshold
       );
       if (isAlignRight) {
         rightX = rightAlignX - targetRect.width;
@@ -463,7 +484,7 @@ export class WorkflowSnapService {
       const leftAlignX = alignRects.left[0].rect.right + alignSpacing.midHorizontal;
       const isAlignMidHorizontal = isLessThanOrEqual(
         Math.abs(targetRect.left - leftAlignX),
-        alignThreshold,
+        alignThreshold
       );
       if (isAlignMidHorizontal) {
         midX = leftAlignX;
@@ -475,7 +496,7 @@ export class WorkflowSnapService {
       const topAlignY = alignRects.top[0].rect.bottom + alignSpacing.midVertical;
       const isAlignMidVertical = isLessThanOrEqual(
         Math.abs(targetRect.top - topAlignY),
-        alignThreshold,
+        alignThreshold
       );
       if (isAlignMidVertical) {
         midY = topAlignY;
@@ -552,7 +573,7 @@ export class WorkflowSnapService {
     const leftHorizontalRects: AlignRect[] = [];
     const rightHorizontalRects: AlignRect[] = [];
 
-    snapNodeRects.forEach(snapNodeRect => {
+    snapNodeRects.forEach((snapNodeRect) => {
       const nodeRect = snapNodeRect.rect;
       const { isVerticalIntersection, isHorizontalIntersection, isIntersection } =
         this.intersection(nodeRect, targetRect);
@@ -612,7 +633,7 @@ export class WorkflowSnapService {
     }
     const { isVerticalIntersection, isHorizontalIntersection, isIntersection } = this.intersection(
       rectA,
-      rectB,
+      rectB
     );
     if (isIntersection) {
       return;
@@ -620,13 +641,13 @@ export class WorkflowSnapService {
     if (isHorizontal && isHorizontalIntersection && !isVerticalIntersection) {
       const betweenSpacing = Math.min(
         Math.abs(rectA.left - rectB.right),
-        Math.abs(rectA.right - rectB.left),
+        Math.abs(rectA.right - rectB.left)
       );
       return (betweenSpacing - targetRect.width) / 2;
     } else if (!isHorizontal && isVerticalIntersection && !isHorizontalIntersection) {
       const betweenSpacing = Math.min(
         Math.abs(rectA.top - rectB.bottom),
-        Math.abs(rectA.bottom - rectB.top),
+        Math.abs(rectA.bottom - rectB.top)
       );
       return (betweenSpacing - targetRect.height) / 2;
     }
@@ -646,7 +667,7 @@ export class WorkflowSnapService {
 
     const { isVerticalIntersection, isHorizontalIntersection, isIntersection } = this.intersection(
       rectA,
-      rectB,
+      rectB
     );
 
     if (isIntersection) {
@@ -663,7 +684,7 @@ export class WorkflowSnapService {
 
   private intersection(
     rectA: Rectangle,
-    rectB: Rectangle,
+    rectB: Rectangle
   ): {
     isHorizontalIntersection: boolean;
     isVerticalIntersection: boolean;

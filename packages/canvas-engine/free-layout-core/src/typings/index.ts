@@ -4,6 +4,8 @@ export * from './workflow-node';
 export * from './workflow-registry';
 export * from './workflow-line';
 export * from './workflow-sub-canvas';
+export * from './workflow-operation';
+export * from './workflow-drag';
 
 export const URLParams = Symbol('');
 

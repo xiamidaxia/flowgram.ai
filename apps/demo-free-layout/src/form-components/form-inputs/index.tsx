@@ -1,15 +1,13 @@
-import { useContext } from 'react';
-
 import { Field } from '@flowgram.ai/free-layout-editor';
 
 import { FxExpression } from '../fx-expression';
 import { FormItem } from '../form-item';
 import { Feedback } from '../feedback';
 import { JsonSchema } from '../../typings';
-import { NodeRenderContext } from '../../context';
+import { useNodeRenderContext } from '../../hooks';
 
 export function FormInputs() {
-  const { readonly } = useContext(NodeRenderContext);
+  const { readonly } = useNodeRenderContext();
   return (
     <Field<JsonSchema> name="inputs">
       {({ field: inputsField }) => {

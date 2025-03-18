@@ -18,6 +18,7 @@ export interface WorkflowNodeMeta extends FlowNodeMeta {
   defaultPorts?: WorkflowPorts; // 默认点位
   useDynamicPort?: boolean; // 使用动态点位，会计算 data-port-key
   subCanvas?: (node: WorkflowNodeEntity) => WorkflowSubCanvas | undefined;
+  isContainer?: boolean; // 是否容器节点
 }
 
 /**

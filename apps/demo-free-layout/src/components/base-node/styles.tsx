@@ -6,14 +6,12 @@ export const BaseNodeStyle = styled.div`
   background-color: #fff;
   border: 1px solid rgba(6, 7, 9, 0.15);
   border-radius: 8px;
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.04), 0 4px 12px 0 rgba(0, 0, 0, 0.02);
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
   width: 360px;
 
-  transition: all 0.3s ease;
   &.selected {
     border: 1px solid var(--coz-stroke-hglt, #4e40e5);
   }

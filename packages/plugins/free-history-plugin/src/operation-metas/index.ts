@@ -1,4 +1,5 @@
 import { resetLayoutOperationMeta } from './reset-layout';
+import { moveChildNodesOperationMeta } from './move-child-nodes';
 import { dragNodesOperationMeta } from './drag-nodes';
 import { deleteNodeOperationMeta } from './delete-node';
 import { deleteLineOperationMeta } from './delete-line';
@@ -14,4 +15,5 @@ export const operationMetas = [
   changeNodeDataOperationMeta,
   resetLayoutOperationMeta,
   dragNodesOperationMeta,
+  moveChildNodesOperationMeta,
 ];

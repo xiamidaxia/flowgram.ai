@@ -608,6 +608,12 @@
       "tags": ["level-1","team-flow"]
     },
     {
+      "packageName": "@flowgram.ai/free-container-plugin",
+      "projectFolder": "packages/plugins/free-container-plugin",
+      "versionPolicyName": "publishPolicy",
+      "tags": ["level-1","team-flow"]
+    },
+    {
       "packageName": "@flowgram.ai/group-plugin",
       "projectFolder": "packages/plugins/group-plugin",
       "versionPolicyName": "publishPolicy",

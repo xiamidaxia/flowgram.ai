@@ -21,6 +21,7 @@ export enum FreeOperationType {
   changeNodeData = 'changeNodeData',
   resetLayout = 'resetLayout',
   dragNodes = 'dragNodes',
+  moveChildNodes = 'moveChildNodes',
 }
 
 export interface AddOrDeleteLineOperationValue extends WorkflowLinePortInfo {
