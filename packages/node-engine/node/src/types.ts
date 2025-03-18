@@ -2,7 +2,12 @@ import * as React from 'react';
 
 import { FormModel, IFormMeta, NodeFormContext } from '@flowgram.ai/form-core';
 import { FieldName, FieldValue } from '@flowgram.ai/form/src/types';
-import { FormRenderProps, Validate as FormValidate, ValidateTrigger } from '@flowgram.ai/form';
+import {
+  FormRenderProps,
+  IForm,
+  Validate as FormValidate,
+  ValidateTrigger,
+} from '@flowgram.ai/form';
 
 import { FormPlugin } from './form-plugin';
 import { FormModelV2 } from './form-model-v2';
@@ -46,19 +51,25 @@ export enum DataEvent {
 
 export type EffectReturn = () => void;
 
-export type Effect<TFieldValue = any, TFormValues = any> = (props: {
+export interface EffectFuncProps<TFieldValue = any, TFormValues = any> {
   name: FieldName;
   value: TFieldValue;
   prevValue?: TFieldValue;
   formValues: TFormValues;
+  form: IForm;
   context: NodeContext;
-}) => void | EffectReturn;
+}
+
+export type Effect<TFieldValue = any, TFormValues = any> = (
+  props: EffectFuncProps<TFieldValue, TFormValues>
+) => void | EffectReturn;
 
 export type ArrayAppendEffect<TFieldValue = any, TFormValues = any> = (props: {
   index: number;
   value: TFieldValue;
   arrayValues: Array<TFieldValue>;
   formValues: TFormValues;
+  form: IForm;
   context: NodeContext;
 }) => void | EffectReturn;
 
@@ -66,6 +77,7 @@ export type ArrayDeleteEffect<TFieldValue = any, TFormValues = any> = (props: {
   index: number;
   arrayValue: Array<TFieldValue>;
   formValues: TFormValues;
+  form: IForm;
   context: NodeContext;
 }) => void | EffectReturn;
 
