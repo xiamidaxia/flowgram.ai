@@ -13,6 +13,7 @@ export interface FlowNodeRenderSchema {
   activated: boolean; // 是否高亮节点
   hovered: boolean; // 是否悬浮在节点上
   dragging: boolean; // 是否正在拖拽
+  stackIndex: number; // 渲染层级
   extInfo?: Record<string, any>; // 扩展渲染状态字段
 }
 
@@ -43,6 +44,7 @@ export class FlowNodeRenderData extends EntityData<FlowNodeRenderSchema> {
       activated: false,
       hovered: false,
       dragging: false,
+      stackIndex: 0,
     };
   }
 
@@ -181,6 +183,14 @@ export class FlowNodeRenderData extends EntityData<FlowNodeRenderSchema> {
       return true;
     }
     return this.data.activated;
+  }
+
+  get stackIndex(): number {
+    return this.data.stackIndex;
+  }
+
+  set stackIndex(index: number) {
+    this.data.stackIndex = index;
   }
 
   get lineActivated() {
