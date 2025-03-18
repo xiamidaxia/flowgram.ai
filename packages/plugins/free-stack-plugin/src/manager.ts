@@ -1,7 +1,7 @@
 import { debounce } from 'lodash';
 import { inject, injectable } from 'inversify';
-import { FlowNodeRenderData } from '@flowgram.ai/document';
-import { EntityManager, PipelineRegistry, PipelineRenderer } from '@flowgram.ai/core';
+import { domUtils } from '@flowgram.ai/utils';
+import { Disposable } from '@flowgram.ai/utils';
 import {
   WorkflowHoverService,
   WorkflowNodeEntity,
@@ -9,8 +9,8 @@ import {
 } from '@flowgram.ai/free-layout-core';
 import { WorkflowLineEntity } from '@flowgram.ai/free-layout-core';
 import { WorkflowDocument } from '@flowgram.ai/free-layout-core';
-import { domUtils } from '@flowgram.ai/utils';
-import { Disposable } from '@flowgram.ai/utils';
+import { FlowNodeRenderData } from '@flowgram.ai/document';
+import { EntityManager, PipelineRegistry, PipelineRenderer } from '@flowgram.ai/core';
 
 import type { StackingContext } from './type';
 import { StackingComputing } from './stacking-computing';
@@ -36,7 +36,7 @@ export class StackingContextManager {
   private readonly selectService: WorkflowSelectService;
 
   public readonly node = domUtils.createDivWithClass(
-    'gedit-playground-layer gedit-flow-render-layer',
+    'gedit-playground-layer gedit-flow-render-layer'
   );
 
   private disposers: Disposable[] = [];
@@ -56,7 +56,7 @@ export class StackingContextManager {
   }
 
   public dispose(): void {
-    this.disposers.forEach(disposer => disposer.dispose());
+    this.disposers.forEach((disposer) => disposer.dispose());
   }
 
   /**
@@ -85,18 +85,21 @@ export class StackingContextManager {
       nodes: this.nodes,
       context,
     });
-    this.nodes.forEach(node => {
+    this.nodes.forEach((node) => {
       const level = nodeLevel.get(node.id);
       const nodeRenderData = node.getData<FlowNodeRenderData>(FlowNodeRenderData);
       const element = nodeRenderData.node;
       element.style.position = 'absolute';
       if (!level) {
         element.style.zIndex = 'auto';
+        nodeRenderData.stackIndex = 0;
         return;
       }
-      element.style.zIndex = String(StackingConfig.startIndex + level);
+      const stackIndex = StackingConfig.startIndex + level;
+      element.style.zIndex = String(stackIndex);
+      nodeRenderData.stackIndex = stackIndex;
     });
-    this.lines.forEach(line => {
+    this.lines.forEach((line) => {
       const level = lineLevel.get(line.id);
       const element = line.node;
       element.style.position = 'absolute';
@@ -121,7 +124,7 @@ export class StackingContextManager {
       hoveredEntity: this.hoverService.hoveredNode,
       hoveredEntityID: this.hoverService.hoveredNode?.id,
       selectedEntities: this.selectService.selection,
-      selectedIDs: this.selectService.selection.map(entity => entity.id),
+      selectedIDs: this.selectService.selection.map((entity) => entity.id),
     };
   }
 
