@@ -1,7 +1,7 @@
 import { last } from 'lodash-es';
 import { inject, injectable } from 'inversify';
 import { Disposable, DisposableCollection, Emitter, type IPoint } from '@flowgram.ai/utils';
-import { FlowNodeTransformData } from '@flowgram.ai/document';
+import { FlowNodeRenderData, FlowNodeTransformData } from '@flowgram.ai/document';
 import { EntityManager, PlaygroundConfigEntity, TransformData } from '@flowgram.ai/core';
 
 import { WorkflowDocumentOptions } from './workflow-document-option';
@@ -428,7 +428,9 @@ export class WorkflowLinesManager {
    * @param pos - 鼠标位置
    */
   getNodeFromMousePos(pos: IPoint): WorkflowNodeEntity | undefined {
-    const allNodes = this.document.getAllNodes();
+    const allNodes = this.document
+      .getAllNodes()
+      .sort((a, b) => this.getNodeIndex(a) - this.getNodeIndex(b));
     // 先挑选出 bounds 区域符合的 node
     const containNodes: WorkflowNodeEntity[] = [];
     const { selection } = this.selectService;
@@ -467,5 +469,10 @@ export class WorkflowLinesManager {
 
   private registerData(line: WorkflowLineEntity) {
     line.addData(WorkflowLineRenderData);
+  }
+
+  private getNodeIndex(node: WorkflowNodeEntity): number {
+    const nodeRenderData = node.getData(FlowNodeRenderData);
+    return nodeRenderData.stackIndex;
   }
 }
