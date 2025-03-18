@@ -1,7 +1,7 @@
+import { type OperationMeta } from '@flowgram.ai/history';
+import { WorkflowDocument } from '@flowgram.ai/free-layout-core';
 import { FlowNodeTransformData } from '@flowgram.ai/document';
 import { type PluginContext, TransformData } from '@flowgram.ai/core';
-import { WorkflowDocument } from '@flowgram.ai/free-layout-core';
-import { type OperationMeta } from '@flowgram.ai/history';
 
 import { type DragNodeOperationValue, FreeOperationType } from '../types';
 import { baseOperationMeta } from './base';
@@ -9,7 +9,7 @@ import { baseOperationMeta } from './base';
 export const dragNodesOperationMeta: OperationMeta<DragNodeOperationValue, PluginContext, void> = {
   ...baseOperationMeta,
   type: FreeOperationType.dragNodes,
-  inverse: op => ({
+  inverse: (op) => ({
     ...op,
     value: {
       ...op.value,
@@ -35,7 +35,7 @@ export const dragNodesOperationMeta: OperationMeta<DragNodeOperationValue, Plugi
       });
       // 嵌套情况下需将子节点 transform 设为 dirty
       if (node.collapsedChildren?.length > 0) {
-        node.collapsedChildren.forEach(childNode => {
+        node.collapsedChildren.forEach((childNode) => {
           const childNodeTransformData =
             childNode.getData<FlowNodeTransformData>(FlowNodeTransformData);
           childNodeTransformData.fireChange();
@@ -43,5 +43,4 @@ export const dragNodesOperationMeta: OperationMeta<DragNodeOperationValue, Plugi
       }
     });
   },
-  shouldMerge: () => false,
 };

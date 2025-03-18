@@ -236,6 +236,7 @@ export function createFreeLayoutPreset(
           return true;
         },
         ignoreOneSelect: true, // 自由布局不选择单个节点
+        ignoreChildrenLength: true, // 自由布局忽略子节点数量
         ...(opts.selectBox || {}),
       })
     );

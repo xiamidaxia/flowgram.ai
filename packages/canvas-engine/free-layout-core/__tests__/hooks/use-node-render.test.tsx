@@ -56,12 +56,12 @@ describe('use-node-render', () => {
     const { result } = renderHook(() => useNodeRender(), {
       wrapper,
     });
-    result.current.selectNode(new MouseEvent('click', { metaKey: true }) as any);
+    result.current.selectNode(new MouseEvent('click', { shiftKey: true }) as any);
     const { result: result2 } = renderHook(() => useNodeRender(), {
       wrapper,
     });
     expect(result2.current.selected).toEqual(true);
-    result.current.selectNode(new MouseEvent('click', { metaKey: true }) as any);
+    result.current.selectNode(new MouseEvent('click', { shiftKey: true }) as any);
     const { result: result3 } = renderHook(() => useNodeRender(), {
       wrapper,
     });
@@ -98,7 +98,7 @@ describe('use-node-render', () => {
     });
     expect(result2.current.selected).toEqual(true);
     expect(node.getData(PositionData).toJSON()).toEqual({ x: 100, y: 100 });
-    result.current.selectNode(new MouseEvent('click', { metaKey: true }) as any);
+    result.current.selectNode(new MouseEvent('click', { shiftKey: true }) as any);
     const { result: result3 } = renderHook(() => useNodeRender(), {
       wrapper,
     });
@@ -115,7 +115,7 @@ describe('use-node-render', () => {
     );
     await delay(10);
     // 拖拽结束可以取消选中
-    result.current.selectNode(new MouseEvent('click', { metaKey: true }) as any);
+    result.current.selectNode(new MouseEvent('click', { shiftKey: true }) as any);
     expect(result.current.selected).toEqual(false);
   });
   it('start drag input', async () => {

@@ -177,6 +177,7 @@ describe('workflow-document', () => {
           id: 'sun_canvas_0',
           type: FlowNodeBaseType.SUB_CANVAS,
           meta: {
+            isContainer: true,
             position: { x: 10, y: 10 },
           },
           blocks: [
@@ -499,6 +500,7 @@ describe('workflow-document with nestedJSON & subCanvas', () => {
         id: 'subCanvas_0',
         type: FlowNodeBaseType.SUB_CANVAS,
         meta: {
+          isContainer: true,
           position: { x: 100, y: 0 },
           subCanvas: () => ({
             isCanvas: true,

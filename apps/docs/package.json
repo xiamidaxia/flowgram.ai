@@ -29,6 +29,7 @@
     "@flowgram.ai/free-auto-layout-plugin": "workspace:*",
     "@flowgram.ai/minimap-plugin": "workspace:*",
     "@flowgram.ai/free-stack-plugin": "workspace:*",
+    "@flowgram.ai/free-container-plugin": "workspace:*",
     "@flowgram.ai/free-snap-plugin": "workspace:*",
     "@flowgram.ai/free-node-panel-plugin": "workspace:*",
     "@flowgram.ai/free-lines-plugin": "workspace:*",

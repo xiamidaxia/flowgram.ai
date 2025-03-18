@@ -163,6 +163,7 @@ export function createSubCanvasNodes(document: WorkflowDocument) {
     id: 'subCanvas_0',
     type: FlowNodeBaseType.SUB_CANVAS,
     meta: {
+      isContainer: true,
       position: { x: 100, y: 0 },
       subCanvas: () => ({
         isCanvas: true,

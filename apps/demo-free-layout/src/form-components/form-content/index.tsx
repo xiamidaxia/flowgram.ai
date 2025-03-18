@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { FlowNodeRegistry } from '@flowgram.ai/free-layout-editor';
 
-import { NodeRenderContext } from '../../context';
+import { useNodeRenderContext } from '../../hooks';
 import { FormTitleDescription, FormWrapper } from './styles';
 
 /**
@@ -10,7 +10,7 @@ import { FormTitleDescription, FormWrapper } from './styles';
  * @constructor
  */
 export function FormContent(props: { children?: React.ReactNode }) {
-  const { expanded, node } = useContext(NodeRenderContext);
+  const { expanded, node } = useNodeRenderContext();
   const registry = node.getNodeRegistry<FlowNodeRegistry>();
   return (
     <FormWrapper>

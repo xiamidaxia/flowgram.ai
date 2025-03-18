@@ -7,14 +7,15 @@ import {
   type IPoint,
   PromiseDeferred,
   Emitter,
+  type PositionSchema,
   DisposableCollection,
   Rectangle,
   delay,
   Disposable,
 } from '@flowgram.ai/utils';
-import type { PositionSchema } from '@flowgram.ai/utils';
 import {
   FlowNodeTransformData,
+  FlowNodeType,
   FlowOperationBaseService,
   type FlowNodeEntity,
 } from '@flowgram.ai/document';
@@ -31,6 +32,7 @@ import { WorkflowLinesManager } from '../workflow-lines-manager';
 import { WorkflowDocumentOptions } from '../workflow-document-option';
 import { WorkflowDocument } from '../workflow-document';
 import { WorkflowCommands } from '../workflow-commands';
+import { LineEventProps, NodesDragEvent, OnDragLineEnd } from '../typings/workflow-drag';
 import { type WorkflowNodeJSON, type WorkflowNodeMeta } from '../typings';
 import { WorkflowNodePortsData } from '../entity-datas';
 import {
@@ -59,36 +61,6 @@ function checkDragSuccess(
   }
   return false;
 }
-
-interface LineEventProps {
-  type: 'onDrag' | 'onDragEnd';
-  onDragNodeId?: string;
-  event?: MouseEvent;
-}
-
-interface INodesDragEvent {
-  type: string;
-  nodes: FlowNodeEntity[];
-  startPositions: IPoint[];
-  altKey: boolean;
-}
-
-export interface NodesDragEndEvent extends INodesDragEvent {
-  type: 'onDragEnd';
-}
-
-export type NodesDragEvent = NodesDragEndEvent;
-
-export type onDragLineEndParams = {
-  fromPort: WorkflowPortEntity;
-  toPort?: WorkflowPortEntity;
-  mousePos: PositionSchema;
-  line?: WorkflowLineEntity;
-  originLine?: WorkflowLineEntity;
-  event: PlaygroundDragEvent;
-};
-
-export type OnDragLineEnd = (params: onDragLineEndParams) => Promise<void>;
 
 @injectable()
 export class WorkflowDragService {
@@ -147,22 +119,24 @@ export class WorkflowDragService {
 
   /**
    * 拖拽选中节点
-   * @param event
+   * @param triggerEvent
    */
-  startDragSelectedNodes(event: MouseEvent | React.MouseEvent): Promise<boolean> {
+  startDragSelectedNodes(triggerEvent: MouseEvent | React.MouseEvent): Promise<boolean> {
     let { selectedNodes } = this.selectService;
     if (
       selectedNodes.length === 0 ||
       this.playgroundConfig.readonly ||
-      this.playgroundConfig.disabled
+      this.playgroundConfig.disabled ||
+      this.isDragging
     ) {
       return Promise.resolve(false);
     }
+    this.isDragging = true;
     const sameParent = this.childrenOfContainer(selectedNodes);
     if (sameParent && sameParent.flowNodeType !== FlowNodeBaseType.ROOT) {
       selectedNodes = [sameParent];
     }
-    const { altKey } = event;
+    const { altKey } = triggerEvent;
     // 节点整体开始位置
     let startPosition = this.getNodesPosition(selectedNodes);
     // 单个节点开始位置
@@ -173,11 +147,19 @@ export class WorkflowDragService {
     let dragSuccess = false;
     const startTime = Date.now();
     const dragger = new PlaygroundDrag({
-      onDragStart: () => {
-        this.isDragging = true;
+      onDragStart: (dragEvent) => {
+        this._nodesDragEmitter.fire({
+          type: 'onDragStart',
+          nodes: selectedNodes,
+          startPositions,
+          altKey,
+          dragEvent,
+          triggerEvent,
+          dragger,
+        });
       },
-      onDrag: (e) => {
-        if (!dragSuccess && checkDragSuccess(Date.now() - startTime, e)) {
+      onDrag: (dragEvent) => {
+        if (!dragSuccess && checkDragSuccess(Date.now() - startTime, dragEvent)) {
           dragSuccess = true;
           if (altKey) {
             // 按住 alt 为复制
@@ -207,10 +189,12 @@ export class WorkflowDragService {
 
         // 计算拖拽偏移量
         const offset: IPoint = this.getDragPosOffset({
-          event: e,
+          event: dragEvent,
           selectedNodes,
           startPosition,
         });
+
+        const positions: PositionSchema[] = [];
 
         selectedNodes.forEach((node, index) => {
           const transform = node.getData(TransformData);
@@ -230,21 +214,36 @@ export class WorkflowDragService {
           transform.update({
             position: newPosition,
           });
+          positions.push(newPosition);
+        });
+
+        this._nodesDragEmitter.fire({
+          type: 'onDragging',
+          nodes: selectedNodes,
+          startPositions,
+          positions,
+          altKey,
+          dragEvent,
+          triggerEvent,
+          dragger,
         });
       },
-      onDragEnd: () => {
+      onDragEnd: (dragEvent) => {
         this.isDragging = false;
         this._nodesDragEmitter.fire({
           type: 'onDragEnd',
           nodes: selectedNodes,
           startPositions,
           altKey,
+          dragEvent,
+          triggerEvent,
+          dragger,
         });
       },
     });
     return dragger
-      .start(event.clientX, event.clientY, this.playgroundConfig)
-      .then(() => dragSuccess);
+      .start(triggerEvent.clientX, triggerEvent.clientY, this.playgroundConfig)
+      ?.then(() => dragSuccess);
   }
 
   /**
@@ -332,6 +331,13 @@ export class WorkflowDragService {
       },
       onDragEnd: async (e) => {
         const dropNode = this._dropNode;
+        const { allowDrop } = this.canDropToNode({
+          dragNodeType: type,
+          dropNode,
+        });
+        if (!allowDrop) {
+          return this.clearDrop();
+        }
         const dragNode = await this.dropCard(type, e, data, dropNode);
         this.clearDrop();
         if (dragNode) {
@@ -397,6 +403,27 @@ export class WorkflowDragService {
   }
 
   /**
+   * 判断是否可以放置节点
+   */
+  public canDropToNode(params: { dragNodeType?: FlowNodeType; dropNode?: WorkflowNodeEntity }): {
+    allowDrop: boolean;
+    message?: string;
+    dropNode?: WorkflowNodeEntity;
+  } {
+    const { dragNodeType, dropNode } = params;
+    if (!dragNodeType) {
+      return {
+        allowDrop: false,
+        message: 'Please select a node to drop',
+      };
+    }
+    return {
+      allowDrop: true,
+      dropNode,
+    };
+  }
+
+  /**
    * 获取拖拽偏移
    */
   private getDragPosOffset(params: {
@@ -440,10 +467,12 @@ export class WorkflowDragService {
         }
         return this.nodeSelectable(entity);
       })
-      .filter((transform) => {
-        const { entity } = transform;
-        return entity.flowNodeType === FlowNodeBaseType.SUB_CANVAS;
-      });
+      .filter((transform) => this.isContainer(transform.entity));
+  }
+
+  /** 是否容器节点 */
+  private isContainer(node?: WorkflowNodeEntity): boolean {
+    return node?.getNodeMeta<WorkflowNodeMeta>().isContainer ?? false;
   }
 
   /**
@@ -519,8 +548,8 @@ export class WorkflowDragService {
       return {
         hasError: false,
       };
-    } else if (toNode.flowNodeType === FlowNodeBaseType.SUB_CANVAS) {
-      // 在子画布内进行连线的情况，需忽略
+    } else if (this.isContainer(toNode)) {
+      // 在容器内进行连线的情况，需忽略
       return {
         hasError: false,
       };
@@ -631,7 +660,7 @@ export class WorkflowDragService {
         });
 
         this.setLineColor(line, this.linesManager.lineColor.drawing);
-        if (toNode && toNode.flowNodeType !== FlowNodeBaseType.SUB_CANVAS) {
+        if (toNode && !this.isContainer(toNode)) {
           // 如果鼠标 hover 在 node 中的时候，默认连线到这个 node 的初始位置
           const portsData = toNode.getData(WorkflowNodePortsData)!;
           toPort = portsData.inputPorts[0];
