@@ -1,4 +1,9 @@
 import { nanoid } from 'nanoid';
+import {
+  WorkflowNodeEntity,
+  PositionSchema,
+  FlowNodeTransformData,
+} from '@flowgram.ai/free-layout-editor';
 import { ContainerNodeRenderKey } from '@flowgram.ai/free-container-plugin';
 
 import { FlowNodeRegistry } from '../../typings';
@@ -25,6 +30,14 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
       left: 100,
       right: 100,
     }),
+    selectable(node: WorkflowNodeEntity, mousePos?: PositionSchema): boolean {
+      if (!mousePos) {
+        return true;
+      }
+      const transform = node.getData<FlowNodeTransformData>(FlowNodeTransformData);
+      // 鼠标开始时所在位置不包括当前节点时才可选中
+      return !transform.bounds.contains(mousePos.x, mousePos.y);
+    },
   },
   onAdd() {
     return {
