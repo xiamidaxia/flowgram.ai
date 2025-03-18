@@ -40,7 +40,7 @@ Canvas configuration is declarative, providing data, rendering, event, and plugi
 
 ```tsx pure title="use-editor-props.tsx"
 import { useMemo } from 'react';
-import { type FixedLayoutProps } from '@flowgram.ai/free-layout-editor';
+import { type FreeLayoutProps } from '@flowgram.ai/free-layout-editor';
 import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin';
 
 import { intialData } from './initial-data' // 初始化数据
@@ -48,8 +48,8 @@ import { nodeRegistries } from './node-registries' // 节点声明配置
 import { BaseNode } from './base-node' // 节点渲染
 
 export function useEditorProps(
-): FixedLayoutProps {
-  return useMemo<FixedLayoutProps>(
+): FreeLayoutProps {
+  return useMemo<FreeLayoutProps>(
     () => ({
       /**
        * Initialize data
@@ -271,7 +271,7 @@ export const BaseNode = () => {
    */
   const { form } = useNodeRender()
   /**
-   * WorkflowNodeRenderer will add node drag events and port rendering, for deep customization, 
+   * WorkflowNodeRenderer will add node drag events and port rendering, for deep customization,
    * you can check the component source code at:
    * https://github.com/bytedance/flowgram.ai/blob/main/packages/client/free-layout-editor/src/components/workflow-node-renderer.tsx
    */
