@@ -599,6 +599,7 @@ export class WorkflowDragService {
       return { dragSuccess: false, newLine: undefined };
     }
 
+    this.selectService.clear();
     const config = this.playgroundConfig;
     const deferred = new PromiseDeferred<{
       dragSuccess?: boolean;
