@@ -7,16 +7,13 @@ import {
   ContainerNodePorts,
   ContainerNodeBorder,
   ContainerNodeContainer,
-  ContainerNodeForm,
 } from './components';
 
-export const ContainerNodeRender: FC<ContainerNodeRenderProps> = () => (
+export const ContainerNodeRender: FC<ContainerNodeRenderProps> = ({ content }) => (
   <ContainerNodeContainer>
     <ContainerNodeBackground />
     <ContainerNodeBorder />
-    <ContainerNodeHeader>
-      <ContainerNodeForm />
-    </ContainerNodeHeader>
+    <ContainerNodeHeader>{content}</ContainerNodeHeader>
     <ContainerNodePorts />
   </ContainerNodeContainer>
 );

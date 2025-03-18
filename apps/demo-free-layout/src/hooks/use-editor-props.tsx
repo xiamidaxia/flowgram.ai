@@ -17,6 +17,7 @@ import { createSyncVariablePlugin } from '../plugins';
 import { defaultFormMeta } from '../nodes/default-form-meta';
 import { SelectorBoxPopover } from '../components/selector-box-popover';
 import { BaseNode, LineAddButton, NodePanel } from '../components';
+import { ContainerNodeContent } from '../components';
 
 export function useEditorProps(
   initialData: FlowDocumentJSON,
@@ -200,7 +201,9 @@ export function useEditorProps(
         createFreeNodePanelPlugin({
           renderer: NodePanel,
         }),
-        createContainerNodePlugin({}),
+        createContainerNodePlugin({
+          renderContent: <ContainerNodeContent />,
+        }),
       ],
     }),
     []

@@ -38,7 +38,9 @@ export const BaseNode = ({ node }: { node: FlowNodeEntity }) => {
             outline: form?.state.invalid ? '1px solid red' : 'none',
           }}
         >
-          <NodeRenderContext.Provider value={{}}>{form?.render()}</NodeRenderContext.Provider>
+          <NodeRenderContext.Provider value={nodeRender}>
+            {form?.render()}
+          </NodeRenderContext.Provider>
         </BaseNodeStyle>
       </WorkflowNodeRenderer>
     </ConfigProvider>

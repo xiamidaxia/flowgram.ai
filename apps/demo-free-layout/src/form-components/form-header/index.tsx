@@ -5,7 +5,6 @@ import {
   Field,
   FieldRenderProps,
   useClientContext,
-  useNodeRender,
   useService,
 } from '@flowgram.ai/free-layout-editor';
 import { NodeIntoContainerService } from '@flowgram.ai/free-container-plugin';
@@ -14,6 +13,7 @@ import { IconMore } from '@douyinfe/semi-icons';
 
 import { Feedback } from '../feedback';
 import { FlowNodeRegistry } from '../../typings';
+import { useNodeRenderContext } from '../../hooks';
 import { getIcon } from './utils';
 import { Header, Operators, Title } from './styles';
 
@@ -21,7 +21,7 @@ const { Text } = Typography;
 
 function DropdownButton() {
   const [key, setKey] = useState(0);
-  const { node, deleteNode } = useNodeRender();
+  const { node, deleteNode } = useNodeRenderContext();
   const clientContext = useClientContext();
   const registry = node.getNodeRegistry<FlowNodeRegistry>();
   const nodeIntoContainerService = useService<NodeIntoContainerService>(NodeIntoContainerService);
@@ -76,7 +76,7 @@ function DropdownButton() {
 }
 
 export function FormHeader() {
-  const { node, readonly } = useNodeRender();
+  const { node, readonly } = useNodeRenderContext();
 
   return (
     <Header>

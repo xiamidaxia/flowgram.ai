@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import type { WorkflowNodeEntity } from '@flowgram.ai/free-layout-core';
 
 export interface ContainerNodeMetaRenderProps {
@@ -13,4 +15,5 @@ export interface ContainerNodeMetaRenderProps {
 
 export interface ContainerNodeRenderProps {
   node: WorkflowNodeEntity;
+  content?: ReactNode;
 }
