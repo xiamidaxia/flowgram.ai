@@ -9,7 +9,8 @@
     "douyinfe",
     "Sandpack",
     "codesandbox",
-    "rspack"
+    "rspack",
+    "rsbuild"
   ],
   "ignoreWords": [],
   "import": []

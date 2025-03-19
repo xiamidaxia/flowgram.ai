@@ -28,7 +28,7 @@ async function fireMouseEvent(type: string, point: IPoint): Promise<void> {
       clientY: point.y,
     })
   );
-  await waitFor(() => {}, { timeout: 1 });
+  await waitFor(() => {}, { timeout: 100 });
 }
 
 describe('workflow-drag-service', () => {
