@@ -733,7 +733,14 @@ export class WorkflowDocument extends FlowDocument {
 
   private toLineJSON(line: WorkflowLineEntity): WorkflowEdgeJSON | undefined {
     const lineJSON = line.toJSON();
-    if (!line.to || !line.info.to || !line.toPort) {
+    if (
+      !line.from ||
+      !line.info.from ||
+      !line.fromPort ||
+      !line.to ||
+      !line.info.to ||
+      !line.toPort
+    ) {
       return;
     }
     // 父子节点之间连线，需替换子画布为父节点
