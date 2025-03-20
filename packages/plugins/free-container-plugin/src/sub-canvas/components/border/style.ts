@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-export const ContainerNodeBorderStyle = styled.div`
+export const SubCanvasBorderStyle = styled.div`
   pointer-events: none;
 
-  position: absolute;
+  position: relative;
 
   display: flex;
   align-items: center;
@@ -17,7 +17,6 @@ export const ContainerNodeBorderStyle = styled.div`
   border-style: solid;
   border-width: 8px;
   border-radius: 8px;
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 4%), 0 4px 12px 0 rgba(0, 0, 0, 2%);
 
   &::before {
     content: '';

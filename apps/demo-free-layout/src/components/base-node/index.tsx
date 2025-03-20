@@ -30,10 +30,10 @@ export const BaseNode = ({ node }: { node: FlowNodeEntity }) => {
 
   return (
     <ConfigProvider getPopupContainer={getPopupContainer}>
-      <WorkflowNodeRenderer node={node}>
+      <WorkflowNodeRenderer className="flowgram-node" node={node}>
         {form?.state.invalid && <ErrorIcon />}
         <BaseNodeStyle
-          className={nodeRender.selected ? 'selected' : ''}
+          className={`flowgram-node-render ${nodeRender.selected ? 'selected' : ''}`}
           style={{
             outline: form?.state.invalid ? '1px solid red' : 'none',
           }}

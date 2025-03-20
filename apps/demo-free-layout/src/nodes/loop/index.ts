@@ -4,10 +4,11 @@ import {
   PositionSchema,
   FlowNodeTransformData,
 } from '@flowgram.ai/free-layout-editor';
-import { ContainerNodeRenderKey } from '@flowgram.ai/free-container-plugin';
 
+import { defaultFormMeta } from '../default-form-meta';
 import { FlowNodeRegistry } from '../../typings';
 import iconLoop from '../../assets/icon-loop.jpg';
+import { LoopFormRender } from './loop-form-render';
 
 let index = 0;
 export const LoopNodeRegistry: FlowNodeRegistry = {
@@ -18,15 +19,14 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
       'Used to repeatedly execute a series of tasks by setting the number of iterations and logic.',
   },
   meta: {
-    renderKey: ContainerNodeRenderKey,
     isContainer: true,
     size: {
       width: 560,
       height: 400,
     },
     padding: () => ({
-      top: 205,
-      bottom: 50,
+      top: 150,
+      bottom: 100,
       left: 100,
       right: 100,
     }),
@@ -63,6 +63,10 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
         },
       },
     };
+  },
+  formMeta: {
+    ...defaultFormMeta,
+    render: LoopFormRender,
   },
   onCreate() {
     // NOTICE: 这个函数是为了避免触发固定布局 flowDocument.addBlocksAsChildren
