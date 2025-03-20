@@ -120,6 +120,13 @@ export class NodeIntoContainerService {
     if (!parentNode || !containerNode || !this.isContainer(parentNode)) {
       return false;
     }
+    const canDrop = this.dragService.canDropToNode({
+      dragNodeType: node.flowNodeType,
+      dropNode: containerNode,
+    });
+    if (!canDrop.allowDrop) {
+      return false;
+    }
     return true;
   }
 
