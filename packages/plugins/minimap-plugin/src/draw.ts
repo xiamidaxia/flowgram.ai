@@ -1,6 +1,9 @@
 import type { IPoint, Rectangle } from '@flowgram.ai/utils';
 
 export namespace MinimapDraw {
+  /** 矩形是否合法 */
+  const isRectValid = (rect: Rectangle): boolean => rect.width > 0 && rect.height > 0;
+
   /** 清空画布 */
   export const clear = (params: {
     canvas: HTMLCanvasElement;
@@ -26,8 +29,11 @@ export namespace MinimapDraw {
     context: CanvasRenderingContext2D;
     rect: Rectangle;
     color: string;
-  }) => {
+  }): void => {
     const { context, rect, color } = params;
+    if (!isRectValid(rect)) {
+      return;
+    }
     context.fillStyle = color;
     context.fillRect(rect.x, rect.y, rect.width, rect.height);
   };
@@ -44,6 +50,10 @@ export namespace MinimapDraw {
   }): void => {
     const { context, rect, color, radius, borderColor, borderDashLength, borderWidth = 0 } = params;
     const { x, y, width, height } = rect;
+
+    if (!isRectValid(rect)) {
+      return;
+    }
 
     // 开始新路径
     context.beginPath();
@@ -95,8 +105,12 @@ export namespace MinimapDraw {
     scale: number;
     rect: Rectangle;
     color: string;
-  }) => {
+  }): void => {
     const { canvas, context, offset, scale, rect, color } = params;
+
+    if (!isRectValid(rect)) {
+      return;
+    }
 
     context.fillStyle = color;
 
@@ -108,7 +122,7 @@ export namespace MinimapDraw {
       0,
       (rect.y + rect.height + offset.y) * scale,
       canvas.width,
-      canvas.height - (rect.y + rect.height + offset.y) * scale,
+      canvas.height - (rect.y + rect.height + offset.y) * scale
     );
 
     // 左侧蒙层
@@ -116,7 +130,7 @@ export namespace MinimapDraw {
       0,
       (rect.y + offset.y) * scale,
       (rect.x + offset.x) * scale,
-      rect.height * scale,
+      rect.height * scale
     );
 
     // 右侧蒙层
@@ -124,7 +138,7 @@ export namespace MinimapDraw {
       (rect.x + rect.width + offset.x) * scale,
       (rect.y + offset.y) * scale,
       canvas.width - (rect.x + rect.width + offset.x) * scale,
-      rect.height * scale,
+      rect.height * scale
     );
   };
 }
