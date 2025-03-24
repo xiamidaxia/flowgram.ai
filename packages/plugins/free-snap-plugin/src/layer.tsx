@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { inject, injectable } from 'inversify';
-import { FlowNodeTransformData } from '@flowgram.ai/document';
-import { Layer } from '@flowgram.ai/core';
-import { WorkflowDocument } from '@flowgram.ai/free-layout-core';
 import { domUtils } from '@flowgram.ai/utils';
 import { Rectangle } from '@flowgram.ai/utils';
+import { WorkflowDocument } from '@flowgram.ai/free-layout-core';
+import { FlowNodeTransformData } from '@flowgram.ai/document';
+import { Layer } from '@flowgram.ai/core';
 
 import { isEqual, isGreaterThan, isNumber } from './utils';
 import { AlignRect, SnapEvent, WorkflowSnapLayerOptions } from './type';
@@ -30,7 +30,7 @@ export class WorkflowSnapLayer extends Layer<WorkflowSnapLayerOptions> {
   @inject(WorkflowSnapService) private readonly service: WorkflowSnapService;
 
   public readonly node = domUtils.createDivWithClass(
-    'gedit-playground-layer gedit-flow-snap-layer',
+    'gedit-playground-layer gedit-flow-snap-layer'
   );
 
   private edgeLines: SnapRenderLine[] = [];
@@ -78,7 +78,7 @@ export class WorkflowSnapLayer extends Layer<WorkflowSnapLayerOptions> {
           className={`workflow-snap-edge-line ${className}`}
           data-testid="sdk.workflow.canvas.snap.edgeLine"
           data-snap-line-id={id}
-          data-snap-line-sourceNode={sourceNode}
+          data-snap-line-source-node={sourceNode}
           key={id}
           style={{
             top,
@@ -110,7 +110,7 @@ export class WorkflowSnapLayer extends Layer<WorkflowSnapLayerOptions> {
           className={`workflow-snap-align-line ${renderLine.className}`}
           data-testid="sdk.workflow.canvas.snap.alignLine"
           data-snap-line-id={id}
-          data-snap-line-sourceNode={renderLine.sourceNode}
+          data-snap-line-source-node={renderLine.sourceNode}
           key={id}
           style={{
             position: 'absolute',

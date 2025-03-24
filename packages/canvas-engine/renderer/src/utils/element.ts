@@ -1,7 +1,13 @@
 import { isNil } from 'lodash';
-export const isHidden = (dom: HTMLElement) => {
+export const isHidden = (dom?: HTMLElement) => {
+  if (!dom || isNil(dom?.offsetParent)) {
+    return true;
+  }
   const style = window.getComputedStyle(dom);
-  return isNil(dom?.offsetParent) || style?.display === 'none';
+  if (style?.display === 'none') {
+    return true;
+  }
+  return false;
 };
 
 export const isRectInit = (rect?: DOMRect): boolean => {

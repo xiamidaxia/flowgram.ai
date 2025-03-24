@@ -259,7 +259,7 @@ export class NodeIntoContainerService {
       const renderData = this.state.dropNode.getData(FlowNodeRenderData);
       const renderDom = renderData.node?.children?.[0] as HTMLElement;
       if (renderDom) {
-        renderDom.style.outline = '';
+        renderDom.classList.remove('selected');
       }
     }
     this.state.dropNode = dropNode;
@@ -270,7 +270,7 @@ export class NodeIntoContainerService {
     const renderData = dropNode.getData(FlowNodeRenderData);
     const renderDom = renderData.node?.children?.[0] as HTMLElement;
     if (renderDom) {
-      renderDom.style.outline = '1px solid var(--coz-stroke-hglt,#4e40e5)';
+      renderDom.classList.add('selected');
     }
   }
 
