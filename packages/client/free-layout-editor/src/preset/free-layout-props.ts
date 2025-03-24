@@ -65,11 +65,6 @@ export interface FreeLayoutProps extends EditorProps<FreeLayoutPluginContext, Wo
    */
   onContentChange?: (ctx: FreeLayoutPluginContext, event: WorkflowContentChangeEvent) => void;
   /**
-   * 当前点击的节点
-   * @param node
-   */
-  onNodeActivated?: (ctx: FreeLayoutPluginContext, node: WorkflowNodeEntity | undefined) => void;
-  /**
    * 判断线条是否标红
    * @param ctx
    * @param fromPort
