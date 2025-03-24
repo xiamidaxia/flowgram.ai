@@ -80,18 +80,12 @@ export function shallowSetIn(obj: any, path: string, value: any): any {
     return obj;
   }
 
-  if (value === undefined) {
-    delete resVal[pathArray[i]];
-  } else {
-    resVal[pathArray[i]] = value;
-  }
-
-  // If the path array has a single element, the loop did not run.
-  // Deleting on `resVal` had no effect in this scenario, so we delete on the result instead.
-  if (i === 0 && value === undefined) {
-    delete res[pathArray[i]];
-  }
-
+  /**
+   * In Formik, they delete the key if the value is undefined. but here we keep the key with the undefined value.
+   * The reason that Formik tackle in this way is to fix the issue https://github.com/jaredpalmer/formik/issues/727
+   * Their fix is https://github.com/jaredpalmer/formik/issues/727, and we roll back to the code before this PR.
+   */
+  resVal[pathArray[i]] = value;
   return res;
 }
 
