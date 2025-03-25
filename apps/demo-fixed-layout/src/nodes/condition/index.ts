@@ -12,6 +12,9 @@ export const ConditionNodeRegistry: FlowNodeRegistry = {
     description:
       'Connect multiple downstream branches. Only the corresponding branch will be executed if the set conditions are met.',
   },
+  meta: {
+    expandable: false, // disable expanded
+  },
   onAdd() {
     return {
       id: `condition_${nanoid(5)}`,

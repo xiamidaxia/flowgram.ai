@@ -9,6 +9,7 @@ export const StartNodeRegistry: FlowNodeRegistry = {
     deleteDisable: true, // Start node cannot delete
     selectable: false, // Start node cannot select
     copyDisable: true, // Start node cannot copy
+    expandable: false, // disable expanded
   },
   info: {
     icon: iconStart,

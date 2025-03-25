@@ -11,8 +11,11 @@ export const BaseNodeStyle = styled.div`
   flex-direction: column;
   justify-content: center;
   position: relative;
-  width: 360px;
-  &.activated {
+  min-width: 360px;
+  width: 100%;
+  height: 100%;
+
+  &.selected {
     border: 1px solid #4e40e5;
   }
 `;

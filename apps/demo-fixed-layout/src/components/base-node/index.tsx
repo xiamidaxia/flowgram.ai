@@ -1,9 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 
 import { FlowNodeEntity, useNodeRender } from '@flowgram.ai/fixed-layout-editor';
 import { ConfigProvider } from '@douyinfe/semi-ui';
 
-import { NodeRenderContext } from '../../context';
+import { NodeRenderContext, SidebarContext } from '../../context';
 import { BaseNodeStyle, ErrorIcon } from './styles';
 
 export const BaseNode = ({ node }: { node: FlowNodeEntity }) => {
@@ -24,6 +24,11 @@ export const BaseNode = ({ node }: { node: FlowNodeEntity }) => {
    */
   const getPopupContainer = useCallback(() => node.renderData.node || document.body, []);
 
+  /**
+   * Sidebar control
+   */
+  const sidebar = useContext(SidebarContext);
+
   return (
     <ConfigProvider getPopupContainer={getPopupContainer}>
       {form?.state.invalid && <ErrorIcon />}
@@ -34,6 +39,13 @@ export const BaseNode = ({ node }: { node: FlowNodeEntity }) => {
          **/
         onMouseEnter={nodeRender.onMouseEnter}
         onMouseLeave={nodeRender.onMouseLeave}
+        className={nodeRender.activated ? 'activated' : ''}
+        onClick={() => {
+          if (nodeRender.dragging) {
+            return;
+          }
+          sidebar.setNodeRender(nodeRender);
+        }}
         style={{
           /**
            * Lets you precisely control the style of branch nodes

@@ -1,25 +1,25 @@
 import { useCallback, useState, type MouseEvent } from 'react';
 
 import {
-  Command,
   Field,
   FieldRenderProps,
   useClientContext,
   useService,
 } from '@flowgram.ai/free-layout-editor';
 import { NodeIntoContainerService } from '@flowgram.ai/free-container-plugin';
-import { IconButton, Dropdown, Typography } from '@douyinfe/semi-ui';
-import { IconMore } from '@douyinfe/semi-icons';
+import { IconButton, Dropdown, Typography, Button } from '@douyinfe/semi-ui';
+import { IconMore, IconSmallTriangleDown, IconSmallTriangleLeft } from '@douyinfe/semi-icons';
 
 import { Feedback } from '../feedback';
 import { FlowNodeRegistry } from '../../typings';
-import { useNodeRenderContext } from '../../hooks';
+import { FlowCommandId } from '../../shortcuts';
+import { useIsSidebar, useNodeRenderContext } from '../../hooks';
 import { getIcon } from './utils';
 import { Header, Operators, Title } from './styles';
 
 const { Text } = Typography;
 
-function DropdownButton() {
+function DropdownContent() {
   const [key, setKey] = useState(0);
   const { node, deleteNode } = useNodeRenderContext();
   const clientContext = useClientContext();
@@ -41,9 +41,22 @@ function DropdownButton() {
     [nodeIntoContainerService, node, rerenderMenu]
   );
 
-  const handleCopy = useCallback(() => {
-    clientContext.playground.commandService.executeCommand(Command.Default.COPY, node);
-  }, [clientContext, node]);
+  const handleCopy = useCallback(
+    (e: React.MouseEvent) => {
+      clientContext.playground.commandService.executeCommand(FlowCommandId.COPY, node);
+      e.stopPropagation(); // Disable clicking prevents the sidebar from opening
+    },
+    [clientContext, node]
+  );
+
+  const handleDelete = useCallback(
+    (e: React.MouseEvent) => {
+      deleteNode();
+      e.stopPropagation(); // Disable clicking prevents the sidebar from opening
+    },
+    [clientContext, node]
+  );
+
   return (
     <Dropdown
       trigger="hover"
@@ -56,7 +69,7 @@ function DropdownButton() {
             Copy
           </Dropdown.Item>
           <Dropdown.Item
-            onClick={deleteNode}
+            onClick={handleDelete}
             disabled={!!(registry.canDelete?.(clientContext, node) || registry.meta!.deleteDisable)}
           >
             Delete
@@ -76,7 +89,12 @@ function DropdownButton() {
 }
 
 export function FormHeader() {
-  const { node, readonly } = useNodeRenderContext();
+  const { node, expanded, toggleExpand, readonly } = useNodeRenderContext();
+  const isSidebar = useIsSidebar();
+  const handleExpand = (e: React.MouseEvent) => {
+    toggleExpand();
+    e.stopPropagation(); // Disable clicking prevents the sidebar from opening
+  };
 
   return (
     <Header>
@@ -91,9 +109,18 @@ export function FormHeader() {
           )}
         </Field>
       </Title>
+      {node.renderData.expandable && !isSidebar && (
+        <Button
+          type="primary"
+          icon={expanded ? <IconSmallTriangleDown /> : <IconSmallTriangleLeft />}
+          size="small"
+          theme="borderless"
+          onClick={handleExpand}
+        />
+      )}
       {readonly ? undefined : (
         <Operators>
-          <DropdownButton />
+          <DropdownContent />
         </Operators>
       )}
     </Header>

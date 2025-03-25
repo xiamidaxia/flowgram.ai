@@ -10,6 +10,7 @@ export const EndNodeRegistry: FlowNodeRegistry = {
     isNodeEnd: true, // Mark as end
     selectable: false, // End node cannot select
     copyDisable: true, // End node canot copy
+    expandable: false, // disable expanded
   },
   info: {
     icon: iconEnd,
