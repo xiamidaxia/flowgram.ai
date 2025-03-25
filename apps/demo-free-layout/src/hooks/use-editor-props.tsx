@@ -14,6 +14,7 @@ import { createContainerNodePlugin } from '@flowgram.ai/free-container-plugin';
 
 import { FlowNodeRegistry, FlowDocumentJSON } from '../typings';
 import { shortcuts } from '../shortcuts';
+import { CustomService } from '../services';
 import { createSyncVariablePlugin } from '../plugins';
 import { defaultFormMeta } from '../nodes/default-form-meta';
 import { SelectorBoxPopover } from '../components/selector-box-popover';
@@ -146,6 +147,12 @@ export function useEditorProps(
        * Shortcuts
        */
       shortcuts,
+      /**
+       * Bind custom service
+       */
+      onBind: ({ bind }) => {
+        bind(CustomService).toSelf().inSingletonScope();
+      },
       /**
        * Playground init
        */

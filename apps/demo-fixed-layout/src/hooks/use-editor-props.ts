@@ -13,6 +13,7 @@ import {
 
 import { type FlowNodeRegistry } from '../typings';
 import { shortcutGetter } from '../shortcuts';
+import { CustomService } from '../services';
 import { GroupBoxHeader, GroupNode } from '../plugins/group-plugin';
 import { createSyncVariablePlugin, createClipboardPlugin } from '../plugins';
 import { defaultFormMeta } from '../nodes';
@@ -160,6 +161,12 @@ export function useEditorProps(
           'loop-while-text': 'Condition Satisfied',
           'loop-traverse-text': 'Loop',
         },
+      },
+      /**
+       * Bind custom service
+       */
+      onBind: ({ bind }) => {
+        bind(CustomService).toSelf().inSingletonScope();
       },
       /**
        * Playground init

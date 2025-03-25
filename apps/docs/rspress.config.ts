@@ -9,6 +9,11 @@ export default defineConfig({
   title: 'FlowGram.AI',
   globalStyles: path.join(__dirname, './global.less'),
   builderConfig: {
+    source: {
+      decorators: {
+        version: 'legacy',
+      },
+    },
     tools: {
       rspack(options) {
         return merge(options, {

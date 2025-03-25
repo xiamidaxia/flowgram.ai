@@ -9,9 +9,12 @@ import {
   FlowDocumentJSON,
   FlowLayoutDefault,
   SelectionService,
+  PluginContext,
 } from '@flowgram.ai/editor';
 
 import { FlowOperationService } from '../types';
+
+export const FixedLayoutPluginContext = PluginContext;
 
 export interface FixedLayoutPluginContext extends EditorPluginContext {
   document: FlowDocument;

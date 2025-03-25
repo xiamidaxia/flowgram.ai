@@ -24,7 +24,10 @@ import {
   FlowNodeFormData,
   type FlowNodeJSON,
   SelectionService,
+  PluginContext,
 } from '@flowgram.ai/editor';
+
+export const FreeLayoutPluginContext = PluginContext;
 
 export interface FreeLayoutPluginContext extends EditorPluginContext {
   /**
