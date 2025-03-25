@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Disposable } from '@flowgram.ai/utils/src';
-import { Event } from '@flowgram.ai/utils';
+import { Disposable, Event } from '@flowgram.ai/utils';
 import { FlowNodeFormData, NodeRender, OnFormValuesChangePayload } from '@flowgram.ai/form-core';
 import { FieldName, FieldValue, FormState } from '@flowgram.ai/form';
 import { FlowNodeEntity } from '@flowgram.ai/document';
