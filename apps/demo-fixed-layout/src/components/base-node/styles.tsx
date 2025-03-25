@@ -12,8 +12,9 @@ export const BaseNodeStyle = styled.div`
   justify-content: center;
   position: relative;
   width: 360px;
-
-  transition: all 0.3s ease;
+  &.activated {
+    border: 1px solid #4e40e5;
+  }
 `;
 
 export const ErrorIcon = () => (

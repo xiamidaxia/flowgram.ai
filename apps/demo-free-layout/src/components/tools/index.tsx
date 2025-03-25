@@ -52,7 +52,7 @@ export const DemoTools = () => {
             type="tertiary"
             theme="borderless"
             icon={<IconUndo />}
-            disabled={!canUndo}
+            disabled={!canUndo || playground.config.readonly}
             onClick={() => history.undo()}
           />
         </Tooltip>
@@ -61,7 +61,7 @@ export const DemoTools = () => {
             type="tertiary"
             theme="borderless"
             icon={<IconRedo />}
-            disabled={!canRedo}
+            disabled={!canRedo || playground.config.readonly}
             onClick={() => history.redo()}
           />
         </Tooltip>

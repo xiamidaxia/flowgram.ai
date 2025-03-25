@@ -37,7 +37,7 @@ export const DemoTools = () => {
           <IconButton
             theme="borderless"
             icon={<IconUndo />}
-            disabled={!tools.canUndo}
+            disabled={!tools.canUndo || playground.config.readonly}
             onClick={() => tools.undo()}
           />
         </Tooltip>
@@ -45,7 +45,7 @@ export const DemoTools = () => {
           <IconButton
             theme="borderless"
             icon={<IconRedo />}
-            disabled={!tools.canRedo}
+            disabled={!tools.canRedo || playground.config.readonly}
             onClick={() => tools.redo()}
           />
         </Tooltip>

@@ -38,6 +38,7 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
       // 鼠标开始时所在位置不包括当前节点时才可选中
       return !transform.bounds.contains(mousePos.x, mousePos.y);
     },
+    expandable: false, // disable expanded
   },
   onAdd() {
     return {
@@ -45,7 +46,9 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
       type: 'loop',
       data: {
         title: `Loop_${++index}`,
-        inputsValues: {},
+        inputsValues: {
+          loopTimes: 2,
+        },
         inputs: {
           type: 'object',
           required: ['loopTimes'],

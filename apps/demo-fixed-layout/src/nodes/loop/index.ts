@@ -10,6 +10,9 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
     description:
       'Used to repeatedly execute a series of tasks by setting the number of iterations and logic',
   },
+  meta: {
+    expandable: false, // disable expanded
+  },
   onAdd() {
     return {
       id: `loop_${nanoid(5)}`,

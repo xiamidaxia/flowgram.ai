@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Event } from '@flowgram.ai/utils';
+import { Disposable, Event } from '@flowgram.ai/utils';
 import { FlowNodeFormData, NodeRender, OnFormValuesChangePayload } from '@flowgram.ai/form-core';
 import { FieldName, FieldValue, FormState } from '@flowgram.ai/form';
 import { FlowNodeEntity } from '@flowgram.ai/document';
@@ -55,7 +55,7 @@ export interface NodeFormProps<TValues> {
   onFormValueChangeIn<TValue = FieldValue, TFormValue = FieldValue>(
     name: FieldName,
     callback: (payload: onFormValueChangeInPayload<TValue, TFormValue>) => void
-  ): void;
+  ): Disposable;
 }
 
 /**

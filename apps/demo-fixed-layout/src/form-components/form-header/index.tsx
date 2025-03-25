@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useCallback } from 'react';
 
 import { Field, FieldRenderProps, useClientContext } from '@flowgram.ai/fixed-layout-editor';
 import { IconButton, Dropdown, Typography, Button } from '@douyinfe/semi-ui';
@@ -8,6 +8,7 @@ import { IconMore } from '@douyinfe/semi-icons';
 import { Feedback } from '../feedback';
 import { FlowNodeRegistry } from '../../typings';
 import { FlowCommandId } from '../../shortcuts/constants';
+import { useIsSidebar } from '../../hooks';
 import { NodeRenderContext } from '../../context';
 import { getIcon } from './utils';
 import { Header, Operators, Title } from './styles';
@@ -18,16 +19,29 @@ function DropdownContent() {
   const { node, deleteNode } = useContext(NodeRenderContext);
   const clientContext = useClientContext();
   const registry = node.getNodeRegistry<FlowNodeRegistry>();
-  const handleCopy = () => {
-    clientContext.playground.commandService.executeCommand(FlowCommandId.COPY, node);
-  };
+  const handleCopy = useCallback(
+    (e: React.MouseEvent) => {
+      clientContext.playground.commandService.executeCommand(FlowCommandId.COPY, node);
+      e.stopPropagation(); // Disable clicking prevents the sidebar from opening
+    },
+    [clientContext, node]
+  );
+
+  const handleDelete = useCallback(
+    (e: React.MouseEvent) => {
+      deleteNode();
+      e.stopPropagation(); // Disable clicking prevents the sidebar from opening
+    },
+    [clientContext, node]
+  );
+
   return (
     <Dropdown.Menu>
       <Dropdown.Item onClick={handleCopy} disabled={registry.meta!.copyDisable === true}>
         Copy
       </Dropdown.Item>
       <Dropdown.Item
-        onClick={deleteNode}
+        onClick={handleDelete}
         disabled={!!(registry.canDelete?.(clientContext, node) || registry.meta!.deleteDisable)}
       >
         Delete
@@ -39,12 +53,18 @@ function DropdownContent() {
 export function FormHeader() {
   const { node, expanded, startDrag, toggleExpand, readonly } = useContext(NodeRenderContext);
 
+  const isSidebar = useIsSidebar();
+  const handleExpand = (e: React.MouseEvent) => {
+    toggleExpand();
+    e.stopPropagation(); // Disable clicking prevents the sidebar from opening
+  };
+
   return (
     <Header
       onMouseDown={(e) => {
         // trigger drag node
         startDrag(e);
-        e.stopPropagation();
+        // e.stopPropagation();
       }}
     >
       {getIcon(node)}
@@ -58,13 +78,15 @@ export function FormHeader() {
           )}
         </Field>
       </Title>
-      <Button
-        type="primary"
-        icon={expanded ? <IconSmallTriangleDown /> : <IconSmallTriangleLeft />}
-        size="small"
-        theme="borderless"
-        onClick={toggleExpand}
-      />
+      {node.renderData.expandable && !isSidebar && (
+        <Button
+          type="primary"
+          icon={expanded ? <IconSmallTriangleDown /> : <IconSmallTriangleLeft />}
+          size="small"
+          theme="borderless"
+          onClick={handleExpand}
+        />
+      )}
       {readonly ? undefined : (
         <Operators>
           <Dropdown trigger="hover" position="bottomRight" render={<DropdownContent />}>

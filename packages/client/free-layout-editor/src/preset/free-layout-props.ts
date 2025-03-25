@@ -24,7 +24,10 @@ import {
   FlowNodeFormData,
   type FlowNodeJSON,
   SelectionService,
+  PluginContext,
 } from '@flowgram.ai/editor';
+
+export const FreeLayoutPluginContext = PluginContext;
 
 export interface FreeLayoutPluginContext extends EditorPluginContext {
   /**
@@ -64,11 +67,6 @@ export interface FreeLayoutProps extends EditorProps<FreeLayoutPluginContext, Wo
    * 画布内容更新
    */
   onContentChange?: (ctx: FreeLayoutPluginContext, event: WorkflowContentChangeEvent) => void;
-  /**
-   * 当前点击的节点
-   * @param node
-   */
-  onNodeActivated?: (ctx: FreeLayoutPluginContext, node: WorkflowNodeEntity | undefined) => void;
   /**
    * 判断线条是否标红
    * @param ctx

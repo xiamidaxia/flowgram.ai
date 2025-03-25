@@ -10,6 +10,17 @@ export * from '@flowgram.ai/variable-plugin';
 export * from '@flowgram.ai/shortcuts-plugin';
 export * from '@flowgram.ai/node-core-plugin';
 export * from '@flowgram.ai/i18n-plugin';
+export {
+  type interfaces,
+  injectable,
+  postConstruct,
+  named,
+  Container,
+  ContainerModule,
+  AsyncContainerModule,
+  inject,
+  multiInject,
+} from 'inversify';
 
 export { FlowNodeFormData, NodeRender, type NodeRenderProps } from '@flowgram.ai/form-core';
 
@@ -28,7 +39,7 @@ export type {
   IFieldArray,
   IForm,
   Errors,
-  Warnings
+  Warnings,
 } from '@flowgram.ai/form';
 
 export {

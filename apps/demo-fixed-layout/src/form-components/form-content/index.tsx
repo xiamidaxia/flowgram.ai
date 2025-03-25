@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { FlowNodeRegistry } from '@flowgram.ai/fixed-layout-editor';
 
-import { NodeRenderContext } from '../../context';
+import { useIsSidebar, useNodeRenderContext } from '../../hooks';
 import { FormTitleDescription, FormWrapper } from './styles';
 
 /**
@@ -10,13 +10,14 @@ import { FormTitleDescription, FormWrapper } from './styles';
  * @constructor
  */
 export function FormContent(props: { children?: React.ReactNode }) {
-  const { expanded, node } = useContext(NodeRenderContext);
+  const { node, expanded } = useNodeRenderContext();
+  const isSidebar = useIsSidebar();
   const registry = node.getNodeRegistry<FlowNodeRegistry>();
   return (
     <FormWrapper>
       {expanded ? (
         <>
-          <FormTitleDescription>{registry.info?.description}</FormTitleDescription>
+          {isSidebar && <FormTitleDescription>{registry.info?.description}</FormTitleDescription>}
           {props.children}
         </>
       ) : undefined}

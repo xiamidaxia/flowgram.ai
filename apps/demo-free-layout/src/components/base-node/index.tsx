@@ -1,15 +1,11 @@
 import { useCallback } from 'react';
 
-import {
-  FlowNodeEntity,
-  useNodeRender,
-  WorkflowNodeRenderer,
-} from '@flowgram.ai/free-layout-editor';
+import { FlowNodeEntity, useNodeRender } from '@flowgram.ai/free-layout-editor';
 import { ConfigProvider } from '@douyinfe/semi-ui';
 
 import { NodeRenderContext } from '../../context';
-import './index.css';
-import { ErrorIcon } from './error-icon';
+import { BaseNodeStyle, ErrorIcon } from './styles';
+import { NodeWrapper } from './node-wrapper';
 
 export const BaseNode = ({ node }: { node: FlowNodeEntity }) => {
   /**
@@ -30,18 +26,21 @@ export const BaseNode = ({ node }: { node: FlowNodeEntity }) => {
   const getPopupContainer = useCallback(() => node.renderData.node || document.body, []);
 
   return (
-    <WorkflowNodeRenderer
-      className={`flowgram-node-render ${nodeRender.selected ? 'selected' : ''}`}
-      node={node}
-      style={{
-        borderRadius: 8,
-        outline: form?.state.invalid ? '1px solid red' : 'none',
-      }}
-    >
-      {form?.state.invalid && <ErrorIcon />}
+    <ConfigProvider getPopupContainer={getPopupContainer}>
       <NodeRenderContext.Provider value={nodeRender}>
-        <ConfigProvider getPopupContainer={getPopupContainer}>{form?.render()}</ConfigProvider>
+        <NodeWrapper>
+          {form?.state.invalid && <ErrorIcon />}
+          <BaseNodeStyle
+            className={nodeRender.selected ? 'selected' : ''}
+            style={{
+              borderRadius: 8,
+              outline: form?.state.invalid ? '1px solid red' : 'none',
+            }}
+          >
+            {form?.render()}
+          </BaseNodeStyle>
+        </NodeWrapper>
       </NodeRenderContext.Provider>
-    </WorkflowNodeRenderer>
+    </ConfigProvider>
   );
 };

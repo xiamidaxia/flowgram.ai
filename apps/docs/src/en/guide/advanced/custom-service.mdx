@@ -3,13 +3,29 @@
 In business, it is necessary to abstract singleton services for easy plug-in management.
 
 ```tsx pure
-/**
- *  inversify: https://github.com/inversify/InversifyJS
- */
-import { injectable, inject } from 'inversify'
 import { useMemo } from 'react';
-import { FlowDocument, type FixedLayoutProps } from '@flowgram.ai/fixed-layout-editor'
+import { FlowDocument, type FixedLayoutProps, inject, injectable } from '@flowgram.ai/fixed-layout-editor'
 
+/**
+ * Docs: https://inversify.io/docs/introduction/getting-started/
+ * Warning: Use decorator legacy
+ *   // rsbuild.config.ts
+ *   {
+ *     source: {
+ *       decorators: {
+ *         version: 'legacy'
+ *       }
+ *     }
+ *   }
+ * Usage:
+ *  1.
+ *    const myService = useService(MyService)
+ *    myService.save()
+ *  2.
+ *    const myService = useClientContext().get(MyService)
+ *  3.
+ *    const myService = node.getService(MyService)
+ */
 @injectable()
 class MyService {
   // Dependency injection of singleton module

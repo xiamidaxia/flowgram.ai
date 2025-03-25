@@ -428,23 +428,25 @@ export class FormModelV2 extends FormModel implements Disposable {
   onFormValueChangeIn<TValue = FieldValue, TFormValue = FieldValue>(
     name: FieldName,
     callback: (payload: onFormValueChangeInPayload<TValue, TFormValue>) => void
-  ) {
+  ): Disposable {
     if (!this._initialized) {
       throw new Error(
         `[NodeEngine] FormModel Error: onFormValueChangeIn can not be called before initialized`
       );
     }
 
-    this.formControl!._formModel.onFormValuesChange(({ name: changedName, values, prevValues }) => {
-      if (changedName === name) {
-        callback({
-          value: get(values, name),
-          prevValue: get(prevValues, name),
-          formValues: values,
-          prevFormValues: prevValues,
-        });
+    return this.formControl!._formModel.onFormValuesChange(
+      ({ name: changedName, values, prevValues }) => {
+        if (changedName === name) {
+          callback({
+            value: get(values, name),
+            prevValue: get(prevValues, name),
+            formValues: values,
+            prevFormValues: prevValues,
+          });
+        }
       }
-    });
+    );
   }
 
   /**

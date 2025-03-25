@@ -4,7 +4,7 @@ import { Button } from '@douyinfe/semi-ui';
 import { IconPlus, IconCrossCircleStroked } from '@douyinfe/semi-icons';
 
 import { FlowLiteralValueSchema, FlowRefValueSchema } from '../../../typings';
-import { useNodeRenderContext } from '../../../hooks';
+import { useIsSidebar } from '../../../hooks';
 import { FxExpression } from '../../../form-components/fx-expression';
 import { FormItem } from '../../../form-components';
 import { Feedback } from '../../../form-components';
@@ -16,7 +16,7 @@ interface ConditionValue {
 }
 
 export function ConditionInputs() {
-  const { readonly } = useNodeRenderContext();
+  const readonly = !useIsSidebar();
   return (
     <FieldArray name="inputsValues.conditions">
       {({ field }) => (
@@ -36,7 +36,7 @@ export function ConditionInputs() {
                       />
                     }
                     hasError={Object.keys(childState?.errors || {}).length > 0}
-                    disabled={readonly}
+                    readonly={readonly}
                   />
                   <Feedback errors={childState?.errors} invalid={childState?.invalid} />
                   <ConditionPort data-port-id={childField.value.key} data-port-type="output" />

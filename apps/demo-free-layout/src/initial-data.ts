@@ -151,7 +151,9 @@ export const initialData: FlowDocumentJSON = {
       },
       data: {
         title: 'Loop_2',
-        inputsValues: {},
+        inputsValues: {
+          loopTimes: 2,
+        },
         inputs: {
           type: 'object',
           required: ['loopTimes'],
