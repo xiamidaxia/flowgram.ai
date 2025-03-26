@@ -85,7 +85,7 @@ export class FieldArrayModel<TValue = FieldValue> extends FieldModel<Array<TValu
   }
 
   /**
-   * 删除数组项，该操作会删除数组项的值并销毁数组项的Field模型
+   * Delete the element in given index and delete the corresponding FieldModel as well
    * @param index
    */
   delete(index: number) {
