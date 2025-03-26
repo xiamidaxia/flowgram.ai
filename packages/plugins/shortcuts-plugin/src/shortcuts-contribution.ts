@@ -43,7 +43,8 @@ export class ShortcutsRegistry {
         });
       }
     });
-    this.shortcutsHandlers.push(...handlers);
+    // Insert before for override pre handlers
+    this.shortcutsHandlers.unshift(...handlers);
   }
 
   addHandlersIfNotFound(...handlers: ShortcutsHandler[]): void {
