@@ -44,7 +44,7 @@ export function FieldArray<TValue extends FieldValue>({
     () =>
       formModel.getField<FieldArrayModel<TValue>>(name) ||
       (formModel.createFieldArray(name) as FieldArrayModel<any>),
-    []
+    [name]
   );
 
   const field = React.useMemo(() => toFieldArray<TValue>(fieldModel), [fieldModel]);
