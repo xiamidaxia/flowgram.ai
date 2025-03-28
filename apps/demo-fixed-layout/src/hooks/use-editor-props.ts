@@ -9,6 +9,7 @@ import {
   FlowLayoutDefault,
   FlowRendererKey,
   ShortcutsRegistry,
+  ConstantKeys,
 } from '@flowgram.ai/fixed-layout-editor';
 
 import { type FlowNodeRegistry } from '../typings';
@@ -75,18 +76,18 @@ export function useEditorProps(
       /**
        * Style config
        */
-      // constants: {
-      //   [ConstantKeys.NODE_SPACING]: 24,
-      //   [ConstantKeys.INLINE_SPACING_BOTTOM]: 24,
-      //   [ConstantKeys.INLINE_BLOCKS_INLINE_SPACING_BOTTOM]: 13,
-      //   [ConstantKeys.ROUNDED_LINE_X_RADIUS]: 8,
-      //   [ConstantKeys.ROUNDED_LINE_Y_RADIUS]: 10,
-      //   [ConstantKeys.INLINE_BLOCKS_INLINE_SPACING_TOP]: 23,
-      //   [ConstantKeys.INLINE_BLOCKS_PADDING_BOTTOM]: 30,
-      //   [ConstantKeys.COLLAPSED_SPACING]: 10,
-      //   [ConstantKeys.BASE_COLOR]: '#B8BCC1',
-      //   [ConstantKeys.BASE_ACTIVATED_COLOR]: '#82A7FC',
-      // },
+      constants: {
+        // [ConstantKeys.NODE_SPACING]: 24,
+        // [ConstantKeys.INLINE_SPACING_BOTTOM]: 24,
+        // [ConstantKeys.INLINE_BLOCKS_INLINE_SPACING_BOTTOM]: 13,
+        // [ConstantKeys.ROUNDED_LINE_X_RADIUS]: 8,
+        // [ConstantKeys.ROUNDED_LINE_Y_RADIUS]: 10,
+        // [ConstantKeys.INLINE_BLOCKS_INLINE_SPACING_TOP]: 23,
+        // [ConstantKeys.INLINE_BLOCKS_PADDING_BOTTOM]: 30,
+        // [ConstantKeys.COLLAPSED_SPACING]: 10,
+        [ConstantKeys.BASE_COLOR]: '#B8BCC1',
+        [ConstantKeys.BASE_ACTIVATED_COLOR]: '#82A7FC',
+      },
       /**
        * SelectBox config
        */
@@ -145,7 +146,7 @@ export function useEditorProps(
       },
       /**
        * Materials, components can be customized based on the key
-       * @see @see https://github.com/bytedance/flowgram.ai/blob/main/packages/materials/fixed-semi-materials/src/components/index.tsx
+       * @see https://github.com/bytedance/flowgram.ai/blob/main/packages/materials/fixed-semi-materials/src/components/index.tsx
        * 可以通过 key 自定义 UI 组件
        */
       materials: {
@@ -158,8 +159,10 @@ export function useEditorProps(
         renderDefaultNode: BaseNode, // node render
         renderTexts: {
           'loop-end-text': 'Loop End',
-          'loop-while-text': 'Condition Satisfied',
           'loop-traverse-text': 'Loop',
+          'try-start-text': 'Try Start',
+          'try-end-text': 'Try End',
+          'catch-text': 'Catch Error',
         },
       },
       /**
@@ -186,6 +189,7 @@ export function useEditorProps(
         setTimeout(() => {
           ctx.playground.config.fitView(ctx.document.root.bounds.pad(30));
         }, 10);
+        console.log(ctx.document.toString()); // Get the document tree
       },
       /**
        * Playground dispose

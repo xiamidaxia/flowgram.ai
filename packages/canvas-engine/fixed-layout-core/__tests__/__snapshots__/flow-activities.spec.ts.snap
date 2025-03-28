@@ -82,8 +82,9 @@ exports[`flow-activities > create tryCatch 1`] = `
 |-- tryCatch
 |---- $tryCatchIcon$tryCatch
 |---- $mainInlineBlocks$tryCatch
-|------ $tryBlock$try_branch_0
-|-------- try_branch_0
+|------ try_branch_0
+|-------- $trySlot$try_branch_0
+|-------- try_noop_0
 |------ $catchInlineBlocks$tryCatch
 |-------- catch_branch_1
 |---------- $blockOrderIcon$catch_branch_1
@@ -205,8 +206,9 @@ exports[`flow-activities > tryCatch add branch 1`] = `
 |-- tryCatch
 |---- $tryCatchIcon$tryCatch
 |---- $mainInlineBlocks$tryCatch
-|------ $tryBlock$try_branch_0
-|-------- try_branch_0
+|------ try_branch_0
+|-------- $trySlot$try_branch_0
+|-------- try_noop_0
 |------ $catchInlineBlocks$tryCatch
 |-------- catch_branch_1
 |---------- $blockOrderIcon$catch_branch_1

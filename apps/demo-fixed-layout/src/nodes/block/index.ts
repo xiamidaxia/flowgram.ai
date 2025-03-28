@@ -15,11 +15,12 @@ export const BlockNodeRegistry: FlowNodeRegistry = {
   },
   canAdd: () => false,
   onAdd(ctx, from) {
+    const isTryCatch = from.flowNodeType === 'tryCatch';
     return {
       id: `if_${nanoid(5)}`,
-      type: 'block',
+      type: isTryCatch ? 'catchBlock' : 'block',
       data: {
-        title: `If_${id++}`,
+        title: isTryCatch ? `Catch Block ${id++}` : `If_${id++}`,
         inputs: {
           type: 'object',
           required: ['condition'],

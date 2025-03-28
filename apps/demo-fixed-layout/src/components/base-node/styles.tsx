@@ -13,7 +13,7 @@ export const BaseNodeStyle = styled.div`
   position: relative;
   width: 360px;
   &.activated {
-    border: 1px solid #4e40e5;
+    border: 1px solid #82a7fc;
   }
 `;
 

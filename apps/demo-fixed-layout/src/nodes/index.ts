@@ -1,4 +1,5 @@
 import { type FlowNodeRegistry } from '../typings';
+import { TryCatchNodeRegistry } from './trycatch';
 import { StartNodeRegistry } from './start';
 import { LoopNodeRegistry } from './loop';
 import { LLMNodeRegistry } from './llm';
@@ -13,6 +14,7 @@ export const FlowNodeRegistries: FlowNodeRegistry[] = [
   LLMNodeRegistry,
   LoopNodeRegistry,
   BlockNodeRegistry,
+  TryCatchNodeRegistry,
 ];
 
 export { defaultFormMeta } from './default-form-meta';

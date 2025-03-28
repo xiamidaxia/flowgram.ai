@@ -5,11 +5,15 @@ import {
   FlowNodeTransformData,
   type CustomLabelProps,
   Playground,
+  useBaseColor,
+  FlowTextKey,
+  FlowRendererRegistry,
 } from '@flowgram.ai/fixed-layout-editor';
 import { IconChevronLeft } from '@douyinfe/semi-icons';
 
 function TryCatchCollapse(props: CustomLabelProps): JSX.Element {
   const { node } = props;
+  const { baseColor, baseActivatedColor } = useBaseColor();
 
   const activateData = node.getData(FlowNodeRenderData)!;
   const transform = node.getData(FlowNodeTransformData)!;
@@ -74,7 +78,7 @@ function TryCatchCollapse(props: CustomLabelProps): JSX.Element {
             cursor: 'pointer',
             justifyContent: 'center',
             alignItems: 'center',
-            background: hoverActivated ? '#82A7FC' : '#BBBFC4',
+            background: hoverActivated ? baseActivatedColor : baseColor,
           }}
           aria-hidden="true"
         >
@@ -98,7 +102,7 @@ function TryCatchCollapse(props: CustomLabelProps): JSX.Element {
             cursor: 'pointer',
             justifyContent: 'center',
             alignItems: 'center',
-            background: '#82A7FC',
+            background: baseActivatedColor,
           }}
           aria-hidden="true"
         >
@@ -127,14 +131,14 @@ function TryCatchCollapse(props: CustomLabelProps): JSX.Element {
       <div
         style={{
           fontSize: 12,
-          color: '#8F959E',
+          color: hoverActivated ? baseActivatedColor : baseColor,
           textAlign: 'center',
           whiteSpace: 'nowrap',
           backgroundColor: 'var(--g-editor-background)',
           lineHeight: '20px',
         }}
       >
-        Something error
+        {node.getService(FlowRendererRegistry).getText(FlowTextKey.CATCH_TEXT)}
       </div>
 
       {renderCollapse()}
