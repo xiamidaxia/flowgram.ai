@@ -111,6 +111,54 @@ export const initialData: FlowDocumentJSON = {
       ],
     },
     {
+      id: 'tryCatch_0',
+      type: 'tryCatch',
+      data: {
+        title: 'TryCatch',
+      },
+      blocks: [
+        {
+          id: 'tryBlock_0',
+          type: 'tryBlock',
+          blocks: [],
+        },
+        {
+          id: 'catchBlock_0',
+          type: 'catchBlock',
+          data: {
+            title: 'Catch Block 1',
+            inputs: {
+              type: 'object',
+              required: ['condition'],
+              properties: {
+                condition: {
+                  type: 'boolean',
+                },
+              },
+            },
+          },
+          blocks: [],
+        },
+        {
+          id: 'catchBlock_1',
+          type: 'catchBlock',
+          data: {
+            title: 'Catch Block 2',
+            inputs: {
+              type: 'object',
+              required: ['condition'],
+              properties: {
+                condition: {
+                  type: 'boolean',
+                },
+              },
+            },
+          },
+          blocks: [],
+        },
+      ],
+    },
+    {
       id: 'end_0',
       type: 'end',
       blocks: [],

@@ -59,13 +59,15 @@ export const TryCatchRegistry: FlowNodeRegistry = {
       parent: node,
     });
     const tryBlockNode = document.addNode({
-      id: `$tryBlock$${tryBlock.id}`,
+      id: tryBlock.id,
       type: TryCatchTypeEnum.TRY_BLOCK,
       originParent: node,
       parent: mainBlockNode,
+      data: tryBlock.data,
     });
     const trySlotNode = document.addNode({
-      id: tryBlock.id,
+      id: `$trySlot$${tryBlock.id}`,
+      hidden: true,
       type: TryCatchTypeEnum.TRY_SLOT, // 占位节点
       originParent: node,
       parent: tryBlockNode,
@@ -83,8 +85,17 @@ export const TryCatchRegistry: FlowNodeRegistry = {
       trySlotNode,
       catchInlineBlocksNode
     );
+    (tryBlock.blocks || []).forEach((blockData) => {
+      document.addNode(
+        {
+          ...blockData,
+          parent: tryBlockNode,
+        },
+        addedNodes
+      );
+    });
     catchBlocks.forEach((blockData) => {
-      node.document.addBlock(node, blockData, addedNodes);
+      document.addBlock(node, blockData, addedNodes);
     });
     return addedNodes;
   },
@@ -101,6 +112,7 @@ export const TryCatchRegistry: FlowNodeRegistry = {
       type: TryCatchTypeEnum.CATCH_BLOCK,
       originParent: node,
       parent,
+      data: blockData.data,
     });
     // 分支开始节点
     const blockOrderIcon = node.document.addNode({

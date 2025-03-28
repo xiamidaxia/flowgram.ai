@@ -104,7 +104,7 @@ export const tryCatchMock: FlowDocumentJSON = {
       id: 'tryCatch',
       type: 'tryCatch',
       blocks: [
-        { id: 'try_branch_0' },
+        { id: 'try_branch_0', blocks: [{ id: 'try_noop_0', type: 'noop' }] },
         { id: 'catch_branch_1', blocks: [{ id: 'catch_noop_0', type: 'noop' }] },
         { id: 'catch_branch_2' },
         { id: 'catch_branch_3' },
