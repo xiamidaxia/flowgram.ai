@@ -116,9 +116,12 @@ After that, you can start to develop projects inside this repository.
 
 Enjoy it!
 
+## Stats
+![Repo Stats](https://repobeats.axiom.co/api/embed/2b88f04ae1568daf1e49f77de99bb9d2fbe0d296.svg)
+
 ## 🌟 Contributors
 
 [![FlowGram.AI Contributors](https://contrib.rocks/image?repo=bytedance/flowgram.ai)](https://github.com/bytedance/flowgram.ai/graphs/contributors)
 
-<!-- ## Star History
-[![Star History](https://api.star-history.com/svg?repos=bytedance/flowgram.ai&type=Timeline)](https://api.star-history.com/svg?repos=bytedance/flowgram.ai&type=Timeline) -->
+## Star History
+[![Star History](https://api.star-history.com/svg?repos=bytedance/flowgram.ai&type=Timeline)](https://api.star-history.com/svg?repos=bytedance/flowgram.ai&type=Timeline)
