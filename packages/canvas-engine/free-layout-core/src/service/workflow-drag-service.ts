@@ -664,7 +664,10 @@ export class WorkflowDragService {
         if (toNode && !this.isContainer(toNode)) {
           // 如果鼠标 hover 在 node 中的时候，默认连线到这个 node 的初始位置
           const portsData = toNode.getData(WorkflowNodePortsData)!;
-          toPort = portsData.inputPorts[0];
+          const { inputPorts } = portsData;
+          if (inputPorts.length === 1) {
+            toPort = inputPorts[0];
+          }
           const { hasError } = this.handleDragOnNode(toNode, fromPort, line, toPort, originLine);
           lineErrorReset = hasError;
         }

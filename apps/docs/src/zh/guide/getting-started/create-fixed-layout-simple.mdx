@@ -9,6 +9,18 @@
   </a>
 </div>
 
+文件结构:
+
+```
+- hooks
+  - use-editor-props.ts # 画布配置
+- components
+  - base-node.tsx # 节点渲染
+  - tools.tsx # 画布工具栏
+- initial-data.ts # 初始化数据
+- node-registries.ts # 节点配置
+- app.tsx # 画布入口
+```
 
 ### 1. 画布入口
 
@@ -22,8 +34,10 @@ import {
   EditorRenderer,
 } from '@flowgram.ai/fixed-layout-editor';
 
-import { useEditorProps } from './use-editor-props' // 画布详细的 props 配置
-import { Tools } from './tools' // 画布工具
+import '@flowgram.ai/fixed-layout-editor/index.css'; // 加载样式
+
+import { useEditorProps } from './hooks/use-editor-props' // 画布详细的 props 配置
+import { Tools } from './components/tools' // 画布工具
 
 function App() {
   const editorProps = useEditorProps()
@@ -40,13 +54,13 @@ function App() {
 
 画布配置采用声明式，提供 数据、渲染、事件、插件相关配置
 
-```tsx pure title="use-editor-props.tsx"
+```tsx pure title="hooks/use-editor-props.tsx"
 import { useMemo } from 'react';
 import { type FixedLayoutProps } from '@flowgram.ai/fixed-layout-editor';
 import { defaultFixedSemiMaterials } from '@flowgram.ai/fixed-semi-materials';
 import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin';
 
-import { intialData } from './initial-data' // 初始化数据
+import { initialData } from './initial-data' // 初始化数据
 import { nodeRegistries } from './node-registries' // 节点声明配置
 import { BaseNode } from './base-node' // 节点渲染
 
@@ -275,7 +289,7 @@ export const nodeRegistries: FlowNodeRegistry[] = [
 
 渲染节点用于添加样式、事件及表单渲染的位置
 
-```tsx pure title="base-node.tsx"
+```tsx pure title="components/base-node.tsx"
 import { useNodeRender } from '@flowgram.ai/fixed-layout-editor';
 
 export const BaseNode = () => {
@@ -319,7 +333,7 @@ export const BaseNode = () => {
 
 工具主要用于控制画布缩放等操作, 工具汇总在 `usePlaygroundTools` 中, 而 `useClientContext` 用于获取画布的上下文, 里边包含画布的核心模块如 `history`
 
-```tsx pure title="tools.tsx"
+```tsx pure title="components/tools.tsx"
 import { useEffect, useState } from 'react'
 import { usePlaygroundTools, useClientContext } from '@flowgram.ai/fixed-layout-editor';
 
