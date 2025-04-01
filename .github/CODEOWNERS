@@ -3,7 +3,10 @@
 * @xiamidaxia @luics @dragooncjw
 
 # 对特定目录设置代码负责人
-/apps/docs/ @xiamidaxia @dragooncjw @YuanHeDx
+/apps/docs/ @xiamidaxia @dragooncjw @YuanHeDx @sanmaopep
 /apps/demo-node-form/ @xiamidaxia @dragooncjw @YuanHeDx
 /packages/node-engine/ @xiamidaxia @dragooncjw @YuanHeDx
+/packages/variable-engine/ @xiamidaxia @dragooncjw @sanmaopep
+/packages/plugins/variable-plugin/ @xiamidaxia @dragooncjw @sanmaopep
+/packages/plugins/node-variable-plugin/ @xiamidaxia @dragooncjw @sanmaopep
 /packages/plugins/node-core-plugin/ @xiamidaxia @dragooncjw @YuanHeDx
