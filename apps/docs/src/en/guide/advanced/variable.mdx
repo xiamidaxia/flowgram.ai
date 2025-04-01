@@ -1,5 +1,62 @@
 # Use Variables
 
+## Business Background
+
+In Workflow orchestration, information needs to be passed between nodes. To achieve this, we use **variables** to store and manage this information.
+
+:::warning A variable consists of three main parts:
+
+1. **Unique Identifier**: The name of the variable, used to distinguish different variables so that they can be accurately referenced and used in the program. For example: `userName` or `totalAmount`.
+2. **Value**: The data stored by the variable. The value can be of various types, such as numbers (e.g., `42`), strings (e.g., `"Hello!"`), boolean values (e.g., `true`), etc.
+3. **Type**: The kind of data that the variable can store. The type determines what kind of values the variable can accept. For example, a variable can be an integer, float, string, or boolean, etc.
+
+:::
+
+Here is an example of a workflow orchestration: The WebSearch node retrieves knowledge and passes it to the LLM node for analysis through the `natural_language_desc`.
+
+<div style={{display: 'flex', gap: '20px'}}>
+  <img style={{width: "50%"}} loading="lazy" src="/variable/variable-biz-context-websearch-llm.png" />
+  <div>
+    In this example:
+    <p style={{marginTop: 10}}>1. The WebSearch node stores the information (value) in a variable with the unique identifier `natural_language_desc`.</p>
+    <p style={{marginTop: 5}}>2. The LLM node retrieves the information (value) from the knowledge base using the unique identifier `natural_language_desc` and passes it to the LLM node for analysis.</p>
+    <p style={{marginTop: 5}}>3. The type of the `natural_language_desc` variable is a string, representing the content of the information retrieved from the web, such as "DeepSeek has released a new model today."</p>
+  </div>
+</div>
+
+## What is the Variable Engine?
+
+The Variable Engine is an optional built-in feature provided by Flowgram that helps to efficiently implement **variable information orchestration** during workflow design. It can achieve the following functions:
+
+<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "25px" }}>
+  <div style={{ gridColumn: "span 2" }}>
+    <b>Scope Constraint Control</b>
+    <p className="rs-tip">With the Variable Engine, you can control the scope of variables, ensuring that variables are available within the appropriate range and avoiding unnecessary conflicts.</p>
+    <div style={{display: "flex", gap: "25px"}}>
+      <div>
+        <img loading="lazy" src="/variable/variable-scope-feature-1.png" />
+        <p style={{marginTop: '10px'}}>In the image, the query variable of the Start node can be accessed by the subsequent LLM node and End node.</p>
+      </div>
+      <div>
+        <img loading="lazy" src="/variable/variable-scope-feature-2.png" />
+        <p style={{marginTop: '10px'}}>In the image, the LLM node is within the Condition branch, while the End node is outside the Condition branch; therefore, the variable selector of the End node cannot select the result variable from the LLM node.</p>
+      </div>
+    </div>
+  </div>
+  <div>
+    <b>Maintenance of Variable Information Tree</b>
+    <p className="rs-tip">The Variable Engine can help you build a clear variable information tree, making it easier to view and manage the status and relationships of all variables.</p>
+    <img loading="lazy" src="/variable/variable-tree-management.gif" />
+    <p style={{marginTop: '10px'}}>The image shows multiple nodes + global configuration output variables; some variables contain multiple sub-variables, forming a tree structure.</p>
+  </div>
+  <div>
+    <b>Automatic Type Inference of Variables</b>
+    <p className="rs-tip">The Variable Engine can automatically infer the type of variables based on context, reducing the workload of manually specifying types and improving development efficiency.</p>
+    <img loading="lazy" src="/variable/variable-batch-auto-infer.gif" />
+    <p style={{marginTop: '10px'}}>In the image, the Batch node processes the arr variable from the Start node; when the type of the arr variable changes, the type of the item variable output by the Batch node also changes accordingly.</p>
+  </div>
+</div>
+
 ## Enable Variable Engine
 
 [> API Detail](https://flowgram.ai/auto-docs/editor/interfaces/VariablePluginOptions.html)

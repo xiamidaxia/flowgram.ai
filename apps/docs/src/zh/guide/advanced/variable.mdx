@@ -1,5 +1,64 @@
 # 变量的使用
 
+## 业务背景
+
+在 Workflow 编排中，节点与节点之间需要传递信息。为了实现这一点，我们使用**变量**来存储和管理这些信息。
+
+:::warning 一个变量由三个主要部分组成：
+
+1. **唯一标识符**：变量的名字，用于区分不同的变量，以便在程序中可以准确地引用和使用它。如：`userName` 或 `totalAmount`。
+2. **值**：变量存储的数据。值可以是多种类型，比如数字（如 `42`）、字符串（如 `"Hello!"`）、布尔值（如 `true`）等。
+3. **类型**：变量可以存储的数据种类。类型决定了变量可以接受什么样的值。例如，一个变量可以是整数、浮点数、字符串或布尔值等。
+
+:::
+
+下面是一个流程编排的例子：WebSearch 节点获取到知识，通过 natural_language_desc 传递到 LLM 节点进行分析
+
+<div style={{display: 'flex', gap: '20px'}}>
+  <img style={{width: "50%"}} loading="lazy" src="/variable/variable-biz-context-websearch-llm.png" />
+  <div>
+    在该例子中：
+    <p style={{marginTop: 10}}>1. WebSearch 节点将信息（值）存在 natural_language_desc 为唯一标识符的变量内</p>
+    <p style={{marginTop: 5}}>2. LLM 节点通过 natural_language_desc 唯一标识符获取到知识库检索的信息（值），并传入 LLM 节点进行分析</p>
+    <p style={{marginTop: 5}}>3. natural_language_desc 变量的类型为字符串，代表在网络中检索到的信息内容，例如 "DeepSeek 今日有新模型发布"</p>
+  </div>
+</div>
+
+
+## 什么是变量引擎？
+
+变量引擎是 Flowgram 提供的一个可选内置功能，可以帮助 Workflow 设计时更高效地实现**变量信息编排**。它可以实现以下功能：
+
+<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "25px" }}>
+  <div style={{ gridColumn: "span 2" }}>
+    <b>作用域约束控制</b>
+    <p className="rs-tip">通过变量引擎，你可以控制变量的作用域，确保变量在合适的范围内可用，避免不必要的冲突。</p>
+    <div style={{display: "flex", gap: "25px"}}>
+      <div>
+        <img loading="lazy" src="/variable/variable-scope-feature-1.png" />
+        <p style={{marginTop: '10px'}}>图中 Start 节点的 query 变量，可被后续的 LLM 节点和 End 节点访问</p>
+      </div>
+      <div>
+        <img loading="lazy" src="/variable/variable-scope-feature-2.png" />
+        <p style={{marginTop: '10px'}}>图中 LLM 节点在 Condition 分支内，End 节点在 Condition 分支外；因此 End 节点的变量选择器无法选择到 LLM 节点上的 result 变量</p>
+      </div>
+    </div>
+  </div>
+  <div>
+    <b>变量信息树的维护</b>
+    <p className="rs-tip">变量引擎可以帮助你构建一个清晰的变量信息树，方便你查看和管理所有变量的状态和关系。</p>
+    <img loading="lazy" src="/variable/variable-tree-management.gif" />
+    <p style={{marginTop: '10px'}}>图中展示了多个节点 + 全局配置的输出变量；其中部分变量包含了多个子变量，形成了一棵树的结构</p>
+  </div>
+  <div>
+    <b>变量类型自动联动推导</b>
+    <p className="rs-tip">变量引擎能够根据上下文自动推导变量的类型，减少手动指定类型的工作量，提高开发效率。</p>
+    <img loading="lazy" src="/variable/variable-batch-auto-infer.gif" />
+    <p style={{marginTop: '10px'}}>图中的 Batch 节点对 Start 节点的 arr 变量进行了批处理，当 arr 变量的类型变动时，Batch 节点批处理输出的 item 变量类型也随之变动</p>
+  </div>
+</div>
+
+
 ## 开启变量引擎
 
 [> API Detail](https://flowgram.ai/auto-docs/editor/interfaces/VariablePluginOptions.html)
