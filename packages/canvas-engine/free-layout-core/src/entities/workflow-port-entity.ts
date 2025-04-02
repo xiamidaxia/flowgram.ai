@@ -199,7 +199,7 @@ export class WorkflowPortEntity extends Entity<WorkflowPortEntityOpts> {
 
   /**
    * 当前点位上连接的线条
-   * @deprecated use `avalabeLines` instead
+   * @deprecated use `availableLines` instead
    */
   get lines(): WorkflowLineEntity[] {
     return this.allLines.filter((line) => !line.isDrawing);
