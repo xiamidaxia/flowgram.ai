@@ -2,7 +2,7 @@
 outline: true
 ---
 
-# 自由布局 - 基础用法
+# 基础用法
 
 import { FreeLayoutSimplePreview } from '../../../../components';
 
@@ -336,9 +336,9 @@ import { MinimapService } from '@flowgram.ai/minimap-plugin';
 
 export const Minimap: React.FC = () => {
   const minimapService = useService<MinimapService>(MinimapService);
-  
+
   return (
-    <div 
+    <div
       className="demo-free-minimap"
       ref={minimapService?.setContainer}
     />
@@ -539,9 +539,9 @@ export const nodeRegistries: Record<string, WorkflowNodeRegistry> = {
 
 ```tsx
 // 核心编辑器容器与渲染器
-import { 
-  FreeLayoutEditorProvider, 
-  EditorRenderer 
+import {
+  FreeLayoutEditorProvider,
+  EditorRenderer
 } from '@flowgram.ai/free-layout-editor';
 
 // 编辑器配置示例

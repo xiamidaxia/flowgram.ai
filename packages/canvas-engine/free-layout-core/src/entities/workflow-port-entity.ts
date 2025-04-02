@@ -199,9 +199,17 @@ export class WorkflowPortEntity extends Entity<WorkflowPortEntityOpts> {
 
   /**
    * 当前点位上连接的线条
+   * @deprecated use `availableLines` instead
    */
   get lines(): WorkflowLineEntity[] {
     return this.allLines.filter((line) => !line.isDrawing);
+  }
+
+  /**
+   * 当前有效的线条，不包含正在画的线条和隐藏的线条（这个出现在线条重连会先把原来的线条隐藏）
+   */
+  get availableLines(): WorkflowLineEntity[] {
+    return this.allLines.filter((line) => !line.isDrawing && !line.isHidden);
   }
 
   /**

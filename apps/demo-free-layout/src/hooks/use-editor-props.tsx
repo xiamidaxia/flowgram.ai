@@ -57,6 +57,14 @@ export function useEditorProps(
           formMeta: defaultFormMeta,
         };
       },
+      lineColor: {
+        hidden: 'transparent',
+        default: '#4d53e8',
+        drawing: '#5DD6E3',
+        hovered: '#37d0ff',
+        selected: '#37d0ff',
+        error: 'red',
+      },
       /*
        * Check whether the line can be added
        * 判断是否连线
@@ -69,15 +77,15 @@ export function useEditorProps(
         return true;
       },
       /**
-       * Check whether the line can be deleted
-       * 判断是否能删除连线
+       * Check whether the line can be deleted, this triggers on the default shortcut `Bakspace` or `Delete`
+       * 判断是否能删除连线, 这个会在默认快捷键 (Backspace or Delete) 触发
        */
       canDeleteLine(ctx, line, newLineInfo, silent) {
         return true;
       },
       /**
-       * Check whether the node can be deleted
-       * 判断是否能删除节点
+       * Check whether the node can be deleted, this triggers on the default shortcut `Bakspace` or `Delete`
+       * 判断是否能删除节点, 这个会在默认快捷键 (Backspace or Delete) 触发
        */
       canDeleteNode(ctx, node) {
         return true;
@@ -95,6 +103,7 @@ export function useEditorProps(
         if (toPort) {
           return;
         }
+        // Open add panel
         await nodePanelService.call({
           fromPort,
           toPort: undefined,

@@ -1,13 +1,19 @@
 [
+  {
+    "type": "dir",
+    "name": "free-layout",
+    "label": "自由布局"
+  },
+  {
+    "type": "dir",
+    "name": "fixed-layout",
+    "label": "固定布局"
+  },
   "form",
   "variable",
   "history",
-  "lines",
-  "custom-service",
+  "shortcuts",
+  "minimap",
   "custom-plugin",
-  {
-    "type": "dir",
-    "name": "interactive",
-    "label": "交互"
-  }
+  "custom-service"
 ]
