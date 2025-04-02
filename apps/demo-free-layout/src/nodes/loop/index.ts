@@ -19,17 +19,33 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
       'Used to repeatedly execute a series of tasks by setting the number of iterations and logic.',
   },
   meta: {
+    /**
+     * Mark as subcanvas
+     * 子画布标记
+     */
     isContainer: true,
+    /**
+     * The subcanvas default size setting
+     * 子画布默认大小设置
+     */
     size: {
       width: 560,
       height: 400,
     },
+    /**
+     * The subcanvas padding setting
+     * 子画布 padding 设置
+     */
     padding: () => ({
       top: 150,
       bottom: 100,
       left: 100,
       right: 100,
     }),
+    /**
+     * Controls the node selection status within the subcanvas
+     * 控制子画布内的节点选中状态
+     */
     selectable(node: WorkflowNodeEntity, mousePos?: PositionSchema): boolean {
       if (!mousePos) {
         return true;

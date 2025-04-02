@@ -9,7 +9,13 @@
 
 <img loading="lazy"  className="invert-img" src="/ecs.png"/>
 
-ReduxStore 伪代码
+
+## 方案对比
+
+我们对比两个数据方案：
+
+### 1. ReduxStore 方案
+
 ```jsx pure
 const store = () => ({
   nodes: [{
@@ -27,6 +33,7 @@ function Playground() {
   return nodes.map(node => <Node data={node} />)
 }
 ```
+
 优点：
 - 中心化数据管理使用简单
 
@@ -34,60 +41,83 @@ function Playground() {
 - 中心化数据管理无法精确更新，带来性能瓶颈
 - 扩展性差，节点新增一个数据，都耦合到一个 大JSON 里
 
-ECS 方案
+### 2. ECS 方案
+
 备注：
 - NodeData 对应的是 ECS - Component
 - Layer 对应 ECS - System
+
 ```jsx pure
+
+/**
+  *  画布文档数据
+  */
 class FlowDocument {
-dataDefines: [
-  NodePositionData,
-  NodeFormData,
-  NodeLineData
-]
-nodeEntities: Entity[] = []
+  /**
+*  * 节点数据定义, 节点创建时候会把数据实例化
+    */
+  nodeDefines: [
+    NodePositionData,
+    NodeFormData,
+    NodeLineData
+  ]
+  nodeEntities: Entity[] = []
 }
 
-
-class Entity {
-id: string // 只有id 不带数据
-getData: (dataId: string) => EntityData
+/**
+ *  节点
+ */
+class FlowNodeEntity {
+  id: string // 只有id 不带数据
+  getData: (dataId: string) => EntityData
 }
 
 // 渲染线条
 class LinesLayer {
-@observeEntityData(NodeLineData) lines
-render() {
-  return lines.map(line => <Line data={line} />)
-}
+  /**
+   *  内部通过 node.getData(NodeLineData) 获取对应的数据，下同
+   */
+  @observeEntityData(FlowNodeEntity, NodeLineData) lines: NodeLineData[]
+  render() {
+    // 渲染线条
+    return this.lines.map(line => <Line data={line} />)
+  }
 }
 
 // 渲染节点位置
 class NodePositionsLayer {
-@observeEntityData(NodePositionData) positions
-return() {
-
-}
+  @observeEntityData(FlowNodeEntity, NodePositionData) positions: NodePositionData[]
+  render() {
+    // 渲染位置及排版
+  }
 }
 
 // 渲染节点表单
 class  NodeFormsLayer {
-  @observeEntityData(NodeFormData) contents
-return() {}
+  @observeEntityData(FlowNodeEntity, NodeFormData) contents: NodeFormData[]
+  render() {
+    // 渲染节点内容
+  }
 }
 
+
+/**
+ * 画布实例，通过 Layer 分层渲染
+ */
 class Playground {
-layers: [
-  LinesLayer, // 线条渲染
-  NodePositionsLayer, // 位置渲染
-  NodeFormsLayer // 内容渲染
-]，
-render() {
-  return this.layers.map(layer => layer.render())
-}
+  layers: [
+    LinesLayer, // 线条渲染
+    NodePositionsLayer, // 位置渲染
+    NodeFormsLayer // 内容渲染
+  ]，
+  render() {
+    // 画布分层渲染
+    return this.layers.map(layer => layer.render())
+  }
 }
 ```
 优点：
+
 - 节点数据拆开来单独控制渲染，性能可做到精确更新
 - 扩展性强，新增一个节点数据，则新增一个 XXXData + XXXLayer
 
