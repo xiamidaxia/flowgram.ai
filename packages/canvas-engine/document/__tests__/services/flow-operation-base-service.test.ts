@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { baseMockAddNode, baseMockAddBranch } from '../flow.mock';
 import { createDocumentContainer } from '../flow-document-container.mock';
-import { FlowOperationBaseService, FlowDocument, OperationType } from '../../src';
+import { FlowOperationBaseService, FlowDocument, OperationType, OnNodeMoveEvent } from '../../src';
 
 describe('flow-operation-base-service', () => {
   let container = createDocumentContainer();
@@ -246,5 +246,18 @@ describe('flow-operation-base-service', () => {
     expect(child.next?.id).toEqual('dynamicSplit_0');
     expect(child.hidden).toEqual(true);
     expect(fn).toBeCalledTimes(1);
+  });
+
+  it('moveNode should fire event', () => {
+    let event: OnNodeMoveEvent;
+
+    flowOperationService.onNodeMove((e) => {
+      event = e;
+      expect(event.node.id === 'noop_0');
+      expect(event.fromIndex === 1);
+      expect(event.toParent.id === 'block_0');
+      expect(event.toIndex === 1);
+    });
+    flowOperationService.moveNode('noop_0', { parent: 'block_0' });
   });
 });

@@ -128,7 +128,8 @@ describe('history-service', () => {
   });
 
   it('transact no operation', async () => {
-    expect(() => historyService.transact(() => {})).toThrowError('no operation be pushed');
+    historyService.transact(() => {});
+    expect(historyService.canUndo()).toEqual(false);
   });
 
   it('clear should clear all', () => {

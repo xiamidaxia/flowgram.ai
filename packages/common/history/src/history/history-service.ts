@@ -91,11 +91,10 @@ export class HistoryService implements IHistoryService {
     if (!stackOperation) {
       return;
     }
-    if (stackOperation.getOperations().length === 0) {
-      throw new Error('no operation be pushed');
+    if (stackOperation.getOperations().length !== 0) {
+      this._pushStackOperation(stackOperation);
     }
 
-    this._pushStackOperation(stackOperation);
     this._transactOperation = null;
     this._transacting = false;
   }
