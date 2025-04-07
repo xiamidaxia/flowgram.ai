@@ -233,8 +233,7 @@ return available.variables.map(renderVariable)
 ```tsx pure title="use-variable-tree.tsx"
 import {
   type BaseVariableField,
-  isMatchAST,
-  ObjectType,
+  ASTMatch,
 } from '@flowgram.ai/fixed-layout-editor';
 
 // ....
@@ -243,7 +242,7 @@ const renderVariable = (variable: BaseVariableField) => ({
   title: variable.meta?.title,
   key: variable.key,
   // Only Object Type can drilldown
-  children: isMatchAST(type, ObjectType) ? type.properties.map(renderVariable) : [],
+  children: ASTMatch.isObject(type) ? type.properties.map(renderVariable) : [],
 });
 
 // ....
@@ -256,9 +255,7 @@ const renderVariable = (variable: BaseVariableField) => ({
 import {
   type BaseVariableField,
   type BaseType,
-  isMatchAST,
-  ObjectType,
-  ArrayType,
+  ASTMatch,
 } from '@flowgram.ai/fixed-layout-editor';
 
 // ....
@@ -267,10 +264,10 @@ const getTypeChildren = (type?: BaseType): BaseVariableField[] => {
   if (!type) return [];
 
   // get properties of Object
-  if (isMatchAST(type, ObjectType)) return type.properties;
+  if (ASTMatch.isObject(type)) return type.properties;
 
   // get items type of Array
-  if (isMatchAST(type, ArrayType)) return getTypeChildren(type.items);
+  if (ASTMatch.isArray(type)) return getTypeChildren(type.items);
 };
 
 const renderVariable = (variable: BaseVariableField) => ({

@@ -16,5 +16,6 @@ export * from './type';
 export * from './expression';
 
 export { ASTFactory } from './factory';
+export { ASTMatch } from './match';
 export { injectToAST, postConstructAST } from './utils/inversify';
 export { isMatchAST } from './utils/helpers';

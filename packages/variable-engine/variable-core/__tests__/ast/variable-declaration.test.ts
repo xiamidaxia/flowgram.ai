@@ -2,11 +2,11 @@ import { vi, describe, test, expect } from 'vitest';
 
 import {
   ASTKind,
+  ASTMatch,
   ObjectType,
   NumberType,
   VariableEngine,
   VariableDeclaration,
-  isMatchAST,
 } from '../../src';
 import { simpleVariableList } from '../../__mocks__/variables';
 import { getContainer } from '../../__mocks__/container';
@@ -167,7 +167,7 @@ describe('test Basic Variable Declaration', () => {
       type: ASTKind.Number,
       meta: { label: 'test Label' },
     });
-    expect(isMatchAST(declaration.type, NumberType)).toBeTruthy();
+    expect(ASTMatch.is(declaration.type, NumberType)).toBeTruthy();
     expect(declarationChangeTimes).toBe(2);
     expect(anyVariableChangeTimes).toBe(2);
     expect(typeChangeTimes).toBe(1);
@@ -186,7 +186,7 @@ describe('test Basic Variable Declaration', () => {
       },
       meta: { label: 'test Label' },
     });
-    expect(isMatchAST(declaration.type, ObjectType)).toBeTruthy();
+    expect(ASTMatch.is(declaration.type, ObjectType)).toBeTruthy();
     expect(declarationChangeTimes).toBe(3);
     expect(anyVariableChangeTimes).toBe(3);
     expect(typeChangeTimes).toBe(2);

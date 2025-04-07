@@ -1,15 +1,12 @@
 import { useCallback, useMemo } from 'react';
 
 import {
-  ArrayType,
   ASTFactory,
   ASTKind,
   type BaseType,
-  CustomType,
-  isMatchAST,
-  ObjectType,
   type UnionJSON,
   useScopeAvailable,
+  ASTMatch,
 } from '@flowgram.ai/free-layout-editor';
 
 import { createASTFromJSONSchema } from '../utils';
@@ -47,14 +44,14 @@ export function useVariableTree<TreeData>({
   const getVariableTypeIcon = useCallback((variable: VariableField) => {
     const _type = variable.type;
 
-    if (isMatchAST(_type, ArrayType)) {
+    if (ASTMatch.isArray(_type)) {
       return (
         (ArrayIcons as any)[_type.items?.kind.toLowerCase()] ||
         VariableTypeIcons[ASTKind.Array.toLowerCase()]
       );
     }
 
-    if (isMatchAST(_type, CustomType)) {
+    if (ASTMatch.isCustomType(_type)) {
       return VariableTypeIcons[_type.typeName.toLowerCase()];
     }
 
@@ -96,7 +93,7 @@ export function useVariableTree<TreeData>({
     const isTypeFiltered = checkTypeFiltered(type);
 
     let children: TreeData[] | undefined;
-    if (isMatchAST(type, ObjectType)) {
+    if (ASTMatch.isObject(type)) {
       children = (type.properties || [])
         .map((_property) => renderVariable(_property as VariableField, [...parentFields, variable]))
         .filter(Boolean) as TreeData[];

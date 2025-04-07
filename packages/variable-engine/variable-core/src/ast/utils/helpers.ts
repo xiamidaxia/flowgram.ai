@@ -1,4 +1,5 @@
 import { ASTNodeJSON, ASTNodeJSONOrKind } from '../types';
+import { ASTMatch } from '../match';
 import { ASTNode } from '../ast-node';
 
 export function updateChildNodeHelper(
@@ -53,9 +54,15 @@ export function getAllChildren(ast: ASTNode): ASTNode[] {
   return [...ast.children, ...ast.children.map((_child) => getAllChildren(_child)).flat()];
 }
 
+/**
+ * isMatchAST is same as ASTMatch.is
+ * @param node
+ * @param targetType
+ * @returns
+ */
 export function isMatchAST<TargetASTNode extends ASTNode>(
   node?: ASTNode,
   targetType?: { kind: string; new (...args: any[]): TargetASTNode }
 ): node is TargetASTNode {
-  return node?.kind === targetType?.kind;
+  return ASTMatch.is(node, targetType);
 }
