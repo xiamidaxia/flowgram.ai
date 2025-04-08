@@ -335,10 +335,7 @@ export class WorkflowDragService {
           dragNodeType: type,
           dropNode,
         });
-        if (!allowDrop) {
-          return this.clearDrop();
-        }
-        const dragNode = await this.dropCard(type, e, data, dropNode);
+        const dragNode = allowDrop ? await this.dropCard(type, e, data, dropNode) : undefined;
         this.clearDrop();
         if (dragNode) {
           domNode.remove();
