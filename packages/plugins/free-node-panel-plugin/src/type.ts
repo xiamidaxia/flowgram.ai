@@ -1,8 +1,8 @@
 import type React from 'react';
 
+import type { PositionSchema } from '@flowgram.ai/utils';
 import type { WorkflowNodeEntity, WorkflowPortEntity } from '@flowgram.ai/free-layout-core';
 import type { WorkflowNodeJSON } from '@flowgram.ai/free-layout-core';
-import type { PositionSchema } from '@flowgram.ai/utils';
 
 export interface NodePanelCallParams {
   /** 唤起节点面板的位置 */
@@ -47,8 +47,8 @@ export interface CallNodePanelParams {
   onSelect: (params?: NodePanelResult) => void;
   position: PositionSchema;
   onClose: () => void;
-  enableMultiAdd: boolean;
-  panelProps: Record<string, any>;
+  panelProps?: Record<string, any>;
+  enableMultiAdd?: boolean;
   containerNode?: WorkflowNodeEntity;
 }
 

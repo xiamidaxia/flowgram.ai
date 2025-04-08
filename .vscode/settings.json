@@ -91,7 +91,7 @@
     "typescriptreact"
   ],
   "editor.semanticHighlighting.enabled": false,
-  "eslint.format.enable": false,
+  "eslint.format.enable": true,
   "eslint.enable": true,
   "eslint.useFlatConfig": true,
   "eslint.codeActionsOnSave.mode": "problems",
@@ -130,7 +130,7 @@
   // "stylelint.stylelintPath": "config/stylelint-config/node_modules/stylelint",
   "emmet.triggerExpansionOnTab": true,
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -160,7 +160,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "[ignore]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"

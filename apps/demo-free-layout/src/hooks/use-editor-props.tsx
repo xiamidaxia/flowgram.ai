@@ -4,14 +4,12 @@ import { useMemo } from 'react';
 import { debounce } from 'lodash-es';
 import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin';
 import { createFreeSnapPlugin } from '@flowgram.ai/free-snap-plugin';
-import {
-  createFreeNodePanelPlugin,
-  WorkflowNodePanelService,
-} from '@flowgram.ai/free-node-panel-plugin';
+import { createFreeNodePanelPlugin } from '@flowgram.ai/free-node-panel-plugin';
 import { createFreeLinesPlugin } from '@flowgram.ai/free-lines-plugin';
 import { FreeLayoutProps } from '@flowgram.ai/free-layout-editor';
 import { createContainerNodePlugin } from '@flowgram.ai/free-container-plugin';
 
+import { onDragLineEnd } from '../utils';
 import { FlowNodeRegistry, FlowDocumentJSON } from '../typings';
 import { shortcuts } from '../shortcuts';
 import { CustomService } from '../services';
@@ -94,27 +92,7 @@ export function useEditorProps(
        * Drag the end of the line to create an add panel (feature optional)
        * 拖拽线条结束需要创建一个添加面板 （功能可选）
        */
-      async onDragLineEnd(ctx, params) {
-        const nodePanelService = ctx.get(WorkflowNodePanelService);
-        const { fromPort, toPort, mousePos, line, originLine } = params;
-        if (originLine || !line) {
-          return;
-        }
-        if (toPort) {
-          return;
-        }
-        // Open add panel
-        await nodePanelService.call({
-          fromPort,
-          toPort: undefined,
-          panelPosition: mousePos,
-          enableBuildLine: true,
-          panelProps: {
-            enableNodePlaceholder: true,
-            enableScrollClose: true,
-          },
-        });
-      },
+      onDragLineEnd,
       /**
        * SelectBox config
        */

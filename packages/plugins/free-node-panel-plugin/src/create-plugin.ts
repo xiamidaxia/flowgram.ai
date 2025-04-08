@@ -1,8 +1,4 @@
-import {
-  definePluginCreator,
-  type PluginBindConfig,
-  type PluginContext,
-} from '@flowgram.ai/core';
+import { definePluginCreator, type PluginBindConfig, type PluginContext } from '@flowgram.ai/core';
 
 import { NodePanelPluginOptions } from './type';
 import { WorkflowNodePanelService } from './service';

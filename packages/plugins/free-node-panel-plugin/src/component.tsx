@@ -8,7 +8,7 @@ interface NodePanelContainerProps {
   children: ReactNode;
 }
 
-export const NodePanelContainer: FC<NodePanelContainerProps> = props => {
+export const NodePanelContainer: FC<NodePanelContainerProps> = (props) => {
   const { onSelect, position, children } = props;
   const panelRef = useRef<HTMLDivElement>(null);
 

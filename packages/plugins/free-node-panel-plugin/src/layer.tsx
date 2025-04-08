@@ -2,9 +2,9 @@
 import React from 'react';
 
 import { inject } from 'inversify';
-import { Layer } from '@flowgram.ai/core';
-import { nanoid } from '@flowgram.ai/free-layout-core';
 import { domUtils } from '@flowgram.ai/utils';
+import { nanoid } from '@flowgram.ai/free-layout-core';
+import { Layer } from '@flowgram.ai/core';
 
 import type {
   CallNodePanelParams,
@@ -42,7 +42,7 @@ export class WorkflowNodePanelLayer extends Layer<NodePanelLayerOptions> {
     const NodePanelRender = this.options.renderer;
     return (
       <>
-        {Array.from(this.renderList.keys()).map(taskId => {
+        {Array.from(this.renderList.keys()).map((taskId) => {
           const renderProps = this.renderList.get(taskId)!;
           return <NodePanelRender key={taskId} {...renderProps} />;
         })}
@@ -52,8 +52,8 @@ export class WorkflowNodePanelLayer extends Layer<NodePanelLayerOptions> {
 
   private async call(params: CallNodePanelParams): Promise<void> {
     const taskId = nanoid();
-    const { enableMultiAdd, onSelect, onClose } = params;
-    return new Promise(resolve => {
+    const { onSelect, onClose, enableMultiAdd = false, panelProps = {} } = params;
+    return new Promise((resolve) => {
       const unmount = () => {
         // 清理挂载的组件
         this.renderList.delete(taskId);
@@ -72,6 +72,7 @@ export class WorkflowNodePanelLayer extends Layer<NodePanelLayerOptions> {
       };
       const renderProps: NodePanelRenderProps = {
         ...params,
+        panelProps,
         onSelect: handleSelect,
         onClose: handleClose,
       };
