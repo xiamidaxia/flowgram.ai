@@ -19,6 +19,7 @@ import {
   FlowNodesTransformLayer,
   FlowScrollBarLayer,
   FlowScrollLimitLayer,
+  createPlaygroundReactPreset,
 } from '@flowgram.ai/editor';
 
 import { FlowOperationService } from '../types';
@@ -152,6 +153,7 @@ export function createFixedLayoutPreset(
         },
       })
     );
-    return plugins;
+
+    return createPlaygroundReactPreset(opts, plugins)(ctx);
   };
 }

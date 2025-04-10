@@ -29,6 +29,7 @@ import {
   FlowNodesTransformLayer,
   FlowScrollBarLayer,
   FlowScrollLimitLayer,
+  createPlaygroundReactPreset,
 } from '@flowgram.ai/editor';
 
 import { FreeLayoutProps, FreeLayoutPluginContext } from './free-layout-props';
@@ -240,6 +241,7 @@ export function createFreeLayoutPreset(
         ...(opts.selectBox || {}),
       })
     );
-    return plugins;
+
+    return createPlaygroundReactPreset(opts, plugins)(ctx);
   };
 }

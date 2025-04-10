@@ -18,6 +18,12 @@ export function createPlaygroundReactPreset<CTX extends PluginContext = PluginCo
   return (ctx: CTX) => {
     plugins = plugins.slice();
     /**
+     * 注册背景 (放前面插入), 默认打开
+     */
+    if (opts.background || opts.background === undefined) {
+      plugins.push(createBackgroundPlugin(opts.background || {}));
+    }
+    /**
      * 注册快捷键
      */
     if (opts.shortcuts) {
@@ -70,13 +76,6 @@ export function createPlaygroundReactPreset<CTX extends PluginContext = PluginCo
         containerModules: opts.containerModules || [],
       })
     );
-
-    /**
-     * 注册背景 (放最后插入), 默认打开
-     */
-    if (opts.background || opts.background === undefined) {
-      plugins.push(createBackgroundPlugin(opts.background || {}));
-    }
     return plugins;
   };
 }

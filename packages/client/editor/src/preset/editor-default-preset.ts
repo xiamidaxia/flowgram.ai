@@ -1,7 +1,6 @@
 import { interfaces } from 'inversify';
 import { FlowRendererContainerModule, FlowRendererRegistry } from '@flowgram.ai/renderer';
 import { createReduxDevToolPlugin } from '@flowgram.ai/redux-devtool-plugin';
-import { createPlaygroundReactPreset } from '@flowgram.ai/playground-react';
 import { createNodeVariablePlugin } from '@flowgram.ai/node-variable-plugin';
 import { createNodeCorePlugin } from '@flowgram.ai/node-core-plugin';
 import { createMaterialsPlugin } from '@flowgram.ai/materials-plugin';
@@ -121,6 +120,6 @@ export function createDefaultPreset<CTX extends EditorPluginContext = EditorPlug
       })
     );
 
-    return createPlaygroundReactPreset<CTX>(opts, plugins)(ctx);
+    return plugins;
   };
 }

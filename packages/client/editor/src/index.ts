@@ -70,3 +70,5 @@ export * from './clients';
  */
 
 export * from '@flowgram.ai/node-variable-plugin';
+
+export { createPlaygroundReactPreset } from '@flowgram.ai/playground-react';
