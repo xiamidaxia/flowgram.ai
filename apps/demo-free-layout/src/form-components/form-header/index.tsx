@@ -43,7 +43,7 @@ function DropdownContent() {
 
   const handleCopy = useCallback(
     (e: React.MouseEvent) => {
-      clientContext.playground.commandService.executeCommand(FlowCommandId.COPY, node);
+      clientContext.playground.commandService.executeCommand(FlowCommandId.PASTE, [node]);
       e.stopPropagation(); // Disable clicking prevents the sidebar from opening
     },
     [clientContext, node]
@@ -66,7 +66,7 @@ function DropdownContent() {
         <Dropdown.Menu key={key}>
           {canMoveOut && <Dropdown.Item onClick={handleMoveOut}>Move out</Dropdown.Item>}
           <Dropdown.Item onClick={handleCopy} disabled={registry.meta!.copyDisable === true}>
-            Copy
+            Create Copy
           </Dropdown.Item>
           <Dropdown.Item
             onClick={handleDelete}
