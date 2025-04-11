@@ -8,6 +8,7 @@ import {
   WorkflowNodeEntity,
   WorkflowNodeJSON,
   WorkflowSelectService,
+  getAntiOverlapPosition,
 } from '@flowgram.ai/free-layout-editor';
 import { Toast } from '@douyinfe/semi-ui';
 
@@ -92,7 +93,7 @@ export function shortcuts(shortcutsRegistry: ShortcutsRegistry, ctx: FreeLayoutP
               nodeJSON.type as string,
               nodeJSON,
               '',
-              nodeJSON.meta?.position,
+              getAntiOverlapPosition(document, nodeJSON.meta!.position!),
               node.parent?.id
             );
           })
@@ -144,7 +145,7 @@ export function shortcuts(shortcutsRegistry: ShortcutsRegistry, ctx: FreeLayoutP
             nodeJSON.type as string,
             nodeJSON,
             '',
-            position,
+            getAntiOverlapPosition(document, position!),
             containerNode?.id
           );
         })
