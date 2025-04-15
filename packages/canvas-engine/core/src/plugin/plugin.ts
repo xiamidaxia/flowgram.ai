@@ -65,6 +65,7 @@ export const Plugin = Symbol('Plugin');
 export type Plugin<Options = any> = {
   options: Options;
   pluginId: string;
+  singleton: boolean;
   initPlugin: () => void;
   contributionKeys?: interfaces.ServiceIdentifier[];
   containerModules?: interfaces.ContainerModule[];
@@ -78,22 +79,31 @@ export type PluginCreator<Options> = (opts: Options) => Plugin<Options>;
 
 export function loadPlugins(plugins: Plugin[], container: interfaces.Container): void {
   const pluginInitSet = new Set<string>();
-  const modules: interfaces.ContainerModule[] = plugins.reduce((res, plugin) => {
-    if (!pluginInitSet.has(plugin.pluginId)) {
-      plugin.initPlugin();
-      pluginInitSet.add(plugin.pluginId);
-    }
-    if (plugin.containerModules && plugin.containerModules.length > 0) {
-      for (let module of plugin.containerModules) {
-        // 去重
-        if (!res.includes(module)) {
-          res.push(module);
+  const singletonPluginIds = new Set<string>();
+  const modules: interfaces.ContainerModule[] = plugins
+    .reduceRight((result: Plugin[], plugin: Plugin) => {
+      const shouldSkip = plugin.singleton && singletonPluginIds.has(plugin.pluginId);
+      if (plugin.singleton) {
+        singletonPluginIds.add(plugin.pluginId);
+      }
+      return shouldSkip ? result : [plugin, ...result];
+    }, [])
+    .reduce((res, plugin) => {
+      if (!pluginInitSet.has(plugin.pluginId)) {
+        plugin.initPlugin();
+        pluginInitSet.add(plugin.pluginId);
+      }
+      if (plugin.containerModules && plugin.containerModules.length > 0) {
+        for (let module of plugin.containerModules) {
+          // 去重
+          if (!res.includes(module)) {
+            res.push(module);
+          }
         }
+        return res;
       }
       return res;
-    }
-    return res;
-  }, [] as interfaces.ContainerModule[]);
+    }, [] as interfaces.ContainerModule[]);
   modules.forEach((module) => container.load(module));
   plugins.forEach((plugin) => {
     if (plugin.contributionKeys) {
@@ -139,9 +149,10 @@ export function definePluginCreator<Options, CTX extends PluginContext = PluginC
   config: {
     containerModules?: interfaces.ContainerModule[];
     contributionKeys?: interfaces.ServiceIdentifier[];
+    singleton?: boolean;
   } & PluginConfig<Options, CTX>
 ): PluginCreator<Options> {
-  const { contributionKeys } = config;
+  const { contributionKeys, singleton = false } = config;
   pluginIndex += 1;
   const pluginId = `Playground_${pluginIndex}`;
   return (opts: Options) => {
@@ -150,6 +161,7 @@ export function definePluginCreator<Options, CTX extends PluginContext = PluginC
 
     return {
       pluginId,
+      singleton,
       initPlugin: () => {
         // 防止 plugin 被上层业务多次 init
         if (isInit) {

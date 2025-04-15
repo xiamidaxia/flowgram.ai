@@ -6,6 +6,7 @@ import { WorkflowLinesLayer } from './layer';
 import { WorkflowBezierLineContribution, WorkflowFoldLineContribution } from './contributions';
 
 export const createFreeLinesPlugin = definePluginCreator({
+  singleton: true,
   onInit: (ctx: PluginContext, opts: FreeLinesPluginOptions) => {
     ctx.playground.registerLayer(WorkflowLinesLayer, {
       ...opts,
