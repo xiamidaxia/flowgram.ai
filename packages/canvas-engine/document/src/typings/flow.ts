@@ -8,7 +8,7 @@ export type FlowNodeType = string | number;
  */
 export interface FlowNodeJSON {
   id: string;
-  type?: FlowNodeType; // 如果缺省 则 为 block
+  type?: FlowNodeBaseType | FlowNodeSplitType | FlowNodeType; // 如果缺省 则 为 block
   data?: Record<string, any>; // 节点额外扩展的内容
   meta?: FlowNodeMeta;
   blocks?: FlowNodeJSON[]; // 子节点
