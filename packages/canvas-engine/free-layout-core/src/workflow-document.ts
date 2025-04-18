@@ -123,13 +123,15 @@ export class WorkflowDocument extends FlowDocument {
    * @param json
    */
   fromJSON(json: Partial<WorkflowJSON>, fireRender = true): void {
-    const { flattenJSON, nodeBlocks, nodeEdges } = this.flatJSON(json);
-    const nestedJSON = this.nestJSON(flattenJSON, nodeBlocks, nodeEdges);
+    const workflowJSON: WorkflowJSON = {
+      nodes: json.nodes ?? [],
+      edges: json.edges ?? [],
+    };
     // 触发画布更新
     this.entityManager.changeEntityLocked = true;
 
     // 逐层渲染
-    this.renderJSON(nestedJSON);
+    this.renderJSON(workflowJSON);
 
     this.entityManager.changeEntityLocked = false;
     this.transformer.loading = false;
@@ -559,132 +561,6 @@ export class WorkflowDocument extends FlowDocument {
     super.dispose();
     this.disposed = true;
     this._onReloadEmitter.dispose();
-  }
-
-  private getEdgeID(edge: WorkflowEdgeJSON): string {
-    return WorkflowLineEntity.portInfoToLineId({
-      from: edge.sourceNodeID,
-      to: edge.targetNodeID,
-      fromPort: edge.sourcePortID,
-      toPort: edge.targetPortID,
-    });
-  }
-
-  /**
-   * 拍平树形json结构，将结构信息提取到map
-   */
-  private flatJSON(json: Partial<WorkflowJSON> = { nodes: [], edges: [] }): {
-    flattenJSON: WorkflowJSON;
-    nodeBlocks: Map<string, string[]>;
-    nodeEdges: Map<string, string[]>;
-  } {
-    const nodeBlocks = new Map<string, string[]>();
-    const nodeEdges = new Map<string, string[]>();
-    const rootNodes = json.nodes ?? [];
-    const rootEdges = json.edges ?? [];
-    const flattenNodeJSONs: WorkflowNodeJSON[] = [...rootNodes];
-    const flattenEdgeJSONs: WorkflowEdgeJSON[] = [...rootEdges];
-
-    const rootBlockIDs: string[] = rootNodes.map((node) => node.id);
-    const rootEdgeIDs: string[] = rootEdges.map((edge) => this.getEdgeID(edge));
-
-    nodeBlocks.set(FlowNodeBaseType.ROOT, rootBlockIDs);
-    nodeEdges.set(FlowNodeBaseType.ROOT, rootEdgeIDs);
-
-    // 如需支持多层结构，以下部分改为递归
-    rootNodes.forEach((nodeJSON) => {
-      const { blocks, edges } = nodeJSON;
-      if (blocks) {
-        flattenNodeJSONs.push(...blocks);
-        const blockIDs: string[] = [];
-        blocks.forEach((block) => {
-          blockIDs.push(block.id);
-        });
-        nodeBlocks.set(nodeJSON.id, blockIDs);
-        delete nodeJSON.blocks;
-      }
-      if (edges) {
-        flattenEdgeJSONs.push(...edges);
-        const edgeIDs: string[] = [];
-        edges.forEach((edge) => {
-          const edgeID = this.getEdgeID(edge);
-          edgeIDs.push(edgeID);
-        });
-        nodeEdges.set(nodeJSON.id, edgeIDs);
-        delete nodeJSON.edges;
-      }
-    });
-
-    const flattenJSON: WorkflowJSON = {
-      nodes: flattenNodeJSONs,
-      edges: flattenEdgeJSONs,
-    };
-
-    return {
-      flattenJSON,
-      nodeBlocks,
-      nodeEdges,
-    };
-  }
-
-  /**
-   * 对JSON进行分层
-   */
-  private nestJSON(
-    flattenJSON: WorkflowJSON,
-    nodeBlocks: Map<string, string[]>,
-    nodeEdges: Map<string, string[]>
-  ): WorkflowJSON {
-    const nestJSON: WorkflowJSON = {
-      nodes: [],
-      edges: [],
-    };
-    const nodeMap = new Map<string, WorkflowNodeJSON>();
-    const edgeMap = new Map<string, WorkflowEdgeJSON>();
-    const rootBlockSet = new Set<string>(nodeBlocks.get(FlowNodeBaseType.ROOT) ?? []);
-    const rootEdgeSet = new Set<string>(nodeEdges.get(FlowNodeBaseType.ROOT) ?? []);
-
-    // 构造缓存
-    flattenJSON.nodes.forEach((nodeJSON) => {
-      nodeMap.set(nodeJSON.id, nodeJSON);
-    });
-
-    flattenJSON.edges.forEach((edgeJSON) => {
-      const edgeID = this.getEdgeID(edgeJSON);
-      edgeMap.set(edgeID, edgeJSON);
-    });
-
-    // 恢复层级数据
-    flattenJSON.nodes.forEach((nodeJSON) => {
-      if (rootBlockSet.has(nodeJSON.id)) {
-        nestJSON.nodes.push(nodeJSON);
-      }
-      // 恢复blocks
-      if (nodeBlocks.has(nodeJSON.id)) {
-        const blockIDs = nodeBlocks.get(nodeJSON.id)!;
-        const blockJSONs: WorkflowNodeJSON[] = blockIDs
-          .map((blockID) => nodeMap.get(blockID)!)
-          .filter(Boolean);
-        nodeJSON.blocks = blockJSONs;
-      }
-      // 恢复edges
-      if (nodeEdges.has(nodeJSON.id)) {
-        const edgeIDs = nodeEdges.get(nodeJSON.id)!;
-        const edgeJSONs: WorkflowEdgeJSON[] = edgeIDs
-          .map((edgeID) => edgeMap.get(edgeID)!)
-          .filter(Boolean);
-        nodeJSON.edges = edgeJSONs;
-      }
-    });
-
-    flattenJSON.edges.forEach((edgeJSON) => {
-      const edgeID = this.getEdgeID(edgeJSON);
-      if (rootEdgeSet.has(edgeID)) {
-        nestJSON.edges.push(edgeJSON);
-      }
-    });
-
-    return nestJSON;
   }
 
   /**
