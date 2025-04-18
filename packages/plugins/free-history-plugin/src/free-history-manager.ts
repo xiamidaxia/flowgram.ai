@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { cloneDeep } from 'lodash';
-import { injectable, inject } from 'inversify';
-import { DisposableCollection } from '@flowgram.ai/utils';
+import { injectable, inject, optional } from 'inversify';
+import { DisposableCollection, Disposable } from '@flowgram.ai/utils';
 import { HistoryService } from '@flowgram.ai/history';
 import {
   WorkflowDocument,
@@ -38,7 +38,8 @@ export class FreeHistoryManager {
   private _entityManager: HistoryEntityManager;
 
   @inject(FormManager)
-  private _formManager: FormManager;
+  @optional()
+  private _formManager?: FormManager;
 
   private _toDispose: DisposableCollection = new DisposableCollection();
 
@@ -70,23 +71,25 @@ export class FreeHistoryManager {
           this._entityManager.addEntityData(positionData);
         }
       }),
-      this._formManager.onFormModelWillInit(({ model, data }) => {
-        const node = model.flowNodeEntity;
-        const formData = node.getData<FlowNodeFormData>(FlowNodeFormData);
+      this._formManager
+        ? this._formManager.onFormModelWillInit(({ model, data }) => {
+            const node = model.flowNodeEntity;
+            const formData = node.getData<FlowNodeFormData>(FlowNodeFormData);
 
-        if (formData) {
-          this._entityManager.setValue(formData, cloneDeep(data));
+            if (formData) {
+              this._entityManager.setValue(formData, cloneDeep(data));
 
-          this._toDispose.push(
-            formData.onDetailChange((event) => {
-              this._changeNodeDataHandler.handle({
-                ...event,
-                node,
-              });
-            })
-          );
-        }
-      }),
+              this._toDispose.push(
+                formData.onDetailChange((event) => {
+                  this._changeNodeDataHandler.handle({
+                    ...event,
+                    node,
+                  });
+                })
+              );
+            }
+          })
+        : Disposable.NULL,
       document.onContentChange(async (event) => {
         await this._changeContentHandler.handle(event, ctx);
       }),
