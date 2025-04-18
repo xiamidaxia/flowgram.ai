@@ -31,7 +31,6 @@ import {
 import { WorkflowLinesManager } from '../workflow-lines-manager';
 import { WorkflowDocumentOptions } from '../workflow-document-option';
 import { WorkflowDocument } from '../workflow-document';
-import { WorkflowCommands } from '../workflow-commands';
 import { LineEventProps, NodesDragEvent, OnDragLineEnd } from '../typings/workflow-drag';
 import { type WorkflowNodeJSON, type WorkflowNodeMeta } from '../typings';
 import { WorkflowNodePortsData } from '../entity-datas';
@@ -136,7 +135,6 @@ export class WorkflowDragService {
     if (sameParent && sameParent.flowNodeType !== FlowNodeBaseType.ROOT) {
       selectedNodes = [sameParent];
     }
-    const { altKey } = triggerEvent;
     // 节点整体开始位置
     let startPosition = this.getNodesPosition(selectedNodes);
     // 单个节点开始位置
@@ -152,7 +150,6 @@ export class WorkflowDragService {
           type: 'onDragStart',
           nodes: selectedNodes,
           startPositions,
-          altKey,
           dragEvent,
           triggerEvent,
           dragger,
@@ -161,30 +158,6 @@ export class WorkflowDragService {
       onDrag: (dragEvent) => {
         if (!dragSuccess && checkDragSuccess(Date.now() - startTime, dragEvent)) {
           dragSuccess = true;
-          if (altKey) {
-            // 按住 alt 为复制
-            const tryCopyNodes = selectedNodes;
-            if (tryCopyNodes.length > 0) {
-              this.selectService.clear();
-              this.commandService
-                .executeCommand(WorkflowCommands.PASTE_NODES, tryCopyNodes, true)
-                .then((newNodes) => {
-                  if (newNodes && Array.isArray(newNodes) && newNodes.length > 0) {
-                    selectedNodes = newNodes as WorkflowNodeEntity[];
-                    startPosition = this.getNodesPosition(tryCopyNodes);
-                    startPositions = tryCopyNodes
-                      .filter((n) => !n.getNodeMeta<WorkflowNodeMeta>().copyDisable)
-                      .map((node) => {
-                        const transform = node.getData(TransformData);
-                        return {
-                          x: transform.position.x,
-                          y: transform.position.y,
-                        };
-                      });
-                  }
-                });
-            }
-          }
         }
 
         // 计算拖拽偏移量
@@ -222,7 +195,6 @@ export class WorkflowDragService {
           nodes: selectedNodes,
           startPositions,
           positions,
-          altKey,
           dragEvent,
           triggerEvent,
           dragger,
@@ -234,7 +206,6 @@ export class WorkflowDragService {
           type: 'onDragEnd',
           nodes: selectedNodes,
           startPositions,
-          altKey,
           dragEvent,
           triggerEvent,
           dragger,

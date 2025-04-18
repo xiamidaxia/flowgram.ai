@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { injectable, inject } from 'inversify';
-import { TransformData } from '@flowgram.ai/core';
-import { type NodesDragEndEvent } from '@flowgram.ai/free-layout-core';
 import { HistoryService } from '@flowgram.ai/history';
+import { type NodesDragEndEvent } from '@flowgram.ai/free-layout-core';
+import { TransformData } from '@flowgram.ai/core';
 
 import { FreeOperationType, type IHandler } from '../types';
 
@@ -12,10 +12,7 @@ export class DragNodesHandler implements IHandler<NodesDragEndEvent> {
   private _historyService: HistoryService;
 
   handle(event: NodesDragEndEvent) {
-    if (
-      event.type === 'onDragEnd' &&
-      !event.altKey // altKey代表创建，这个通过add-node监听处理
-    ) {
+    if (event.type === 'onDragEnd') {
       this._dragNode(event);
     }
   }
@@ -25,8 +22,8 @@ export class DragNodesHandler implements IHandler<NodesDragEndEvent> {
       {
         type: FreeOperationType.dragNodes,
         value: {
-          ids: event.nodes.map(node => node.id),
-          value: event.nodes.map(node => {
+          ids: event.nodes.map((node) => node.id),
+          value: event.nodes.map((node) => {
             const { x, y } = node.getData(TransformData).position;
             return {
               x,
@@ -36,7 +33,7 @@ export class DragNodesHandler implements IHandler<NodesDragEndEvent> {
           oldValue: event.startPositions,
         },
       },
-      { noApply: true },
+      { noApply: true }
     );
   }
 }

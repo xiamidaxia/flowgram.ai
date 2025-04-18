@@ -16,7 +16,6 @@ interface INodesDragEvent {
   type: string;
   nodes: FlowNodeEntity[];
   startPositions: PositionSchema[];
-  altKey: boolean;
   dragEvent: PlaygroundDragEvent;
   triggerEvent: MouseEvent | React.MouseEvent;
   dragger: PlaygroundDrag;

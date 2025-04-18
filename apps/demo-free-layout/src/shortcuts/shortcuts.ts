@@ -80,26 +80,10 @@ export function shortcuts(shortcutsRegistry: ShortcutsRegistry, ctx: FreeLayoutP
   shortcutsRegistry.addHandlers({
     commandId: FlowCommandId.PASTE,
     shortcuts: ['meta v', 'ctrl v'],
-    execute: async (selectedNodes?: WorkflowNodeEntity[]) => {
+    execute: async (e: KeyboardEvent) => {
       const document = ctx.get<WorkflowDocument>(WorkflowDocument);
       const selectService = ctx.get<WorkflowSelectService>(WorkflowSelectService);
       const dragService = ctx.get<WorkflowDragService>(WorkflowDragService);
-
-      if (selectedNodes && Array.isArray(selectedNodes)) {
-        const newNodes = await Promise.all(
-          selectedNodes.map(async (node) => {
-            const nodeJSON = await document.toNodeJSON(node);
-            return document.copyNodeFromJSON(
-              nodeJSON.type as string,
-              nodeJSON,
-              '',
-              getAntiOverlapPosition(document, nodeJSON.meta!.position!),
-              node.parent?.id
-            );
-          })
-        );
-        return newNodes;
-      }
 
       const text: string = (await navigator.clipboard.readText()) || '';
       let clipboardData: {

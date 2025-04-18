@@ -1,8 +1,8 @@
 import { interfaces } from 'inversify';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { IPoint, logger } from '@flowgram.ai/utils';
+import { IPoint } from '@flowgram.ai/utils';
 import { FlowNodeBaseType } from '@flowgram.ai/document';
-import { CommandRegistry, PlaygroundConfigEntity, PositionData } from '@flowgram.ai/core';
+import { PlaygroundConfigEntity, PositionData } from '@flowgram.ai/core';
 import { TransformData } from '@flowgram.ai/core';
 
 import { createWorkflowContainer, baseJSON, nestJSON } from '../mocks';
@@ -13,7 +13,6 @@ import {
   WorkflowLineEntity,
   WorkflowSelectService,
   WorkflowNodeEntity,
-  WorkflowCommands,
   WorkflowLinesManager,
   WorkflowPortEntity,
 } from '../../src';
@@ -322,39 +321,6 @@ describe('workflow-drag-service', () => {
       y: 100,
     });
     expect(endNode.getData(PositionData).toJSON()).toEqual({ x: 900, y: 100 });
-  });
-  it('startDragSelectedNodes with altKey', async () => {
-    container.get(CommandRegistry).registerCommand(
-      {
-        id: WorkflowCommands.PASTE_NODES,
-      },
-      {
-        execute: (nodes: WorkflowNodeEntity[]) =>
-          Promise.all(nodes.map((n) => document.copyNode(n, n.id + '_copy'))),
-      }
-    );
-    container.get(WorkflowSelectService).selection = [startNode, endNode];
-    const promise = dragService.startDragSelectedNodes({
-      clientX: 0,
-      clientY: 0,
-      altKey: true,
-    } as any);
-    await fireMouseEvent('mousemove', { x: 10, y: 10 });
-    await fireMouseEvent('mousemove', { x: 100, y: 100 });
-    await fireMouseEvent('mouseup', { x: 100, y: 100 });
-    const dragResult = await promise;
-    expect(dragResult).toEqual(true);
-    expect(startNode.getData(PositionData).toJSON()).toEqual({ x: 10, y: 10 });
-    expect(endNode.getData(PositionData).toJSON()).toEqual({ x: 810, y: 10 });
-    logger.warn('nodeInfo', document.getNode('start_0_copy')!.getData(PositionData).toJSON());
-    expect(document.getNode('start_0_copy')!.getData(PositionData).toJSON()).toEqual({
-      x: 110,
-      y: 110,
-    });
-    expect(document.getNode('end_0_copy')!.getData(PositionData).toJSON()).toEqual({
-      x: 910,
-      y: 110,
-    });
   });
   it('startDragSelectedNodes with same parent', async () => {
     await document.fromJSON({
