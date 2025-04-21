@@ -1,4 +1,4 @@
-import { useContext, useCallback } from 'react';
+import { useContext, useCallback, useMemo } from 'react';
 
 import { Field, FieldRenderProps, useClientContext } from '@flowgram.ai/fixed-layout-editor';
 import { IconButton, Dropdown, Typography, Button } from '@douyinfe/semi-ui';
@@ -34,16 +34,19 @@ function DropdownContent() {
     },
     [clientContext, node]
   );
+  const deleteDisabled = useMemo(() => {
+    if (registry.canDelete) {
+      return !registry.canDelete(clientContext, node);
+    }
+    return registry.meta!.deleteDisable;
+  }, [registry, node]);
 
   return (
     <Dropdown.Menu>
       <Dropdown.Item onClick={handleCopy} disabled={registry.meta!.copyDisable === true}>
         Copy
       </Dropdown.Item>
-      <Dropdown.Item
-        onClick={handleDelete}
-        disabled={!!(registry.canDelete?.(clientContext, node) || registry.meta!.deleteDisable)}
-      >
+      <Dropdown.Item onClick={handleDelete} disabled={deleteDisabled}>
         Delete
       </Dropdown.Item>
     </Dropdown.Menu>
