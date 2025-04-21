@@ -4,13 +4,18 @@
   "dictionaryDefinitions": [],
   "dictionaries": [],
   "words": [
-    "flowgram.ai",
-    "rspress",
-    "douyinfe",
-    "Sandpack",
+    "closebracket",
     "codesandbox",
+    "douyinfe",
+    "flowgram",
+    "flowgram.ai",
+    "openbracket",
+    "rsbuild",
     "rspack",
-    "rsbuild"
+    "rspress",
+    "Sandpack",
+    "zoomin",
+    "zoomout"
   ],
   "ignoreWords": [],
   "import": []

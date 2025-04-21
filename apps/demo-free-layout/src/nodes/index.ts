@@ -4,6 +4,7 @@ import { LoopNodeRegistry } from './loop';
 import { LLMNodeRegistry } from './llm';
 import { EndNodeRegistry } from './end';
 import { ConditionNodeRegistry } from './condition';
+export { WorkflowNodeType } from './constants';
 
 export const nodeRegistries: FlowNodeRegistry[] = [
   ConditionNodeRegistry,

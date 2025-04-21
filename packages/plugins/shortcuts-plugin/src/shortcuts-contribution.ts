@@ -1,7 +1,7 @@
 import { inject, injectable, named, optional, postConstruct } from 'inversify';
 import { Command, CommandRegistry, ContributionProvider } from '@flowgram.ai/core';
 
-interface ShortcutsHandler {
+export interface ShortcutsHandler {
   commandId: string;
   commandDetail?: Omit<Command, 'id'>;
   shortcuts: string[];

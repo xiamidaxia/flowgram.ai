@@ -26,7 +26,7 @@ export class WorkflowNodeLinesData extends EntityData<WorkflowNodeLines> {
   constructor(entity: WorkflowNodeEntity) {
     super(entity);
     this.entity = entity;
-    this.toDispose.push(
+    this.entity.preDispose.push(
       Disposable.create(() => {
         this.inputLines.slice().forEach((line) => line.dispose());
         this.outputLines.slice().forEach((line) => line.dispose());

@@ -120,7 +120,7 @@ export class WorkflowDragService {
    * 拖拽选中节点
    * @param triggerEvent
    */
-  startDragSelectedNodes(triggerEvent: MouseEvent | React.MouseEvent): Promise<boolean> {
+  async startDragSelectedNodes(triggerEvent: MouseEvent | React.MouseEvent): Promise<boolean> {
     let { selectedNodes } = this.selectService;
     if (
       selectedNodes.length === 0 ||

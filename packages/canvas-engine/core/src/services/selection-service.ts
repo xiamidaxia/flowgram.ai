@@ -14,6 +14,8 @@ export class SelectionService implements Disposable {
 
   private currentSelection: Entity[] = [];
 
+  private disposers: Disposable[] = [];
+
   get selection(): Entity[] {
     return this.currentSelection;
   }
@@ -23,10 +25,22 @@ export class SelectionService implements Disposable {
   }
 
   set selection(selection: Entity<any>[]) {
-    if (Compare.isArrayShallowChanged(this.currentSelection, selection)) {
-      this.currentSelection = selection;
-      this.onSelectionChangedEmitter.fire(this.currentSelection);
+    if (!Compare.isArrayShallowChanged(this.currentSelection, selection)) {
+      return;
     }
+    this.disposers.forEach((disposer) => disposer.dispose());
+    this.changeSelection(selection);
+    this.disposers = this.currentSelection.map((selection) =>
+      selection.onDispose(() => {
+        const newSelection = this.currentSelection.filter((n) => n !== selection);
+        this.changeSelection(newSelection);
+      })
+    );
+  }
+
+  private changeSelection(selection: Entity<any>[]) {
+    this.currentSelection = selection;
+    this.onSelectionChangedEmitter.fire(this.currentSelection);
   }
 
   dispose() {

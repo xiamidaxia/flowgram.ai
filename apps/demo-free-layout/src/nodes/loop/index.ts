@@ -9,10 +9,11 @@ import { defaultFormMeta } from '../default-form-meta';
 import { FlowNodeRegistry } from '../../typings';
 import iconLoop from '../../assets/icon-loop.jpg';
 import { LoopFormRender } from './loop-form-render';
+import { WorkflowNodeType } from '../constants';
 
 let index = 0;
 export const LoopNodeRegistry: FlowNodeRegistry = {
-  type: 'loop',
+  type: WorkflowNodeType.Loop,
   info: {
     icon: iconLoop,
     description:
