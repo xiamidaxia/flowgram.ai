@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 
+import { defaultFormMeta } from '../default-form-meta';
 import { FlowNodeRegistry } from '../../typings';
 import iconLoop from '../../assets/icon-loop.svg';
 
@@ -13,6 +14,7 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
   meta: {
     expandable: false, // disable expanded
   },
+  formMeta: defaultFormMeta,
   onAdd() {
     return {
       id: `loop_${nanoid(5)}`,

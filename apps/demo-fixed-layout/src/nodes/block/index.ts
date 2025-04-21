@@ -2,6 +2,7 @@ import { nanoid } from 'nanoid';
 
 import { FlowNodeRegistry } from '../../typings';
 import iconIf from '../../assets/icon-if.png';
+import { formMeta } from './form-meta';
 
 let id = 2;
 export const BlockNodeRegistry: FlowNodeRegistry = {
@@ -24,6 +25,9 @@ export const BlockNodeRegistry: FlowNodeRegistry = {
         inputs: {
           type: 'object',
           required: ['condition'],
+          inputsValues: {
+            condition: '',
+          },
           properties: {
             condition: {
               type: 'string',
@@ -33,4 +37,5 @@ export const BlockNodeRegistry: FlowNodeRegistry = {
       },
     };
   },
+  formMeta,
 };

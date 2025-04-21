@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid';
 import { FlowNodeSplitType } from '@flowgram.ai/fixed-layout-editor';
 
+import { defaultFormMeta } from '../default-form-meta';
 import { FlowNodeRegistry } from '../../typings';
 import iconCondition from '../../assets/icon-condition.svg';
 
@@ -15,6 +16,7 @@ export const ConditionNodeRegistry: FlowNodeRegistry = {
   meta: {
     expandable: false, // disable expanded
   },
+  formMeta: defaultFormMeta,
   onAdd() {
     return {
       id: `condition_${nanoid(5)}`,
@@ -28,6 +30,9 @@ export const ConditionNodeRegistry: FlowNodeRegistry = {
           type: 'block',
           data: {
             title: 'If_0',
+            inputsValues: {
+              condition: '',
+            },
             inputs: {
               type: 'object',
               required: ['condition'],
@@ -44,6 +49,9 @@ export const ConditionNodeRegistry: FlowNodeRegistry = {
           type: 'block',
           data: {
             title: 'If_1',
+            inputsValues: {
+              condition: '',
+            },
             inputs: {
               type: 'object',
               required: ['condition'],

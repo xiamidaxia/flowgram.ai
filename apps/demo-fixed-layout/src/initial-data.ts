@@ -76,6 +76,9 @@ export const initialData: FlowDocumentJSON = {
               type: 'block',
               data: {
                 title: 'If_0',
+                inputsValues: {
+                  condition: '',
+                },
                 inputs: {
                   type: 'object',
                   required: ['condition'],
@@ -93,6 +96,9 @@ export const initialData: FlowDocumentJSON = {
               type: 'block',
               data: {
                 title: 'If_1',
+                inputsValues: {
+                  condition: '',
+                },
                 inputs: {
                   type: 'object',
                   required: ['condition'],
@@ -127,6 +133,9 @@ export const initialData: FlowDocumentJSON = {
           type: 'catchBlock',
           data: {
             title: 'Catch Block 1',
+            inputsValues: {
+              condition: '',
+            },
             inputs: {
               type: 'object',
               required: ['condition'],
@@ -144,6 +153,9 @@ export const initialData: FlowDocumentJSON = {
           type: 'catchBlock',
           data: {
             title: 'Catch Block 2',
+            inputsValues: {
+              condition: '',
+            },
             inputs: {
               type: 'object',
               required: ['condition'],
