@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 
+import { defaultFormMeta } from '../default-form-meta';
 import { FlowNodeRegistry } from '../../typings';
 import iconLLM from '../../assets/icon-llm.jpg';
 
@@ -11,6 +12,7 @@ export const LLMNodeRegistry: FlowNodeRegistry = {
     description:
       'Call the large language model and use variables and prompt words to generate responses.',
   },
+  formMeta: defaultFormMeta,
   onAdd() {
     return {
       id: `llm_${nanoid(5)}`,

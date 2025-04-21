@@ -17,7 +17,6 @@ import { shortcutGetter } from '../shortcuts';
 import { CustomService } from '../services';
 import { GroupBoxHeader, GroupNode } from '../plugins/group-plugin';
 import { createSyncVariablePlugin, createClipboardPlugin } from '../plugins';
-import { defaultFormMeta } from '../nodes';
 import { SelectorBoxPopover } from '../components/selector-box-popover';
 import NodeAdder from '../components/node-adder';
 import BranchAdder from '../components/branch-adder';
@@ -62,11 +61,6 @@ export function useEditorProps(
              */
             defaultExpanded: true,
           },
-          /**
-           * Default FormMeta
-           * 默认的表单配置
-           */
-          formMeta: defaultFormMeta,
         };
       },
       /**

@@ -16,5 +16,3 @@ export const FlowNodeRegistries: FlowNodeRegistry[] = [
   BlockNodeRegistry,
   TryCatchNodeRegistry,
 ];
-
-export { defaultFormMeta } from './default-form-meta';
