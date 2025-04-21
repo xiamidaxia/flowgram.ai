@@ -15,6 +15,12 @@ export const BlockNodeRegistry: FlowNodeRegistry = {
     description: 'Execute the branch when the condition is met.',
   },
   canAdd: () => false,
+  canDelete: (ctx, node) => {
+    if (node.originParent!.flowNodeType === 'tryCatch') {
+      return node.parent!.blocks.length >= 2;
+    }
+    return node.parent!.blocks.length >= 3;
+  },
   onAdd(ctx, from) {
     const isTryCatch = from.flowNodeType === 'tryCatch';
     return {

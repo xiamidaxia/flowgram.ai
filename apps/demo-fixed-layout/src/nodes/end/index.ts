@@ -54,7 +54,7 @@ export const EndNodeRegistry: FlowNodeRegistry = {
     return true;
   },
   canDelete(ctx, node) {
-    return node.parent === ctx.document.root;
+    return node.parent !== ctx.document.root;
   },
   onAdd(ctx, from) {
     return {
