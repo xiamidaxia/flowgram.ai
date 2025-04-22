@@ -46,7 +46,7 @@ export interface FlowNodeJSON extends FlowNodeJSONDefault {
  * 你可以自定义节点的注册器
  */
 export interface FlowNodeRegistry extends FlowNodeRegistryDefault {
-  info: {
+  info?: {
     icon: string;
     description: string;
   };

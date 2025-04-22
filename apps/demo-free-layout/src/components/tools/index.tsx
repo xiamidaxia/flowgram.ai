@@ -15,6 +15,7 @@ import { MinimapSwitch } from './minimap-switch';
 import { Minimap } from './minimap';
 import { Interactive } from './interactive';
 import { FitView } from './fit-view';
+import { Comment } from './comment';
 import { AutoLayout } from './auto-layout';
 
 export const DemoTools = () => {
@@ -47,6 +48,7 @@ export const DemoTools = () => {
         <MinimapSwitch minimapVisible={minimapVisible} setMinimapVisible={setMinimapVisible} />
         <Minimap visible={minimapVisible} />
         <Readonly />
+        <Comment />
         <Tooltip content="Undo">
           <IconButton
             type="tertiary"

@@ -5,7 +5,7 @@ import { NodePanelRenderProps } from '@flowgram.ai/free-node-panel-plugin';
 import { useClientContext } from '@flowgram.ai/free-layout-editor';
 
 import { FlowNodeRegistry } from '../../typings';
-import { nodeRegistries } from '../../nodes';
+import { visibleNodeRegistries } from '../../nodes';
 
 const NodeWrap = styled.div`
   width: 100%;
@@ -71,11 +71,13 @@ export const NodeList: FC<NodeListProps> = (props) => {
   };
   return (
     <NodesWrap style={{ width: 80 * 2 + 20 }}>
-      {nodeRegistries.map((registry) => (
+      {visibleNodeRegistries.map((registry) => (
         <Node
           key={registry.type}
           disabled={!(registry.canAdd?.(context) ?? true)}
-          icon={<img style={{ width: 10, height: 10, borderRadius: 4 }} src={registry.info.icon} />}
+          icon={
+            <img style={{ width: 10, height: 10, borderRadius: 4 }} src={registry.info?.icon} />
+          }
           label={registry.type as string}
           onClick={(e) => handleClick(e, registry)}
         />

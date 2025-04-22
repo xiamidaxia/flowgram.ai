@@ -15,8 +15,9 @@ import { shortcuts } from '../shortcuts';
 import { CustomService } from '../services';
 import { createSyncVariablePlugin } from '../plugins';
 import { defaultFormMeta } from '../nodes/default-form-meta';
+import { WorkflowNodeType } from '../nodes';
 import { SelectorBoxPopover } from '../components/selector-box-popover';
-import { BaseNode, LineAddButton, NodePanel } from '../components';
+import { BaseNode, CommentRender, LineAddButton, NodePanel } from '../components';
 
 export function useEditorProps(
   initialData: FlowDocumentJSON,
@@ -104,6 +105,9 @@ export function useEditorProps(
          * Render Node
          */
         renderDefaultNode: BaseNode,
+        renderNodes: {
+          [WorkflowNodeType.Comment]: CommentRender,
+        },
       },
       /**
        * Node engine enable, you can configure formMeta in the FlowNodeRegistry

@@ -4,4 +4,5 @@ export enum WorkflowNodeType {
   LLM = 'llm',
   Condition = 'condition',
   Loop = 'loop',
+  Comment = 'comment',
 }
