@@ -2,13 +2,12 @@ import type { ReactNode, FC, CSSProperties } from 'react';
 
 interface ICommentContainer {
   focused: boolean;
-  overflow: boolean;
   children?: ReactNode;
   style?: React.CSSProperties;
 }
 
 export const CommentContainer: FC<ICommentContainer> = (props) => {
-  const { focused, overflow, children, style } = props;
+  const { focused, children, style } = props;
 
   const scrollbarStyle = {
     // 滚动条样式

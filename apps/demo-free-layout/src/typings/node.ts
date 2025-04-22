@@ -25,7 +25,7 @@ export interface FlowNodeJSON extends FlowNodeJSONDefault {
     /**
      * Node title
      */
-    title: string;
+    title?: string;
     /**
      * Inputs data values
      */
@@ -38,6 +38,10 @@ export interface FlowNodeJSON extends FlowNodeJSONDefault {
      * Define the outputs data of the node by JsonSchema
      */
     outputs?: JsonSchema;
+    /**
+     * Rest properties
+     */
+    [key: string]: any;
   };
 }
 

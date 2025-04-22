@@ -55,7 +55,7 @@ export const CommentRender: FC<{
       <Form control={formControl}>
         <>
           {/* 背景 */}
-          <CommentContainer focused={focused} overflow={overflow} style={{ height }}>
+          <CommentContainer focused={focused} style={{ height }}>
             <Field name={CommentEditorFormField.Note}>
               {({ field }: FieldRenderProps<string>) => (
                 <>

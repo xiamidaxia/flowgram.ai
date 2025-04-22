@@ -16,15 +16,7 @@ export const CommentEditor: FC<ICommentEditor> = (props) => {
   const { model, style, onChange } = props;
   const playground = usePlayground();
   const editorRef = useRef<HTMLTextAreaElement | null>(null);
-  const [value, setValue] = useState(model.value);
-  const [focused, setFocus] = useState(false);
-
-  const placeholder: string | undefined = useMemo(() => {
-    if (value || focused) {
-      return;
-    }
-    return 'Enter a comment...';
-  }, [value, focused]);
+  const placeholder = model.value || model.focused ? undefined : 'Enter a comment...';
 
   // 同步编辑器内部值变化
   useEffect(() => {
@@ -55,15 +47,12 @@ export const CommentEditor: FC<ICommentEditor> = (props) => {
         onChange={(e) => {
           const { value } = e.target;
           model.setValue(value);
-          setValue(value);
         }}
         onFocus={() => {
           model.setFocus(true);
-          setFocus(true);
         }}
         onBlur={() => {
           model.setFocus(false);
-          setFocus(false);
         }}
       />
     </div>

@@ -8,7 +8,7 @@ export const initialData: FlowDocumentJSON = {
       meta: {
         position: {
           x: 180,
-          y: 313.25,
+          y: 298,
         },
       },
       data: {
@@ -30,7 +30,7 @@ export const initialData: FlowDocumentJSON = {
       meta: {
         position: {
           x: 640,
-          y: 298.75,
+          y: 279.5,
         },
       },
       data: {
@@ -125,7 +125,7 @@ export const initialData: FlowDocumentJSON = {
       meta: {
         position: {
           x: 2220,
-          y: 313.25,
+          y: 298,
         },
       },
       data: {
@@ -146,7 +146,7 @@ export const initialData: FlowDocumentJSON = {
       meta: {
         position: {
           x: 1020,
-          y: 532.5,
+          y: 452,
         },
       },
       data: {
@@ -260,6 +260,23 @@ export const initialData: FlowDocumentJSON = {
           targetNodeID: 'llm_gZafu',
         },
       ],
+    },
+    {
+      id: '159623',
+      type: 'comment',
+      meta: {
+        position: {
+          x: 640,
+          y: 465.5,
+        },
+      },
+      data: {
+        size: {
+          width: 240,
+          height: 150,
+        },
+        note: 'hi ~\n\nthis is a comment node\n\n- flowgram.ai',
+      },
     },
   ],
   edges: [

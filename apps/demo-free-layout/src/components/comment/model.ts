@@ -8,7 +8,7 @@ export class CommentEditorModel {
 
   private emitter: Emitter<CommentEditorEventParams> = new Emitter();
 
-  private editor: HTMLTextAreaElement | null = null;
+  private editor: HTMLTextAreaElement;
 
   /** 注册事件 */
   public on = this.emitter.event;
@@ -20,10 +20,14 @@ export class CommentEditorModel {
 
   /** 外部设置模型值 */
   public setValue(value: string = CommentEditorDefaultValue): void {
+    if (!this.initialized) {
+      return;
+    }
     if (value === this.innerValue) {
       return;
     }
     this.innerValue = value;
+    this.syncEditorValue();
     this.emitter.fire({
       type: CommentEditorEvent.Change,
       value: this.innerValue,
@@ -31,7 +35,7 @@ export class CommentEditorModel {
   }
 
   public set element(el: HTMLTextAreaElement) {
-    if (Boolean(this.editor)) {
+    if (this.initialized) {
       return;
     }
     this.editor = el;
@@ -44,10 +48,13 @@ export class CommentEditorModel {
 
   /** 编辑器聚焦/失焦 */
   public setFocus(focused: boolean): void {
+    if (!this.initialized) {
+      return;
+    }
     if (focused && !this.focused) {
-      this.editor?.focus();
+      this.editor.focus();
     } else if (!focused && this.focused) {
-      this.editor?.blur();
+      this.editor.blur();
       this.deselect();
       this.emitter.fire({
         type: CommentEditorEvent.Blur,
@@ -57,7 +64,7 @@ export class CommentEditorModel {
 
   /** 选择末尾 */
   public selectEnd(): void {
-    if (!this.editor) {
+    if (!this.initialized) {
       return;
     }
     // 获取文本长度
@@ -79,5 +86,21 @@ export class CommentEditorModel {
     if (selection) {
       selection.removeAllRanges();
     }
+  }
+
+  /** 是否初始化 */
+  private get initialized(): boolean {
+    return Boolean(this.editor);
+  }
+
+  /**
+   * 同步编辑器实例内容
+   * > **NOTICE:** *为确保不影响性能，应仅在外部值变更导致编辑器值与模型值不一致时调用*
+   */
+  private syncEditorValue(): void {
+    if (!this.initialized) {
+      return;
+    }
+    this.editor.value = this.innerValue;
   }
 }
