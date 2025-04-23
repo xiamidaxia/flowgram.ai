@@ -1,26 +1,46 @@
 import { type IPoint, Point, Rectangle } from '@flowgram.ai/utils';
 
 /**
- * 计算点和直线的距离
- * @param p1
- * @param p2
- * @param p3
+ * 计算点到线段的距离
+ * @param point 待测试点
+ * @param segStart 线段起点
+ * @param segEnd 线段终点
  */
-function pointLineDistance(p1: IPoint, p2: IPoint, p3: IPoint): number {
-  let len;
+const getPointToSegmentDistance = (point: IPoint, segStart: IPoint, segEnd: IPoint): number => {
+  const { x: px, y: py } = point;
+  const { x: x1, y: y1 } = segStart;
+  const { x: x2, y: y2 } = segEnd;
 
-  // 竖着的线
-  if (p1.x - p2.x === 0) {
-    len = Math.abs(p3.x - p1.x);
+  const A = px - x1;
+  const B = py - y1;
+  const C = x2 - x1;
+  const D = y2 - y1;
+
+  const dot = A * C + B * D;
+  const lenSq = C * C + D * D;
+
+  // 参数方程中的t参数
+  const param = lenSq === 0 ? -1 : dot / lenSq;
+
+  let xx: number;
+  let yy: number;
+
+  if (param < 0) {
+    xx = x1;
+    yy = y1;
+  } else if (param > 1) {
+    xx = x2;
+    yy = y2;
   } else {
-    const A = (p1.y - p2.y) / (p1.x - p2.x);
-    const B = p1.y - A * p1.x;
-
-    len = Math.abs((A * p3.x + B - p3.y) / Math.sqrt(A * A + 1));
+    xx = x1 + param * C;
+    yy = y1 + param * D;
   }
 
-  return len;
-}
+  const dx = px - xx;
+  const dy = py - yy;
+
+  return Math.sqrt(dx * dx + dy * dy);
+};
 
 export namespace FoldLine {
   const EDGE_RADIUS = 5;
@@ -218,22 +238,33 @@ export namespace FoldLine {
     );
   }
   /**
-   * 折叠线和点的距离
-   * @param linePosition
-   * @param pos
+   * 计算点到折线的最短距离
+   * @param points 折线的所有端点
+   * @param pos 待测试点
+   * @returns 最短距离
    */
-  export function getFoldLineToPointDistance(points: IPoint[], pos: IPoint): number {
-    const bounds = getBounds(points);
-    if (bounds.contains(pos.x, pos.y)) {
-      const lines = points.reduce((res, point, index) => {
-        if (index === 0) {
-          return res;
-        }
-        res.push([points[index - 1]!, point]);
-        return res;
-      }, [] as [IPoint, IPoint][]);
-      return Math.min(...lines.map((l) => pointLineDistance(...l, pos)));
+  export const getFoldLineToPointDistance = (points: IPoint[], pos: IPoint): number => {
+    // 特殊情况处理
+    if (points.length === 0) {
+      return Infinity;
     }
-    return Math.min(...points.map((p) => Point.getDistance(p, pos)));
-  }
+
+    if (points.length === 1) {
+      return Point.getDistance(points[0]!, pos);
+    }
+
+    // 构建线段数组
+    const lines: [IPoint, IPoint][] = [];
+    for (let i = 0; i < points.length - 1; i++) {
+      lines.push([points[i]!, points[i + 1]!]);
+    }
+
+    // 计算点到每个线段的最短距离
+    const distances = lines.map((line) => {
+      const [p1, p2] = line;
+      return getPointToSegmentDistance(pos, p1, p2);
+    });
+
+    return Math.min(...distances);
+  };
 }
