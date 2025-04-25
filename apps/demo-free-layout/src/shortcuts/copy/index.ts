@@ -1,5 +1,4 @@
 import {
-  FlowNodeTransformData,
   FreeLayoutPluginContext,
   Rectangle,
   ShortcutsHandler,
@@ -48,7 +47,7 @@ export class CopyShortcut implements ShortcutsHandler {
     if (!this.isValid(this.selectedNodes)) {
       return;
     }
-    const data = this.toData();
+    const data = this.toClipboardData();
     await this.write(data);
   }
 
@@ -91,8 +90,8 @@ export class CopyShortcut implements ShortcutsHandler {
   /**
    * create clipboard data - 转换为剪贴板数据
    */
-  private toData(): WorkflowClipboardData {
-    const validNodes = this.getValidNodes(this.selectedNodes);
+  toClipboardData(nodes?: WorkflowNodeEntity[]): WorkflowClipboardData {
+    const validNodes = this.getValidNodes(nodes ? nodes : this.selectedNodes);
     const source = this.toSource();
     const json = this.toJSON(validNodes);
     const bounds = this.getEntireBounds(validNodes);
