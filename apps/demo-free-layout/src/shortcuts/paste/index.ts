@@ -19,6 +19,7 @@ import { Toast } from '@douyinfe/semi-ui';
 import { WorkflowClipboardData, WorkflowClipboardRect } from '../type';
 import { FlowCommandId, WorkflowClipboardDataID } from '../constants';
 import { generateUniqueWorkflow } from './unique-workflow';
+import { CopyShortcut } from '../copy';
 
 export class PasteShortcut implements ShortcutsHandler {
   public commandId = FlowCommandId.PASTE;
@@ -38,19 +39,31 @@ export class PasteShortcut implements ShortcutsHandler {
   /**
    * initialize paste shortcut handler - 初始化粘贴快捷键处理器
    */
-  constructor(context: FreeLayoutPluginContext) {
+  constructor(private context: FreeLayoutPluginContext) {
     this.document = context.get(WorkflowDocument);
     this.selectService = context.get(WorkflowSelectService);
     this.entityManager = context.get(EntityManager);
     this.hoverService = context.get(WorkflowHoverService);
     this.dragService = context.get(WorkflowDragService);
+    this.execute = this.execute.bind(this);
   }
 
   /**
    * execute paste action - 执行粘贴操作
+   * Usage:
+   *  1. clientContext.playground.commandService.executeCommand(FlowCommandId.PASTE, [node]);
+   *  2. keyboard: cmd + v
    */
-  public async execute(): Promise<WorkflowNodeEntity[] | undefined> {
-    const data = await this.tryReadClipboard();
+  public async execute(
+    targetEntities?: WorkflowNodeEntity[]
+  ): Promise<WorkflowNodeEntity[] | undefined> {
+    let data: WorkflowClipboardData | undefined;
+    if (targetEntities && Array.isArray(targetEntities)) {
+      const copyShortcut = new CopyShortcut(this.context);
+      data = copyShortcut.toClipboardData(targetEntities);
+    } else {
+      data = await this.tryReadClipboard();
+    }
     if (!data) {
       return;
     }
