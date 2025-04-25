@@ -68,7 +68,7 @@ export const createSyncVariablePlugin: PluginCreator<SyncVariablePluginOptions> 
 
           // Listen for changes in the form values and re-synchronize when outputs change
           form.onFormValuesChange((props) => {
-            if (props.name.match(/^outputs/)) {
+            if (props.name.match(/^outputs/) || props.name.match(/^title/)) {
               syncOutputs(form.getValueIn('outputs'));
             }
           });
