@@ -118,22 +118,35 @@ export class WorkflowLinesLayer extends Layer<LinesLayerOptions> {
   }
 
   private lineProps(line: WorkflowLineEntity): LineRenderProps {
-    const renderData = line.getData(WorkflowLineRenderData);
-    const { renderVersion } = renderData;
     const { lineType } = this.workflowDocument.linesManager;
     const selected = this.selectService.isSelected(line.id);
-    const { version: lineVersion, color } = line;
+    const hovered = this.hoverService.isHovered(line.id);
+    const version = this.lineVersion(line);
 
-    const version = `${this._version}:${lineVersion}:${renderVersion}:${color}:${selected}`;
     return {
       key: line.id,
       color: line.color,
       selected,
+      hovered,
       line,
       lineType,
       version,
       strokePrefix: this.layerID,
     };
+  }
+
+  private lineVersion(line: WorkflowLineEntity): string {
+    const renderData = line.getData(WorkflowLineRenderData);
+    const { renderVersion } = renderData;
+    const selected = this.selectService.isSelected(line.id);
+    const hovered = this.hoverService.isHovered(line.id);
+    const { version: lineVersion, color } = line;
+
+    const version = `v:${this._version},lv:${lineVersion},rv:${renderVersion},c:${color},s:${
+      selected ? 'T' : 'F'
+    },h:${hovered ? 'T' : 'F'}`;
+
+    return version;
   }
 
   private lineComponent(props: LineRenderProps): ReactNode {

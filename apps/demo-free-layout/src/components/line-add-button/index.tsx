@@ -21,8 +21,8 @@ import { useVisible } from './use-visible';
 import { IconPlusCircle } from './button';
 
 export const LineAddButton = (props: LineRenderProps) => {
-  const { line, selected, color } = props;
-  const visible = useVisible({ line, selected, color });
+  const { line, selected, hovered, color } = props;
+  const visible = useVisible({ line, selected, hovered });
   const nodePanelService = useService<WorkflowNodePanelService>(WorkflowNodePanelService);
   const document = useService(WorkflowDocument);
   const dragService = useService(WorkflowDragService);
