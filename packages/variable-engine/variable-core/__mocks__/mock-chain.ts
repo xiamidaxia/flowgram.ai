@@ -19,8 +19,10 @@ export class MockScopeChain extends ScopeChain {
     }
 
     // 模拟循环依赖场景
-    if(scope.id.startsWith('cycle')) {
-      return this.variableEngine.getAllScopes().filter(_scope => _scope.id.startsWith('cycle') && _scope.id!== scope.id);
+    if (String(scope.id).startsWith('cycle')) {
+      return this.variableEngine
+        .getAllScopes()
+        .filter((_scope) => String(_scope.id).startsWith('cycle') && _scope.id !== scope.id);
     }
 
     return res;
@@ -32,8 +34,10 @@ export class MockScopeChain extends ScopeChain {
     }
 
     // 模拟循环依赖场景
-    if(scope.id.startsWith('cycle')) {
-      return this.variableEngine.getAllScopes().filter(_scope => _scope.id.startsWith('cycle') && _scope.id!== scope.id);
+    if (String(scope.id).startsWith('cycle')) {
+      return this.variableEngine
+        .getAllScopes()
+        .filter((_scope) => String(_scope.id).startsWith('cycle') && _scope.id !== scope.id);
     }
 
     return [];

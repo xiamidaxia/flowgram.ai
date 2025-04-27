@@ -1,14 +1,18 @@
 import { VariableTable } from '../variable-table';
+import { IVariableTable } from '../types';
 import { type Scope } from '../scope';
 import { type VariableEngine } from '../../variable-engine';
 import { createMemo } from '../../utils/memo';
-import { type VariableDeclaration } from '../../ast';
+import { NewASTAction } from '../../ast/types';
+import { DisposeASTAction } from '../../ast/types';
+import { ReSortVariableDeclarationsAction } from '../../ast/declaration/variable-declaration';
+import { ASTKind, type VariableDeclaration } from '../../ast';
 
 /**
  * 作用域输出
  */
 export class ScopeOutputData {
-  protected variableTable: VariableTable;
+  protected variableTable: IVariableTable;
 
   protected memo = createMemo();
 
@@ -16,7 +20,7 @@ export class ScopeOutputData {
     return this.scope.variableEngine;
   }
 
-  get globalVariableTable(): VariableTable {
+  get globalVariableTable(): IVariableTable {
     return this.scope.variableEngine.globalVariableTable;
   }
 
@@ -31,11 +35,11 @@ export class ScopeOutputData {
   protected _hasChanges = false;
 
   constructor(public readonly scope: Scope) {
-    // 基于 globalVariableTable 设置子变量表
+    // setup scope variable table based on globalVariableTable
     this.variableTable = new VariableTable(scope.variableEngine.globalVariableTable);
 
     this.scope.toDispose.pushAll([
-      // AST 根节点更新时，检查在这次 AST 变化期间节点是否有变化
+      // When root AST node is updated, check if there are any changes during this AST change
       this.scope.ast.subscribe(() => {
         if (this._hasChanges) {
           this.memo.clear();
@@ -44,21 +48,34 @@ export class ScopeOutputData {
           this._hasChanges = false;
         }
       }),
+      this.scope.event.on<DisposeASTAction>('DisposeAST', (_action) => {
+        if (_action.ast?.kind === ASTKind.VariableDeclaration) {
+          this.removeVariableFromTable(_action.ast.key);
+        }
+      }),
+      this.scope.event.on<NewASTAction>('NewAST', (_action) => {
+        if (_action.ast?.kind === ASTKind.VariableDeclaration) {
+          this.addVariableToTable(_action.ast as VariableDeclaration);
+        }
+      }),
+      this.scope.event.on<ReSortVariableDeclarationsAction>('ReSortVariableDeclarations', () => {
+        this._hasChanges = true;
+      }),
       this.variableTable,
     ]);
   }
 
   /**
-   * 作用域输出变量
+   * Scope Output Variable Declarations
    */
   get variables(): VariableDeclaration[] {
     return this.memo('variables', () =>
-      this.variableTable.variables.sort((a, b) => a.order - b.order),
+      this.variableTable.variables.sort((a, b) => a.order - b.order)
     );
   }
 
   /**
-   * 输出的变量 keys
+   * Output Variable Keys
    */
   get variableKeys(): string[] {
     return this.memo('variableKeys', () => this.variableTable.variableKeys);
@@ -69,17 +86,12 @@ export class ScopeOutputData {
       throw Error('VariableDeclaration must be a ast node in scope');
     }
 
-    this.variableTable.addVariableToTable(variable);
-    this._hasChanges = true;
-  }
-
-  // 标记为发生了变化，用于变量排序变化的场景
-  setHasChanges() {
+    (this.variableTable as VariableTable).addVariableToTable(variable);
     this._hasChanges = true;
   }
 
   removeVariableFromTable(key: string) {
-    this.variableTable.removeVariableFromTable(key);
+    (this.variableTable as VariableTable).removeVariableFromTable(key);
     this._hasChanges = true;
   }
 
@@ -87,8 +99,10 @@ export class ScopeOutputData {
     return this.variableTable.getVariableByKey(key);
   }
 
-  // 通知覆盖作用域更新可用变量
+  /**
+   *
+   */
   notifyCoversChange(): void {
-    this.scope.coverScopes.forEach(scope => scope.available.refresh());
+    this.scope.coverScopes.forEach((scope) => scope.available.refresh());
   }
 }

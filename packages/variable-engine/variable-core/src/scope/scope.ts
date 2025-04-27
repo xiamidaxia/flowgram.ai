@@ -9,7 +9,7 @@ export class Scope<ScopeMeta extends Record<string, any> = Record<string, any>> 
   /**
    * Scope 唯一索引
    */
-  readonly id: string;
+  readonly id: string | symbol;
 
   /**
    * Scope 依赖变量引擎
@@ -49,7 +49,7 @@ export class Scope<ScopeMeta extends Record<string, any> = Record<string, any>> 
 
   public toDispose: DisposableCollection = new DisposableCollection();
 
-  constructor(options: { id: string; variableEngine: VariableEngine; meta?: ScopeMeta }) {
+  constructor(options: { id: string | symbol; variableEngine: VariableEngine; meta?: ScopeMeta }) {
     this.id = options.id;
     this.meta = options.meta || ({} as any);
     this.variableEngine = options.variableEngine;
@@ -59,11 +59,11 @@ export class Scope<ScopeMeta extends Record<string, any> = Record<string, any>> 
     this.ast = this.variableEngine.astRegisters.createAST(
       {
         kind: ASTKind.MapNode,
-        key: this.id,
+        key: String(this.id),
       },
       {
         scope: this,
-      },
+      }
     ) as MapNode;
 
     this.output = new ScopeOutputData(this);
@@ -83,7 +83,7 @@ export class Scope<ScopeMeta extends Record<string, any> = Record<string, any>> 
     return this.memo('deps', () =>
       this.variableEngine.chain
         .getDeps(this)
-        .filter(_scope => Boolean(_scope) && !_scope?.disposed),
+        .filter((_scope) => Boolean(_scope) && !_scope?.disposed)
     );
   }
 
@@ -91,7 +91,7 @@ export class Scope<ScopeMeta extends Record<string, any> = Record<string, any>> 
     return this.memo('covers', () =>
       this.variableEngine.chain
         .getCovers(this)
-        .filter(_scope => Boolean(_scope) && !_scope?.disposed),
+        .filter((_scope) => Boolean(_scope) && !_scope?.disposed)
     );
   }
 
@@ -100,8 +100,8 @@ export class Scope<ScopeMeta extends Record<string, any> = Record<string, any>> 
     this.toDispose.dispose();
 
     // 删除作用域时，触发上下游作用域依赖覆盖更新
-    this.coverScopes.forEach(_scope => _scope.refreshDeps());
-    this.depScopes.forEach(_scope => _scope.refreshCovers());
+    this.coverScopes.forEach((_scope) => _scope.refreshDeps());
+    this.depScopes.forEach((_scope) => _scope.refreshCovers());
   }
 
   onDispose = this.toDispose.onDispose;

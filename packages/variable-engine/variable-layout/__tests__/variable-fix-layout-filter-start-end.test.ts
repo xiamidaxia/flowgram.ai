@@ -7,7 +7,6 @@ const filterStart = (_scope: FlowNodeScope) => !['start'].includes(_scope.meta?.
 const filterEnd = (_scope: FlowNodeScope) => !['end'].includes(_scope.meta?.node?.id || '');
 
 runFixedLayoutTest('Variable Fix Layout Filter Start End', fixLayout1, {
-  startNodeId: 'start',
-  transformCovers: scopes => scopes.filter(filterEnd),
-  transformDeps: scopes => scopes.filter(filterStart),
+  transformCovers: (scopes) => scopes.filter(filterEnd),
+  transformDeps: (scopes) => scopes.filter(filterStart),
 });

@@ -19,7 +19,7 @@ export class FixedLayoutScopeChain extends ScopeChain {
     protected flowDocument: FlowDocument,
     @optional()
     @inject(VariableLayoutConfig)
-    protected configs?: VariableLayoutConfig,
+    protected configs?: VariableLayoutConfig
   ) {
     super();
 
@@ -31,7 +31,7 @@ export class FixedLayoutScopeChain extends ScopeChain {
       // REFRACTOR: onTreeChange 触发时机精细化
       flowDocument.originTree.onTreeChange(() => {
         this.refreshAllChange();
-      }),
+      })
     );
   }
 
@@ -71,7 +71,7 @@ export class FixedLayoutScopeChain extends ScopeChain {
         deps.unshift(
           ...this.getAllSortedChildScope(curr, {
             ignoreNodeChildrenPrivate: true,
-          }),
+          })
         );
       }
 
@@ -135,7 +135,7 @@ export class FixedLayoutScopeChain extends ScopeChain {
       covers.push(
         ...this.getAllSortedChildScope(node, {
           addNodePrivateScope: true,
-        }),
+        })
       );
       return this.transformCovers(covers, { scope });
     }
@@ -152,7 +152,7 @@ export class FixedLayoutScopeChain extends ScopeChain {
           covers.push(
             ...this.getAllSortedChildScope(curr, {
               addNodePrivateScope: true,
-            }),
+            })
           );
         } else if (currData) {
           covers.push(...currData.allScopes);
@@ -220,15 +220,20 @@ export class FixedLayoutScopeChain extends ScopeChain {
 
   // 排序所有作用域
   sortAll(): Scope[] {
-    const { startNodeId } = this.configs || {};
-
-    const startNode = startNodeId ? this.flowDocument?.getNode(startNodeId) : undefined;
+    const startNode = this.flowDocument.getAllNodes().find((_node) => _node.isStart);
     if (!startNode) {
       return [];
     }
-    const startVariableData = startNode.getData(FlowNodeVariableData);
 
-    return [startVariableData.public, ...this.getCovers(startVariableData.public)];
+    const startVariableData = startNode.getData(FlowNodeVariableData);
+    const startPublicScope = startVariableData.public;
+    const deps = this.getDeps(startPublicScope);
+
+    const covers = this.getCovers(startPublicScope).filter(
+      (_scope) => !deps.includes(_scope) && _scope !== startPublicScope
+    );
+
+    return [...deps, startPublicScope, ...covers];
   }
 
   // 获取变量 Data 数据
@@ -265,7 +270,7 @@ export class FixedLayoutScopeChain extends ScopeChain {
     {
       ignoreNodeChildrenPrivate,
       addNodePrivateScope,
-    }: { ignoreNodeChildrenPrivate?: boolean; addNodePrivateScope?: boolean } = {},
+    }: { ignoreNodeChildrenPrivate?: boolean; addNodePrivateScope?: boolean } = {}
   ): FlowNodeScope[] {
     const scopes: FlowNodeScope[] = [];
 
@@ -288,10 +293,10 @@ export class FixedLayoutScopeChain extends ScopeChain {
     const children = this.tree?.getChildren(node) || [];
     scopes.push(
       ...children
-        .map(child =>
-          this.getAllSortedChildScope(child, { ignoreNodeChildrenPrivate, addNodePrivateScope }),
+        .map((child) =>
+          this.getAllSortedChildScope(child, { ignoreNodeChildrenPrivate, addNodePrivateScope })
         )
-        .flat(),
+        .flat()
     );
 
     return scopes;

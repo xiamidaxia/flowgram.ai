@@ -22,7 +22,7 @@ export const runFixedLayoutTest = (testName:string, spec: FlowDocumentJSON, conf
         scope.ast.set('/', {
           kind: ASTKind.VariableDeclaration,
           type: ASTKind.String,
-          key: scope.id,
+          key: String(scope.id),
         });
       }
     });
@@ -49,7 +49,7 @@ export const runFixedLayoutTest = (testName:string, spec: FlowDocumentJSON, conf
     const printAllNodeAvailableMapping = (_scopeType: 'public' | 'private' = 'public') =>
       traverseVariableDatas().reduce((acm, _data) => {
         const scope = _data[_scopeType]!;
-        acm.set(scope.id, scope.available.variableKeys);
+        acm.set(String(scope.id), scope.available.variableKeys);
 
         return acm;
       }, new Map<string, string[]>());
@@ -59,8 +59,8 @@ export const runFixedLayoutTest = (testName:string, spec: FlowDocumentJSON, conf
       traverseVariableDatas().reduce((acm, _data) => {
         const scope = _data[_scopeType]!;
         acm.set(
-          scope.id,
-          scope.coverScopes.map(_scope => _scope.id),
+          String(scope.id),
+          scope.coverScopes.map(_scope => String(_scope.id)),
         );
 
         return acm;

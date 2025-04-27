@@ -799,6 +799,7 @@ Map {
 
 exports[`Variable Fix Layout > test sort 1`] = `
 [
+  "start_private",
   "start",
   "getRecords_07e97c55832",
   "getRecords_07e97c55832_private",
@@ -843,6 +844,5 @@ exports[`Variable Fix Layout > test sort 1`] = `
   "$blockOrderIcon$branch_59afaadc9ac",
   "$blockOrderIcon$branch_9afaadc9acd",
   "$blockOrderIcon$branch_dbf2c60aee4",
-  "start_private",
 ]
 `;

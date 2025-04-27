@@ -29,11 +29,11 @@ export class VariableConnector extends BaseConnector {
   }
 
   onInit() {
-    this.variableEngine.onScopeChange(action => {
+    this.variableEngine.onScopeChange((action) => {
       const { scope, type } = action;
 
       if (type === 'delete') {
-        delete this.scopes[scope.id];
+        delete this.scopes[String(scope.id)];
       } else {
         this.scopes = {
           ...this.scopes,
@@ -41,7 +41,7 @@ export class VariableConnector extends BaseConnector {
         };
       }
 
-      this.send(`${type}/${scope.id}`);
+      this.send(`${type}/${String(scope.id)}`);
     });
   }
 }

@@ -1,6 +1,4 @@
-import { Disposable } from '@flowgram.ai/utils';
-
-import { ASTKind, type CreateASTParams } from '../types';
+import { ASTKind, GlobalEventActionType, type CreateASTParams } from '../types';
 import { ASTNode } from '../ast-node';
 import { BaseVariableField, BaseVariableFieldJSON } from './base-variable-field';
 
@@ -10,6 +8,8 @@ import { BaseVariableField, BaseVariableFieldJSON } from './base-variable-field'
 export type VariableDeclarationJSON<VariableMeta = any> = BaseVariableFieldJSON<VariableMeta> & {
   order?: number; // 变量排序
 };
+
+export type ReSortVariableDeclarationsAction = GlobalEventActionType<'ReSortVariableDeclarations'>;
 
 export class VariableDeclaration<VariableMeta = any> extends BaseVariableField<VariableMeta> {
   static kind: string = ASTKind.VariableDeclaration;
@@ -22,18 +22,6 @@ export class VariableDeclaration<VariableMeta = any> extends BaseVariableField<V
 
   constructor(params: CreateASTParams) {
     super(params);
-
-    // 添加变量到变量表中
-    this.scope.output.addVariableToTable(this);
-    this.toDispose.push(
-      Disposable.create(() => {
-        // 输出变量列表发生变化
-        this.scope.output.setHasChanges();
-
-        // 从变量表中移除变量
-        this.scope.output.removeVariableFromTable(this.key);
-      }),
-    );
   }
 
   /**
@@ -50,13 +38,15 @@ export class VariableDeclaration<VariableMeta = any> extends BaseVariableField<V
   updateOrder(order: number = 0): void {
     if (order !== this._order) {
       this._order = order;
-      this.scope.output.setHasChanges();
+      this.dispatchGlobalEvent<ReSortVariableDeclarationsAction>({
+        type: 'ReSortVariableDeclarations',
+      });
       this.fireChange();
     }
   }
 
   // 监听类型变化
   onTypeChange(observer: (type: ASTNode | undefined) => void) {
-    return this.subscribe(observer, { selector: curr => curr.type });
+    return this.subscribe(observer, { selector: (curr) => curr.type });
   }
 }

@@ -5,8 +5,9 @@ import { Emitter } from '@flowgram.ai/utils';
 
 import { subsToDisposable } from './utils/toDisposable';
 import { createMemo } from './utils/memo';
+import { VariableTable } from './scope/variable-table';
 import { ScopeChangeAction } from './scope/types';
-import { Scope, ScopeChain, VariableTable } from './scope';
+import { Scope, ScopeChain, type IVariableTable } from './scope';
 import { ContainerProvider } from './providers';
 import { ASTRegisters, type GlobalEventActionType } from './ast';
 
@@ -16,13 +17,13 @@ export class VariableEngine implements Disposable {
 
   protected memo = createMemo();
 
-  protected scopeMap = new Map<string, Scope>();
+  protected scopeMap = new Map<string | symbol, Scope>();
 
   globalEvent$: Subject<GlobalEventActionType> = new Subject<GlobalEventActionType>();
 
   protected onScopeChangeEmitter = new Emitter<ScopeChangeAction>();
 
-  public globalVariableTable = new VariableTable();
+  public globalVariableTable: IVariableTable = new VariableTable();
 
   public onScopeChange = this.onScopeChangeEmitter.event;
 
@@ -35,13 +36,13 @@ export class VariableEngine implements Disposable {
 
   constructor(
     @inject(ScopeChain) public readonly chain: ScopeChain, // 作用域依赖关系偏序集
-    @inject(ASTRegisters) public readonly astRegisters: ASTRegisters, // AST 节点注册管理器
+    @inject(ASTRegisters) public readonly astRegisters: ASTRegisters // AST 节点注册管理器
   ) {
     this.toDispose.pushAll([
       chain,
       Disposable.create(() => {
         // 清空所有作用域
-        this.getAllScopes().forEach(scope => scope.dispose());
+        this.getAllScopes().forEach((scope) => scope.dispose());
         this.globalVariableTable.dispose();
       }),
     ]);
@@ -53,17 +54,17 @@ export class VariableEngine implements Disposable {
   }
 
   // 根据 scopeId 找到作用域
-  getScopeById(scopeId: string): Scope | undefined {
+  getScopeById(scopeId: string | symbol): Scope | undefined {
     return this.scopeMap.get(scopeId);
   }
 
   // 移除作用域
-  removeScopeById(scopeId: string): void {
+  removeScopeById(scopeId: string | symbol): void {
     this.getScopeById(scopeId)?.dispose();
   }
 
   // 获取 Scope，如果 Scope 存在且类型相同，则会直接使用
-  createScope(id: string, meta?: Record<string, any>): Scope {
+  createScope(id: string | symbol, meta?: Record<string, any>): Scope {
     let scope = this.getScopeById(id);
 
     if (!scope) {
@@ -102,7 +103,7 @@ export class VariableEngine implements Disposable {
     if (sort) {
       const sortScopes = this.chain.sortAll();
       const remainScopes = new Set(allScopes);
-      sortScopes.forEach(_scope => remainScopes.delete(_scope));
+      sortScopes.forEach((_scope) => remainScopes.delete(_scope));
 
       return [...sortScopes, ...Array.from(remainScopes)];
     }
@@ -117,14 +118,14 @@ export class VariableEngine implements Disposable {
 
   onGlobalEvent<ActionType extends GlobalEventActionType = GlobalEventActionType>(
     type: ActionType['type'],
-    observer: (action: ActionType) => void,
+    observer: (action: ActionType) => void
   ): Disposable {
     return subsToDisposable(
-      this.globalEvent$.subscribe(_action => {
+      this.globalEvent$.subscribe((_action) => {
         if (_action.type === type) {
           observer(_action as ActionType);
         }
-      }),
+      })
     );
   }
 }

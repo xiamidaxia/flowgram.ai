@@ -7,6 +7,9 @@ runFixedLayoutTest(
       {
         id: 'start_0',
         type: 'start',
+        meta: {
+          isStart: true,
+        },
         blocks: [],
       },
       {
@@ -32,7 +35,5 @@ runFixedLayoutTest(
       },
     ],
   },
-  {
-    startNodeId: 'start',
-  }
+  {}
 );

@@ -13,7 +13,7 @@ import { shallowEqual } from 'fast-equals';
 import { Disposable } from '@flowgram.ai/utils';
 import { Emitter } from '@flowgram.ai/utils';
 
-import { VariableTable } from '../variable-table';
+import { IVariableTable } from '../types';
 import { type Scope } from '../scope';
 import { subsToDisposable } from '../../utils/toDisposable';
 import { createMemo } from '../../utils/memo';
@@ -24,7 +24,7 @@ import { Property, VariableDeclaration } from '../../ast';
 export class ScopeAvailableData {
   protected memo = createMemo();
 
-  get globalVariableTable(): VariableTable {
+  get globalVariableTable(): IVariableTable {
     return this.scope.variableEngine.globalVariableTable;
   }
 
@@ -46,25 +46,25 @@ export class ScopeAvailableData {
    */
   protected variables$: Observable<VariableDeclaration[]> = this.refresh$.pipe(
     // 输出变量是否 version 发生变化
-    map(() => flatten(this.depScopes.map(scope => scope.output.variables || []))),
+    map(() => flatten(this.depScopes.map((scope) => scope.output.variables || []))),
     // 变量列表浅比较
     distinctUntilChanged<VariableDeclaration[]>(shallowEqual),
-    share(),
+    share()
   );
 
   // 监听变量列表中的单个变量变化
   protected anyVariableChange$: Observable<VariableDeclaration> = this.variables$.pipe(
-    switchMap(_variables =>
+    switchMap((_variables) =>
       merge(
-        ..._variables.map(_v =>
+        ..._variables.map((_v) =>
           _v.value$.pipe<any>(
             // 跳过 BehaviorSubject 第一个
-            skip(1),
-          ),
-        ),
-      ),
+            skip(1)
+          )
+        )
+      )
     ),
-    share(),
+    share()
   );
 
   /**
@@ -94,7 +94,7 @@ export class ScopeAvailableData {
 
   constructor(public readonly scope: Scope) {
     this.scope.toDispose.pushAll([
-      this.onVariableListChange(_variables => {
+      this.onVariableListChange((_variables) => {
         this._variables = _variables;
         this.memo.clear();
         this.onDataChangeEmitter.fire(this._variables);
@@ -120,7 +120,7 @@ export class ScopeAvailableData {
    * 获取可访问的变量 keys
    */
   get variableKeys(): string[] {
-    return this.memo('availableKeys', () => this._variables.map(_v => _v.key));
+    return this.memo('availableKeys', () => this._variables.map((_v) => _v.key));
   }
 
   /**

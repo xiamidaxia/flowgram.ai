@@ -4,6 +4,9 @@ export const fixLayout1: FlowDocumentJSON = {
   nodes: [
     {
       type: 'start',
+      meta: {
+        isStart: true,
+      },
       id: 'start',
     },
     {

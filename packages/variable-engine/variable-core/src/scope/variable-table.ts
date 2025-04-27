@@ -1,12 +1,12 @@
 import { Observable, Subject, merge, share, skip, switchMap } from 'rxjs';
-import { Disposable, Emitter } from '@flowgram.ai/utils';
-import { DisposableCollection } from '@flowgram.ai/utils';
+import { DisposableCollection, Emitter } from '@flowgram.ai/utils';
 
 import { subsToDisposable } from '../utils/toDisposable';
 import { BaseVariableField } from '../ast/declaration/base-variable-field';
 import { VariableDeclaration } from '../ast';
+import { IVariableTable } from './types';
 
-export class VariableTable implements Disposable {
+export class VariableTable implements IVariableTable {
   protected table: Map<string, VariableDeclaration> = new Map();
 
   protected onDataChangeEmitter = new Emitter<void>();
@@ -15,17 +15,17 @@ export class VariableTable implements Disposable {
 
   // 监听变量列表中的单个变量变化
   protected anyVariableChange$: Observable<VariableDeclaration> = this.variables$.pipe(
-    switchMap(_variables =>
+    switchMap((_variables) =>
       merge(
-        ..._variables.map(_v =>
+        ..._variables.map((_v) =>
           _v.value$.pipe<any>(
             // 跳过 BehaviorSubject 第一个
-            skip(1),
-          ),
-        ),
-      ),
+            skip(1)
+          )
+        )
+      )
     ),
-    share(),
+    share()
   );
 
   /**
@@ -62,7 +62,7 @@ export class VariableTable implements Disposable {
   }
 
   constructor(
-    public parentTable?: VariableTable, // 父变量表，会包含所有子表的变量
+    public parentTable?: IVariableTable // 父变量表，会包含所有子表的变量
   ) {}
 
   get variables(): VariableDeclaration[] {
@@ -106,7 +106,7 @@ export class VariableTable implements Disposable {
   addVariableToTable(variable: VariableDeclaration) {
     this.table.set(variable.key, variable);
     if (this.parentTable) {
-      this.parentTable.addVariableToTable(variable);
+      (this.parentTable as VariableTable).addVariableToTable(variable);
     }
     this.variables$.next(this.variables);
   }
@@ -118,13 +118,15 @@ export class VariableTable implements Disposable {
   removeVariableFromTable(key: string) {
     this.table.delete(key);
     if (this.parentTable) {
-      this.parentTable.removeVariableFromTable(key);
+      (this.parentTable as VariableTable).removeVariableFromTable(key);
     }
     this.variables$.next(this.variables);
   }
 
   dispose(): void {
-    this.variableKeys.forEach(_key => this.parentTable?.removeVariableFromTable(_key));
+    this.variableKeys.forEach((_key) =>
+      (this.parentTable as VariableTable)?.removeVariableFromTable(_key)
+    );
     this.onDataChangeEmitter.dispose();
   }
 }

@@ -17,20 +17,20 @@ import { ASTNodeFlags } from '../flags';
 import { type BaseVariableField } from '../declaration';
 import { ASTNode } from '../ast-node';
 import { subsToDisposable } from '../../utils/toDisposable';
-import { VariableTable } from '../../scope';
+import { IVariableTable } from '../../scope/types';
 
 type ExpressionRefs = (BaseVariableField | undefined)[];
 
 export abstract class BaseExpression<
   JSON extends ASTNodeJSON = any,
-  InjectOpts = any,
+  InjectOpts = any
 > extends ASTNode<JSON, InjectOpts> {
   public flags: ASTNodeFlags = ASTNodeFlags.Expression;
 
   /**
    * 获取全局变量表，方便表达式获取引用变量
    */
-  get globalVariableTable(): VariableTable {
+  get globalVariableTable(): IVariableTable {
     return this.scope.variableEngine.globalVariableTable;
   }
 
@@ -77,18 +77,18 @@ export abstract class BaseExpression<
   refs$: Observable<ExpressionRefs> = this.refreshRefs$.pipe(
     map(() => this.getRefFields()),
     distinctUntilChanged<ExpressionRefs>(shallowEqual),
-    switchMap(refs =>
+    switchMap((refs) =>
       !refs?.length
         ? of([])
         : combineLatest(
-            refs.map(ref =>
+            refs.map((ref) =>
               ref
                 ? (ref.value$ as unknown as Observable<BaseVariableField | undefined>)
-                : of(undefined),
-            ),
-          ),
+                : of(undefined)
+            )
+          )
     ),
-    share(),
+    share()
   );
 
   constructor(params: CreateASTParams, opts?: InjectOpts) {
@@ -99,8 +99,8 @@ export abstract class BaseExpression<
         this.refs$.subscribe((_refs: ExpressionRefs) => {
           this._refs = _refs;
           this.fireChange();
-        }),
-      ),
+        })
+      )
     );
   }
 }

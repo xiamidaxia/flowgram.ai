@@ -12,10 +12,6 @@ interface TransformerContext {
 
 export interface VariableLayoutConfig {
   /**
-   * 开始节点的节点 Id
-   */
-  startNodeId?: string;
-  /**
    * 节点的子节点输出变量，不能被后续节点所访问，用于固定布局场景
    * @param node
    * @returns
