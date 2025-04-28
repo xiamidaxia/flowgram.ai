@@ -630,7 +630,7 @@ exports[`Variable Fix Layout Filter Start End > test sort 1`] = `
   "branch_dbf2c60aee4_private",
   "updateRecords_7ed2a172c32",
   "updateRecords_7ed2a172c32_private",
-  "globalScope",
+  "testScope",
   "$blockIcon$exclusiveSplit_ff2c11d0fb4",
   "$inlineBlocks$exclusiveSplit_ff2c11d0fb4",
   "$blockOrderIcon$branch_f2c11d0fb42",

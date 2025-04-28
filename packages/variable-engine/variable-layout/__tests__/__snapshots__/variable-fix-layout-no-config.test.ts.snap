@@ -713,7 +713,7 @@ exports[`Variable Fix Layout Without Config > test sort 1`] = `
   "updateRecords_7ed2a172c32_private",
   "end",
   "end_private",
-  "globalScope",
+  "testScope",
   "$blockIcon$exclusiveSplit_ff2c11d0fb4",
   "$inlineBlocks$exclusiveSplit_ff2c11d0fb4",
   "$blockOrderIcon$branch_f2c11d0fb42",

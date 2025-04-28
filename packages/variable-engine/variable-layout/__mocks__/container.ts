@@ -1,5 +1,6 @@
 import { Container } from 'inversify';
 import {
+  ASTFactory,
   ScopeChain,
   VariableContainerModule,
 } from '@flowgram.ai/variable-core';
@@ -9,6 +10,8 @@ import {
   FixedLayoutScopeChain,
   FlowNodeVariableData,
   VariableLayoutConfig,
+  GlobalScope,
+  bindGlobalScope,
 } from '../src';
 import { EntityManager } from '@flowgram.ai/core';
 import { VariableEngine } from '@flowgram.ai/variable-core';
@@ -18,7 +21,13 @@ import {
 } from '@flowgram.ai/document';
 import { WorkflowDocumentContainerModule, WorkflowLinesManager, WorkflowSimpleLineContribution } from '@flowgram.ai/free-layout-core';
 
-export function getContainer(layout: 'free' | 'fixed', layoutConfig?: VariableLayoutConfig): Container {
+export interface TestConfig extends VariableLayoutConfig {
+  enableGlobalScope?: boolean;
+}
+
+export function getContainer(layout: 'free' | 'fixed', config?: TestConfig): Container {
+  const { enableGlobalScope, ...layoutConfig } = config || {};
+
   const container = createPlaygroundContainer() as Container;
   container.load(VariableContainerModule);
   container.load(FlowDocumentContainerModule);
@@ -39,9 +48,19 @@ export function getContainer(layout: 'free' | 'fixed', layoutConfig?: VariableLa
     container.bind(ScopeChain).to(FixedLayoutScopeChain).inSingletonScope();
   }
 
+  bindGlobalScope(container.bind.bind(container))
+
   const entityManager = container.get<EntityManager>(EntityManager);
   const variableEngine = container.get<VariableEngine>(VariableEngine);
   const document = container.get<FlowDocument>(FlowDocument);
+
+  if (enableGlobalScope) {
+    // when get global scope, it will auto create it if not exists
+    container.get(GlobalScope).setVar(ASTFactory.createVariableDeclaration({
+      key: 'GlobalScope',
+      type: ASTFactory.createString(),
+    }));
+  }
 
   /**
    * 扩展 FlowNodeVariableData

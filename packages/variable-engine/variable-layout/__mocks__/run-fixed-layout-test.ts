@@ -4,11 +4,10 @@ import { ASTKind } from '@flowgram.ai/variable-core';
 import { FlowDocument, FlowDocumentJSON } from '@flowgram.ai/document';
 import {
   FlowNodeVariableData,
-  VariableLayoutConfig,
 } from '../src';
-import { getContainer } from './container'
+import { TestConfig, getContainer } from './container'
 
-export const runFixedLayoutTest = (testName:string, spec: FlowDocumentJSON, config?: VariableLayoutConfig) => {
+export const runFixedLayoutTest = (testName:string, spec: FlowDocumentJSON, config?: TestConfig) => {
   describe(testName, () => {
     const container = getContainer('fixed', config);
     const flowDocument = container.get(FlowDocument);
@@ -27,8 +26,8 @@ export const runFixedLayoutTest = (testName:string, spec: FlowDocumentJSON, conf
       }
     });
 
-    // 创建一个全局作用域
-    variableEngine.createScope('globalScope');
+    // 创建一个测试作用域
+    variableEngine.createScope('testScope');
 
     const traverseVariableDatas = () =>
       flowDocument

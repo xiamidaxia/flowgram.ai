@@ -5,6 +5,14 @@ import { createMemo } from '../utils/memo';
 import { ASTKind, MapNode } from '../ast';
 import { ScopeAvailableData, ScopeEventData, ScopeOutputData } from './datas';
 
+export interface IScopeConstructor {
+  new (options: {
+    id: string | symbol;
+    variableEngine: VariableEngine;
+    meta?: Record<string, any>;
+  }): Scope;
+}
+
 export class Scope<ScopeMeta extends Record<string, any> = Record<string, any>> {
   /**
    * Scope 唯一索引

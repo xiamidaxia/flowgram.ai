@@ -3,6 +3,7 @@ import {
   FreeLayoutScopeChain,
   FixedLayoutScopeChain,
   VariableLayoutConfig,
+  bindGlobalScope,
 } from '@flowgram.ai/variable-layout';
 import {
   VariableContainerModule,
@@ -43,6 +44,8 @@ export const createVariablePlugin = definePluginCreator<VariablePluginOptions>({
     if (layoutConfig) {
       bind(VariableLayoutConfig).toConstantValue(layoutConfig || {});
     }
+
+    bindGlobalScope(bind);
   },
   onInit(ctx, opts) {
     const { extendASTNodes } = opts || {};
@@ -55,7 +58,7 @@ export const createVariablePlugin = definePluginCreator<VariablePluginOptions>({
     /**
      * 注册扩展 AST 节点
      */
-    (extendASTNodes || []).forEach(info => {
+    (extendASTNodes || []).forEach((info) => {
       if (Array.isArray(info)) {
         const [extendASTNode, injector] = info;
 

@@ -7,6 +7,7 @@ import { subsToDisposable } from './utils/toDisposable';
 import { createMemo } from './utils/memo';
 import { VariableTable } from './scope/variable-table';
 import { ScopeChangeAction } from './scope/types';
+import { IScopeConstructor } from './scope/scope';
 import { Scope, ScopeChain, type IVariableTable } from './scope';
 import { ContainerProvider } from './providers';
 import { ASTRegisters, type GlobalEventActionType } from './ast';
@@ -63,12 +64,26 @@ export class VariableEngine implements Disposable {
     this.getScopeById(scopeId)?.dispose();
   }
 
-  // 获取 Scope，如果 Scope 存在且类型相同，则会直接使用
-  createScope(id: string | symbol, meta?: Record<string, any>): Scope {
+  /**
+   * Get Scope, if Scope exists and type is same, will use it directly
+   * @param id scope id
+   * @param meta scope meta, defined by user
+   * @param ScopeConstructor scope constructor, default is Scope. you can extends Scope to create your own scope
+   * @returns
+   */
+  createScope(
+    id: string | symbol,
+    meta?: Record<string, any>,
+    options: {
+      ScopeConstructor?: IScopeConstructor;
+    } = {}
+  ): Scope {
+    const { ScopeConstructor = Scope } = options;
+
     let scope = this.getScopeById(id);
 
     if (!scope) {
-      scope = new Scope({ variableEngine: this, meta, id });
+      scope = new ScopeConstructor({ variableEngine: this, meta, id });
       this.scopeMap.set(id, scope);
       this.onScopeChangeEmitter.fire({ type: 'add', scope: scope! });
 

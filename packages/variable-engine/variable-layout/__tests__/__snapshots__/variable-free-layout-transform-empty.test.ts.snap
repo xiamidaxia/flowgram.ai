@@ -86,7 +86,7 @@ Map {
 
 exports[`Variable Free Layout > test sort 1`] = `
 [
-  "globalScope",
+  "testScope",
   "start_0",
   "end_0",
   "base_1",

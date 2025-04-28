@@ -128,7 +128,7 @@ exports[`Variable Fix Layout Group > test sort 1`] = `
   "node_1_private",
   "end_0",
   "end_0_private",
-  "globalScope",
+  "testScope",
   "$group_test$",
 ]
 `;

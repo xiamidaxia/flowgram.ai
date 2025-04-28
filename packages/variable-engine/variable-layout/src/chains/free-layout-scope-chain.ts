@@ -1,12 +1,13 @@
 import { inject, optional, postConstruct } from 'inversify';
 import { Scope, ScopeChain } from '@flowgram.ai/variable-core';
+import { WorkflowNodeLinesData, WorkflowNodeMeta } from '@flowgram.ai/free-layout-core';
 import { FlowNodeEntity, FlowDocument, FlowVirtualTree } from '@flowgram.ai/document';
 import { EntityManager } from '@flowgram.ai/core';
-import { WorkflowNodeLinesData, WorkflowNodeMeta } from '@flowgram.ai/free-layout-core';
 
-import { VariableLayoutConfig } from './variable-layout-config';
-import { FlowNodeScope, FlowNodeScopeTypeEnum } from './types';
-import { FlowNodeVariableData } from './flow-node-variable-data';
+import { VariableLayoutConfig } from '../variable-layout-config';
+import { FlowNodeScope, FlowNodeScopeTypeEnum } from '../types';
+import { GlobalScope } from '../scopes/global-scope';
+import { FlowNodeVariableData } from '../flow-node-variable-data';
 
 /**
  * 自由布局作用域链实现
@@ -44,14 +45,14 @@ export class FreeLayoutScopeChain extends ScopeChain {
   // 获取同一层级所有输入节点
   protected getAllInputLayerNodes(curr: FlowNodeEntity): FlowNodeEntity[] {
     return (curr.getData(WorkflowNodeLinesData)?.allInputNodes || []).filter(
-      _node => _node.parent === curr.parent,
+      (_node) => _node.parent === curr.parent
     );
   }
 
   // 获取同一层级所有输出节点
   protected getAllOutputLayerNodes(curr: FlowNodeEntity): FlowNodeEntity[] {
     return (curr.getData(WorkflowNodeLinesData)?.allOutputNodes || []).filter(
-      _node => _node.parent === curr.parent,
+      (_node) => _node.parent === curr.parent
     );
   }
 
@@ -61,7 +62,7 @@ export class FreeLayoutScopeChain extends ScopeChain {
       return this.transformDeps([], { scope });
     }
 
-    const scopes: FlowNodeScope[] = [];
+    const deps: FlowNodeScope[] = [];
 
     // 1. 找到依赖的节点
     let curr: FlowNodeEntity | undefined = node;
@@ -70,24 +71,37 @@ export class FreeLayoutScopeChain extends ScopeChain {
       const allInputNodes: FlowNodeEntity[] = this.getAllInputLayerNodes(curr);
 
       // 2. 获取所有依赖节点的 public 作用域
-      scopes.push(
-        ...allInputNodes.map(_node => _node.getData(FlowNodeVariableData).public).filter(Boolean),
+      deps.push(
+        ...allInputNodes.map((_node) => _node.getData(FlowNodeVariableData).public).filter(Boolean)
       );
 
       // 父节点的 private 也可以访问
       const currVarData: FlowNodeVariableData = curr.getData(FlowNodeVariableData);
       if (currVarData?.private && scope !== currVarData.private) {
-        scopes.push(currVarData.private);
+        deps.push(currVarData.private);
       }
 
       curr = this.getParent(curr);
     }
 
-    const uniqScopes = Array.from(new Set(scopes));
-    return this.transformDeps(uniqScopes, { scope });
+    // If scope is GlobalScope, add globalScope to deps
+    const globalScope = this.variableEngine.getScopeById(GlobalScope.ID);
+    if (globalScope) {
+      deps.unshift(globalScope);
+    }
+
+    const uniqDeps = Array.from(new Set(deps));
+    return this.transformDeps(uniqDeps, { scope });
   }
 
   getCovers(scope: FlowNodeScope): FlowNodeScope[] {
+    // If scope is GlobalScope, return all scopes except GlobalScope
+    if (GlobalScope.is(scope)) {
+      return this.variableEngine
+        .getAllScopes({ sort: true })
+        .filter((_scope) => !GlobalScope.is(_scope));
+    }
+
     const { node } = scope.meta || {};
     if (!node) {
       return this.transformCovers([], { scope });

@@ -2,13 +2,12 @@ import { describe, expect, test } from 'vitest';
 import { VariableEngine } from '@flowgram.ai/variable-core';
 import { ASTKind } from '@flowgram.ai/variable-core';
 import {
-  FlowNodeVariableData,
-  VariableLayoutConfig,
+  FlowNodeVariableData
 } from '../src';
-import { getContainer } from './container';
+import { TestConfig, getContainer } from './container';
 import { WorkflowDocument, WorkflowJSON } from '@flowgram.ai/free-layout-core';
 
-export const runFreeLayoutTest = (testName: string, spec: WorkflowJSON, config?: VariableLayoutConfig) => {
+export const runFreeLayoutTest = (testName: string, spec: WorkflowJSON, config?: TestConfig) => {
   describe(testName, async () => {
     const container = getContainer('free', config);
     const flowDocument = container.get(WorkflowDocument);
@@ -28,7 +27,7 @@ export const runFreeLayoutTest = (testName: string, spec: WorkflowJSON, config?:
     });
 
     // 创建一个全局作用域
-    variableEngine.createScope('globalScope');
+    variableEngine.createScope('testScope');
 
     const traverseVariableDatas = () =>
       flowDocument

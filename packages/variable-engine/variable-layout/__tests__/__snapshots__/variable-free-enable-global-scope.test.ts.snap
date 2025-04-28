@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Variable Free Layout > test get Covers 1`] = `
+exports[`Variable Free Layout Enable Global Scope > test get Covers 1`] = `
 Map {
   "start_0" => [
     "base_1",
@@ -42,7 +42,7 @@ Map {
 }
 `;
 
-exports[`Variable Free Layout > test get Covers After Init Private 1`] = `
+exports[`Variable Free Layout Enable Global Scope > test get Covers After Init Private 1`] = `
 Map {
   "start_0" => [
     "base_1",
@@ -105,10 +105,13 @@ Map {
 }
 `;
 
-exports[`Variable Free Layout > test get Deps 1`] = `
+exports[`Variable Free Layout Enable Global Scope > test get Deps 1`] = `
 Map {
-  "start_0" => [],
+  "start_0" => [
+    "GlobalScope",
+  ],
   "end_0" => [
+    "GlobalScope",
     "base_2",
     "base_1",
     "start_0",
@@ -116,31 +119,38 @@ Map {
     "loop_1",
   ],
   "base_1" => [
+    "GlobalScope",
     "start_0",
   ],
   "base_2" => [
+    "GlobalScope",
     "base_1",
     "start_0",
   ],
   "loop_1" => [
+    "GlobalScope",
     "base_1",
     "start_0",
   ],
   "base_in_loop_1" => [
+    "GlobalScope",
     "base_1",
     "start_0",
   ],
   "base_in_loop_2" => [
+    "GlobalScope",
     "base_1",
     "start_0",
   ],
   "base_in_loop_3" => [
+    "GlobalScope",
     "base_in_loop_1",
     "base_in_loop_2",
     "base_1",
     "start_0",
   ],
   "base_3" => [
+    "GlobalScope",
     "loop_1",
     "base_1",
     "start_0",
@@ -148,12 +158,14 @@ Map {
 }
 `;
 
-exports[`Variable Free Layout > test get Deps After Init Private 1`] = `
+exports[`Variable Free Layout Enable Global Scope > test get Deps After Init Private 1`] = `
 Map {
   "start_0" => [
+    "GlobalScope",
     "start_0_private",
   ],
   "end_0" => [
+    "GlobalScope",
     "base_2",
     "base_1",
     "start_0",
@@ -162,32 +174,38 @@ Map {
     "end_0_private",
   ],
   "base_1" => [
+    "GlobalScope",
     "start_0",
     "base_1_private",
   ],
   "base_2" => [
+    "GlobalScope",
     "base_1",
     "start_0",
     "base_2_private",
   ],
   "loop_1" => [
+    "GlobalScope",
     "base_1",
     "start_0",
     "loop_1_private",
   ],
   "base_in_loop_1" => [
+    "GlobalScope",
     "base_in_loop_1_private",
     "base_1",
     "start_0",
     "loop_1_private",
   ],
   "base_in_loop_2" => [
+    "GlobalScope",
     "base_in_loop_2_private",
     "base_1",
     "start_0",
     "loop_1_private",
   ],
   "base_in_loop_3" => [
+    "GlobalScope",
     "base_in_loop_1",
     "base_in_loop_2",
     "base_in_loop_3_private",
@@ -196,6 +214,7 @@ Map {
     "loop_1_private",
   ],
   "base_3" => [
+    "GlobalScope",
     "loop_1",
     "base_1",
     "start_0",
@@ -204,7 +223,7 @@ Map {
 }
 `;
 
-exports[`Variable Free Layout > test get private scope Covers 1`] = `
+exports[`Variable Free Layout Enable Global Scope > test get private scope Covers 1`] = `
 Map {
   "start_0_private" => [
     "start_0",
@@ -242,10 +261,13 @@ Map {
 }
 `;
 
-exports[`Variable Free Layout > test get private scope Deps 1`] = `
+exports[`Variable Free Layout Enable Global Scope > test get private scope Deps 1`] = `
 Map {
-  "start_0_private" => [],
+  "start_0_private" => [
+    "GlobalScope",
+  ],
   "end_0_private" => [
+    "GlobalScope",
     "base_2",
     "base_1",
     "start_0",
@@ -253,27 +275,33 @@ Map {
     "loop_1",
   ],
   "base_1_private" => [
+    "GlobalScope",
     "start_0",
   ],
   "base_2_private" => [
+    "GlobalScope",
     "base_1",
     "start_0",
   ],
   "loop_1_private" => [
+    "GlobalScope",
     "base_1",
     "start_0",
   ],
   "base_in_loop_1_private" => [
+    "GlobalScope",
     "base_1",
     "start_0",
     "loop_1_private",
   ],
   "base_in_loop_2_private" => [
+    "GlobalScope",
     "base_1",
     "start_0",
     "loop_1_private",
   ],
   "base_in_loop_3_private" => [
+    "GlobalScope",
     "base_in_loop_1",
     "base_in_loop_2",
     "base_1",
@@ -281,6 +309,7 @@ Map {
     "loop_1_private",
   ],
   "base_3_private" => [
+    "GlobalScope",
     "loop_1",
     "base_1",
     "start_0",
@@ -288,8 +317,9 @@ Map {
 }
 `;
 
-exports[`Variable Free Layout > test sort 1`] = `
+exports[`Variable Free Layout Enable Global Scope > test sort 1`] = `
 [
+  Symbol(GlobalScope),
   "testScope",
   "start_0",
   "end_0",

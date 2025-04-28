@@ -3,9 +3,10 @@ import { Scope, ScopeChain } from '@flowgram.ai/variable-core';
 import { FlowDocument, type FlowVirtualTree } from '@flowgram.ai/document';
 import { FlowNodeEntity } from '@flowgram.ai/document';
 
-import { VariableLayoutConfig } from './variable-layout-config';
-import { FlowNodeScope, FlowNodeScopeTypeEnum, ScopeChainNode } from './types';
-import { FlowNodeVariableData } from './flow-node-variable-data';
+import { VariableLayoutConfig } from '../variable-layout-config';
+import { FlowNodeScope, FlowNodeScopeTypeEnum, ScopeChainNode } from '../types';
+import { GlobalScope } from '../scopes/global-scope';
+import { FlowNodeVariableData } from '../flow-node-variable-data';
 
 /**
  * 基于 FlowVirtualTree 的 ScopeOrder 实现
@@ -114,6 +115,12 @@ export class FixedLayoutScopeChain extends ScopeChain {
       curr = undefined;
     }
 
+    // If scope is GlobalScope, add globalScope to deps
+    const globalScope = this.variableEngine.getScopeById(GlobalScope.ID);
+    if (globalScope) {
+      deps.unshift(globalScope);
+    }
+
     return this.transformDeps(deps, { scope });
   }
 
@@ -121,6 +128,13 @@ export class FixedLayoutScopeChain extends ScopeChain {
   getCovers(scope: FlowNodeScope): FlowNodeScope[] {
     if (!this.tree) {
       return this.transformCovers([], { scope });
+    }
+
+    // If scope is GlobalScope, return all scopes except GlobalScope
+    if (GlobalScope.is(scope)) {
+      return this.variableEngine
+        .getAllScopes({ sort: true })
+        .filter((_scope) => !GlobalScope.is(_scope));
     }
 
     const node = scope.meta.node;
