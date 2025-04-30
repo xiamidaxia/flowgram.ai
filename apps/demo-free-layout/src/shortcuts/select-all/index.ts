@@ -19,6 +19,7 @@ export class SelectAllShortcut implements ShortcutsHandler {
   constructor(context: FreeLayoutPluginContext) {
     this.document = context.get(WorkflowDocument);
     this.playground = context.playground;
+    this.execute = this.execute.bind(this);
   }
 
   public async execute(): Promise<void> {

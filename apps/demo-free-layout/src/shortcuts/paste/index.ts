@@ -19,7 +19,6 @@ import { Toast } from '@douyinfe/semi-ui';
 import { WorkflowClipboardData, WorkflowClipboardRect } from '../type';
 import { FlowCommandId, WorkflowClipboardDataID } from '../constants';
 import { generateUniqueWorkflow } from './unique-workflow';
-import { CopyShortcut } from '../copy';
 
 export class PasteShortcut implements ShortcutsHandler {
   public commandId = FlowCommandId.PASTE;
@@ -39,7 +38,7 @@ export class PasteShortcut implements ShortcutsHandler {
   /**
    * initialize paste shortcut handler - 初始化粘贴快捷键处理器
    */
-  constructor(private context: FreeLayoutPluginContext) {
+  constructor(context: FreeLayoutPluginContext) {
     this.document = context.get(WorkflowDocument);
     this.selectService = context.get(WorkflowSelectService);
     this.entityManager = context.get(EntityManager);
@@ -50,20 +49,9 @@ export class PasteShortcut implements ShortcutsHandler {
 
   /**
    * execute paste action - 执行粘贴操作
-   * Usage:
-   *  1. clientContext.playground.commandService.executeCommand(FlowCommandId.PASTE, [node]);
-   *  2. keyboard: cmd + v
    */
-  public async execute(
-    targetEntities?: WorkflowNodeEntity[]
-  ): Promise<WorkflowNodeEntity[] | undefined> {
-    let data: WorkflowClipboardData | undefined;
-    if (targetEntities && Array.isArray(targetEntities)) {
-      const copyShortcut = new CopyShortcut(this.context);
-      data = copyShortcut.toClipboardData(targetEntities);
-    } else {
-      data = await this.tryReadClipboard();
-    }
+  public async execute(): Promise<WorkflowNodeEntity[] | undefined> {
+    const data = await this.tryReadClipboard();
     if (!data) {
       return;
     }
@@ -84,17 +72,23 @@ export class PasteShortcut implements ShortcutsHandler {
     return nodes;
   }
 
-  /** try to read clipboard - 尝试读取剪贴板 */
-  private async tryReadClipboard(): Promise<WorkflowClipboardData | undefined> {
-    try {
-      // need user permission to access clipboard, may throw NotAllowedError - 需要用户授予网页剪贴板读取权限, 如果用户没有授予权限, 代码可能会抛出异常 NotAllowedError
-      const text: string = (await navigator.clipboard.readText()) || '';
-      const clipboardData: WorkflowClipboardData = JSON.parse(text);
-      return clipboardData;
-    } catch (e) {
-      // clipboard data is not fixed, no need to show error - 这里本身剪贴板里的数据就不固定，所以没必要报错
-      return;
-    }
+  /** apply clipboard data - 应用剪切板数据 */
+  public apply(data: WorkflowClipboardData): WorkflowNodeEntity[] {
+    // extract raw json from clipboard data - 从剪贴板数据中提取原始JSON
+    const { json: rawJSON } = data;
+    const json = generateUniqueWorkflow({
+      json: rawJSON,
+      isUniqueId: (id: string) => !this.entityManager.getEntityById(id),
+    });
+
+    const offset = this.calcPasteOffset(data.bounds);
+    const parent = this.getSelectedContainer();
+    this.applyOffset({ json, offset, parent });
+    const { nodes } = this.document.renderJSON(json, {
+      parent,
+    });
+    this.selectNodes(nodes);
+    return nodes;
   }
 
   private isValidData(data?: WorkflowClipboardData): boolean {
@@ -114,23 +108,17 @@ export class PasteShortcut implements ShortcutsHandler {
     return true;
   }
 
-  /** apply clipboard data - 应用剪切板数据 */
-  private apply(data: WorkflowClipboardData): WorkflowNodeEntity[] {
-    // extract raw json from clipboard data - 从剪贴板数据中提取原始JSON
-    const { json: rawJSON } = data;
-    const json = generateUniqueWorkflow({
-      json: rawJSON,
-      isUniqueId: (id: string) => !this.entityManager.getEntityById(id),
-    });
-
-    const offset = this.calcPasteOffset(data.bounds);
-    const parent = this.getSelectedContainer();
-    this.applyOffset({ json, offset, parent });
-    const { nodes } = this.document.renderJSON(json, {
-      parent,
-    });
-    this.selectNodes(nodes);
-    return nodes;
+  /** try to read clipboard - 尝试读取剪贴板 */
+  private async tryReadClipboard(): Promise<WorkflowClipboardData | undefined> {
+    try {
+      // need user permission to access clipboard, may throw NotAllowedError - 需要用户授予网页剪贴板读取权限, 如果用户没有授予权限, 代码可能会抛出异常 NotAllowedError
+      const text: string = (await navigator.clipboard.readText()) || '';
+      const clipboardData: WorkflowClipboardData = JSON.parse(text);
+      return clipboardData;
+    } catch (e) {
+      // clipboard data is not fixed, no need to show error - 这里本身剪贴板里的数据就不固定，所以没必要报错
+      return;
+    }
   }
 
   /** calculate paste offset - 计算粘贴偏移 */

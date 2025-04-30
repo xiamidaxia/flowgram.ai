@@ -12,7 +12,8 @@ import { IconMore, IconSmallTriangleDown, IconSmallTriangleLeft } from '@douyinf
 
 import { Feedback } from '../feedback';
 import { FlowNodeRegistry } from '../../typings';
-import { FlowCommandId } from '../../shortcuts';
+import { PasteShortcut } from '../../shortcuts/paste';
+import { CopyShortcut } from '../../shortcuts/copy';
 import { useIsSidebar, useNodeRenderContext } from '../../hooks';
 import { getIcon } from './utils';
 import { Header, Operators, Title } from './styles';
@@ -43,7 +44,10 @@ function DropdownContent() {
 
   const handleCopy = useCallback(
     (e: React.MouseEvent) => {
-      clientContext.playground.commandService.executeCommand(FlowCommandId.PASTE, [node]);
+      const copyShortcut = new CopyShortcut(clientContext);
+      const pasteShortcut = new PasteShortcut(clientContext);
+      const data = copyShortcut.toClipboardData([node]);
+      pasteShortcut.apply(data);
       e.stopPropagation(); // Disable clicking prevents the sidebar from opening
     },
     [clientContext, node]

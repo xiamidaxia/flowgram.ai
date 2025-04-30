@@ -19,6 +19,7 @@ export class CollapseShortcut implements ShortcutsHandler {
 
   constructor(context: FreeLayoutPluginContext) {
     this.selectService = context.get(WorkflowSelectService);
+    this.execute = this.execute.bind(this);
   }
 
   public async execute(): Promise<void> {

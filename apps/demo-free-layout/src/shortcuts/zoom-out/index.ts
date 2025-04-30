@@ -15,6 +15,7 @@ export class ZoomOutShortcut implements ShortcutsHandler {
 
   constructor(context: FreeLayoutPluginContext) {
     this.playgroundConfig = context.get(PlaygroundConfigEntity);
+    this.execute = this.execute.bind(this);
   }
 
   public async execute(): Promise<void> {

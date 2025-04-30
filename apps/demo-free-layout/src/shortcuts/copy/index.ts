@@ -35,6 +35,7 @@ export class CopyShortcut implements ShortcutsHandler {
   constructor(context: FreeLayoutPluginContext) {
     this.document = context.get(WorkflowDocument);
     this.selectService = context.get(WorkflowSelectService);
+    this.execute = this.execute.bind(this);
   }
 
   /**
