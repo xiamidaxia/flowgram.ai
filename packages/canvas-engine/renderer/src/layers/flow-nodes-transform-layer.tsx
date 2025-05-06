@@ -89,12 +89,10 @@ export class FlowNodesTransformLayer extends Layer<FlowNodesTransformLayerOption
         dispose,
         updateBounds: () => {
           const { bounds } = transform!;
-          // if (this.config.isViewportVisible(bounds)) {
-          //   append()
-          // } else {
-          //   dispose()
-          // }
-          if (node.style.left !== `${bounds.x}px` || node.style.top !== `${bounds.y}px`) {
+          // 保留2位小数
+          const rawX: number = parseFloat(node.style.left);
+          const rawY: number = parseFloat(node.style.top);
+          if (!this.isCoordEqual(rawX, bounds.x) || !this.isCoordEqual(rawY, bounds.y)) {
             node.style.left = `${bounds.x}px`;
             node.style.top = `${bounds.y}px`;
           }
@@ -102,6 +100,11 @@ export class FlowNodesTransformLayer extends Layer<FlowNodesTransformLayerOption
       };
     }
   );
+
+  private isCoordEqual(a: number, b: number) {
+    const browserCoordEpsilon = 0.05; // 浏览器处理坐标的精度误差: 两位小数四舍五入
+    return Math.abs(a - b) < browserCoordEpsilon;
+  }
 
   onReady() {
     this.node!.style.zIndex = '10';
