@@ -7,6 +7,7 @@ import { createFreeSnapPlugin } from '@flowgram.ai/free-snap-plugin';
 import { createFreeNodePanelPlugin } from '@flowgram.ai/free-node-panel-plugin';
 import { createFreeLinesPlugin } from '@flowgram.ai/free-lines-plugin';
 import { FreeLayoutProps } from '@flowgram.ai/free-layout-editor';
+import { createFreeGroupPlugin } from '@flowgram.ai/free-group-plugin';
 import { createContainerNodePlugin } from '@flowgram.ai/free-container-plugin';
 
 import { onDragLineEnd } from '../utils';
@@ -17,7 +18,7 @@ import { createSyncVariablePlugin } from '../plugins';
 import { defaultFormMeta } from '../nodes/default-form-meta';
 import { WorkflowNodeType } from '../nodes';
 import { SelectorBoxPopover } from '../components/selector-box-popover';
-import { BaseNode, CommentRender, LineAddButton, NodePanel } from '../components';
+import { BaseNode, CommentRender, GroupNodeRender, LineAddButton, NodePanel } from '../components';
 
 export function useEditorProps(
   initialData: FlowDocumentJSON,
@@ -225,6 +226,9 @@ export function useEditorProps(
          * 这个用于 loop 节点子画布的渲染
          */
         createContainerNodePlugin({}),
+        createFreeGroupPlugin({
+          groupNodeRender: GroupNodeRender,
+        }),
       ],
     }),
     []

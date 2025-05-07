@@ -1,17 +1,14 @@
 import { definePluginCreator } from '@flowgram.ai/core';
 
 import { StackingContextManager } from './manager';
-import { StackingComputeMode } from './constant';
 
-export const createFreeStackPlugin = definePluginCreator<{
-  mode?: StackingComputeMode;
-}>({
+export const createFreeStackPlugin = definePluginCreator({
   onBind({ bind }) {
     bind(StackingContextManager).toSelf().inSingletonScope();
   },
-  onInit(ctx, opts) {
+  onInit(ctx) {
     const stackingContextManager = ctx.get<StackingContextManager>(StackingContextManager);
-    stackingContextManager.init(opts?.mode);
+    stackingContextManager.init();
   },
   onReady(ctx) {
     const stackingContextManager = ctx.get<StackingContextManager>(StackingContextManager);

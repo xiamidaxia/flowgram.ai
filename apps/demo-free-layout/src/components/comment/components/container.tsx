@@ -14,13 +14,13 @@ export const CommentContainer: FC<ICommentContainer> = (props) => {
     scrollbarWidth: 'thin',
     scrollbarColor: 'rgb(159 159 158 / 65%) transparent',
     // 针对 WebKit 浏览器（如 Chrome、Safari）的样式
-    '&::-webkit-scrollbar': {
+    '&:WebkitScrollbar': {
       width: '4px',
     },
-    '&::-webkit-scrollbar-track': {
+    '&::WebkitScrollbarTrack': {
       background: 'transparent',
     },
-    '&::-webkit-scrollbar-thumb': {
+    '&::WebkitScrollbarThumb': {
       backgroundColor: 'rgb(159 159 158 / 65%)',
       borderRadius: '20px',
       border: '2px solid transparent',

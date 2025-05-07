@@ -14,6 +14,7 @@ import { useOverflow } from '../hooks/use-overflow';
 import { useModel } from '../hooks/use-model';
 import { useSize } from '../hooks';
 import { CommentEditorFormField } from '../constant';
+import { MoreButton } from './more-button';
 import { CommentEditor } from './editor';
 import { ContentDragArea } from './content-drag-area';
 import { CommentContainer } from './container';
@@ -26,7 +27,7 @@ export const CommentRender: FC<{
   const { node } = props;
   const model = useModel();
 
-  const { selected: focused, selectNode, nodeRef } = useNodeRender();
+  const { selected: focused, selectNode, nodeRef, deleteNode } = useNodeRender();
 
   const formModel = node.getData(FlowNodeFormData).getFormModel<FormModelV2>();
   const formControl = formModel?.formControl;
@@ -65,6 +66,8 @@ export const CommentRender: FC<{
                   <BlankArea model={model} />
                   {/* 内容拖拽区域（点击后隐藏） */}
                   <ContentDragArea model={model} focused={focused} overflow={overflow} />
+                  {/* 更多按钮 */}
+                  <MoreButton node={node} focused={focused} deleteNode={deleteNode} />
                 </>
               )}
             </Field>

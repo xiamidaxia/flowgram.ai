@@ -1,4 +1,4 @@
-import { FlowNodeTransformData } from '@flowgram.ai/document';
+import { WorkflowDocument } from '@flowgram.ai/free-layout-core';
 import { PositionSchema, startTween, TransformData } from '@flowgram.ai/core';
 
 import { LayoutNode } from './type';
@@ -35,20 +35,13 @@ export class LayoutPosition {
     const deltaX = ((position.x - transform.position.x) * step) / 100;
     const deltaY = ((position.y - transform.bounds.height / 2 - transform.position.y) * step) / 100;
 
-    if (layoutNode.hasChildren) {
-      // 嵌套情况下需将子节点 transform 设为 dirty
-      layoutNode.entity.collapsedChildren.forEach((childNode) => {
-        const childNodeTransformData =
-          childNode.getData<FlowNodeTransformData>(FlowNodeTransformData);
-        childNodeTransformData.fireChange();
-      });
-    }
-
     transform.update({
       position: {
         x: transform.position.x + deltaX,
         y: transform.position.y + deltaY,
       },
     });
+    const document = layoutNode.entity.document as WorkflowDocument;
+    document.layout.updateAffectedTransform(layoutNode.entity);
   }
 }

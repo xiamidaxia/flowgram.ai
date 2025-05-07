@@ -18,3 +18,7 @@ export interface NodeIntoContainerEvent {
   sourceContainer?: WorkflowNodeEntity;
   targetContainer: WorkflowNodeEntity;
 }
+
+export interface WorkflowContainerPluginOptions {
+  disableNodeIntoContainer?: boolean;
+}

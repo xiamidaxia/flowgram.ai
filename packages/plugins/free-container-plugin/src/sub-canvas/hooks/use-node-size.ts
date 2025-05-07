@@ -7,7 +7,7 @@ import {
 } from '@flowgram.ai/free-layout-core';
 import { FlowNodeTransformData } from '@flowgram.ai/document';
 
-interface NodeSize {
+export interface NodeSize {
   width: number;
   height: number;
 }

@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
-import { EntityManager } from '@flowgram.ai/core';
 import { Emitter, type IPoint } from '@flowgram.ai/utils';
+import { EntityManager } from '@flowgram.ai/core';
 
 import {
   type WorkflowLineEntity,
@@ -11,7 +11,10 @@ import {
 /**
  * 可 Hover 的节点 类型
  */
-export type WorkfloEntityHoverable = WorkflowNodeEntity | WorkflowLineEntity | WorkflowPortEntity;
+export type WorkflowEntityHoverable = WorkflowNodeEntity | WorkflowLineEntity | WorkflowPortEntity;
+
+/** @deprecated */
+export type WorkfloEntityHoverable = WorkflowEntityHoverable;
 /**
  * hover 状态管理
  */

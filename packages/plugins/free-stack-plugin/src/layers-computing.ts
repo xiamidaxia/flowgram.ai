@@ -1,6 +1,6 @@
-import { FlowNodeRenderData } from '@flowgram.ai/document';
 import type { WorkflowNodeEntity } from '@flowgram.ai/free-layout-core';
 import type { WorkflowLineEntity } from '@flowgram.ai/free-layout-core';
+import { FlowNodeRenderData } from '@flowgram.ai/document';
 
 import type { StackingContext } from './type';
 import { StackingBaseIndex, StackingConfig, StackingType } from './constant';
@@ -27,7 +27,7 @@ namespace NodeComputing {
   export const nodeStackingLevel = (
     node: WorkflowNodeEntity,
     context: StackingContext,
-    disableTopLevel = false,
+    disableTopLevel = false
   ): number => {
     // TODO 后续支持多层级时这个计算逻辑应该去掉，level信息应该直接由 FlowNodeEntity 缓存给出
     // 多层时这里的计算会有 O(logN) 时间复杂度，并且在多层级联同计算时会有BUG，本次需求不处理这种情况
@@ -116,10 +116,10 @@ export const layersComputing = (params: {
   context: StackingContext;
 }) => {
   const { nodes, lines, context } = params;
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     NodeComputing.compute(node, context);
   });
-  lines.forEach(line => {
+  lines.forEach((line) => {
     LineComputing.compute(line, context);
   });
 };

@@ -222,6 +222,9 @@ export function createFreeLayoutPreset(
           // 2. 如存在自定义配置，以配置为准
           const element = e.target as Element;
           if (element) {
+            if (element.classList.contains('gedit-flow-background-layer')) {
+              return true;
+            }
             if (element.closest('[data-flow-editor-selectable="true"]')) {
               return true;
             }

@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect, useMemo } from 'react';
 
 import {
   PlaygroundEntityContext,
@@ -7,6 +7,7 @@ import {
 } from '@flowgram.ai/free-layout-editor';
 import { SideSheet } from '@douyinfe/semi-ui';
 
+import { FlowNodeMeta } from '../../typings';
 import { SidebarContext, IsSidebarContext, NodeRenderContext } from '../../context';
 
 export const SidebarRenderer = () => {
@@ -53,6 +54,14 @@ export const SidebarRenderer = () => {
     return () => {};
   }, [nodeRender]);
 
+  const visible = useMemo(() => {
+    if (!nodeRender) {
+      return false;
+    }
+    const { disableSideBar = false } = nodeRender.node.getNodeMeta<FlowNodeMeta>();
+    return !disableSideBar;
+  }, [nodeRender]);
+
   if (playground.config.readonly) {
     return null;
   }
@@ -68,7 +77,7 @@ export const SidebarRenderer = () => {
   ) : null;
 
   return (
-    <SideSheet mask={false} visible={!!nodeRender} onCancel={handleClose}>
+    <SideSheet mask={false} visible={visible} onCancel={handleClose}>
       <IsSidebarContext.Provider value={true}>{content}</IsSidebarContext.Provider>
     </SideSheet>
   );

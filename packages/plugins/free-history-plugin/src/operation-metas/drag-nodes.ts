@@ -1,6 +1,5 @@
 import { type OperationMeta } from '@flowgram.ai/history';
 import { WorkflowDocument } from '@flowgram.ai/free-layout-core';
-import { FlowNodeTransformData } from '@flowgram.ai/document';
 import { type PluginContext, TransformData } from '@flowgram.ai/core';
 
 import { type DragNodeOperationValue, FreeOperationType } from '../types';
@@ -33,14 +32,7 @@ export const dragNodesOperationMeta: OperationMeta<DragNodeOperationValue, Plugi
           y: point.y,
         },
       });
-      // 嵌套情况下需将子节点 transform 设为 dirty
-      if (node.collapsedChildren?.length > 0) {
-        node.collapsedChildren.forEach((childNode) => {
-          const childNodeTransformData =
-            childNode.getData<FlowNodeTransformData>(FlowNodeTransformData);
-          childNodeTransformData.fireChange();
-        });
-      }
+      document.layout.updateAffectedTransform(node);
     });
   },
 };

@@ -90,8 +90,8 @@ export class FreeHistoryManager {
             }
           })
         : Disposable.NULL,
-      document.onContentChange(async (event) => {
-        await this._changeContentHandler.handle(event, ctx);
+      document.onContentChange((event) => {
+        this._changeContentHandler.handle(event, ctx);
       }),
       document.onReload((_event) => {
         historyService.clear();

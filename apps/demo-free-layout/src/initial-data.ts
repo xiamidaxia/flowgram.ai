@@ -75,51 +75,6 @@ export const initialData: FlowDocumentJSON = {
       },
     },
     {
-      id: 'llm_0',
-      type: 'llm',
-      meta: {
-        position: {
-          x: 1430,
-          y: 0,
-        },
-      },
-      data: {
-        title: 'LLM_0',
-        inputsValues: {
-          modelType: 'gpt-3.5-turbo',
-          temperature: 0.5,
-          systemPrompt: 'You are an AI assistant.',
-          prompt: '',
-        },
-        inputs: {
-          type: 'object',
-          required: ['modelType', 'temperature', 'prompt'],
-          properties: {
-            modelType: {
-              type: 'string',
-            },
-            temperature: {
-              type: 'number',
-            },
-            systemPrompt: {
-              type: 'string',
-            },
-            prompt: {
-              type: 'string',
-            },
-          },
-        },
-        outputs: {
-          type: 'object',
-          properties: {
-            result: {
-              type: 'string',
-            },
-          },
-        },
-      },
-    },
-    {
       id: 'end_0',
       type: 'end',
       meta: {
@@ -267,7 +222,7 @@ export const initialData: FlowDocumentJSON = {
       meta: {
         position: {
           x: 640,
-          y: 465.5,
+          y: 478,
         },
       },
       data: {
@@ -278,6 +233,122 @@ export const initialData: FlowDocumentJSON = {
         note: 'hi ~\n\nthis is a comment node\n\n- flowgram.ai',
       },
     },
+    {
+      id: 'group_V-_st',
+      type: 'group',
+      meta: {
+        position: {
+          x: -1.5112031149433278,
+          y: 0,
+        },
+      },
+      data: {
+        title: 'LLM_Group',
+        color: 'Violet',
+      },
+      blocks: [
+        {
+          id: 'llm_0',
+          type: 'llm',
+          meta: {
+            position: {
+              x: 1660.1942854301792,
+              y: 1.8635936030104148,
+            },
+          },
+          data: {
+            title: 'LLM_0',
+            inputsValues: {
+              modelType: 'gpt-3.5-turbo',
+              temperature: 0.5,
+              systemPrompt: 'You are an AI assistant.',
+              prompt: '',
+            },
+            inputs: {
+              type: 'object',
+              required: ['modelType', 'temperature', 'prompt'],
+              properties: {
+                modelType: {
+                  type: 'string',
+                },
+                temperature: {
+                  type: 'number',
+                },
+                systemPrompt: {
+                  type: 'string',
+                },
+                prompt: {
+                  type: 'string',
+                },
+              },
+            },
+            outputs: {
+              type: 'object',
+              properties: {
+                result: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+        {
+          id: 'llm_l_TcE',
+          type: 'llm',
+          meta: {
+            position: {
+              x: 1202.8281207997074,
+              y: 1.8635936030104148,
+            },
+          },
+          data: {
+            title: 'LLM_1',
+            inputsValues: {},
+            inputs: {
+              type: 'object',
+              required: ['modelType', 'temperature', 'prompt'],
+              properties: {
+                modelType: {
+                  type: 'string',
+                },
+                temperature: {
+                  type: 'number',
+                },
+                systemPrompt: {
+                  type: 'string',
+                },
+                prompt: {
+                  type: 'string',
+                },
+              },
+            },
+            outputs: {
+              type: 'object',
+              properties: {
+                result: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      ],
+      edges: [
+        {
+          sourceNodeID: 'llm_l_TcE',
+          targetNodeID: 'llm_0',
+        },
+        {
+          sourceNodeID: 'llm_0',
+          targetNodeID: 'end_0',
+        },
+        {
+          sourceNodeID: 'condition_0',
+          targetNodeID: 'llm_l_TcE',
+          sourcePortID: 'if_0',
+        },
+      ],
+    },
   ],
   edges: [
     {
@@ -286,7 +357,7 @@ export const initialData: FlowDocumentJSON = {
     },
     {
       sourceNodeID: 'condition_0',
-      targetNodeID: 'llm_0',
+      targetNodeID: 'llm_l_TcE',
       sourcePortID: 'if_0',
     },
     {

@@ -16,7 +16,6 @@ import {
 } from '@flowgram.ai/core';
 
 import { StackingContextManager } from '../src/manager';
-import { StackingComputeMode } from '../src/constant';
 import { createWorkflowContainer, workflowJSON } from './utils.mock';
 import { IStackingContextManager } from './type.mock';
 
@@ -58,12 +57,7 @@ describe('StackingContextManager public methods', () => {
     </div>
       `
     );
-    expect(stackingContextManager.mode).toEqual(StackingComputeMode.Stacking);
     expect(stackingContextManager.disposers).toHaveLength(4);
-  });
-  it('should init with mode', () => {
-    stackingContextManager.init(StackingComputeMode.Stacking);
-    expect(stackingContextManager.mode).toEqual(StackingComputeMode.Stacking);
   });
   it('should execute ready', () => {
     stackingContextManager.compute = vi.fn();
@@ -206,18 +200,7 @@ describe('StackingContextManager private methods', () => {
     expect(compute).toBeCalledTimes(2);
   });
 
-  it('should trigger compute in layers mode', async () => {
-    stackingContextManager.init(StackingComputeMode.Layers);
-    stackingContextManager.ready();
-    await delay(200);
-    const node = document.getNode('loop_0')!;
-    const nodeRenderData = node.getData<FlowNodeRenderData>(FlowNodeRenderData);
-    const element = nodeRenderData.node;
-    expect(element.style.zIndex).toBe('9');
-  });
-
-  it('should trigger compute in stacking mode', async () => {
-    stackingContextManager.init(StackingComputeMode.Stacking);
+  it('should trigger compute', async () => {
     stackingContextManager.ready();
     await delay(200);
     const node = document.getNode('loop_0')!;

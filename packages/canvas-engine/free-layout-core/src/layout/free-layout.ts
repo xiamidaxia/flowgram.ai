@@ -1,5 +1,12 @@
 import { inject, injectable } from 'inversify';
 import {
+  type IPoint,
+  PaddingSchema,
+  Rectangle,
+  type ScrollSchema,
+  SizeSchema,
+} from '@flowgram.ai/utils';
+import {
   type FlowDocument,
   type FlowLayout,
   type FlowNodeEntity,
@@ -7,13 +14,6 @@ import {
   FlowNodeTransformData,
 } from '@flowgram.ai/document';
 import { PlaygroundConfigEntity, TransformData } from '@flowgram.ai/core';
-import {
-  type IPoint,
-  PaddingSchema,
-  Rectangle,
-  type ScrollSchema,
-  SizeSchema,
-} from '@flowgram.ai/utils';
 
 export const FREE_LAYOUT_KEY = 'free-layout';
 /**
@@ -65,6 +65,22 @@ export class FreeLayout implements FlowLayout {
   }
 
   /**
+   * 更新所有受影响的上下游节点
+   */
+  updateAffectedTransform(node: FlowNodeEntity): void {
+    const transformData = node.transform;
+    if (!transformData.localDirty) {
+      return;
+    }
+    const allParents = this.getAllParents(node);
+    const allBlocks = this.getAllBlocks(node).reverse();
+    const affectedNodes = [...allBlocks, ...allParents];
+    affectedNodes.forEach((node) => {
+      this.fireChange(node);
+    });
+  }
+
+  /**
    * 获取节点的 padding 数据
    * @param node
    */
@@ -83,7 +99,7 @@ export class FreeLayout implements FlowLayout {
    */
   getInitScroll(contentSize: SizeSchema): ScrollSchema {
     const bounds = Rectangle.enlarge(
-      this.document.getAllNodes().map(node => node.getData<TransformData>(TransformData).bounds),
+      this.document.getAllNodes().map((node) => node.getData<TransformData>(TransformData).bounds)
     ).pad(30, 30); // 留出 30 像素的边界
     const viewport = this.playgroundConfig.getViewport(false);
     const zoom = SizeSchema.fixSize(bounds, viewport);
@@ -112,5 +128,34 @@ export class FreeLayout implements FlowLayout {
    */
   getDefaultNodeOrigin(): IPoint {
     return { x: 0.5, y: 0 };
+  }
+
+  private getAllParents(node: FlowNodeEntity): FlowNodeEntity[] {
+    const parents: FlowNodeEntity[] = [];
+    let current = node.parent;
+
+    while (current) {
+      parents.push(current);
+      current = current.parent;
+    }
+
+    return parents;
+  }
+
+  private getAllBlocks(node: FlowNodeEntity): FlowNodeEntity[] {
+    return node.blocks.reduce<FlowNodeEntity[]>(
+      (acc, child) => [...acc, ...this.getAllBlocks(child)],
+      [node]
+    );
+  }
+
+  private fireChange(node?: FlowNodeEntity): void {
+    const transformData = node?.transform;
+    if (!node || !transformData?.localDirty) {
+      return;
+    }
+    node.clearMemoGlobal();
+    node.clearMemoLocal();
+    transformData.transform.fireChange();
   }
 }

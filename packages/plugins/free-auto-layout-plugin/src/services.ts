@@ -4,6 +4,7 @@ import {
   WorkflowNodeEntity,
   WorkflowNodeLinesData,
 } from '@flowgram.ai/free-layout-core';
+import { FlowNodeBaseType } from '@flowgram.ai/document';
 
 import { Layout, type LayoutOptions } from './layout';
 
@@ -17,13 +18,13 @@ export class AutoLayoutService {
 
   private async layoutNode(node: WorkflowNodeEntity, options: LayoutOptions): Promise<void> {
     // 获取子节点
-    const nodes = node.collapsedChildren;
+    const nodes = this.getAvailableBlocks(node);
     if (!nodes || !Array.isArray(nodes) || !nodes.length) {
       return;
     }
 
     // 获取子线条
-    const edges = node.collapsedChildren
+    const edges = node.blocks
       .map((child) => {
         const childLinesData = child.getData<WorkflowNodeLinesData>(WorkflowNodeLinesData);
         return childLinesData.outputLines.filter(Boolean);
@@ -37,5 +38,19 @@ export class AutoLayoutService {
     layout.init({ nodes, edges }, options);
     layout.layout();
     await layout.position();
+  }
+
+  private getAvailableBlocks(node: WorkflowNodeEntity): WorkflowNodeEntity[] {
+    const commonNodes = node.blocks.filter((n) => !this.shouldFlatNode(n));
+    const flatNodes = node.blocks
+      .filter((n) => this.shouldFlatNode(n))
+      .map((flatNode) => flatNode.blocks)
+      .flat();
+    return [...commonNodes, ...flatNodes];
+  }
+
+  private shouldFlatNode(node: WorkflowNodeEntity): boolean {
+    // Group 节点不参与自动布局
+    return node.flowNodeType === FlowNodeBaseType.GROUP;
   }
 }

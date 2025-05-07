@@ -280,6 +280,14 @@ export class WorkflowDocument extends FlowDocument {
     return node;
   }
 
+  get layout(): FreeLayout {
+    const layout = this.layouts.find((layout) => layout.name == this.currentLayoutKey);
+    if (!layout) {
+      throw new Error(`Unknown flow layout: ${this.currentLayoutKey}`);
+    }
+    return layout as FreeLayout;
+  }
+
   /**
    * 获取默认的 x y 坐标, 默认为当前画布可视区域中心
    * @param type

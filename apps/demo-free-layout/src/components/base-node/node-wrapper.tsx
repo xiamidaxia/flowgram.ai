@@ -26,6 +26,8 @@ export const NodeWrapper: React.FC<NodeWrapperProps> = (props) => {
   const form = nodeRender.form;
   const ctx = useClientContext();
 
+  const portsRender = ports.map((p) => <WorkflowPortRender key={p.id} entity={p} />);
+
   return (
     <>
       <NodeWrapperStyle
@@ -57,9 +59,7 @@ export const NodeWrapper: React.FC<NodeWrapperProps> = (props) => {
       >
         {children}
       </NodeWrapperStyle>
-      {ports.map((p) => (
-        <WorkflowPortRender key={p.id} entity={p} />
-      ))}
+      {portsRender}
     </>
   );
 };

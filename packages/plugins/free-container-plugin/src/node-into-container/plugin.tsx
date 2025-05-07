@@ -1,7 +1,7 @@
 import { definePluginCreator } from '@flowgram.ai/core';
 
 import type { WorkflowContainerPluginOptions } from './type';
-import { NodeIntoContainerService } from './node-into-container';
+import { NodeIntoContainerService } from '.';
 
 export const createContainerNodePlugin = definePluginCreator<WorkflowContainerPluginOptions>({
   onBind: ({ bind }) => {

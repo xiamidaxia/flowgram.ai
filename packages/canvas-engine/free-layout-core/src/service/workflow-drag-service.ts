@@ -176,17 +176,10 @@ export class WorkflowDragService {
             x: nodeStartPosition.x + offset.x,
             y: nodeStartPosition.y + offset.y,
           };
-          if (node.collapsedChildren?.length > 0) {
-            // 嵌套情况下需将子节点 transform 设为 dirty
-            node.collapsedChildren.forEach((childNode) => {
-              const childNodeTransformData =
-                childNode.getData<FlowNodeTransformData>(FlowNodeTransformData);
-              childNodeTransformData.fireChange();
-            });
-          }
           transform.update({
             position: newPosition,
           });
+          this.document.layout.updateAffectedTransform(node);
           positions.push(newPosition);
         });
 

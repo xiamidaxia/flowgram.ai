@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify';
-import { EntityManager } from '@flowgram.ai/core';
 import { Emitter } from '@flowgram.ai/utils';
+import { EntityManager } from '@flowgram.ai/core';
 
+import { FlowGroupUtils } from './flow-group-service/flow-group-utils';
 import { FlowNodeBaseType, FlowOperationBaseService, LABEL_SIDE_TYPE } from '../typings';
-import { FlowGroupController } from '../services';
 import { FlowDocument } from '../flow-document';
 import { FlowNodeEntity, FlowRendererStateEntity } from '../entities';
 import { FlowNodeRenderData } from '../datas';
@@ -126,9 +126,11 @@ export class FlowDragService {
     }
 
     // 分组节点不能嵌套
-    const hasGroupNode = this.dragNodes.some(node => node.flowNodeType === FlowNodeBaseType.GROUP);
+    const hasGroupNode = this.dragNodes.some(
+      (node) => node.flowNodeType === FlowNodeBaseType.GROUP
+    );
     if (hasGroupNode) {
-      const group = FlowGroupController.getNodeRecursionGroupController(node);
+      const group = FlowGroupUtils.getNodeRecursionGroupController(node);
       if (group) {
         return false;
       }

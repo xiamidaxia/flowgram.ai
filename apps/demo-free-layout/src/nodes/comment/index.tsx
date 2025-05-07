@@ -4,9 +4,8 @@ import { FlowNodeRegistry } from '../../typings';
 export const CommentNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.Comment,
   meta: {
-    isStart: true,
-    isNodeEnd: true,
-    disableSideSheet: true,
+    disableSideBar: true,
+    defaultPorts: [],
     renderKey: WorkflowNodeType.Comment,
     size: {
       width: 240,

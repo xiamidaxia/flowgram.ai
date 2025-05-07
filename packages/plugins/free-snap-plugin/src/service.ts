@@ -398,17 +398,10 @@ export class WorkflowSnapService {
       x: transform.position.x + offset.x,
       y: transform.position.y + offset.y,
     };
-    if (node.collapsedChildren?.length > 0) {
-      // 嵌套情况下需将子节点 transform 设为 dirty
-      node.collapsedChildren.forEach((childNode) => {
-        const childNodeTransformData =
-          childNode.getData<FlowNodeTransformData>(FlowNodeTransformData);
-        childNodeTransformData.fireChange();
-      });
-    }
     transform.update({
       position: positionWithOffset,
     });
+    this.document.layout.updateAffectedTransform(node);
   }
 
   private calcAlignOffset(params: {

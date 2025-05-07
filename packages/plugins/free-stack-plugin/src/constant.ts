@@ -34,10 +34,3 @@ export const StackingConfig = {
   /** 最大 index */
   maxIndex,
 };
-
-export enum StackingComputeMode {
-  /** 层叠计算模式 */
-  Stacking = 'stacking',
-  /** 层级计算模式 */
-  Layers = 'layers',
-}
