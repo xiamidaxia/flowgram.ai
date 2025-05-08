@@ -68,6 +68,9 @@ importers:
       '@flowgram.ai/fixed-semi-materials':
         specifier: workspace:*
         version: link:../../packages/materials/fixed-semi-materials
+      '@flowgram.ai/form-materials':
+        specifier: workspace:*
+        version: link:../../packages/materials/form-materials
       '@flowgram.ai/group-plugin':
         specifier: workspace:*
         version: link:../../packages/plugins/group-plugin
@@ -196,6 +199,9 @@ importers:
       '@douyinfe/semi-ui':
         specifier: ^2.72.3
         version: 2.72.3(acorn@8.14.0)(react-dom@18.3.1)(react@18.3.1)
+      '@flowgram.ai/form-materials':
+        specifier: workspace:*
+        version: link:../../packages/materials/form-materials
       '@flowgram.ai/free-container-plugin':
         specifier: workspace:*
         version: link:../../packages/plugins/free-container-plugin
@@ -1681,6 +1687,76 @@ importers:
       '@flowgram.ai/fixed-layout-editor':
         specifier: workspace:*
         version: link:../../client/fixed-layout-editor
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      nanoid:
+        specifier: ^4.0.2
+        version: 4.0.2
+    devDependencies:
+      '@flowgram.ai/eslint-config':
+        specifier: workspace:*
+        version: link:../../../config/eslint-config
+      '@flowgram.ai/ts-config':
+        specifier: workspace:*
+        version: link:../../../config/ts-config
+      '@types/lodash':
+        specifier: ^4.14.137
+        version: 4.17.13
+      '@types/react':
+        specifier: ^18
+        version: 18.3.16
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.3.5(@types/react@18.3.16)
+      '@types/styled-components':
+        specifier: ^5
+        version: 5.1.34
+      eslint:
+        specifier: ^8.54.0
+        version: 8.57.1
+      react:
+        specifier: ^18
+        version: 18.3.1
+      react-dom:
+        specifier: ^18
+        version: 18.3.1(react@18.3.1)
+      styled-components:
+        specifier: ^5
+        version: 5.3.11(@babel/core@7.26.10)(react-dom@18.3.1)(react-is@18.3.1)(react@18.3.1)
+      tsup:
+        specifier: ^8.0.1
+        version: 8.3.5(typescript@5.0.4)
+      typescript:
+        specifier: ^5.0.4
+        version: 5.0.4
+      vitest:
+        specifier: ^0.34.6
+        version: 0.34.6(jsdom@22.1.0)
+
+  ../../packages/materials/form-materials:
+    dependencies:
+      '@douyinfe/semi-icons':
+        specifier: ^2.72.3
+        version: 2.72.3(react@18.3.1)
+      '@douyinfe/semi-illustrations':
+        specifier: ^2.36.0
+        version: 2.72.3(react@18.3.1)
+      '@douyinfe/semi-ui':
+        specifier: ^2.72.3
+        version: 2.72.3(acorn@8.14.0)(react-dom@18.3.1)(react@18.3.1)
+      '@flowgram.ai/editor':
+        specifier: workspace:*
+        version: link:../../client/editor
+      chalk:
+        specifier: ^5.3.0
+        version: 5.4.1
+      commander:
+        specifier: ^11.0.0
+        version: 11.1.0
+      inquirer:
+        specifier: ^9.2.7
+        version: 9.3.7
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -3795,21 +3871,12 @@ packages:
       - supports-color
     dev: false
 
-  /@babel/helper-module-imports@7.25.9:
+  /@babel/helper-module-imports@7.25.9(supports-color@5.5.0):
     resolution: {integrity: sha512-tnUA4RsrmflIM6W6RFTLFSXITtl0wKjgpnLgXyowocVPrbYrLUXSBXDgTs8BlbmIzIdlBySRQjINYs2BAkiLtw==}
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/traverse': 7.27.0(supports-color@5.5.0)
       '@babel/types': 7.27.0
-    transitivePeerDependencies:
-      - supports-color
-
-  /@babel/helper-module-imports@7.25.9(supports-color@5.5.0):
-    resolution: {integrity: sha512-tnUA4RsrmflIM6W6RFTLFSXITtl0wKjgpnLgXyowocVPrbYrLUXSBXDgTs8BlbmIzIdlBySRQjINYs2BAkiLtw==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/traverse': 7.26.4(supports-color@5.5.0)
-      '@babel/types': 7.26.3
     transitivePeerDependencies:
       - supports-color
 
@@ -3820,7 +3887,7 @@ packages:
       '@babel/core': ^7.0.0
     dependencies:
       '@babel/core': 7.26.0
-      '@babel/helper-module-imports': 7.25.9
+      '@babel/helper-module-imports': 7.25.9(supports-color@5.5.0)
       '@babel/helper-validator-identifier': 7.25.9
       '@babel/traverse': 7.26.4(supports-color@5.5.0)
     transitivePeerDependencies:
@@ -3834,7 +3901,7 @@ packages:
       '@babel/core': ^7.0.0
     dependencies:
       '@babel/core': 7.26.10
-      '@babel/helper-module-imports': 7.25.9
+      '@babel/helper-module-imports': 7.25.9(supports-color@5.5.0)
       '@babel/helper-validator-identifier': 7.25.9
       '@babel/traverse': 7.26.4(supports-color@5.5.0)
     transitivePeerDependencies:
@@ -4341,7 +4408,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.26.0
-      '@babel/helper-module-imports': 7.25.9
+      '@babel/helper-module-imports': 7.25.9(supports-color@5.5.0)
       '@babel/helper-plugin-utils': 7.25.9
       '@babel/helper-remap-async-to-generator': 7.25.9(@babel/core@7.26.0)
     transitivePeerDependencies:
@@ -4635,7 +4702,7 @@ packages:
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-annotate-as-pure': 7.25.9
-      '@babel/helper-module-imports': 7.25.9
+      '@babel/helper-module-imports': 7.25.9(supports-color@5.5.0)
       '@babel/helper-plugin-utils': 7.25.9
       '@babel/plugin-syntax-jsx': 7.25.9(@babel/core@7.26.0)
       '@babel/types': 7.26.3

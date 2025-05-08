@@ -49,7 +49,8 @@ export const createSyncVariablePlugin: PluginCreator<SyncVariablePluginOptions> 
             variableData.setVar(
               ASTFactory.createVariableDeclaration({
                 meta: {
-                  title: `${title}.outputs`,
+                  title: `${title}`,
+                  icon: node.getNodeRegistry()?.info?.icon,
                   // NOTICE: You can add more metadata here as needed
                 },
                 key: `${node.id}.outputs`,

@@ -714,6 +714,12 @@
             "tags": ["level-1", "team-flow"]
         },
         {
+          "packageName": "@flowgram.ai/form-materials",
+          "projectFolder": "packages/materials/form-materials",
+          "versionPolicyName": "publishPolicy",
+          "tags": ["level-1", "team-flow"]
+        },
+        {
             "packageName": "@flowgram.ai/free-auto-layout-plugin",
             "projectFolder": "packages/plugins/free-auto-layout-plugin",
             "versionPolicyName": "publishPolicy",

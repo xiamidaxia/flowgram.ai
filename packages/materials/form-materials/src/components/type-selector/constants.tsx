@@ -1,3 +1,10 @@
+import React from 'react';
+
+import { CascaderData } from '@douyinfe/semi-ui/lib/es/cascader';
+import Icon from '@douyinfe/semi-icons';
+
+import { JsonSchema } from './types';
+
 export const VariableTypeIcons: { [key: string]: React.ReactNode } = {
   custom: (
     <svg
@@ -263,3 +270,90 @@ export const ArrayIcons: { [key: string]: React.ReactNode } = {
     </svg>
   ),
 };
+
+export const getSchemaIcon = (value?: Partial<JsonSchema>) => {
+  if (value?.type === 'array') {
+    return ArrayIcons[value.items?.type || 'object'];
+  }
+
+  return VariableTypeIcons[value?.type || 'object'];
+};
+
+const labelStyle: React.CSSProperties = { display: 'flex', alignItems: 'center', gap: 5 };
+
+const firstUppercase = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+const baseOptions: CascaderData[] = [
+  {
+    label: (
+      <div style={labelStyle}>
+        <Icon size="small" svg={getSchemaIcon({ type: 'string' })} />
+        {firstUppercase('string')}
+      </div>
+    ),
+    value: 'string',
+  },
+  {
+    label: (
+      <div style={labelStyle}>
+        <Icon size="small" svg={getSchemaIcon({ type: 'integer' })} />
+        {firstUppercase('integer')}
+      </div>
+    ),
+    value: 'integer',
+  },
+  {
+    label: (
+      <div style={labelStyle}>
+        <Icon size="small" svg={getSchemaIcon({ type: 'number' })} />
+        {firstUppercase('number')}
+      </div>
+    ),
+    value: 'number',
+  },
+
+  {
+    label: (
+      <div style={labelStyle}>
+        <Icon size="small" svg={getSchemaIcon({ type: 'boolean' })} />
+        {firstUppercase('boolean')}
+      </div>
+    ),
+    value: 'boolean',
+  },
+  {
+    label: (
+      <div style={labelStyle}>
+        <Icon size="small" svg={getSchemaIcon({ type: 'object' })} />
+        {firstUppercase('object')}
+      </div>
+    ),
+    value: 'object',
+  },
+];
+
+export const options: CascaderData[] = [
+  ...baseOptions,
+  {
+    label: (
+      <div style={labelStyle}>
+        <Icon size="small" svg={getSchemaIcon({ type: 'array' })} />
+        {firstUppercase('array')}
+      </div>
+    ),
+    value: 'array',
+    children: baseOptions.map((_opt) => ({
+      ..._opt,
+      value: `${_opt.value}`,
+      label: (
+        <div style={labelStyle}>
+          <Icon
+            size="small"
+            svg={getSchemaIcon({ type: 'array', items: { type: _opt.value as string } })}
+          />
+          {firstUppercase(_opt.value as string)}
+        </div>
+      ),
+    })),
+  },
+];

@@ -1,8 +1,7 @@
 import React from 'react';
 
+import { VariableTypeIcons } from '@flowgram.ai/form-materials';
 import { Tag, Dropdown } from '@douyinfe/semi-ui';
-
-import { VariableTypeIcons } from '../plugins/sync-variable-plugin/icons';
 
 export interface TypeSelectorProps {
   value?: string;
