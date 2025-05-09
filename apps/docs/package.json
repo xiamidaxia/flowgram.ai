@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "build": "rm -rf ./doc_build && rspress build",
-    "docs": "sucrase-node ./scripts/auto-generate.ts",
+    "docs": "tsx ./scripts/auto-generate.ts",
     "dev": "rspress dev",
     "lint": "eslint ./components --cache",
-    "preview": "rspress preview"
+    "preview": "rspress preview",
+    "translate:zh": "tsx ./scripts/translate.ts zh",
+    "translate:en": "tsx ./scripts/translate.ts en"
   },
   "dependencies": {
     "rspress": "^1.38.0",
@@ -56,7 +58,10 @@
     "sucrase": "3.35.0",
     "eslint": "^8.54.0",
     "globals": "^15.11.0",
-    "typescript-eslint": "^8.8.1"
+    "typescript-eslint": "^8.8.1",
+    "openai": "~4.98.0",
+    "dotenv": "~16.5.0",
+    "tsx": "~4.19.4"
   },
   "homepage": "https://github.com/bytedance/flowgram.ai/"
 }
