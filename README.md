@@ -130,4 +130,5 @@ Enjoy it!
 
 - Issues: [Issues](https://github.com/bytedance/flowgram.ai/issues)
 - Lark: Scan the QR code below with [Register Feishu](https://www.feishu.cn/en/) to join our FlowGram user group.
-<img src="./apps/docs/src/public/lark-group.png"/>
+
+<img src="./apps/docs/src/public/lark-group.png" width="200"/>
