@@ -12,7 +12,8 @@ const program = new Command();
 program
   .version('1.0.0')
   .description('Add official materials to your project')
-  .action(async () => {
+  .argument('[materialName]', 'Optional material name to skip selection (format: type/name)')
+  .action(async (materialName) => {
     console.log(chalk.bgGreenBright('Welcome to @flowgram.ai/form-materials CLI!'));
 
     const projectInfo = getProjectInfo();
@@ -23,20 +24,39 @@ program
 
     const materials = listAllMaterials();
 
-    // 2. User select one component
-    const { material } = await inquirer.prompt([
-      {
-        type: 'list',
-        name: 'material',
-        message: 'Select one material to add:',
-        choices: [
-          ...materials.map((_material) => ({
-            name: `${_material.type}/${_material.name}`,
-            value: _material,
-          })),
-        ],
-      },
-    ]);
+    let material;
+
+    // Check if materialName is provided and exists in materials
+    if (materialName) {
+      const selectedMaterial = materials.find((m) => `${m.type}/${m.name}` === materialName);
+      if (selectedMaterial) {
+        material = selectedMaterial;
+        console.log(chalk.green(`Using material: ${materialName}`));
+      } else {
+        console.log(
+          chalk.yellow(`Material "${materialName}" not found. Please select from the list:`)
+        );
+      }
+    }
+
+    // If material not found or materialName not provided, prompt user to select
+    if (!material) {
+      // User select one component
+      const result = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'material',
+          message: 'Select one material to add:',
+          choices: [
+            ...materials.map((_material) => ({
+              name: `${_material.type}/${_material.name}`,
+              value: _material,
+            })),
+          ],
+        },
+      ]);
+      material = result.material;
+    }
 
     console.log(material);
 

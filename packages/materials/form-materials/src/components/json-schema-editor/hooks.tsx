@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { PropertyValueType } from './types';
 import { JsonSchema } from '../type-selector';
@@ -28,7 +28,7 @@ export function usePropertiesEdit(
   onChange?: (value: PropertyValueType) => void
 ) {
   // Get drilldown (array.items.items...)
-  const drilldown = useMemo(() => getDrilldownSchema(value), [value?.type, value?.items]);
+  const drilldown = useMemo(() => getDrilldownSchema(value), [value, value?.type, value?.items]);
 
   const isDrilldownObject = drilldown.schema?.type === 'object';
 
@@ -37,11 +37,11 @@ export function usePropertiesEdit(
     () =>
       isDrilldownObject
         ? Object.entries(drilldown.schema?.properties || {}).map(
-            ([key, _value]) =>
+            ([name, _value]) =>
               ({
                 key: genId(),
-                name: key,
-                isPropertyRequired: value?.required?.includes(key) || false,
+                name,
+                isPropertyRequired: drilldown.schema?.required?.includes(name) || false,
                 ..._value,
               } as PropertyValueType)
           )
@@ -50,6 +50,42 @@ export function usePropertiesEdit(
   );
 
   const [propertyList, setPropertyList] = useState<PropertyValueType[]>(initPropertyList);
+
+  const mountRef = useRef(false);
+
+  useEffect(() => {
+    // If initRef is true, it means the component has been mounted
+    if (mountRef.current) {
+      // If the value is changed, update the property list
+      setPropertyList((_list) => {
+        const nameMap = new Map<string, PropertyValueType>();
+
+        for (const _property of _list) {
+          if (_property.name) {
+            nameMap.set(_property.name, _property);
+          }
+        }
+        return Object.entries(drilldown.schema?.properties || {}).map(([name, _value]) => {
+          const _property = nameMap.get(name);
+          if (_property) {
+            return {
+              key: _property.key,
+              name,
+              isPropertyRequired: drilldown.schema?.required?.includes(name) || false,
+              ..._value,
+            };
+          }
+          return {
+            key: genId(),
+            name,
+            isPropertyRequired: drilldown.schema?.required?.includes(name) || false,
+            ..._value,
+          };
+        });
+      });
+    }
+    mountRef.current = true;
+  }, [drilldown.schema]);
 
   const updatePropertyList = (updater: (list: PropertyValueType[]) => PropertyValueType[]) => {
     setPropertyList((_list) => {

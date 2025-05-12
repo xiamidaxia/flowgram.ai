@@ -74,8 +74,6 @@ function PropertyEdit(props: {
 }) {
   const { value, onChange: onChangeProps, onRemove, $isLast, $showLine } = props;
 
-  console.log('isLast', $isLast);
-
   const [expand, setExpand] = useState(false);
   const [collapse, setCollapse] = useState(false);
 
