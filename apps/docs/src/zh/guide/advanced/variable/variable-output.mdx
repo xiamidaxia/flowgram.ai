@@ -1,0 +1,330 @@
+# 输出变量
+
+## 输出节点变量
+
+### FlowNodeVariableData 输出变量
+
+`Flowgram` 基于 [`ECS`](https://flowgram.ai/guide/concepts/ecs.html) (Entity-Component-System) 来实现节点信息的管理。
+
+其中 [`FlowNodeVariableData`](https://flowgram.ai/auto-docs/editor/classes/FlowNodeVariableData.html) 是节点 `FlowNodeEntity` 上的一个 `Component`，专门用于处理节点上输出的 **变量信息**。
+
+
+下面的 Demo 展示了：如何拿到 `FlowNodeVariableData`, 并且通过 `FlowNodeVariableData` 实现在节点上输出变量
+
+
+```tsx pure title="sync-variable-plugin.tsx"
+import {
+  FlowNodeVariableData,
+  ASTFactory,
+} from '@flowgram.ai/fixed-layout-editor';
+
+// ....
+
+flowDocument.onNodeCreate(({ node }) => {
+  const variableData = node.getData<FlowNodeVariableData>(FlowNodeVariableData);
+
+  // ....
+
+  // 1. Clear VariableData if No value
+  variableData.clearVar()
+
+  // 2. Set a String Variable as output
+  variableData.setVar(
+    ASTFactory.createVariableDeclaration({
+      meta: {
+        title: `Your Output Variable Title`,
+      },
+      key: `your_variable_global_unique_key_${node.id}`,
+      type: ASTFactory.createString(),
+    })
+  )
+
+  // 3. Set a Complicated Variable Data as output
+  variableData.setVar(
+    ASTFactory.createVariableDeclaration({
+      meta: {
+        title: `Your Output Variable Title`,
+      },
+      key: `your_variable_global_unique_key_${node.id}`,
+      type: ASTFactory.createArray({
+        items: ASTFactory.createObject({
+          properties: [
+            ASTFactory.createProperty({
+              key: 'stringType',
+              type: ASTFactory.createString(),
+            }),
+            ASTFactory.createProperty({
+              key: 'booleanType',
+              type: ASTFactory.createBoolean(),
+            }),
+            ASTFactory.createProperty({
+              key: 'numberType',
+              type: ASTFactory.createNumber(),
+            }),
+            ASTFactory.createProperty({
+              key: 'integerType',
+              type: ASTFactory.createInteger(),
+            }),
+          ],
+        }),
+      }),
+    })
+  );
+
+  // 4. Get Variable for current Node
+  console.log(variableData.getVar())
+
+  // ....
+})
+
+// ....
+
+```
+
+详见: [> Demo Detail](https://github.com/bytedance/flowgram.ai/blob/main/apps/demo-fixed-layout/src/plugins/sync-variable-plugin/sync-variable-plugin.ts#L25)
+
+### 一个节点设置多个输出变量
+
+```tsx pure title="sync-variable-plugin.tsx"
+import {
+  FlowNodeVariableData,
+  ASTFactory,
+} from '@flowgram.ai/fixed-layout-editor';
+
+// ....
+
+flowDocument.onNodeCreate(({ node }) => {
+  const variableData = node.getData<FlowNodeVariableData>(FlowNodeVariableData);
+
+  // ...
+  // 1. Create, Update, Read, Delete Variable in namespace_1
+  variableData.setVar(
+    'namespace_1',
+    ASTFactory.createVariableDeclaration({
+      meta: {
+        title: `Your Output Variable Title`,
+      },
+      key: `your_variable_global_unique_key_${node.id}`,
+      type: ASTFactory.createString(),
+    })
+  )
+
+  console.log(variableData.getVar('namespace_1'))
+
+  variableData.clearVar('namespace_1')
+
+  // ....
+
+  // 2. Create, Update, Read, Delete Variable in namespace_2
+  variableData.setVar(
+    'namespace_2',
+    ASTFactory.createVariableDeclaration({
+      meta: {
+        title: `Your Output Variable Title 2`,
+      },
+      key: `your_variable_global_unique_key_${node.id}_2`,
+      type: ASTFactory.createString(),
+    })
+  )
+
+  console.log(variableData.getVar('namespace_2'))
+
+  variableData.clearVar('namespace_2')
+
+  // ....
+})
+
+// ....
+
+```
+
+更多用法，详见：[Class: FlowNodeVariableData](https://flowgram.ai/auto-docs/editor/classes/FlowNodeVariableData.html)
+
+### 表单副作用设置输出变量
+
+```tsx pure title="node-registries.ts"
+import {
+  FlowNodeRegistry,
+  createEffectFromVariableProvider,
+  ASTFactory,
+  type ASTNodeJSON
+} from '@flowgram.ai/fixed-layout-editor';
+
+export function createTypeFromValue(value: string): ASTNodeJSON | undefined {
+  switch (value) {
+    case 'string':
+      return ASTFactory.createString();
+    case 'number':
+      return ASTFactory.createNumber();
+    case 'boolean':
+      return ASTFactory.createBoolean();
+    case 'integer':
+      return ASTFactory.createInteger();
+
+    default:
+      return;
+  }
+}
+
+export const nodeRegistries: FlowNodeRegistry[] = [
+  {
+    type: 'start',
+    formMeta: {
+      effect: {
+        // Create first variable
+        // = variableData.setVar('path.to.value', ASTFactory.createVariableDeclaration(parse(v)))
+        'path.to.value': createEffectFromVariableProvider({
+          // parse form value to variable
+          parse(v: string) {
+            return {
+              meta: {
+                title: `Your Output Variable Title`,
+              },
+              key: `your_variable_global_unique_key_${node.id}`,
+              type: createTypeFromValue(v)
+            }
+          }
+        }),
+        // Create second variable
+        // = variableData.setVar('path.to.value2', ASTFactory.createVariableDeclaration(parse(v)))
+        'path.to.value2': createEffectFromVariableProvider({
+          // parse form value to variable
+          parse(v: string) {
+            return {
+              meta: {
+                title: `Your Output Variable Title 2`,
+              },
+              key: `your_variable_global_unique_key_${node.id}_2`,
+              type: createTypeFromValue(v)
+            }
+          }
+        }),
+      },
+      render: () => (
+       // ...
+      )
+    },
+  }
+]
+
+```
+
+## 输出全局变量
+
+### 获取全局变量作用域
+
+全局作用域可以在 Plugin 中通过 `ctx` 获取：
+
+
+```tsx pure title="sync-variable-plugin.tsx"
+import {
+  GlobalScope,
+  definePluginCreator,
+  PluginCreator
+} from '@flowgram.ai/fixed-layout-editor';
+
+
+export const createSyncVariablePlugin: PluginCreator<SyncVariablePluginOptions> =
+  definePluginCreator<SyncVariablePluginOptions, FixedLayoutPluginContext>({
+    onInit(ctx, options) {
+      const globalScope = ctx.get(GlobalScope)
+
+      globalScope.setVar(
+         ASTFactory.createVariableDeclaration({
+          meta: {
+            title: `Your Output Variable Title`,
+          },
+          key: `your_variable_global_unique_key`,
+          type: ASTFactory.createString(),
+        })
+      )
+    }
+  })
+
+```
+
+
+也可以在画布中的 React 组件内，通过 `useService` 获取全局作用域：
+
+```tsx pure title="global-variable-component.tsx"
+import {
+  GlobalScope,
+  useService,
+} from '@flowgram.ai/fixed-layout-editor';
+
+function GlobalVariableComponent() {
+
+  const globalScope = useService(GlobalScope)
+
+  // ...
+
+  const handleChange = (v: string) => {
+    globalScope.setVar(
+      ASTFactory.createVariableDeclaration({
+        meta: {
+          title: `Your Output Variable Title`,
+        },
+        key: `your_variable_global_unique_key_${v}`,
+        type: ASTFactory.createString(),
+      })
+    )
+  }
+
+  return <Input onChange={handleChange}/>
+}
+
+```
+
+
+
+### 全局作用域输出变量
+
+[`GlobalScope`](https://flowgram.ai/auto-docs/editor/classes/GlobalScope.html) 输出变量的 API 和 `FlowNodeVariableData` 类似:
+
+```tsx pure title="sync-variable-plugin.tsx"
+import {
+  GlobalScope,
+} from '@flowgram.ai/fixed-layout-editor';
+
+// ...
+
+onInit(ctx, options) {
+  const globalScope = ctx.get(GlobalScope);
+
+  // 1. Create, Update, Read, Delete Variable in GlobalScope
+  globalScope.setVar(
+    ASTFactory.createVariableDeclaration({
+      meta: {
+        title: `Your Output Variable Title`,
+      },
+      key: `your_variable_global_unique_key`,
+      type: ASTFactory.createString(),
+    })
+  )
+
+  console.log(globalScope.getVar())
+
+  globalScope.clearVar()
+
+
+  // 2.  Create, Update, Read, Delete Variable in GlobalScope's namespace: 'namespace_1'
+    globalScope.setVar(
+      'namespace_1',
+      ASTFactory.createVariableDeclaration({
+        meta: {
+          title: `Your Output Variable Title 2`,
+        },
+        key: `your_variable_global_unique_key_2`,
+        type: ASTFactory.createString(),
+      })
+  )
+
+  console.log(globalScope.getVar('namespace_1'))
+
+  globalScope.clearVar('namespace_1')
+
+  // ...
+}
+```
+
+详见：[Class: GlobalScope](https://flowgram.ai/auto-docs/editor/classes/GlobalScope.html)

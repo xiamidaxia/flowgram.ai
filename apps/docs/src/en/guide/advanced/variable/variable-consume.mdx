@@ -1,0 +1,78 @@
+# Consume Variables
+
+## Accessing Variable Tree Within a Node
+
+### Retrieving Variable List
+
+```tsx pure title="use-variable-tree.tsx"
+import {
+  type BaseVariableField,
+  useScopeAvailable,
+} from '@flowgram.ai/fixed-layout-editor';
+
+// .... Inside react hooks or component
+
+const available = useScopeAvailable()
+
+const renderVariable = (variable: BaseVariableField) => {
+  // ....
+}
+
+return available.variables.map(renderVariable)
+
+// ....
+
+```
+
+### Drilling Down into Object Type Variables
+
+```tsx pure title="use-variable-tree.tsx"
+import {
+  type BaseVariableField,
+  ASTMatch,
+} from '@flowgram.ai/fixed-layout-editor';
+
+// ....
+
+const renderVariable = (variable: BaseVariableField) => ({
+  title: variable.meta?.title,
+  key: variable.key,
+  // Only Object Type can drilldown
+  children: ASTMatch.isObject(type) ? type.properties.map(renderVariable) : [],
+});
+
+// ....
+
+```
+
+### Drilling Down into Array Type Variables
+
+```tsx pure title="use-variable-tree.tsx"
+import {
+  type BaseVariableField,
+  type BaseType,
+  ASTMatch,
+} from '@flowgram.ai/fixed-layout-editor';
+
+// ....
+
+const getTypeChildren = (type?: BaseType): BaseVariableField[] => {
+  if (!type) return [];
+
+  // get properties of Object
+  if (ASTMatch.isObject(type)) return type.properties;
+
+  // get items type of Array
+  if (ASTMatch.isArray(type)) return getTypeChildren(type.items);
+};
+
+const renderVariable = (variable: BaseVariableField) => ({
+  title: variable.meta?.title,
+  key: variable.key,
+  // Only Object Type can drilldown
+  children: getTypeChildren(variable.type).map(renderVariable),
+});
+
+// ....
+
+```

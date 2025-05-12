@@ -105,6 +105,11 @@ async function translateFiles() {
         const sourceFile = path.join(sourceLangFolder, file);
         const targetFile = path.join(targetLangFolder, file);
 
+        if (!fs.existsSync(sourceFile)) {
+          console.error(`Source file not found: ${sourceFile}`);
+          continue;
+        }
+
         // 2.1. Read the file
         const sourceContent = fs.readFileSync(sourceFile, 'utf-8');
 
@@ -124,6 +129,9 @@ async function translateFiles() {
         );
 
         // 2.3. Write the translated file
+        if (!fs.existsSync(path.dirname(targetFile))) {
+          fs.mkdirSync(path.dirname(targetFile), { recursive: true });
+        }
         fs.writeFileSync(targetFile, targetContent);
 
         console.log(`Translated: ${targetFile}`);

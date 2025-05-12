@@ -11,7 +11,11 @@
   },
   "form",
   "without-form",
-  "variable",
+  {
+    "type": "dir",
+    "name": "variable",
+    "label": "变量"
+  },
   "history",
   "shortcuts",
   "minimap",
