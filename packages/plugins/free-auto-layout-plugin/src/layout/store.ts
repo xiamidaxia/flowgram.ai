@@ -1,5 +1,5 @@
 import { WorkflowLineEntity, WorkflowNodeEntity } from '@flowgram.ai/free-layout-core';
-import { FlowNodeTransformData } from '@flowgram.ai/document';
+import { FlowNodeBaseType, FlowNodeTransformData } from '@flowgram.ai/document';
 
 import { LayoutEdge, LayoutNode, LayoutParams } from './type';
 
@@ -52,11 +52,21 @@ export class LayoutStore {
     edges: WorkflowLineEntity[];
   }): LayoutStoreData {
     const { nodes, edges } = params;
+    const layoutNodes = this.createLayoutNodes(nodes);
+    const layoutEdges = this.createEdgesStore(edges);
+    const virtualEdges = this.createVirtualEdges(params);
     const store = {
       nodes: new Map(),
       edges: new Map(),
     };
-    nodes.forEach((node, index) => {
+    layoutNodes.forEach((node) => store.nodes.set(node.id, node));
+    layoutEdges.concat(virtualEdges).forEach((edge) => store.edges.set(edge.id, edge));
+    return store;
+  }
+
+  /** 创建节点布局数据 */
+  private createLayoutNodes(nodes: WorkflowNodeEntity[]): LayoutNode[] {
+    const layoutNodes = nodes.map((node, index) => {
       const { bounds } = node.getData(FlowNodeTransformData);
       const layoutNode: LayoutNode = {
         id: node.id,
@@ -69,27 +79,89 @@ export class LayoutStore {
         size: { width: bounds.width, height: bounds.height },
         hasChildren: node.collapsedChildren?.length > 0,
       };
-      store.nodes.set(layoutNode.id, layoutNode);
+      return layoutNode;
     });
+    return layoutNodes;
+  }
 
-    edges.forEach((edge) => {
-      const { from, to } = edge.info;
-      if (!from || !to || edge.vertical) {
-        return;
-      }
-      const layoutEdge: LayoutEdge = {
-        id: edge.id,
-        entity: edge,
-        from,
-        to,
-        fromIndex: '', // 初始化时，index 未计算
-        toIndex: '', // 初始化时，index 未计算
-        name: edge.id,
-      };
-      store.edges.set(layoutEdge.id, layoutEdge);
-    });
+  /** 创建线条布局数据 */
+  private createEdgesStore(edges: WorkflowLineEntity[]): LayoutEdge[] {
+    const layoutEdges = edges
+      .map((edge) => {
+        const { from, to } = edge.info;
+        if (!from || !to || edge.vertical) {
+          return;
+        }
+        const layoutEdge: LayoutEdge = {
+          id: edge.id,
+          entity: edge,
+          from,
+          to,
+          fromIndex: '', // 初始化时，index 未计算
+          toIndex: '', // 初始化时，index 未计算
+          name: edge.id,
+        };
+        return layoutEdge;
+      })
+      .filter(Boolean) as LayoutEdge[];
+    return layoutEdges;
+  }
 
-    return store;
+  /** 创建虚拟线条数据 */
+  private createVirtualEdges(params: {
+    nodes: WorkflowNodeEntity[];
+    edges: WorkflowLineEntity[];
+  }): LayoutEdge[] {
+    const { nodes, edges } = params;
+    const groupNodes = nodes.filter((n) => n.flowNodeType === FlowNodeBaseType.GROUP);
+    const virtualEdges = groupNodes
+      .map((group) => {
+        const { id: groupId, blocks = [] } = group;
+        const blockIdSet = new Set(blocks.map((b) => b.id));
+        const groupFromEdges = edges
+          .filter((edge) => blockIdSet.has(edge.to?.id ?? ''))
+          .map((edge) => {
+            const { from, to } = edge.info;
+            if (!from || !to || edge.vertical) {
+              return;
+            }
+            const id = `virtual_${groupId}_${to}`;
+            const layoutEdge: LayoutEdge = {
+              id: id,
+              entity: edge,
+              from,
+              to: groupId,
+              fromIndex: '', // 初始化时，index 未计算
+              toIndex: '', // 初始化时，index 未计算
+              name: id,
+            };
+            return layoutEdge;
+          })
+          .filter(Boolean) as LayoutEdge[];
+        const groupToEdges = edges
+          .filter((edge) => blockIdSet.has(edge.from.id ?? ''))
+          .map((edge) => {
+            const { from, to } = edge.info;
+            if (!from || !to || edge.vertical) {
+              return;
+            }
+            const id = `virtual_${groupId}_${from}`;
+            const layoutEdge: LayoutEdge = {
+              id: id,
+              entity: edge,
+              from: groupId,
+              to,
+              fromIndex: '', // 初始化时，index 未计算
+              toIndex: '', // 初始化时，index 未计算
+              name: id,
+            };
+            return layoutEdge;
+          })
+          .filter(Boolean) as LayoutEdge[];
+        return [...groupFromEdges, ...groupToEdges];
+      })
+      .flat();
+    return virtualEdges;
   }
 
   /** 创建节点索引映射 */

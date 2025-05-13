@@ -142,6 +142,18 @@ export class NodeIntoContainerService {
     await this.removeNodeLines(dragNode);
   }
 
+  /** 移除节点连线 */
+  public async removeNodeLines(node: WorkflowNodeEntity): Promise<void> {
+    const lines = this.linesManager.getAllLines();
+    lines.forEach((line) => {
+      if (line.from.id !== node.id && line.to?.id !== node.id) {
+        return;
+      }
+      line.dispose();
+    });
+    await this.nextFrame();
+  }
+
   /** 初始化状态 */
   private initState(): void {
     this.state = {
@@ -214,18 +226,6 @@ export class NodeIntoContainerService {
     event.dragger.stop(event.dragEvent.clientX, event.dragEvent.clientY);
     await this.nextFrame();
     this.dragService.startDragSelectedNodes(event.triggerEvent);
-  }
-
-  /** 移除节点连线 */
-  private async removeNodeLines(node: WorkflowNodeEntity): Promise<void> {
-    const lines = this.linesManager.getAllLines();
-    lines.forEach((line) => {
-      if (line.from.id !== node.id && line.to?.id !== node.id) {
-        return;
-      }
-      line.dispose();
-    });
-    await this.nextFrame();
   }
 
   /** 获取重叠位置 */

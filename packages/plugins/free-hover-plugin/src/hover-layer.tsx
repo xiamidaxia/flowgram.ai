@@ -12,7 +12,7 @@ import {
   WorkflowSelectService,
 } from '@flowgram.ai/free-layout-core';
 import { WorkflowPortEntity } from '@flowgram.ai/free-layout-core';
-import { FlowNodeTransformData } from '@flowgram.ai/document';
+import { FlowNodeBaseType, FlowNodeTransformData } from '@flowgram.ai/document';
 import {
   EditorState,
   EditorStateConfigEntity,
@@ -79,7 +79,7 @@ export class HoverLayer extends Layer<HoverLayerOptions> {
   autorun(): void {
     const { activatedNode } = this.selectionService;
     this.nodeTransformsWithSort = this.nodeTransforms
-      .filter((n) => n.entity.id !== 'root')
+      .filter((n) => n.entity.id !== 'root' && n.entity.flowNodeType !== FlowNodeBaseType.GROUP)
       .reverse() // 后创建的排在前面
       .sort((n1) => (n1.entity === activatedNode ? -1 : 0));
   }
