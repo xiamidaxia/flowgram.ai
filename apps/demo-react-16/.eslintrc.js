@@ -8,5 +8,9 @@ module.exports = defineConfig({
     'react/prop-types': 'off',
     'react/no-deprecated': 'off',
   },
-  settings: {},
+  settings: {
+    react: {
+      version: '16.8.6', // React version. "detect" automatically picks the version you have installed.
+    },
+  },
 });
