@@ -25,6 +25,10 @@
   background-color: var(--g-editor-background);
 }
 
+.gedit-playground .flow-lines-container {
+  overflow: visible;
+}
+
 .gedit-transition-ease {
   transition: left, top 0.3s ease;
 }
