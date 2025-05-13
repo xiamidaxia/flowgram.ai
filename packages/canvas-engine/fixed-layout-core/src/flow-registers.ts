@@ -31,6 +31,7 @@ import {
   StartRegistry,
   StaticSplitRegistry,
   TryCatchRegistry,
+  SimpleSplitRegistry,
 } from './activities';
 
 @injectable()
@@ -50,6 +51,7 @@ export class FlowRegisters
       StartRegistry, // 开始节点
       DynamicSplitRegistry, // 动态分支（并行、排他）
       StaticSplitRegistry, // 静态分支（审批）
+      SimpleSplitRegistry, // 简单分支 （不带 orderIcon 节点）
       BlockRegistry, // 单条 block 注册
       InlineBlocksRegistry, // 多个 block 组成的 block 列表
       BlockIconRegistry, // icon 节点，如条件分支的菱形图标

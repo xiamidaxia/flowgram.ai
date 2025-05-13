@@ -34,6 +34,7 @@ export enum FlowNodeBaseType {
 }
 
 export enum FlowNodeSplitType {
+  SIMPLE_SPLIT = 'simpleSplit', // 无 BlockOrderIcon
   DYNAMIC_SPLIT = 'dynamicSplit', // 动态分支
   STATIC_SPLIT = 'staticSplit', // 静态分支
 }
