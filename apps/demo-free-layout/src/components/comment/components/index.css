@@ -15,8 +15,7 @@
     border-radius: 8px;
     outline: 1px solid;
     padding: 6px 2px 6px 10px;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .workflow-comment-drag-area {

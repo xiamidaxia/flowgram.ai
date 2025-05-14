@@ -19,7 +19,6 @@ import { CommentEditor } from './editor';
 import { ContentDragArea } from './content-drag-area';
 import { CommentContainer } from './container';
 import { BorderArea } from './border-area';
-import { BlankArea } from './blank-area';
 
 export const CommentRender: FC<{
   node: WorkflowNodeEntity;
@@ -62,8 +61,6 @@ export const CommentRender: FC<{
                 <>
                   {/** 编辑器 */}
                   <CommentEditor model={model} value={field.value} onChange={field.onChange} />
-                  {/* 空白区域 */}
-                  <BlankArea model={model} />
                   {/* 内容拖拽区域（点击后隐藏） */}
                   <ContentDragArea model={model} focused={focused} overflow={overflow} />
                   {/* 更多按钮 */}
