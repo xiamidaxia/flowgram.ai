@@ -79,6 +79,8 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
 
   readonly onLayoutChange = this.onLayoutChangeEmitter.event;
 
+  private _disposed = false;
+
   root: FlowNodeEntity;
 
   /**
@@ -97,6 +99,13 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
    * 渲染后的 tree 结构
    */
   renderTree: FlowRenderTree<FlowNodeEntity>;
+
+  /**
+   *
+   */
+  get disposed(): boolean {
+    return this._disposed;
+  }
 
   @postConstruct()
   init(): void {
@@ -126,6 +135,7 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
    * @param fireRender 是否要触发渲染，默认 true
    */
   fromJSON(json: FlowDocumentJSON | any, fireRender = true): void {
+    if (this._disposed) return;
     // 清空 tree 数据 重新计算
     this.originTree.clear();
     this.renderTree.clear();
@@ -665,6 +675,7 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
   }
 
   dispose() {
+    if (this._disposed) return;
     this.registers.clear();
     this.nodeRegistryCache.clear();
     this.originTree.dispose();
@@ -673,5 +684,6 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
     this.onNodeCreateEmitter.dispose();
     this.onNodeDisposeEmitter.dispose();
     this.onLayoutChangeEmitter.dispose();
+    this._disposed = true;
   }
 }

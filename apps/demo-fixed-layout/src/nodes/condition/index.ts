@@ -43,6 +43,7 @@ export const ConditionNodeRegistry: FlowNodeRegistry = {
               },
             },
           },
+          blocks: [],
         },
         {
           id: nanoid(5),

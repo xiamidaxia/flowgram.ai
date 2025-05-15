@@ -41,7 +41,8 @@ program
             { name: 'Free Layout Demo', value: 'demo-free-layout' },
             { name: 'Fixed Layout Demo Simple', value: 'demo-fixed-layout-simple' },
             { name: 'Free Layout Demo Simple', value: 'demo-free-layout-simple' },
-            { name: 'Free Layout Nextjs Demo', value: 'demo-nextjs' }
+            { name: 'Free Layout Nextjs Demo', value: 'demo-nextjs' },
+            { name: 'Free Layout Vite Demo Simple', value: 'demo-vite' }
           ],
         },
       ]);
