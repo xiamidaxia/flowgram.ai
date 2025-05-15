@@ -55,8 +55,6 @@ export class WorkflowDocument extends FlowDocument {
 
   readonly onReload = this._onReloadEmitter.event;
 
-  private disposed = false;
-
   /**
    * 数据加载完成
    */
@@ -102,6 +100,7 @@ export class WorkflowDocument extends FlowDocument {
   }
 
   async load(): Promise<void> {
+    if (this.disposed) return;
     this._loading = true;
     await super.load();
     this._loading = false;
@@ -109,6 +108,7 @@ export class WorkflowDocument extends FlowDocument {
   }
 
   async reload(json: WorkflowJSON, delayTime = 0): Promise<void> {
+    if (this.disposed) return;
     this._loading = true;
     this.clear();
     this.fromJSON(json);
@@ -123,6 +123,7 @@ export class WorkflowDocument extends FlowDocument {
    * @param json
    */
   fromJSON(json: Partial<WorkflowJSON>, fireRender = true): void {
+    if (this.disposed) return;
     const workflowJSON: WorkflowJSON = {
       nodes: json.nodes ?? [],
       edges: json.edges ?? [],
@@ -563,11 +564,7 @@ export class WorkflowDocument extends FlowDocument {
   }
 
   dispose() {
-    if (this.disposed) {
-      return;
-    }
     super.dispose();
-    this.disposed = true;
     this._onReloadEmitter.dispose();
   }
 
