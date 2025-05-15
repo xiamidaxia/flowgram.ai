@@ -8,4 +8,9 @@ module.exports = defineConfig({
     'react/prop-types': 'off',
     'react/no-deprecated': 'off',
   },
+  settings: {
+    react: {
+      version: 'detect', // 自动检测 React 版本
+    },
+  },
 });
