@@ -771,6 +771,12 @@
             "projectFolder": "apps/demo-react-16",
             "versionPolicyName": "appPolicy",
             "tags": ["level-1", "team-flow", "demo"]
+        },
+        {
+            "packageName": "@flowgram.ai/demo-vite",
+            "projectFolder": "apps/demo-vite",
+            "versionPolicyName": "appPolicy",
+            "tags": ["level-1", "team-flow", "demo"]
         }
     ]
 }
