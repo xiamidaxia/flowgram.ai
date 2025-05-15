@@ -17,9 +17,14 @@
   "scripts": {
     "dev": "vite",
     "start": "vite",
-    "build": "vite build",
+    "build": "exit 0",
+    "clean": "rimraf dist",
+    "build:production": "vite build",
     "lint": "eslint ./src --cache",
     "lint:fix": "eslint ./src --fix",
+    "test": "exit",
+    "test:cov": "exit",
+    "watch": "exit 0",
     "preview": "vite preview"
   },
   "dependencies": {
