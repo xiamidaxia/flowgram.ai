@@ -5,9 +5,7 @@ import {
   LineRenderType,
   onDragLineEndParams,
   WorkflowContentChangeEvent,
-  WorkflowContentChangeType,
   WorkflowDocument,
-  WorkflowDocumentOptionsDefault,
   WorkflowJSON,
   WorkflowLineEntity,
   WorkflowLinePortInfo,
@@ -20,9 +18,6 @@ import {
   ClipboardService,
   EditorPluginContext,
   EditorProps,
-  FlowNodeEntity,
-  FlowNodeFormData,
-  type FlowNodeJSON,
   SelectionService,
   PluginContext,
 } from '@flowgram.ai/editor';
@@ -203,41 +198,5 @@ export namespace FreeLayoutProps {
    */
   export const DEFAULT: FreeLayoutProps = {
     ...EditorProps.DEFAULT,
-    fromNodeJSON(node: FlowNodeEntity, json: FlowNodeJSON) {
-      const formData = node.getData(FlowNodeFormData)!;
-      // 如果没有使用表单引擎，将 data 数据填入 extInfo
-      if (!formData) {
-        if (json.data) {
-          node.updateExtInfo(json.data);
-        }
-        // extInfo 数据更新则触发内容更新
-        node.onExtInfoChange(() => {
-          (node.document as WorkflowDocument).fireContentChange({
-            type: WorkflowContentChangeType.NODE_DATA_CHANGE,
-            toJSON: () => node.getExtInfo(),
-            entity: node,
-          });
-        });
-        return;
-      }
-
-      return WorkflowDocumentOptionsDefault.fromNodeJSON?.(node, json);
-    },
-    toNodeJSON(node: FlowNodeEntity): FlowNodeJSON {
-      const formData = node.getData(FlowNodeFormData)!;
-      const position = node.transform.position;
-      // 不使用节点引擎则采用 extInfo
-      if (!formData) {
-        return {
-          id: node.id,
-          type: node.flowNodeType,
-          meta: {
-            position: { x: position.x, y: position.y },
-          },
-          data: node.getExtInfo(),
-        };
-      }
-      return WorkflowDocumentOptionsDefault.toNodeJSON!(node);
-    },
   } as FreeLayoutProps;
 }

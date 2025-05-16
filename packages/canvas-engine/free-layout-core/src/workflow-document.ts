@@ -180,10 +180,12 @@ export class WorkflowDocument extends FlowDocument {
 
     const transform = node.getData<FlowNodeTransformData>(FlowNodeTransformData)!;
     const freeLayout = this.layout as FreeLayout;
-    transform.onDataChange(() => {
-      // TODO 这个有点难以理解，其实是为了同步size 数据
-      freeLayout.syncTransform(node);
-    });
+    if (!isExistedNode) {
+      transform.onDataChange(() => {
+        // TODO 这个有点难以理解，其实是为了同步size 数据
+        freeLayout.syncTransform(node);
+      });
+    }
     let { position } = meta;
     if (!position) {
       // 获取默认的位置
@@ -210,13 +212,15 @@ export class WorkflowDocument extends FlowDocument {
     }
     // 位置变更
     const positionData = node.getData<PositionData>(PositionData)!;
-    positionData.onDataChange(() => {
-      this.fireContentChange({
-        type: WorkflowContentChangeType.MOVE_NODE,
-        toJSON: () => positionData.toJSON(),
-        entity: node,
+    if (!isExistedNode) {
+      positionData.onDataChange(() => {
+        this.fireContentChange({
+          type: WorkflowContentChangeType.MOVE_NODE,
+          toJSON: () => positionData.toJSON(),
+          entity: node,
+        });
       });
-    });
+    }
 
     const subCanvas = this.getNodeSubCanvas(node);
 
@@ -265,18 +269,28 @@ export class WorkflowDocument extends FlowDocument {
       canvasTransform.update({
         position: subCanvas.parentNode.getNodeMeta()?.canvasPosition,
       });
-      subCanvas.parentNode.onDispose(() => {
-        subCanvas.canvasNode.dispose();
+      if (!isExistedNode) {
+        subCanvas.parentNode.onDispose(() => {
+          subCanvas.canvasNode.dispose();
+        });
+        subCanvas.canvasNode.onDispose(() => {
+          subCanvas.parentNode.dispose();
+        });
+      }
+    }
+    if (!isExistedNode) {
+      this.onNodeCreateEmitter.fire({
+        node,
+        data: json,
+        json,
       });
-      subCanvas.canvasNode.onDispose(() => {
-        subCanvas.parentNode.dispose();
+    } else {
+      this.onNodeUpdateEmitter.fire({
+        node,
+        data: json,
+        json,
       });
     }
-
-    this.onNodeCreateEmitter.fire({
-      node,
-      data: json,
-    });
 
     return node;
   }
@@ -554,8 +568,6 @@ export class WorkflowDocument extends FlowDocument {
    * 导出数据
    */
   toJSON(): WorkflowJSON {
-    // 要等 一些节点的 dispose 触发结束
-    // await delay(10);
     const rootJSON = this.toNodeJSON(this.root);
     return {
       nodes: rootJSON.blocks ?? [],

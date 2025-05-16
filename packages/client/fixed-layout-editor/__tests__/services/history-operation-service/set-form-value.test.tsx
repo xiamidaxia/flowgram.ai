@@ -1,5 +1,5 @@
 import { beforeEach, describe, it, expect } from 'vitest';
-import { FlowNodeEntity, FlowNodeFormData, FlowNodeJSON, FormModelV2 } from '@flowgram.ai/editor';
+import { FlowNodeFormData, FormModelV2 } from '@flowgram.ai/editor';
 
 import { createHistoryContainer } from '../../create-container';
 import { formMock } from '../../../__mocks__/form.mock';
@@ -7,14 +7,6 @@ import { emptyMock } from '../../../__mocks__/flow.mock';
 
 describe('history-operation-service changeFormData', () => {
   const { flowDocument, flowOperationService, historyService } = createHistoryContainer({
-    fromNodeJSON(node: FlowNodeEntity, json: FlowNodeJSON) {
-      const formData = node.getData(FlowNodeFormData)!;
-      const formMeta = node.getNodeRegistry()?.formMeta;
-
-      if (formMeta) {
-        formData.createForm(formMeta, json.data);
-      }
-    },
     nodeEngine: {},
     nodeRegistries: [
       {

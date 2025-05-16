@@ -24,6 +24,7 @@ import {
 
 import { FlowOperationService } from '../types';
 import { createOperationPlugin } from '../plugins/create-operation-plugin';
+import { fromNodeJSON, toNodeJSON } from './node-serialize';
 import { FixedLayoutPluginContext, FixedLayoutProps } from './fixed-layout-props';
 
 export function createFixedLayoutPreset(
@@ -128,8 +129,9 @@ export function createFixedLayoutPreset(
             bindConfig.bind(FlowDocumentOptions).toConstantValue({
               ...FlowDocumentOptionsDefault,
               defaultLayout: opts.defaultLayout,
-              toNodeJSON: opts.toNodeJSON,
-              fromNodeJSON: opts.fromNodeJSON,
+              toNodeJSON: (node) => toNodeJSON(opts, node),
+              fromNodeJSON: (node, json, isFirstCreate) =>
+                fromNodeJSON(opts, node, json, isFirstCreate),
               allNodesDefaultExpanded: opts.allNodesDefaultExpanded,
             } as FlowDocumentOptions);
           }

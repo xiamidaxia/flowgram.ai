@@ -5,7 +5,7 @@ import { NodeCorePluginOptions } from '@flowgram.ai/node-core-plugin';
 import { MaterialsPluginOptions } from '@flowgram.ai/materials-plugin';
 import { I18nPluginOptions } from '@flowgram.ai/i18n-plugin';
 import { HistoryPluginOptions } from '@flowgram.ai/history';
-import { FlowNodeFormData, FormMetaOrFormMetaGenerator } from '@flowgram.ai/form-core';
+import { FormMetaOrFormMetaGenerator } from '@flowgram.ai/form-core';
 import {
   FlowDocument,
   FlowDocumentJSON,
@@ -17,8 +17,6 @@ import {
   FlowTransitionLine,
 } from '@flowgram.ai/document';
 import { PluginContext } from '@flowgram.ai/core';
-
-import { EditorOptions } from '../constants';
 
 export interface EditorPluginContext extends PluginContext {
   document: FlowDocument;
@@ -94,12 +92,18 @@ export interface EditorProps<
   };
 
   /**
-   * 节点转
-   * @param node
+   * 节点数据导出
+   * - node 当前节点
+   * - json 当前节点数据
    */
-  toNodeJSON?(node: FlowNodeEntity): FlowNodeJSON;
-  fromNodeJSON?(node: FlowNodeEntity, json: FlowNodeJSON): void;
-
+  toNodeJSON?(node: FlowNodeEntity, json: FlowNodeJSON): FlowNodeJSON;
+  /**
+   * 节点数据导入
+   * - node 当前节点
+   * - json 当前节点数据
+   * - isFirstCreate 是否是第一次创建
+   */
+  fromNodeJSON?(node: FlowNodeEntity, json: FlowNodeJSON, isFirstCreate: boolean): FlowNodeJSON;
   /**
    * 画布内部常量自定义
    */
@@ -124,54 +128,5 @@ export namespace EditorProps {
    */
   export const DEFAULT: EditorProps = {
     background: {},
-    fromNodeJSON(node: FlowNodeEntity, json: FlowNodeJSON) {
-      const formData = node.getData(FlowNodeFormData)!;
-      // 如果没有使用表单引擎，将 data 数据填入 extInfo
-      if (!formData) {
-        if (json.data) {
-          node.updateExtInfo(json.data);
-        }
-      } else {
-        const defaultFormMeta = node
-          .getService<EditorProps>(EditorOptions)
-          .nodeEngine?.createDefaultFormMeta?.(node);
-
-        const formMeta = node.getNodeRegistry()?.formMeta || defaultFormMeta;
-
-        if (formMeta) {
-          formData.createForm(formMeta, json.data);
-        }
-      }
-    },
-    toNodeJSON(node: FlowNodeEntity): FlowNodeJSON {
-      const nodesMap: Record<string, FlowNodeJSON> = {};
-      let startNodeJSON: FlowNodeJSON;
-      node.document.traverse((node) => {
-        const isSystemNode = node.id.startsWith('$');
-        if (isSystemNode) return;
-        const formData = node.getData(FlowNodeFormData);
-        let formJSON =
-          formData && formData.formModel && formData.formModel.initialized
-            ? formData.toJSON()
-            : undefined;
-        const nodeJSON = {
-          id: node.id,
-          type: node.flowNodeType,
-          data: formData ? formJSON : node.getExtInfo(),
-          blocks: [],
-        };
-        if (!startNodeJSON) startNodeJSON = nodeJSON;
-        let { parent } = node;
-        if (parent && parent.id.startsWith('$')) {
-          parent = parent.originParent;
-        }
-        const parentJSON = parent ? nodesMap[parent.id] : undefined;
-        if (parentJSON) {
-          parentJSON.blocks?.push(nodeJSON);
-        }
-        nodesMap[node.id] = nodeJSON;
-      }, node);
-      return startNodeJSON!;
-    },
   };
 }
