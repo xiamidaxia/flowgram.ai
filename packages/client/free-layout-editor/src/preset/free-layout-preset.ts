@@ -32,6 +32,7 @@ import {
   createPlaygroundReactPreset,
 } from '@flowgram.ai/editor';
 
+import { fromNodeJSON, toNodeJSON } from './node-serialize';
 import { FreeLayoutProps, FreeLayoutPluginContext } from './free-layout-props';
 
 const renderElement = (ctx: PluginContext) => {
@@ -162,8 +163,9 @@ export function createFreeLayoutPreset(
             cursors: opts.cursors ?? WorkflowDocumentOptionsDefault.cursors,
             lineColor: opts.lineColor ?? WorkflowDocumentOptionsDefault.lineColor,
             allNodesDefaultExpanded: opts.allNodesDefaultExpanded,
-            toNodeJSON: opts.toNodeJSON,
-            fromNodeJSON: opts.fromNodeJSON,
+            toNodeJSON: (node) => toNodeJSON(opts, node),
+            fromNodeJSON: (node, json, isFirstCreate) =>
+              fromNodeJSON(opts, node, json, isFirstCreate),
           } as WorkflowDocumentOptions);
         },
         onInit: (ctx) => {

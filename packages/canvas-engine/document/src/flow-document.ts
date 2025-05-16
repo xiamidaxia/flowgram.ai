@@ -57,12 +57,22 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
 
   protected onNodeUpdateEmitter = new Emitter<{
     node: FlowNodeEntity;
+    /**
+     * use 'json' instead
+     * @deprecated
+     */
     data: FlowNodeJSON;
+    json: FlowNodeJSON;
   }>();
 
   protected onNodeCreateEmitter = new Emitter<{
     node: FlowNodeEntity;
+    /**
+     * use 'json' instead
+     * @deprecated
+     */
     data: FlowNodeJSON;
+    json: FlowNodeJSON;
   }>();
 
   protected onNodeDisposeEmitter = new Emitter<{
@@ -219,7 +229,7 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
   addNode(
     data: AddNodeData,
     addedNodes?: FlowNodeEntity[],
-    ignoreCreateEvent?: boolean
+    ignoreCreateAndUpdateEvent?: boolean
   ): FlowNodeEntity {
     const { id, type = 'block', originParent, parent, meta, hidden, index } = data;
     let node = this.getNode(id);
@@ -244,10 +254,10 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
         : this.nodeDataRegistries;
       node.addInitializeData(datas);
       node.onDispose(() => this.onNodeDisposeEmitter.fire({ node: node! }));
-      if (this.options.fromNodeJSON) {
-        this.options.fromNodeJSON(node, data);
-      }
+      this.options.fromNodeJSON?.(node, data, true);
       isNew = true;
+    } else {
+      this.options.fromNodeJSON?.(node, data, false);
     }
     // 初始化数据重制
     node.initData({
@@ -261,7 +271,6 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
     if (node.isStart) {
       this.root.addChild(node);
     }
-    this.onNodeUpdateEmitter.fire({ node, data });
     addedNodes?.push(node);
     // 自定义创建逻辑
     if (register.onCreate) {
@@ -278,11 +287,16 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
       }
     }
 
-    if (isNew && !ignoreCreateEvent) {
-      this.onNodeCreateEmitter.fire({
-        node,
-        data,
-      });
+    if (!ignoreCreateAndUpdateEvent) {
+      if (isNew) {
+        this.onNodeCreateEmitter.fire({
+          node,
+          data,
+          json: data,
+        });
+      } else {
+        this.onNodeUpdateEmitter.fire({ node, data, json: data });
+      }
     }
 
     return node;

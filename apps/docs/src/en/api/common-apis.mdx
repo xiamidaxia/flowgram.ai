@@ -13,7 +13,7 @@ doc.toJSON() // TODO This is the old version data, not yet optimized. Business l
 
 doc.addFromNode(targetNode, json) // Insert after the specified node
 
-doc.onNodeCreate(({ node, data}) => {}) // Listen to node creation, data is the JSON data at creation time
+doc.onNodeCreate(({ node, json }) => {}) // Listen to node creation, data is the JSON data at creation time
 doc.onNodeDispose(({ node }) => {}) // Listen to node deletion
 ```
 

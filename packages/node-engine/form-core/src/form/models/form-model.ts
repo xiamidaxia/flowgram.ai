@@ -39,6 +39,8 @@ export abstract class FormModel {
 
   abstract get valid(): FormModelValid;
 
+  abstract updateFormValues(value: any): void;
+
   /**
    * @deprecated
    * use `formModel.getFieldIn` instead in FormModelV2 to get the model of a form field

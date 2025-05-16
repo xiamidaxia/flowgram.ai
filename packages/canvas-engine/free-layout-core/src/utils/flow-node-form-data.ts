@@ -14,19 +14,27 @@ export function toFormJSON(node: FlowNodeEntity) {
   return formData.toJSON();
 }
 
-export function initFormDataFromJSON(node: FlowNodeEntity, json: FlowNodeJSON) {
+export function initFormDataFromJSON(
+  node: FlowNodeEntity,
+  json: FlowNodeJSON,
+  isFirstCreate: boolean
+) {
   const formData = node.getData(FlowNodeFormData)!;
   const registry = node.getNodeRegistry();
   const { formMeta } = registry;
 
   if (formData && formMeta) {
-    formData.createForm(formMeta, json.data);
-    formData.onDataChange(() => {
-      (node.document as WorkflowDocument).fireContentChange({
-        type: WorkflowContentChangeType.NODE_DATA_CHANGE,
-        toJSON: () => formData.toJSON(),
-        entity: node,
+    if (isFirstCreate) {
+      formData.createForm(formMeta, json.data);
+      formData.onDataChange(() => {
+        (node.document as WorkflowDocument).fireContentChange({
+          type: WorkflowContentChangeType.NODE_DATA_CHANGE,
+          toJSON: () => formData.toJSON(),
+          entity: node,
+        });
       });
-    });
+    } else {
+      formData.updateFormValues(json.data);
+    }
   }
 }

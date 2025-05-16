@@ -10,7 +10,6 @@ import { FlowDocumentContainerModule } from '@flowgram.ai/document';
 import { createPlaygroundPlugin, Plugin, PluginsProvider } from '@flowgram.ai/core';
 
 import { compose } from '../utils/compose';
-import { EditorOptions } from '../constants';
 import { createFlowEditorClientPlugins } from '../clients/flow-editor-client-plugins';
 import { EditorPluginContext, EditorProps } from './editor-props';
 
@@ -20,7 +19,6 @@ export function createDefaultPreset<CTX extends EditorPluginContext = EditorPlug
 ): PluginsProvider<CTX> {
   return (ctx: CTX) => {
     opts = { ...EditorProps.DEFAULT, ...opts };
-    ctx.container.bind(EditorOptions).toConstantValue(opts);
     /**
      * i18n support
      */

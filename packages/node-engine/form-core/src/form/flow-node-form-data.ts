@@ -78,6 +78,10 @@ export class FlowNodeFormData extends EntityData {
     }
   }
 
+  updateFormValues(value: any) {
+    this.formModel.updateFormValues(value);
+  }
+
   recreateForm(formMetaOrFormMetaGenerator: FormMetaOrFormMetaGenerator, initialValue?: any): void {
     this.createForm(formMetaOrFormMetaGenerator, initialValue);
   }

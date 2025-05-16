@@ -145,6 +145,12 @@ export class FormModelV2 extends FormModel implements Disposable {
     return this._feedbacks;
   }
 
+  updateFormValues(value: any) {
+    if (this.nativeFormModel) {
+      this.nativeFormModel.values = value;
+    }
+  }
+
   private set feedbacks(feedbacks: FormFeedback[]) {
     this._feedbacks = feedbacks;
     this.onFeedbacksChangeEmitter.fire(feedbacks);

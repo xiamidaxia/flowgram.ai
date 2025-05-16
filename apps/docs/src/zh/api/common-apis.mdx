@@ -13,7 +13,7 @@ doc.toJSON() // TODO 这里老版本的数据，还没优化，业务最好自�
 
 doc.addFromNode(targetNode, json) // 插入到指定节点的后边
 
-doc.onNodeCreate(({ node, data}) => {}) // 监听节点创建，data 为创建时候的json数据
+doc.onNodeCreate(({ node, json }) => {}) // 监听节点创建，data 为创建时候的json数据
 doc.onNodeDispose(({ node }) => {}) // 监听节点删除
 ```
 

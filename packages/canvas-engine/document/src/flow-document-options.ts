@@ -23,7 +23,7 @@ export interface FlowDocumentOptions {
    */
   allNodesDefaultExpanded?: boolean;
   toNodeJSON?(node: FlowNodeEntity): FlowNodeJSON;
-  fromNodeJSON?(node: FlowNodeEntity, json: FlowNodeJSON): void;
+  fromNodeJSON?(node: FlowNodeEntity, json: FlowNodeJSON, isFirstCreate: boolean): void;
   constants?: Record<string, any>;
   formatNodeLines?: (node: FlowNodeEntity, lines: FlowTransitionLine[]) => FlowTransitionLine[];
   formatNodeLabels?: (node: FlowNodeEntity, lines: FlowTransitionLabel[]) => FlowTransitionLabel[];
