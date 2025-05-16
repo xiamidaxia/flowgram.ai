@@ -34,6 +34,10 @@ export interface NodeFormProps<TValues> {
    */
   setValueIn<TValue>(name: FieldName, value: TValue): void;
   /**
+   * set form values
+   */
+  updateFormValues(values: any): void;
+  /**
    * Render form
    */
   render: () => React.ReactNode;
@@ -75,9 +79,13 @@ export function getNodeForm<TValues = FieldValue>(
     get values() {
       return nativeFormModel.values;
     },
+
     state: nativeFormModel.state,
     getValueIn: (name: FieldName) => nativeFormModel.getValueIn(name),
     setValueIn: (name: FieldName, value: any) => nativeFormModel.setValueIn(name, value),
+    updateFormValues: (values: any) => {
+      formModel.updateFormValues(values);
+    },
     render: () => <NodeRender node={node} />,
     onFormValuesChange: formModel.onFormValuesChange.bind(formModel),
     onFormValueChangeIn: formModel.onFormValueChangeIn.bind(formModel),
