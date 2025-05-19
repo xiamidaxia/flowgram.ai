@@ -33,6 +33,7 @@
   "dependencies": {
     "@flowgram.ai/reactive": "workspace:*",
     "@flowgram.ai/utils": "workspace:*",
+    "fast-equals": "^2.0.0",
     "lodash": "^4.17.21",
     "nanoid": "^4.0.2"
   },
