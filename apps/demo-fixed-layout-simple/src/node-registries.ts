@@ -17,6 +17,7 @@ export const nodeRegistries: FlowNodeRegistry[] = [
      *  - dynamicSplit: 扩展为分支节点
      *  - end: 扩展为结束节点
      *  - tryCatch: 扩展为 tryCatch 节点
+     *  - break: 分支断开
      *  - default: 扩展为普通节点 (默认)
      */
     extend: 'dynamicSplit',

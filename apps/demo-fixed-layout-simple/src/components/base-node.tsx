@@ -1,6 +1,8 @@
-import { FlowNodeEntity, useNodeRender } from '@flowgram.ai/fixed-layout-editor';
+import { FlowNodeEntity, useNodeRender, useClientContext } from '@flowgram.ai/fixed-layout-editor';
+import { IconDeleteStroked } from '@douyinfe/semi-icons';
 
 export const BaseNode = ({ node }: { node: FlowNodeEntity }) => {
+  const ctx = useClientContext();
   /**
    * Provides methods related to node rendering
    * 提供节点渲染相关的方法
@@ -36,6 +38,10 @@ export const BaseNode = ({ node }: { node: FlowNodeEntity }) => {
         ...(nodeRender.isBlockOrderIcon || nodeRender.isBlockIcon ? { width: 260 } : {}),
       }}
     >
+      <IconDeleteStroked
+        style={{ position: 'absolute', right: 4, top: 4 }}
+        onClick={() => ctx.operation.deleteNode(nodeRender.node)}
+      />
       {form?.render()}
     </div>
   );

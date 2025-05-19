@@ -777,6 +777,12 @@
             "projectFolder": "apps/demo-vite",
             "versionPolicyName": "appPolicy",
             "tags": ["level-1", "team-flow", "demo"]
+        },
+        {
+            "packageName": "@flowgram.ai/demo-playground",
+            "projectFolder": "apps/demo-playground",
+            "versionPolicyName": "appPolicy",
+            "tags": ["level-1", "team-flow", "demo"]
         }
     ]
 }
