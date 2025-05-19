@@ -20,13 +20,7 @@ const indexCode = {
 export const FixedLayoutSimplePreview = () => (
   <PreviewEditor
     files={{
-      'App.js': `import React from 'react';
-      import { Editor } from './index.tsx';
-      const App = () => {
-        return <Editor />
-      }
-        export default App;`,
-      'index.tsx': indexCode,
+      'editor.tsx': indexCode,
       'index.css': indexCssCode,
       'initial-data.ts': initialDataCode,
       'node-registries.ts': nodeRegistriesCode,

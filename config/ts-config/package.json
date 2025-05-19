@@ -9,6 +9,7 @@
     "build": "exit",
     "test": "exit",
     "lint": "exit",
+    "watch": "exit",
     "test:cov": "exit 0"
   },
   "devDependencies": {
