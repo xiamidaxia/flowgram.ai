@@ -83,6 +83,9 @@ export class FormModel<TValues = any> implements Disposable {
 
   set values(v) {
     const prevValues = this.values;
+    if (prevValues === this.store.values) {
+      return;
+    }
     this.store.values = v;
     this.fireOnFormValuesChange({
       values: this.values,
