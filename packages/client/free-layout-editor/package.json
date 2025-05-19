@@ -28,7 +28,7 @@
     "build:watch": "npm run build:fast -- --dts-resolve",
     "clean": "rimraf dist",
     "test": "vitest run",
-    "test:cov": "exit 0",
+    "test:cov": "vitest run --coverage",
     "ts-check": "tsc --noEmit",
     "watch": "npm run build:fast -- --dts-resolve --watch --ignore-watch dist"
   },

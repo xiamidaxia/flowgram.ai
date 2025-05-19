@@ -33,7 +33,7 @@ export function fromNodeJSON(
     return;
   }
 
-  return WorkflowDocumentOptionsDefault.fromNodeJSON?.(node, json, isFirstCreate);
+  return WorkflowDocumentOptionsDefault.fromNodeJSON!(node, json, isFirstCreate);
 }
 
 export function toNodeJSON(opts: FreeLayoutProps, node: FlowNodeEntity): FlowNodeJSON {
