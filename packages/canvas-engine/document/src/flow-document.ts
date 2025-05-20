@@ -471,6 +471,7 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
     const customDefaultRegistry = this.options.getNodeDefaultRegistry?.(type);
     let register = this.registers.get(type) || { type };
     const extendRegisters: FlowNodeRegistry[] = [];
+    const extendKey = register.extend;
     // 继承重载
     if (register.extend && this.registers.has(register.extend)) {
       register = FlowNodeRegistry.merge(
@@ -505,6 +506,10 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
         ...register.meta,
       },
     } as T;
+    // Save the "extend" attribute
+    if (extendKey) {
+      res.extend = extendKey;
+    }
     this.nodeRegistryCache.set(typeKey, res);
     return res;
   }

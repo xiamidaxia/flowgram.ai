@@ -33,7 +33,10 @@ import {
   TryCatchRegistry,
   SimpleSplitRegistry,
   BreakRegistry,
-  MultiStartRegistry,
+  MultiOuputsRegistry,
+  MultiInputsRegistry,
+  InputRegistry,
+  OuputRegistry,
 } from './activities';
 
 @injectable()
@@ -63,7 +66,10 @@ export class FlowRegisters
       LoopRegistry, // 循环节点
       EmptyRegistry, // 占位节点
       BreakRegistry, // 分支断开
-      MultiStartRegistry // 多输入的分支节点
+      MultiOuputsRegistry,
+      MultiInputsRegistry,
+      InputRegistry,
+      OuputRegistry
     );
     /**
      * 注册节点数据 (ECS - Component)

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useClientContext, FlowLayoutDefault } from '@flowgram.ai/fixed-layout-editor';
 
-import { FLOW_LIST } from '../flows';
+import { FLOW_LIST } from '../data';
 
 const url = new window.URL(window.location.href);
 
@@ -14,6 +14,7 @@ export function FlowSelect() {
     if (targetDemoJSON) {
       clientContext.history.stop(); // Stop redo/undo
       clientContext.document.fromJSON(targetDemoJSON);
+      console.log(clientContext.document.toString());
       clientContext.history.start();
       clientContext.document.setLayout(
         targetDemoJSON.defaultLayout || FlowLayoutDefault.VERTICAL_FIXED_LAYOUT
@@ -26,7 +27,7 @@ export function FlowSelect() {
       // Fit View
       setTimeout(() => {
         clientContext.playground.config.fitView(clientContext.document.root.bounds);
-      }, 10);
+      }, 20);
     }
   }, [demoKey]);
   return (

@@ -16,24 +16,14 @@ export function BranchAdder(props: PropsType) {
 
   function addBranch() {
     let block: FlowNodeEntity;
-    if (node.flowNodeType === 'simpleSplit') {
+    if (node.flowNodeType === 'multiOutputs') {
       block = operation.addBlock(node, {
-        id: `branch_${nanoid(5)}`,
-        type: 'block',
+        id: `output_${nanoid(5)}`,
+        type: 'output',
         data: {
-          title: 'New Branch',
+          title: 'New Ouput',
           content: '',
         },
-        blocks: [
-          {
-            id: `end_${nanoid(5)}`,
-            type: 'end',
-            data: {
-              title: `End`,
-              content: '',
-            },
-          },
-        ],
       });
     } else {
       block = operation.addBlock(node, {

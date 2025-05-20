@@ -3,56 +3,95 @@ import { FlowDocumentJSON } from '@flowgram.ai/fixed-layout-editor';
 export const mindmap: FlowDocumentJSON = {
   nodes: [
     {
-      id: 'start_0',
-      type: 'start',
-      data: {
-        title: 'Start',
-        content: 'start content',
-      },
-      blocks: [],
+      id: 'multiInputs_0',
+      type: 'multiInputs',
+      blocks: [
+        {
+          id: 'input_0',
+          type: 'input',
+          data: {
+            title: 'input_0',
+          },
+        },
+        {
+          id: 'input_1',
+          type: 'input',
+          data: {
+            title: 'input_1',
+          },
+        },
+        // {
+        //   id: 'multiInputs_2',
+        //   type: 'multiInputs',
+        //   blocks: [
+        //     {
+        //       id: 'input_2',
+        //       type: 'input',
+        //       data: {
+        //         title: 'input_2'
+        //       },
+        //     },
+        //     {
+        //       id: 'input',
+        //       type: 'input_3',
+        //       data: {
+        //         title: 'input_3'
+        //       },
+        //     }
+        //   ],
+        // },
+      ],
     },
     {
-      id: 'simpleSplit',
-      type: 'simpleSplit',
+      id: 'multiOutputs_0',
+      type: 'multiOutputs',
       data: {
-        title: 'split',
+        title: 'mindNode_0',
       },
       blocks: [
         {
-          id: 'branch_0',
-          type: 'block',
+          id: 'output_0',
+          type: 'output',
           data: {
-            title: 'Branch 0',
-            content: 'branch 1 content',
+            title: 'output_0',
+          },
+        },
+        {
+          id: 'multiOutputs_1',
+          type: 'multiOutputs',
+          data: {
+            title: 'mindNode_1',
           },
           blocks: [
             {
-              id: 'end_0',
-              type: 'end',
+              id: 'output_1',
+              type: 'output',
               data: {
-                title: 'End',
-                content: 'end 0',
+                title: 'output_1',
+              },
+            },
+            {
+              id: 'output_2',
+              type: 'output',
+              data: {
+                title: 'output_2',
+              },
+            },
+            {
+              id: 'output_3',
+              type: 'output',
+              data: {
+                title: 'output_3',
               },
             },
           ],
         },
         {
-          id: 'branch_1',
-          type: 'block',
+          id: 'output_4',
+          type: 'output',
           data: {
-            title: 'Branch 1',
-            content: 'branch 1 content',
+            title: 'output_4',
           },
-          blocks: [
-            {
-              id: 'end_1',
-              type: 'end',
-              data: {
-                title: 'End',
-                content: 'end 1',
-              },
-            },
-          ],
         },
       ],
     },
