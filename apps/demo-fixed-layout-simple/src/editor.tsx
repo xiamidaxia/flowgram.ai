@@ -8,6 +8,7 @@ import { initialData } from './initial-data';
 import { useEditorProps } from './hooks/use-editor-props';
 import { Tools } from './components/tools';
 import { Minimap } from './components/minimap';
+import { FlowSelect } from './components/flow-select';
 
 export const Editor = () => {
   const editorProps = useEditorProps(initialData, nodeRegistries);
@@ -17,6 +18,7 @@ export const Editor = () => {
         <EditorRenderer>{/* add child panel here */}</EditorRenderer>
       </div>
       <Tools />
+      <FlowSelect />
       <Minimap />
     </FixedLayoutEditorProvider>
   );

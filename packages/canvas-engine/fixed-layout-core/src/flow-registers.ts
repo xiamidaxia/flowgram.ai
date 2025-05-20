@@ -32,6 +32,11 @@ import {
   StaticSplitRegistry,
   TryCatchRegistry,
   SimpleSplitRegistry,
+  BreakRegistry,
+  MultiOuputsRegistry,
+  MultiInputsRegistry,
+  InputRegistry,
+  OuputRegistry,
 } from './activities';
 
 @injectable()
@@ -59,7 +64,12 @@ export class FlowRegisters
       TryCatchRegistry, // TryCatch
       EndRegistry, // 结束节点
       LoopRegistry, // 循环节点
-      EmptyRegistry // 占位节点
+      EmptyRegistry, // 占位节点
+      BreakRegistry, // 分支断开
+      MultiOuputsRegistry,
+      MultiInputsRegistry,
+      InputRegistry,
+      OuputRegistry
     );
     /**
      * 注册节点数据 (ECS - Component)

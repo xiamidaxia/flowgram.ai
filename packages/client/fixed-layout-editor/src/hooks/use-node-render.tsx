@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useContext, useMemo } from 'react';
+import React, { useCallback, useEffect, useContext, useMemo, useRef } from 'react';
 
 import { useObserve } from '@flowgram.ai/reactive';
 import { useStartDragNode } from '@flowgram.ai/fixed-drag-plugin';
@@ -93,13 +93,17 @@ export interface NodeRenderReturnType {
  */
 export function useNodeRender(nodeFromProps?: FlowNodeEntity): NodeRenderReturnType {
   const renderNode = nodeFromProps || useContext<FlowNodeEntity>(PlaygroundEntityContext);
+  const nodeCache = useRef<FlowNodeEntity | undefined>();
   const renderData = renderNode.getData<FlowNodeRenderData>(FlowNodeRenderData)!;
   const { expanded, dragging, activated } = renderData;
   const { startDrag: startDragOrigin } = useStartDragNode();
   const playground = usePlayground();
   const isBlockOrderIcon = renderNode.flowNodeType === FlowNodeBaseType.BLOCK_ORDER_ICON;
   const isBlockIcon = renderNode.flowNodeType === FlowNodeBaseType.BLOCK_ICON;
-  const node = isBlockOrderIcon || isBlockIcon ? renderNode.parent! : renderNode;
+  // 在 BlockIcon 情况，如果在触发 fromJSON 时候更新表单数据导致刷新节点会存在 renderNode.parent 为 undefined，所以这里 nodeCache 进行缓存
+  const node =
+    (isBlockOrderIcon || isBlockIcon ? renderNode.parent! : renderNode) || nodeCache.current;
+  nodeCache.current = node;
   const operationService = useService<FlowOperationService>(FlowOperationService);
   const deleteNode = useCallback(() => {
     operationService.deleteNode(node);

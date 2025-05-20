@@ -1,5 +1,9 @@
 import { nanoid } from 'nanoid';
-import { FlowNodeRegistry } from '@flowgram.ai/fixed-layout-editor';
+import {
+  FlowNodeRegistry,
+  FlowNodeEntity,
+  FlowNodeBaseType,
+} from '@flowgram.ai/fixed-layout-editor';
 
 /**
  * 自定义节点注册
@@ -17,6 +21,7 @@ export const nodeRegistries: FlowNodeRegistry[] = [
      *  - dynamicSplit: 扩展为分支节点
      *  - end: 扩展为结束节点
      *  - tryCatch: 扩展为 tryCatch 节点
+     *  - break: 分支断开
      *  - default: 扩展为普通节点 (默认)
      */
     extend: 'dynamicSplit',
@@ -71,5 +76,36 @@ export const nodeRegistries: FlowNodeRegistry[] = [
         },
       };
     },
+  },
+  {
+    type: 'multiStart2',
+    extend: 'dynamicSplit',
+    meta: {
+      isStart: true,
+    },
+    onCreate(node, json) {
+      const doc = node.document;
+      const addedNodes: FlowNodeEntity[] = [];
+      const blocks = json.blocks || [];
+
+      if (blocks.length > 0) {
+        // 水平布局
+        const inlineBlocksNode = doc.addNode({
+          id: `$inlineBlocks$${node.id}`,
+          type: FlowNodeBaseType.INLINE_BLOCKS,
+          originParent: node,
+          parent: node,
+        });
+        addedNodes.push(inlineBlocksNode);
+        blocks.forEach((blockData) => {
+          doc.addBlock(node, blockData, addedNodes);
+        });
+      }
+      return addedNodes;
+    },
+  },
+  {
+    type: 'tree',
+    extend: 'simpleSplit',
   },
 ];

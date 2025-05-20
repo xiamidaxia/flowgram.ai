@@ -147,7 +147,10 @@ export class FormModelV2 extends FormModel implements Disposable {
 
   updateFormValues(value: any) {
     if (this.nativeFormModel) {
-      this.nativeFormModel.values = value;
+      const finalValue = this.formMeta.formatOnInit
+        ? this.formMeta.formatOnInit(value, this.nodeContext)
+        : value;
+      this.nativeFormModel.values = finalValue;
     }
   }
 

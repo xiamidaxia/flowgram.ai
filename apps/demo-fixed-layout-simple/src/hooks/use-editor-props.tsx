@@ -102,7 +102,7 @@ export function useEditorProps(
         enableChangeNode: true, // Listen Node engine data change
         onApply(ctx, opt) {
           // Listen change to trigger auto save
-          // console.log('auto save: ', ctx.document.toJSON(), opt);
+          console.log('auto save: ', ctx.document.toJSON(), opt);
         },
       },
       /**

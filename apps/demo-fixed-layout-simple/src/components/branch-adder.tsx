@@ -15,14 +15,26 @@ export function BranchAdder(props: PropsType) {
   const { isVertical } = node;
 
   function addBranch() {
-    const block = operation.addBlock(node, {
-      id: `branch_${nanoid(5)}`,
-      type: 'block',
-      data: {
-        title: 'New Branch',
-        content: '',
-      },
-    });
+    let block: FlowNodeEntity;
+    if (node.flowNodeType === 'multiOutputs') {
+      block = operation.addBlock(node, {
+        id: `output_${nanoid(5)}`,
+        type: 'output',
+        data: {
+          title: 'New Ouput',
+          content: '',
+        },
+      });
+    } else {
+      block = operation.addBlock(node, {
+        id: `branch_${nanoid(5)}`,
+        type: 'block',
+        data: {
+          title: 'New Branch',
+          content: '',
+        },
+      });
+    }
 
     setTimeout(() => {
       playground.scrollToView({

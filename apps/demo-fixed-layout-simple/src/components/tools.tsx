@@ -1,12 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 import { usePlaygroundTools, useClientContext } from '@flowgram.ai/fixed-layout-editor';
+import { IconButton, Space } from '@douyinfe/semi-ui';
+import { IconUnlock, IconLock } from '@douyinfe/semi-icons';
 
 export function Tools() {
-  const { history } = useClientContext();
+  const { history, playground } = useClientContext();
   const tools = usePlaygroundTools();
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
+  const toggleReadonly = useCallback(() => {
+    playground.config.readonly = !playground.config.readonly;
+  }, [playground]);
 
   useEffect(() => {
     const disposable = history.undoRedoService.onChange(() => {
@@ -17,7 +22,7 @@ export function Tools() {
   }, [history]);
 
   return (
-    <div
+    <Space
       style={{ position: 'absolute', zIndex: 10, bottom: 16, left: 16, display: 'flex', gap: 8 }}
     >
       <button onClick={() => tools.zoomin()}>ZoomIn</button>
@@ -30,7 +35,22 @@ export function Tools() {
       <button onClick={() => history.redo()} disabled={!canRedo}>
         Redo
       </button>
+      {playground.config.readonly ? (
+        <IconButton
+          theme="borderless"
+          type="tertiary"
+          icon={<IconLock />}
+          onClick={toggleReadonly}
+        />
+      ) : (
+        <IconButton
+          theme="borderless"
+          type="tertiary"
+          icon={<IconUnlock />}
+          onClick={toggleReadonly}
+        />
+      )}
       <span>{Math.floor(tools.zoom * 100)}%</span>
-    </div>
+    </Space>
   );
 }

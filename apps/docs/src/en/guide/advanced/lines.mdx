@@ -8,13 +8,13 @@ The lines in the free layout are managed by [WorkflowLinesManager](/api/core/wor
 import { WorkflowNodeLinesData } from '@flowgram.ai/free-layout-editor'
 
 // Get the input nodes of the current node (calculated through connection lines)
-node.geData(WorkflowNodeLinesData).inputNodes;
+node.getData(WorkflowNodeLinesData).inputNodes;
 // Get all input nodes (recursively get all upward)
-node.geData(WorkflowNodeLinesData).allInputNodes;
+node.getData(WorkflowNodeLinesData).allInputNodes;
 // Get the output nodes
-node.geData(WorkflowNodeLinesData).outputNodes;
+node.getData(WorkflowNodeLinesData).outputNodes;
 // Get all output nodes
-node.geData(WorkflowNodeLinesData).allOutputNodes;
+node.getData(WorkflowNodeLinesData).allOutputNodes;
 ```
 
 ## Node listens to its own connection changes and refreshes

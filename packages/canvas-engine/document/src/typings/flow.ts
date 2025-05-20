@@ -29,8 +29,13 @@ export enum FlowNodeBaseType {
   BLOCK_ORDER_ICON = 'blockOrderIcon', // 带顺序的图标节点，一般为 block 第一个分支节点
   GROUP = 'group', // 分组节点
   END = 'end', // 结束节点
+  BREAK = 'break', // 分支结束
   CONDITION = 'condition', // 可以连接多条线的条件判断节点，目前只支持横向布局
   SUB_CANVAS = 'subCanvas', // 自由布局子画布
+  MULTI_INPUTS = 'multiInputs', // 多输入
+  MULTI_OUTPUTS = 'multiOutputs', // 多输出
+  INPUT = 'input', // 输入节点
+  OUTPUT = 'output', // 输出节点
 }
 
 export enum FlowNodeSplitType {

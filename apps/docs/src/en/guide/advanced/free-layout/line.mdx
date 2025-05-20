@@ -40,17 +40,17 @@ const json = ctx.document.linesManager.toJSON()
 import { WorkflowNodeLinesData } from '@flowgram.ai/free-layout-editor'
 
 // get input nodes (calculated through connection lines)
-node.geData(WorkflowNodeLinesData).inputNodes
+node.getData(WorkflowNodeLinesData).inputNodes
 // get all input nodes (recursively gets all upstream nodes)
-node.geData(WorkflowNodeLinesData).allInputNodes
+node.getData(WorkflowNodeLinesData).allInputNodes
 // get output nodes
-node.geData(WorkflowNodeLinesData).outputNodes
+node.getData(WorkflowNodeLinesData).outputNodes
 // get all output nodes
-node.geData(WorkflowNodeLinesData).allOutputNodes
+node.getData(WorkflowNodeLinesData).allOutputNodes
 // input lines
-node.geData(WorkflowNodeLinesData).inputLines
+node.getData(WorkflowNodeLinesData).inputLines
 // output lines
-node.geData(WorkflowNodeLinesData).outputLines
+node.getData(WorkflowNodeLinesData).outputLines
 ```
 
 ## Line Configuration
