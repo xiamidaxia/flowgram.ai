@@ -20,6 +20,13 @@ export const mindmap: FlowDocumentJSON = {
             title: 'input_1',
           },
         },
+        {
+          id: 'input_3',
+          type: 'input',
+          data: {
+            title: 'input_3',
+          },
+        },
         // {
         //   id: 'multiInputs_2',
         //   type: 'multiInputs',

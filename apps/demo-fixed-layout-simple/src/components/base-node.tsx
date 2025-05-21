@@ -38,10 +38,12 @@ export const BaseNode = ({ node }: { node: FlowNodeEntity }) => {
         ...(nodeRender.isBlockOrderIcon || nodeRender.isBlockIcon ? { width: 260 } : {}),
       }}
     >
-      <IconDeleteStroked
-        style={{ position: 'absolute', right: 4, top: 4 }}
-        onClick={() => ctx.operation.deleteNode(nodeRender.node)}
-      />
+      {!nodeRender.readonly && (
+        <IconDeleteStroked
+          style={{ position: 'absolute', right: 4, top: 4 }}
+          onClick={() => ctx.operation.deleteNode(nodeRender.node)}
+        />
+      )}
       {form?.render()}
     </div>
   );

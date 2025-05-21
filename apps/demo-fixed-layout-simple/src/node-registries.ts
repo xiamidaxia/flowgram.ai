@@ -1,9 +1,5 @@
 import { nanoid } from 'nanoid';
-import {
-  FlowNodeRegistry,
-  FlowNodeEntity,
-  FlowNodeBaseType,
-} from '@flowgram.ai/fixed-layout-editor';
+import { FlowNodeRegistry } from '@flowgram.ai/fixed-layout-editor';
 
 /**
  * 自定义节点注册
@@ -76,36 +72,5 @@ export const nodeRegistries: FlowNodeRegistry[] = [
         },
       };
     },
-  },
-  {
-    type: 'multiStart2',
-    extend: 'dynamicSplit',
-    meta: {
-      isStart: true,
-    },
-    onCreate(node, json) {
-      const doc = node.document;
-      const addedNodes: FlowNodeEntity[] = [];
-      const blocks = json.blocks || [];
-
-      if (blocks.length > 0) {
-        // 水平布局
-        const inlineBlocksNode = doc.addNode({
-          id: `$inlineBlocks$${node.id}`,
-          type: FlowNodeBaseType.INLINE_BLOCKS,
-          originParent: node,
-          parent: node,
-        });
-        addedNodes.push(inlineBlocksNode);
-        blocks.forEach((blockData) => {
-          doc.addBlock(node, blockData, addedNodes);
-        });
-      }
-      return addedNodes;
-    },
-  },
-  {
-    type: 'tree',
-    extend: 'simpleSplit',
   },
 ];

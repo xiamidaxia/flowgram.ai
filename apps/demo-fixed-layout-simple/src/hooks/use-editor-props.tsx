@@ -106,6 +106,7 @@ export function useEditorProps(
         },
       },
       /**
+       * Playground init
        * 画布初始化
        */
       onInit: (ctx) => {
@@ -117,10 +118,29 @@ export function useEditorProps(
         console.log('---- Playground Init ----');
       },
       /**
+       * Playground dispose
        * 画布销毁
        */
       onDispose: () => {
         console.log('---- Playground Dispose ----');
+      },
+      /**
+       * 节点数据转换, 由 ctx.document.fromJSON 调用
+       * Node data transformation, called by ctx.document.fromJSON
+       * @param node
+       * @param json
+       */
+      fromNodeJSON(node, json) {
+        return json;
+      },
+      /**
+       * 节点数据转换, 由 ctx.document.toJSON 调用
+       * Node data transformation, called by ctx.document.toJSON
+       * @param node
+       * @param json
+       */
+      toNodeJSON(node, json) {
+        return json;
       },
       plugins: () => [
         /**

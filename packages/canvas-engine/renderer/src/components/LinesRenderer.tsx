@@ -37,11 +37,11 @@ export function createLines(props: PropsType): void {
     const { lineActivated } = renderData || {};
 
     const draggingLineHide =
-      line.type === FlowTransitionLineEnum.DRAGGING_LINE &&
+      (line.type === FlowTransitionLineEnum.DRAGGING_LINE || line.isDraggingLine) &&
       !dragService.isDroppableBranch(data.entity, line.side);
 
     const draggingLineActivated =
-      line.type === FlowTransitionLineEnum.DRAGGING_LINE &&
+      (line.type === FlowTransitionLineEnum.DRAGGING_LINE || line.isDraggingLine) &&
       data.entity?.id === dragService.dropNodeId &&
       line.side === dragService.labelSide;
 
