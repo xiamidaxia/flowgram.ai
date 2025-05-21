@@ -38,8 +38,13 @@ export const BlockRegistry: FlowNodeRegistry = {
     // 当有其余分支的时候，绘制一条两个分支之间的线条
     if (hasBranchDraggingAdder) {
       if (isVertical) {
-        const currentOffsetRightX = currentTransform.firstChild?.bounds?.right || 0;
-        const nextOffsetLeftX = currentTransform.next?.firstChild?.bounds?.left || 0;
+        const currentOffsetRightX = currentTransform.firstChild
+          ? currentTransform.firstChild.bounds.right
+          : currentTransform.bounds.right;
+        const nextOffsetLeftX =
+          (currentTransform.next?.firstChild
+            ? currentTransform.next?.firstChild.bounds?.left
+            : currentTransform.next?.bounds?.left) || 0;
         const currentInputPointY = currentTransform.inputPoint.y;
         if (currentTransform?.next) {
           lines.push({
@@ -53,8 +58,13 @@ export const BlockRegistry: FlowNodeRegistry = {
           });
         }
       } else {
-        const currentOffsetRightY = currentTransform.firstChild?.bounds?.bottom || 0;
-        const nextOffsetLeftY = currentTransform.next?.firstChild?.bounds?.top || 0;
+        const currentOffsetBottomX = currentTransform.firstChild
+          ? currentTransform.firstChild.bounds.bottom
+          : currentTransform.bounds.bottom;
+        const nextOffsetTopX =
+          (currentTransform.next?.firstChild
+            ? currentTransform.next?.firstChild.bounds?.top
+            : currentTransform.next?.bounds?.top) || 0;
         const currentInputPointX = currentTransform.inputPoint.x;
         if (currentTransform?.next) {
           lines.push({
@@ -62,7 +72,7 @@ export const BlockRegistry: FlowNodeRegistry = {
             from: currentTransform.parent!.inputPoint,
             to: {
               x: currentInputPointX,
-              y: (currentOffsetRightY + nextOffsetLeftY) / 2,
+              y: (currentOffsetBottomX + nextOffsetTopX) / 2,
             },
             side: LABEL_SIDE_TYPE.NORMAL_BRANCH,
           });
@@ -112,8 +122,13 @@ export const BlockRegistry: FlowNodeRegistry = {
     // 获取两个分支节点中间点作为拖拽标签插入位置
     if (hasBranchDraggingAdder) {
       if (isVertical) {
-        const currentOffsetRightX = currentTransform.firstChild?.bounds?.right || 0;
-        const nextOffsetLeftX = currentTransform.next?.firstChild?.bounds?.left || 0;
+        const currentOffsetRightX = currentTransform.firstChild
+          ? currentTransform.firstChild.bounds.right
+          : currentTransform.bounds.right;
+        const nextOffsetLeftX =
+          (currentTransform.next?.firstChild
+            ? currentTransform.next.firstChild.bounds?.left
+            : currentTransform.next?.bounds?.left) || 0;
         const currentInputPointY = currentTransform.inputPoint.y;
         if (currentTransform?.next) {
           draggingLabel.push({
@@ -129,17 +144,22 @@ export const BlockRegistry: FlowNodeRegistry = {
           });
         }
       } else {
-        const currentOffsetRightY = currentTransform.firstChild?.bounds?.bottom || 0;
-        const nextOffsetLeftY = currentTransform.next?.firstChild?.bounds?.top || 0;
+        const currentOffsetBottomX = currentTransform.firstChild
+          ? currentTransform.firstChild.bounds.bottom
+          : currentTransform.bounds.bottom;
+        const nextOffsetTopX =
+          (currentTransform.next?.firstChild
+            ? currentTransform.next.firstChild.bounds?.top
+            : currentTransform.next?.bounds?.top) || 0;
         const currentInputPointX = currentTransform.inputPoint.x;
         if (currentTransform?.next) {
           draggingLabel.push({
             offset: {
               x: currentInputPointX,
-              y: (currentOffsetRightY + nextOffsetLeftY) / 2,
+              y: (currentOffsetBottomX + nextOffsetTopX) / 2,
             },
             type: FlowTransitionLabelEnum.BRANCH_DRAGGING_LABEL,
-            width: nextOffsetLeftY - currentOffsetRightY,
+            width: nextOffsetTopX - currentOffsetBottomX,
             props: {
               side: LABEL_SIDE_TYPE.NORMAL_BRANCH,
             },
