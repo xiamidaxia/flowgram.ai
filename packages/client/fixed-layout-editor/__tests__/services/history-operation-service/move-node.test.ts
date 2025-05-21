@@ -89,11 +89,10 @@ describe('history-operation-service moveNode', () => {
     const split = flowDocument.getNode('dynamicSplit_0');
     const split1 = flowDocument.getNode('dynamicSplit_1');
 
-    // 没有执行成功，因为没有 children 的分支节点，$inlineBlocks$dynamicSplit_1 不存在
-    expect(getNodeChildrenIds(split, true)).toEqual(['block_0', 'block_1', 'block_2']);
-    expect(getNodeChildrenIds(split1, true)).toEqual([]);
+    expect(getNodeChildrenIds(split, true)).toEqual(['block_0', 'block_2']);
+    expect(getNodeChildrenIds(split1, true)).toEqual(['block_1']);
 
-    expect(historyService.canUndo()).toBe(false);
+    expect(historyService.canUndo()).toBe(true);
   });
 
   it('move node without parent and index', async () => {
