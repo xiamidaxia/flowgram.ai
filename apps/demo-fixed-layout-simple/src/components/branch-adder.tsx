@@ -25,6 +25,15 @@ export function BranchAdder(props: PropsType) {
           content: '',
         },
       });
+    } else if (node.flowNodeType === 'multiInputs') {
+      block = operation.addBlock(node, {
+        id: `input_${nanoid(5)}`,
+        type: 'input',
+        data: {
+          title: 'New Input',
+          content: '',
+        },
+      });
     } else {
       block = operation.addBlock(node, {
         id: `branch_${nanoid(5)}`,
@@ -43,6 +52,7 @@ export function BranchAdder(props: PropsType) {
       });
     }, 10);
   }
+
   if (playground.config.readonlyOrDisabled) return null;
 
   const className = [

@@ -29,6 +29,7 @@ export interface FlowTransitionLine {
   arrow?: boolean; // 是否有箭头
   renderKey?: string; // 只有自定义线条需要
   isHorizontal?: boolean; // 是否为水平布局
+  isDraggingLine?: boolean; // 是否是拖拽线条
   activated?: boolean; // 是否激活态
   side?: LABEL_SIDE_TYPE; // 区分是否分支前缀线条
   style?: React.CSSProperties;

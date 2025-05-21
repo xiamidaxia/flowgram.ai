@@ -4,6 +4,7 @@ import {
   type FlowTransitionLine,
   FlowTransitionLineEnum,
   LABEL_SIDE_TYPE,
+  FlowTransitionLabelEnum,
 } from '@flowgram.ai/document';
 
 /**
@@ -15,7 +16,7 @@ export const InputRegistry: FlowNodeRegistry = {
   meta: {
     hidden: false,
   },
-  getLines(transition) {
+  getLines(transition, layout) {
     const currentTransform = transition.transform;
     const { isVertical } = transition.entity;
     const lines: FlowTransitionLine[] = [];
@@ -27,32 +28,44 @@ export const InputRegistry: FlowNodeRegistry = {
     // 当有其余分支的时候，绘制一条两个分支之间的线条
     if (hasBranchDraggingAdder) {
       if (isVertical) {
-        const currentOffsetRightX = currentTransform.firstChild?.bounds?.right || 0;
-        const nextOffsetLeftX = currentTransform.next?.firstChild?.bounds?.left || 0;
-        const currentInputPointY = currentTransform.inputPoint.y;
+        const currentOffsetRightX = currentTransform.firstChild
+          ? currentTransform.firstChild.bounds.right
+          : currentTransform.bounds.right;
+        const nextOffsetLeftX =
+          (currentTransform.next?.firstChild
+            ? currentTransform.next?.firstChild.bounds?.left
+            : currentTransform.next?.bounds?.left) || 0;
+        const currentInputPointY = currentTransform.outputPoint.y;
         if (currentTransform?.next) {
           lines.push({
-            type: FlowTransitionLineEnum.DRAGGING_LINE,
-            from: currentTransform.parent!.inputPoint,
-            to: {
+            type: FlowTransitionLineEnum.MERGE_LINE,
+            isDraggingLine: true,
+            from: {
               x: (currentOffsetRightX + nextOffsetLeftX) / 2,
               y: currentInputPointY,
             },
+            to: currentTransform.parent!.outputPoint,
             side: LABEL_SIDE_TYPE.NORMAL_BRANCH,
           });
         }
       } else {
-        const currentOffsetRightY = currentTransform.firstChild?.bounds?.bottom || 0;
-        const nextOffsetLeftY = currentTransform.next?.firstChild?.bounds?.top || 0;
-        const currentInputPointX = currentTransform.inputPoint.x;
+        const currentOffsetBottomX = currentTransform.firstChild
+          ? currentTransform.firstChild.bounds.bottom
+          : currentTransform.bounds.bottom;
+        const nextOffsetTopX =
+          (currentTransform.next?.firstChild
+            ? currentTransform.next?.firstChild.bounds?.top
+            : currentTransform.next?.bounds?.top) || 0;
+        const currentInputPointX = currentTransform.outputPoint.x;
         if (currentTransform?.next) {
           lines.push({
-            type: FlowTransitionLineEnum.DRAGGING_LINE,
-            from: currentTransform.parent!.inputPoint,
-            to: {
+            type: FlowTransitionLineEnum.MERGE_LINE,
+            isDraggingLine: true,
+            from: {
               x: currentInputPointX,
-              y: (currentOffsetRightY + nextOffsetLeftY) / 2,
+              y: (currentOffsetBottomX + nextOffsetTopX) / 2,
             },
+            to: currentTransform.parent!.outputPoint,
             side: LABEL_SIDE_TYPE.NORMAL_BRANCH,
           });
         }
@@ -71,7 +84,64 @@ export const InputRegistry: FlowNodeRegistry = {
 
     return lines;
   },
-  getLabels() {
-    return [];
+  getLabels(transition) {
+    const currentTransform = transition.transform;
+    const { isVertical } = transition.entity;
+
+    const draggingLabel = [];
+
+    const hasBranchDraggingAdder =
+      currentTransform && currentTransform.entity.isInlineBlock && transition.renderData.draggable;
+
+    // 获取两个分支节点中间点作为拖拽标签插入位置
+    if (hasBranchDraggingAdder) {
+      if (isVertical) {
+        const currentOffsetRightX = currentTransform.firstChild
+          ? currentTransform.firstChild.bounds.right
+          : currentTransform.bounds.right;
+        const nextOffsetLeftX =
+          (currentTransform.next?.firstChild
+            ? currentTransform.next.firstChild.bounds?.left
+            : currentTransform.next?.bounds?.left) || 0;
+        const currentInputPointY = currentTransform.outputPoint.y;
+        if (currentTransform?.next) {
+          draggingLabel.push({
+            offset: {
+              x: (currentOffsetRightX + nextOffsetLeftX) / 2,
+              y: currentInputPointY,
+            },
+            type: FlowTransitionLabelEnum.BRANCH_DRAGGING_LABEL,
+            width: nextOffsetLeftX - currentOffsetRightX,
+            props: {
+              side: LABEL_SIDE_TYPE.NORMAL_BRANCH,
+            },
+          });
+        }
+      } else {
+        const currentOffsetBottomX = currentTransform.firstChild
+          ? currentTransform.firstChild.bounds.bottom
+          : currentTransform.bounds.bottom;
+        const nextOffsetTopX =
+          (currentTransform.next?.firstChild
+            ? currentTransform.next.firstChild.bounds?.top
+            : currentTransform.next?.bounds?.top) || 0;
+        const currentInputPointX = currentTransform.outputPoint.x;
+        if (currentTransform?.next) {
+          draggingLabel.push({
+            offset: {
+              x: currentInputPointX,
+              y: (currentOffsetBottomX + nextOffsetTopX) / 2,
+            },
+            type: FlowTransitionLabelEnum.BRANCH_DRAGGING_LABEL,
+            width: nextOffsetTopX - currentOffsetBottomX,
+            props: {
+              side: LABEL_SIDE_TYPE.NORMAL_BRANCH,
+            },
+          });
+        }
+      }
+    }
+
+    return [...draggingLabel];
   },
 };

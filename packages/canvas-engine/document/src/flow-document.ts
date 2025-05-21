@@ -344,20 +344,17 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
       parent: node,
     });
     addedNodes.push(blockIconNode);
-    // inlineblocks 为空则不创建
-    if (blocks.length > 0) {
-      // 水平布局
-      const inlineBlocksNode = this.addNode({
-        id: `$inlineBlocks$${node.id}`,
-        type: FlowNodeBaseType.INLINE_BLOCKS,
-        originParent: node,
-        parent: node,
-      });
-      addedNodes.push(inlineBlocksNode);
-      blocks.forEach((blockData) => {
-        this.addBlock(node, blockData, addedNodes);
-      });
-    }
+    // 水平布局
+    const inlineBlocksNode = this.addNode({
+      id: `$inlineBlocks$${node.id}`,
+      type: FlowNodeBaseType.INLINE_BLOCKS,
+      originParent: node,
+      parent: node,
+    });
+    addedNodes.push(inlineBlocksNode);
+    blocks.forEach((blockData) => {
+      this.addBlock(node, blockData, addedNodes);
+    });
     return addedNodes;
   }
 
