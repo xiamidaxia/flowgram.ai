@@ -13,9 +13,10 @@ export function FlowSelect() {
     const targetDemoJSON = FLOW_LIST[demoKey];
     if (targetDemoJSON) {
       clientContext.history.stop(); // Stop redo/undo
-      clientContext.document.fromJSON(targetDemoJSON);
-      console.log(clientContext.document.toString());
-      clientContext.history.start();
+      clientContext.history.clear(); // Clear redo/undo
+      clientContext.document.fromJSON(targetDemoJSON); // Reload Data
+      console.log(clientContext.document.toString()); // Print the document tree
+      clientContext.history.start(); // Restart redo/undo
       clientContext.document.setLayout(
         targetDemoJSON.defaultLayout || FlowLayoutDefault.VERTICAL_FIXED_LAYOUT
       );
@@ -26,7 +27,7 @@ export function FlowSelect() {
       }
       // Fit View
       setTimeout(() => {
-        clientContext.playground.config.fitView(clientContext.document.root.bounds);
+        clientContext.playground.config.fitView(clientContext.document.root.bounds, true, 40);
       }, 20);
     }
   }, [demoKey]);
