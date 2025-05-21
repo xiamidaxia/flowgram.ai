@@ -118,6 +118,7 @@ exports[`flow-activities > extend block addChild 1`] = `
 |-------- $blockOrderIcon$test-extend-block
 |-- empty-split
 |---- $blockIcon$empty-split
+|---- $inlineBlocks$empty-split
 |-- end_0"
 `;
 
