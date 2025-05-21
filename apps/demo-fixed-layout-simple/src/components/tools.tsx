@@ -1,12 +1,13 @@
 import { useEffect, useState, useCallback } from 'react';
 
-import { usePlaygroundTools, useClientContext } from '@flowgram.ai/fixed-layout-editor';
+import { usePlaygroundTools, useClientContext, useRefresh } from '@flowgram.ai/fixed-layout-editor';
 import { IconButton, Space } from '@douyinfe/semi-ui';
 import { IconUnlock, IconLock } from '@douyinfe/semi-icons';
 
 export function Tools() {
   const { history, playground } = useClientContext();
   const tools = usePlaygroundTools();
+  const refresh = useRefresh();
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
   const toggleReadonly = useCallback(() => {
@@ -20,6 +21,11 @@ export function Tools() {
     });
     return () => disposable.dispose();
   }, [history]);
+
+  useEffect(() => {
+    const disposable = playground.config.onReadonlyOrDisabledChange(() => refresh());
+    return () => disposable.dispose();
+  }, [playground]);
 
   return (
     <Space
