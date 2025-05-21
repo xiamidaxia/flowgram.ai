@@ -9,3 +9,10 @@ export interface PropertyValueType extends JsonSchema {
 export type PropertiesValueType = Pick<PropertyValueType, 'properties' | 'required'>;
 
 export type JsonSchemaProperties = JsonSchema['properties'];
+
+export interface ConfigType {
+  placeholder?: string;
+  descTitle?: string;
+  descPlaceholder?: string;
+  addButtonText?: string;
+}

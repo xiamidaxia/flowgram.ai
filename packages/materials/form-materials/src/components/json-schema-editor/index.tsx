@@ -12,7 +12,7 @@ import {
 
 import { JsonSchema } from '../type-selector/types';
 import { TypeSelector } from '../type-selector';
-import { PropertyValueType } from './types';
+import { ConfigType, PropertyValueType } from './types';
 import {
   IconAddChildren,
   UIActions,
@@ -35,8 +35,9 @@ import { usePropertiesEdit } from './hooks';
 export function JsonSchemaEditor(props: {
   value?: JsonSchema;
   onChange?: (value: JsonSchema) => void;
+  config?: ConfigType;
 }) {
-  const { value = { type: 'object' }, onChange: onChangeProps } = props;
+  const { value = { type: 'object' }, config = {}, onChange: onChangeProps } = props;
   const { propertyList, onAddProperty, onRemoveProperty, onEditProperty } = usePropertiesEdit(
     value,
     onChangeProps
@@ -49,6 +50,7 @@ export function JsonSchemaEditor(props: {
           <PropertyEdit
             key={_property.key}
             value={_property}
+            config={config}
             onChange={(_v) => {
               onEditProperty(_property.key!, _v);
             }}
@@ -59,7 +61,7 @@ export function JsonSchemaEditor(props: {
         ))}
       </UIProperties>
       <Button size="small" style={{ marginTop: 10 }} icon={<IconPlus />} onClick={onAddProperty}>
-        Add
+        {config?.addButtonText ?? 'Add'}
       </Button>
     </UIContainer>
   );
@@ -67,12 +69,13 @@ export function JsonSchemaEditor(props: {
 
 function PropertyEdit(props: {
   value?: PropertyValueType;
+  config?: ConfigType;
   onChange?: (value: PropertyValueType) => void;
   onRemove?: () => void;
   $isLast?: boolean;
   $showLine?: boolean;
 }) {
-  const { value, onChange: onChangeProps, onRemove, $isLast, $showLine } = props;
+  const { value, config, onChange: onChangeProps, onRemove, $isLast, $showLine } = props;
 
   const [expand, setExpand] = useState(false);
   const [collapse, setCollapse] = useState(false);
@@ -107,7 +110,7 @@ function PropertyEdit(props: {
           <UIRow>
             <UIName>
               <Input
-                placeholder="Input Variable Name"
+                placeholder={config?.placeholder ?? 'Input Variable Name'}
                 size="small"
                 value={name}
                 onChange={(value) => onChange('name', value)}
@@ -158,12 +161,12 @@ function PropertyEdit(props: {
           </UIRow>
           {expand && (
             <UIExpandDetail>
-              <UILabel>Description</UILabel>
+              <UILabel>{config?.descTitle ?? 'Description'}</UILabel>
               <Input
                 size="small"
                 value={description}
                 onChange={(value) => onChange('description', value)}
-                placeholder="Help LLM to understand the property"
+                placeholder={config?.descPlaceholder ?? 'Help LLM to understand the property'}
               />
             </UIExpandDetail>
           )}
@@ -175,6 +178,7 @@ function PropertyEdit(props: {
                 <PropertyEdit
                   key={_property.key}
                   value={_property}
+                  config={config}
                   onChange={(_v) => {
                     onEditProperty(_property.key!, _v);
                   }}

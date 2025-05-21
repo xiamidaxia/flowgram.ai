@@ -6,6 +6,9 @@ import { useVariableTree } from './use-variable-tree';
 
 export interface PropTypes {
   value?: string;
+  config: {
+    placeholder?: string;
+  };
   onChange: (value?: string) => void;
   readonly?: boolean;
   hasError?: boolean;
@@ -14,6 +17,7 @@ export interface PropTypes {
 
 export const VariableSelector = ({
   value,
+  config,
   onChange,
   style,
   readonly = false,
@@ -38,7 +42,7 @@ export const VariableSelector = ({
           onChange(option as string);
         }}
         showClear
-        placeholder="Select Variable..."
+        placeholder={config?.placeholder ?? 'Select Variable...'}
       />
     </>
   );
