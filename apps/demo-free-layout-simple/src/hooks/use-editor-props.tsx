@@ -35,6 +35,24 @@ export const useEditorProps = () =>
        */
       nodeRegistries,
       /**
+       * 节点数据转换, 由 ctx.document.fromJSON 调用
+       * Node data transformation, called by ctx.document.fromJSON
+       * @param node
+       * @param json
+       */
+      fromNodeJSON(node, json) {
+        return json;
+      },
+      /**
+       * 节点数据转换, 由 ctx.document.toJSON 调用
+       * Node data transformation, called by ctx.document.toJSON
+       * @param node
+       * @param json
+       */
+      toNodeJSON(node, json) {
+        return json;
+      },
+      /**
        * Get the default node registry, which will be merged with the 'nodeRegistries'
        * 提供默认的节点注册，这个会和 nodeRegistries 做合并
        */

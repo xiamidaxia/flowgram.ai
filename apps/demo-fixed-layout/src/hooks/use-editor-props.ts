@@ -64,6 +64,24 @@ export function useEditorProps(
         };
       },
       /**
+       * 节点数据转换, 由 ctx.document.fromJSON 调用
+       * Node data transformation, called by ctx.document.fromJSON
+       * @param node
+       * @param json
+       */
+      fromNodeJSON(node, json) {
+        return json;
+      },
+      /**
+       * 节点数据转换, 由 ctx.document.toJSON 调用
+       * Node data transformation, called by ctx.document.toJSON
+       * @param node
+       * @param json
+       */
+      toNodeJSON(node, json) {
+        return json;
+      },
+      /**
        * Set default layout
        */
       defaultLayout: FlowLayoutDefault.VERTICAL_FIXED_LAYOUT, // or FlowLayoutDefault.HORIZONTAL_FIXED_LAYOUT
