@@ -15,6 +15,24 @@ export const initialData: FlowDocumentJSON = {
               type: 'string',
               default: 'Hello Flow.',
             },
+            enable: {
+              type: 'boolean',
+              default: true,
+            },
+            array_obj: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  int: {
+                    type: 'number',
+                  },
+                  str: {
+                    type: 'string',
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -26,10 +44,22 @@ export const initialData: FlowDocumentJSON = {
       data: {
         title: 'LLM',
         inputsValues: {
-          modelType: 'gpt-3.5-turbo',
-          temperature: 0.5,
-          systemPrompt: 'You are an AI assistant.',
-          prompt: '',
+          modelType: {
+            type: 'constant',
+            content: 'gpt-3.5-turbo',
+          },
+          temperature: {
+            type: 'constant',
+            content: 0.5,
+          },
+          systemPrompt: {
+            type: 'constant',
+            content: 'You are an AI assistant.',
+          },
+          prompt: {
+            type: 'constant',
+            content: '',
+          },
         },
         inputs: {
           type: 'object',
@@ -62,6 +92,10 @@ export const initialData: FlowDocumentJSON = {
       type: 'loop',
       data: {
         title: 'Loop',
+        batchFor: {
+          type: 'ref',
+          content: ['start_0', 'array_obj'],
+        },
       },
       blocks: [
         {

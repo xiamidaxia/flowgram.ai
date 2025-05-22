@@ -13,7 +13,7 @@ import {
   ObjectType,
   StringType,
 } from './type';
-import { EnumerateExpression, ExpressionList, KeyPathExpression } from './expression';
+import { EnumerateExpression, KeyPathExpression, WrapArrayExpression } from './expression';
 import { Property, VariableDeclaration, VariableDeclarationList } from './declaration';
 import { DataNode, MapNode } from './common';
 import { ASTNode, ASTNodeRegistry } from './ast-node';
@@ -43,7 +43,7 @@ export class ASTRegisters {
     this.registerAST(VariableDeclarationList);
     this.registerAST(KeyPathExpression);
     this.registerAST(EnumerateExpression);
-    this.registerAST(ExpressionList);
+    this.registerAST(WrapArrayExpression);
     this.registerAST(MapNode);
     this.registerAST(DataNode);
   }

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import { useScopeAvailable, ASTMatch, BaseVariableField } from '@flowgram.ai/editor';
+import { useScopeAvailable, ASTMatch, BaseVariableField, VarJSONSchema } from '@flowgram.ai/editor';
 import { TreeNodeData } from '@douyinfe/semi-ui/lib/es/tree';
 import { Icon } from '@douyinfe/semi-ui';
 
@@ -8,11 +8,16 @@ import { ArrayIcons, VariableTypeIcons } from '../type-selector/constants';
 
 type VariableField = BaseVariableField<{ icon?: string | JSX.Element; title?: string }>;
 
-export function useVariableTree(): TreeNodeData[] {
+export function useVariableTree(params: {
+  includeSchema?: VarJSONSchema.ISchema | VarJSONSchema.ISchema[];
+  excludeSchema?: VarJSONSchema.ISchema | VarJSONSchema.ISchema[];
+}): TreeNodeData[] {
+  const { includeSchema, excludeSchema } = params;
+
   const available = useScopeAvailable();
 
   const getVariableTypeIcon = useCallback((variable: VariableField) => {
-    if (variable.meta.icon) {
+    if (variable.meta?.icon) {
       if (typeof variable.meta.icon === 'string') {
         return <img style={{ marginRight: 8 }} width={12} height={12} src={variable.meta.icon} />;
       }
@@ -44,6 +49,10 @@ export function useVariableTree(): TreeNodeData[] {
   ): TreeNodeData | null => {
     let type = variable?.type;
 
+    if (!type) {
+      return null;
+    }
+
     let children: TreeNodeData[] | undefined;
 
     if (ASTMatch.isObject(type)) {
@@ -56,14 +65,27 @@ export function useVariableTree(): TreeNodeData[] {
       }
     }
 
-    const currPath = [...parentFields.map((_field) => _field.key), variable.key].join('.');
+    const keyPath = [...parentFields.map((_field) => _field.key), variable.key];
+    const key = keyPath.join('.');
+
+    const isSchemaInclude = includeSchema ? type.isEqualWithJSONSchema(includeSchema) : true;
+    const isSchemaExclude = excludeSchema ? type.isEqualWithJSONSchema(excludeSchema) : false;
+    const isSchemaMatch = isSchemaInclude && !isSchemaExclude;
+
+    // If not match, and no children, return null
+    if (!isSchemaMatch && !children?.length) {
+      return null;
+    }
 
     return {
-      key: currPath,
-      label: variable.meta.title || variable.key,
-      value: currPath,
+      key: key,
+      label: variable.meta?.title || variable.key,
+      value: key,
+      keyPath,
       icon: getVariableTypeIcon(variable),
       children,
+      disabled: !isSchemaMatch,
+      rootMeta: parentFields[0]?.meta,
     };
   };
 

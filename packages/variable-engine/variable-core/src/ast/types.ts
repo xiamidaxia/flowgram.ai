@@ -43,7 +43,7 @@ export enum ASTKind {
    */
   KeyPathExpression = 'KeyPathExpression', // 通过路径系统访问变量上的字段
   EnumerateExpression = 'EnumerateExpression', // 对指定的数据进行遍历
-  ExpressionList = 'ExpressionList', // 表达式列表
+  WrapArrayExpression = 'WrapArrayExpression', // Wrap with Array Type
 
   /**
    * 通用 AST 节点

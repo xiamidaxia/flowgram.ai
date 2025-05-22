@@ -4,6 +4,7 @@ import {
   PositionSchema,
   FlowNodeTransformData,
 } from '@flowgram.ai/free-layout-editor';
+import { provideBatchInputEffect } from '@flowgram.ai/form-materials';
 
 import { defaultFormMeta } from '../default-form-meta';
 import { FlowNodeRegistry } from '../../typings';
@@ -63,30 +64,15 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
       type: 'loop',
       data: {
         title: `Loop_${++index}`,
-        inputsValues: {
-          loopTimes: 2,
-        },
-        inputs: {
-          type: 'object',
-          required: ['loopTimes'],
-          properties: {
-            loopTimes: {
-              type: 'number',
-            },
-          },
-        },
-        outputs: {
-          type: 'object',
-          properties: {
-            result: { type: 'string' },
-          },
-        },
       },
     };
   },
   formMeta: {
     ...defaultFormMeta,
     render: LoopFormRender,
+    effect: {
+      batchFor: provideBatchInputEffect,
+    },
   },
   onCreate() {
     // NOTICE: 这个函数是为了避免触发固定布局 flowDocument.addBlocksAsChildren

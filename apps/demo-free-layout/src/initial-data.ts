@@ -20,6 +20,24 @@ export const initialData: FlowDocumentJSON = {
               type: 'string',
               default: 'Hello Flow.',
             },
+            enable: {
+              type: 'boolean',
+              default: true,
+            },
+            array_obj: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  int: {
+                    type: 'number',
+                  },
+                  str: {
+                    type: 'string',
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -35,43 +53,22 @@ export const initialData: FlowDocumentJSON = {
       },
       data: {
         title: 'Condition',
-        inputsValues: {
-          conditions: [
-            {
-              key: 'if_0',
-              value: {
-                type: 'expression',
-                content: '',
-              },
-            },
-            {
-              key: 'if_f0rOAt',
-              value: {
-                type: 'expression',
-                content: '',
-              },
-            },
-          ],
-        },
-        inputs: {
-          type: 'object',
-          properties: {
-            conditions: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  key: {
-                    type: 'string',
-                  },
-                  value: {
-                    type: 'string',
-                  },
-                },
-              },
+        conditions: [
+          {
+            key: 'if_0',
+            value: {
+              type: 'expression',
+              content: '',
             },
           },
-        },
+          {
+            key: 'if_f0rOAt',
+            value: {
+              type: 'expression',
+              content: '',
+            },
+          },
+        ],
       },
     },
     {
@@ -106,17 +103,9 @@ export const initialData: FlowDocumentJSON = {
       },
       data: {
         title: 'Loop_2',
-        inputsValues: {
-          loopTimes: 2,
-        },
-        inputs: {
-          type: 'object',
-          required: ['loopTimes'],
-          properties: {
-            loopTimes: {
-              type: 'number',
-            },
-          },
+        batchFor: {
+          type: 'ref',
+          content: ['start_0', 'array_obj'],
         },
         outputs: {
           type: 'object',

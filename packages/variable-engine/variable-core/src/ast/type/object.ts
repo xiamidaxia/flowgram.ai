@@ -1,6 +1,7 @@
 import { xor } from 'lodash';
 
 import { parseTypeJsonOrKind } from '../utils/helpers';
+import { VarJSONSchema } from './json-schema';
 import { ASTNodeJSON, ASTKind, ASTNodeJSONOrKind, type GlobalEventActionType } from '../types';
 import { ASTNodeFlags } from '../flags';
 import { Property, type PropertyJSON } from '../declaration/property';
@@ -60,7 +61,7 @@ export class ObjectType extends BaseType<ObjectJSON> {
     });
 
     // 删除没有出现过的 property
-    removedKeys.forEach(key => {
+    removedKeys.forEach((key) => {
       const property = this.propertyTable.get(key);
       property?.dispose();
       this.propertyTable.delete(key);
@@ -79,7 +80,7 @@ export class ObjectType extends BaseType<ObjectJSON> {
   toJSON(): ASTNodeJSON {
     return {
       kind: ASTKind.Object,
-      properties: this.properties.map(_property => _property.toJSON()),
+      properties: this.properties.map((_property) => _property.toJSON()),
     };
   }
 
@@ -131,13 +132,13 @@ export class ObjectType extends BaseType<ObjectJSON> {
     const targetProperties = (targetTypeJSON as ObjectJSON).properties || [];
 
     const sourcePropertyKeys = Array.from(this.propertyTable.keys());
-    const targetPropertyKeys = targetProperties.map(_target => _target.key);
+    const targetPropertyKeys = targetProperties.map((_target) => _target.key);
 
     const isKeyStrongEqual = !xor(sourcePropertyKeys, targetPropertyKeys).length;
 
     return (
       isKeyStrongEqual &&
-      targetProperties.every(targetProperty => {
+      targetProperties.every((targetProperty) => {
         const sourceProperty = this.propertyTable.get(targetProperty.key);
 
         return (
@@ -147,5 +148,15 @@ export class ObjectType extends BaseType<ObjectJSON> {
         );
       })
     );
+  }
+
+  toJSONSchema(): VarJSONSchema.ISchema {
+    return {
+      type: 'object',
+      properties: this.properties.reduce((acc, _property) => {
+        acc[_property.key] = _property.type?.toJSONSchema();
+        return acc;
+      }, {} as Record<string, VarJSONSchema.ISchema>),
+    };
   }
 }

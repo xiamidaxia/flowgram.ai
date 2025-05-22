@@ -9,7 +9,7 @@ export const Row = styled.div`
 `;
 
 export const LeftColumn = styled.div`
-  width: 300px;
-  margin-right: 10px;
+  width: 120px;
+  margin-right: 5px;
   position: relative;
 `;

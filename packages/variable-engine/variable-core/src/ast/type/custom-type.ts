@@ -1,4 +1,5 @@
 import { parseTypeJsonOrKind } from '../utils/helpers';
+import { VarJSONSchema } from './json-schema';
 import { ASTKind, ASTNodeJSONOrKind } from '../types';
 import { type UnionJSON } from './union';
 import { BaseType } from './base-type';
@@ -34,5 +35,11 @@ export class CustomType extends BaseType<CustomTypeJSON> {
     }
 
     return targetTypeJSON?.kind === this.kind && targetTypeJSON?.typeName === this.typeName;
+  }
+
+  toJSONSchema(): VarJSONSchema.ISchema {
+    return {
+      type: this._typeName,
+    };
   }
 }

@@ -1,19 +1,29 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import { TreeSelect } from '@douyinfe/semi-ui';
+import { VarJSONSchema } from '@flowgram.ai/editor';
+import { TriggerRenderProps } from '@douyinfe/semi-ui/lib/es/treeSelect';
+import { TreeNodeData } from '@douyinfe/semi-ui/lib/es/tree';
+import { IconChevronDownStroked, IconIssueStroked } from '@douyinfe/semi-icons';
 
 import { useVariableTree } from './use-variable-tree';
+import { UIRootTitle, UITag, UITreeSelect } from './styles';
 
-export interface PropTypes {
-  value?: string;
-  config: {
+interface PropTypes {
+  value?: string[];
+  config?: {
     placeholder?: string;
+    notFoundContent?: string;
   };
-  onChange: (value?: string) => void;
+  onChange: (value?: string[]) => void;
+  includeSchema?: VarJSONSchema.ISchema | VarJSONSchema.ISchema[];
+  excludeSchema?: VarJSONSchema.ISchema | VarJSONSchema.ISchema[];
   readonly?: boolean;
   hasError?: boolean;
   style?: React.CSSProperties;
+  triggerRender?: (props: TriggerRenderProps) => React.ReactNode;
 }
+
+export type VariableSelectorProps = PropTypes;
 
 export const VariableSelector = ({
   value,
@@ -21,27 +31,77 @@ export const VariableSelector = ({
   onChange,
   style,
   readonly = false,
+  includeSchema,
+  excludeSchema,
   hasError,
+  triggerRender,
 }: PropTypes) => {
-  const treeData = useVariableTree();
+  const treeData = useVariableTree({ includeSchema, excludeSchema });
+
+  const treeValue = useMemo(() => {
+    if (typeof value === 'string') {
+      console.warn(
+        'The Value of VariableSelector is a string, it should be an ARRAY. \n',
+        'Please check the value of VariableSelector \n'
+      );
+      return value;
+    }
+    return value?.join('.');
+  }, [value]);
+
+  const renderIcon = (icon: string | JSX.Element) => {
+    if (typeof icon === 'string') {
+      return <img style={{ marginRight: 8 }} width={12} height={12} src={icon} />;
+    }
+
+    return icon;
+  };
 
   return (
     <>
-      <TreeSelect
+      <UITreeSelect
         dropdownMatchSelectWidth={false}
         disabled={readonly}
         treeData={treeData}
         size="small"
-        value={value}
-        style={{
-          ...style,
-          outline: hasError ? '1px solid red' : undefined,
-        }}
+        value={treeValue}
+        clearIcon={null}
+        $error={hasError}
+        style={style}
         validateStatus={hasError ? 'error' : undefined}
-        onChange={(option) => {
-          onChange(option as string);
+        onChange={(_, _config) => {
+          onChange((_config as TreeNodeData).keyPath as string[]);
         }}
-        showClear
+        renderSelectedItem={(_option: TreeNodeData) => {
+          if (!_option?.keyPath) {
+            return (
+              <UITag
+                prefixIcon={<IconIssueStroked />}
+                color="amber"
+                closable={!readonly}
+                onClose={() => onChange(undefined)}
+              >
+                {config?.notFoundContent ?? 'Undefined'}
+              </UITag>
+            );
+          }
+
+          return (
+            <UITag
+              prefixIcon={renderIcon(_option.rootMeta?.icon || _option?.icon)}
+              closable={!readonly}
+              onClose={() => onChange(undefined)}
+            >
+              <UIRootTitle>
+                {_option.rootMeta?.title ? `${_option.rootMeta?.title} -` : null}
+              </UIRootTitle>
+              {_option.label}
+            </UITag>
+          );
+        }}
+        showClear={false}
+        arrowIcon={value ? null : <IconChevronDownStroked size="small" />}
+        triggerRender={triggerRender}
         placeholder={config?.placeholder ?? 'Select Variable...'}
       />
     </>

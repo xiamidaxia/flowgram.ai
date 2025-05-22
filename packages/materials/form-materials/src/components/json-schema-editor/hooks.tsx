@@ -36,15 +36,21 @@ export function usePropertiesEdit(
   const initPropertyList = useMemo(
     () =>
       isDrilldownObject
-        ? Object.entries(drilldown.schema?.properties || {}).map(
-            ([name, _value]) =>
-              ({
-                key: genId(),
-                name,
-                isPropertyRequired: drilldown.schema?.required?.includes(name) || false,
-                ..._value,
-              } as PropertyValueType)
-          )
+        ? Object.entries(drilldown.schema?.properties || {})
+            .sort(([, a], [, b]) => (a.extra?.index ?? 0) - (b.extra?.index ?? 0))
+            .map(
+              ([name, _value], index) =>
+                ({
+                  key: genId(),
+                  name,
+                  isPropertyRequired: drilldown.schema?.required?.includes(name) || false,
+                  ..._value,
+                  extra: {
+                    ...(_value.extra || {}),
+                    index,
+                  },
+                } as PropertyValueType)
+            )
         : [],
     [isDrilldownObject]
   );
@@ -65,23 +71,25 @@ export function usePropertiesEdit(
             nameMap.set(_property.name, _property);
           }
         }
-        return Object.entries(drilldown.schema?.properties || {}).map(([name, _value]) => {
-          const _property = nameMap.get(name);
-          if (_property) {
+        return Object.entries(drilldown.schema?.properties || {})
+          .sort(([, a], [, b]) => (a.extra?.index ?? 0) - (b.extra?.index ?? 0))
+          .map(([name, _value]) => {
+            const _property = nameMap.get(name);
+            if (_property) {
+              return {
+                key: _property.key,
+                name,
+                isPropertyRequired: drilldown.schema?.required?.includes(name) || false,
+                ..._value,
+              };
+            }
             return {
-              key: _property.key,
+              key: genId(),
               name,
               isPropertyRequired: drilldown.schema?.required?.includes(name) || false,
               ..._value,
             };
-          }
-          return {
-            key: genId(),
-            name,
-            isPropertyRequired: drilldown.schema?.required?.includes(name) || false,
-            ..._value,
-          };
-        });
+          });
       });
     }
     mountRef.current = true;
@@ -121,7 +129,10 @@ export function usePropertiesEdit(
   };
 
   const onAddProperty = () => {
-    updatePropertyList((_list) => [..._list, { key: genId(), name: '', type: 'string' }]);
+    updatePropertyList((_list) => [
+      ..._list,
+      { key: genId(), name: '', type: 'string', extra: { index: _list.length + 1 } },
+    ]);
   };
 
   const onRemoveProperty = (key: number) => {

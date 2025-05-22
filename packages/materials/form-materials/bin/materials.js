@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const _types = ['components'];
+const _types = ['components', 'effects', 'utils', 'typings'];
 
 export function listAllMaterials() {
   const _materials = [];
@@ -32,7 +32,9 @@ export function listAllMaterials() {
 
 export function bfsMaterials(material, _materials = []) {
   function findConfigByName(name) {
-    return _materials.find((_config) => _config.name === name);
+    return _materials.find(
+      (_config) => _config.name === name || `${_config.type}/${_config.name}` === name
+    );
   }
 
   const queue = [material];
@@ -67,11 +69,25 @@ export function bfsMaterials(material, _materials = []) {
 
 export const copyMaterial = (material, projectInfo) => {
   const sourceDir = material.path;
-  const targetDir = path.join(
+  const materialRoot = path.join(
     projectInfo.projectPath,
+    'src',
     'form-materials',
-    `${material.type}`,
-    material.name
+    `${material.type}`
   );
+  const targetDir = path.join(materialRoot, material.name);
   fs.cpSync(sourceDir, targetDir, { recursive: true });
+
+  let materialRootIndexTs = '';
+  if (fs.existsSync(path.join(materialRoot, 'index.ts'))) {
+    materialRootIndexTs = fs.readFileSync(path.join(materialRoot, 'index.ts'), 'utf8');
+  }
+  if (!materialRootIndexTs.includes(material.name)) {
+    fs.writeFileSync(
+      path.join(materialRoot, 'index.ts'),
+      `${materialRootIndexTs}${materialRootIndexTs.endsWith('\n') ? '' : '\n'}export * from './${
+        material.name
+      }';\n`
+    );
+  }
 };

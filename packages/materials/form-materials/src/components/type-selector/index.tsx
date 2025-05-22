@@ -8,6 +8,8 @@ import { ArrayIcons, VariableTypeIcons, getSchemaIcon, options } from './constan
 interface PropTypes {
   value?: Partial<JsonSchema>;
   onChange: (value?: Partial<JsonSchema>) => void;
+  disabled?: boolean;
+  style?: React.CSSProperties;
 }
 
 export const getTypeSelectValue = (value?: Partial<JsonSchema>): string[] | undefined => {
@@ -29,15 +31,16 @@ export const parseTypeSelectValue = (value?: string[]): Partial<JsonSchema> | un
 };
 
 export function TypeSelector(props: PropTypes) {
-  const { value, onChange } = props;
+  const { value, onChange, disabled, style } = props;
 
   const selectValue = useMemo(() => getTypeSelectValue(value), [value]);
 
   return (
     <Cascader
+      disabled={disabled}
       size="small"
       triggerRender={() => (
-        <Button size="small" style={{ width: 50 }}>
+        <Button size="small" style={style}>
           {getSchemaIcon(value)}
         </Button>
       )}

@@ -1,10 +1,9 @@
 import React, { useState, useLayoutEffect } from 'react';
 
-import { VariableSelector } from '@flowgram.ai/form-materials';
+import { VariableSelector, TypeSelector, DynamicValueInput } from '@flowgram.ai/form-materials';
 import { Input, Button } from '@douyinfe/semi-ui';
 import { IconCrossCircleStroked } from '@douyinfe/semi-icons';
 
-import { TypeSelector } from '../type-selector';
 import { JsonSchema } from '../../typings';
 import { LeftColumn, Row } from './styles';
 
@@ -24,6 +23,11 @@ export const PropertyEdit: React.FC<PropertyEditProps> = (props) => {
     value[key] = val;
     props.onChange(value, props.propertyKey);
   };
+
+  const partialUpdateProperty = (val?: Partial<JsonSchema>) => {
+    props.onChange({ ...value, ...val }, props.propertyKey);
+  };
+
   useLayoutEffect(() => {
     updateKey(props.propertyKey);
   }, [props.propertyKey]);
@@ -31,14 +35,15 @@ export const PropertyEdit: React.FC<PropertyEditProps> = (props) => {
     <Row>
       <LeftColumn>
         <TypeSelector
-          value={value.type}
+          value={value}
           disabled={disabled}
-          style={{ position: 'absolute', top: 6, left: 4, zIndex: 1 }}
-          onChange={(val) => updateProperty('type', val)}
+          style={{ position: 'absolute', top: 2, left: 4, zIndex: 1, padding: '0 5px', height: 20 }}
+          onChange={(val) => partialUpdateProperty(val)}
         />
         <Input
           value={inputKey}
           disabled={disabled}
+          size="small"
           onChange={(v) => updateKey(v.trim())}
           onBlur={() => {
             if (inputKey !== '') {
@@ -50,22 +55,22 @@ export const PropertyEdit: React.FC<PropertyEditProps> = (props) => {
           style={{ paddingLeft: 26 }}
         />
       </LeftColumn>
-      {props.useFx ? (
-        <VariableSelector
-          value={value.default}
-          readonly={disabled}
-          onChange={(val) => updateProperty('default', val)}
-          style={{ flexGrow: 1, height: 32 }}
-        />
-      ) : (
-        <Input
-          disabled={disabled}
+      {
+        <DynamicValueInput
           value={value.default}
           onChange={(val) => updateProperty('default', val)}
+          schema={value}
+          style={{ flexGrow: 1 }}
         />
-      )}
+      }
       {props.onDelete && !disabled && (
-        <Button theme="borderless" icon={<IconCrossCircleStroked />} onClick={props.onDelete} />
+        <Button
+          style={{ marginLeft: 5, position: 'relative', top: 2 }}
+          size="small"
+          theme="borderless"
+          icon={<IconCrossCircleStroked />}
+          onClick={props.onDelete}
+        />
       )}
     </Row>
   );

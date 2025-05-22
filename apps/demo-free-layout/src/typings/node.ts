@@ -6,17 +6,10 @@ import {
   type WorkflowEdgeJSON,
   WorkflowNodeMeta,
 } from '@flowgram.ai/free-layout-editor';
+import { IFlowValue } from '@flowgram.ai/form-materials';
 
 import { type JsonSchema } from './json-schema';
 
-export type FlowLiteralValueSchema = string | number | boolean;
-export type FlowObjectValueSchema = Record<string, FlowLiteralValueSchema | FlowRefValueSchema>;
-export type FlowArrayValueSchema = FlowObjectValueSchema[];
-export type FlowRefValueSchema =
-  | { type: 'ref'; content?: string }
-  | { type: 'expression'; content?: string }
-  | { type: 'template'; content?: string };
-export type FlowValueSchema = FlowLiteralValueSchema | FlowRefValueSchema | FlowArrayValueSchema;
 /**
  * You can customize the data of the node, and here you can use JsonSchema to define the input and output of the node
  * 你可以自定义节点的 data 业务数据, 这里演示 通过 JsonSchema 来定义节点的输入/输出
@@ -30,7 +23,7 @@ export interface FlowNodeJSON extends FlowNodeJSONDefault {
     /**
      * Inputs data values
      */
-    inputsValues?: Record<string, FlowValueSchema>;
+    inputsValues?: Record<string, IFlowValue>;
     /**
      * Define the inputs data of the node by JsonSchema
      */

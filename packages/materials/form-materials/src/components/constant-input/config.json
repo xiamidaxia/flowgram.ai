@@ -1,0 +1,6 @@
+
+{
+  "name": "constant-input",
+  "depMaterials": [],
+  "depPackages": ["@douyinfe/semi-ui"]
+}

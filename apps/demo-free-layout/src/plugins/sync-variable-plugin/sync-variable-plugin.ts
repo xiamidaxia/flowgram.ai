@@ -7,8 +7,6 @@ import {
   ASTFactory,
 } from '@flowgram.ai/free-layout-editor';
 
-import { createASTFromJSONSchema } from './utils';
-
 export interface SyncVariablePluginOptions {}
 
 /**
@@ -39,7 +37,7 @@ export const createSyncVariablePlugin: PluginCreator<SyncVariablePluginOptions> 
 
           // Create an Type AST from the output data's JSON schema
           // NOTICE: You can create a new function to generate an AST based on YOUR CUSTOM DSL
-          const typeAST = createASTFromJSONSchema(value);
+          const typeAST = ASTFactory.createTypeASTFromSchema(value);
 
           if (typeAST) {
             // Use the node's title or its ID as the title for the variable
@@ -53,7 +51,7 @@ export const createSyncVariablePlugin: PluginCreator<SyncVariablePluginOptions> 
                   icon: node.getNodeRegistry()?.info?.icon,
                   // NOTICE: You can add more metadata here as needed
                 },
-                key: `${node.id}.outputs`,
+                key: `${node.id}`,
                 type: typeAST,
               })
             );
