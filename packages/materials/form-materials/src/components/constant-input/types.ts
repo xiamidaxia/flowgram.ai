@@ -1,7 +1,7 @@
-import { VarJSONSchema } from '@flowgram.ai/editor';
+import { IJsonSchema } from '../../typings';
 
 export interface Strategy<Value = any> {
-  hit: (schema: VarJSONSchema.ISchema) => boolean;
+  hit: (schema: IJsonSchema) => boolean;
   Renderer: React.FC<RendererProps<Value>>;
 }
 
@@ -12,7 +12,7 @@ export interface RendererProps<Value = any> {
 }
 
 export interface PropsType extends RendererProps {
-  schema: VarJSONSchema.ISchema;
+  schema: IJsonSchema;
   strategies?: Strategy[];
   [key: string]: any;
 }

@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 
-import { VarJSONSchema } from '@flowgram.ai/editor';
 import { TriggerRenderProps } from '@douyinfe/semi-ui/lib/es/treeSelect';
 import { TreeNodeData } from '@douyinfe/semi-ui/lib/es/tree';
 import { IconChevronDownStroked, IconIssueStroked } from '@douyinfe/semi-icons';
 
+import { IJsonSchema } from '../../typings/json-schema';
 import { useVariableTree } from './use-variable-tree';
 import { UIRootTitle, UITag, UITreeSelect } from './styles';
 
@@ -15,8 +15,8 @@ interface PropTypes {
     notFoundContent?: string;
   };
   onChange: (value?: string[]) => void;
-  includeSchema?: VarJSONSchema.ISchema | VarJSONSchema.ISchema[];
-  excludeSchema?: VarJSONSchema.ISchema | VarJSONSchema.ISchema[];
+  includeSchema?: IJsonSchema | IJsonSchema[];
+  excludeSchema?: IJsonSchema | IJsonSchema[];
   readonly?: boolean;
   hasError?: boolean;
   style?: React.CSSProperties;

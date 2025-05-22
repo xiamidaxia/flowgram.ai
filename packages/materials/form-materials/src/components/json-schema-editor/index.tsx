@@ -10,8 +10,8 @@ import {
   IconMinus,
 } from '@douyinfe/semi-icons';
 
-import { JsonSchema } from '../type-selector/types';
 import { TypeSelector } from '../type-selector';
+import { IJsonSchema } from '../../typings';
 import { ConfigType, PropertyValueType } from './types';
 import {
   IconAddChildren,
@@ -33,8 +33,8 @@ import { UIRow } from './styles';
 import { usePropertiesEdit } from './hooks';
 
 export function JsonSchemaEditor(props: {
-  value?: JsonSchema;
-  onChange?: (value: JsonSchema) => void;
+  value?: IJsonSchema;
+  onChange?: (value: IJsonSchema) => void;
   config?: ConfigType;
 }) {
   const { value = { type: 'object' }, config = {}, onChange: onChangeProps } = props;

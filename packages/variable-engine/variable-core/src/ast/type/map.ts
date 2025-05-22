@@ -1,5 +1,4 @@
 import { parseTypeJsonOrKind } from '../utils/helpers';
-import { VarJSONSchema } from './json-schema';
 import { ASTKind, ASTNodeJSON, ASTNodeJSONOrKind } from '../types';
 import { BaseType } from './base-type';
 
@@ -73,13 +72,6 @@ export class MapType extends BaseType<MapJSON> {
       kind: ASTKind.Map,
       keyType: this.keyType?.toJSON(),
       valueType: this.valueType?.toJSON(),
-    };
-  }
-
-  toJSONSchema(): VarJSONSchema.ISchema {
-    return {
-      type: 'map',
-      additionalProperties: this.valueType?.toJSONSchema(),
     };
   }
 }

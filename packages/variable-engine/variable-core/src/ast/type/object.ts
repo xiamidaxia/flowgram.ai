@@ -1,7 +1,6 @@
 import { xor } from 'lodash';
 
 import { parseTypeJsonOrKind } from '../utils/helpers';
-import { VarJSONSchema } from './json-schema';
 import { ASTNodeJSON, ASTKind, ASTNodeJSONOrKind, type GlobalEventActionType } from '../types';
 import { ASTNodeFlags } from '../flags';
 import { Property, type PropertyJSON } from '../declaration/property';
@@ -148,15 +147,5 @@ export class ObjectType extends BaseType<ObjectJSON> {
         );
       })
     );
-  }
-
-  toJSONSchema(): VarJSONSchema.ISchema {
-    return {
-      type: 'object',
-      properties: this.properties.reduce((acc, _property) => {
-        acc[_property.key] = _property.type?.toJSONSchema();
-        return acc;
-      }, {} as Record<string, VarJSONSchema.ISchema>),
-    };
   }
 }

@@ -1,6 +1,6 @@
-import { JsonSchema } from '../type-selector/types';
+import { IJsonSchema } from '../../typings';
 
-export interface PropertyValueType extends JsonSchema {
+export interface PropertyValueType extends IJsonSchema {
   name?: string;
   key?: number;
   isPropertyRequired?: boolean;
@@ -8,7 +8,7 @@ export interface PropertyValueType extends JsonSchema {
 
 export type PropertiesValueType = Pick<PropertyValueType, 'properties' | 'required'>;
 
-export type JsonSchemaProperties = JsonSchema['properties'];
+export type JsonSchemaProperties = IJsonSchema['properties'];
 
 export interface ConfigType {
   placeholder?: string;

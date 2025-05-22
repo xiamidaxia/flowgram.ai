@@ -3,7 +3,7 @@ import React from 'react';
 import { CascaderData } from '@douyinfe/semi-ui/lib/es/cascader';
 import Icon from '@douyinfe/semi-icons';
 
-import { JsonSchema } from './types';
+import { IJsonSchema } from '../../typings';
 
 export const VariableTypeIcons: { [key: string]: React.ReactNode } = {
   custom: (
@@ -271,7 +271,7 @@ export const ArrayIcons: { [key: string]: React.ReactNode } = {
   ),
 };
 
-export const getSchemaIcon = (value?: Partial<JsonSchema>) => {
+export const getSchemaIcon = (value?: Partial<IJsonSchema>) => {
   if (value?.type === 'array') {
     return ArrayIcons[value.items?.type || 'object'];
   }

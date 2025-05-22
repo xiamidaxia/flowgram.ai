@@ -1,16 +1,18 @@
 import React, { useCallback } from 'react';
 
-import { useScopeAvailable, ASTMatch, BaseVariableField, VarJSONSchema } from '@flowgram.ai/editor';
+import { useScopeAvailable, ASTMatch, BaseVariableField } from '@flowgram.ai/editor';
 import { TreeNodeData } from '@douyinfe/semi-ui/lib/es/tree';
 import { Icon } from '@douyinfe/semi-ui';
 
 import { ArrayIcons, VariableTypeIcons } from '../type-selector/constants';
+import { JsonSchemaUtils } from '../../utils/json-schema';
+import { IJsonSchema } from '../../typings/json-schema';
 
 type VariableField = BaseVariableField<{ icon?: string | JSX.Element; title?: string }>;
 
 export function useVariableTree(params: {
-  includeSchema?: VarJSONSchema.ISchema | VarJSONSchema.ISchema[];
-  excludeSchema?: VarJSONSchema.ISchema | VarJSONSchema.ISchema[];
+  includeSchema?: IJsonSchema | IJsonSchema[];
+  excludeSchema?: IJsonSchema | IJsonSchema[];
 }): TreeNodeData[] {
   const { includeSchema, excludeSchema } = params;
 
@@ -68,8 +70,12 @@ export function useVariableTree(params: {
     const keyPath = [...parentFields.map((_field) => _field.key), variable.key];
     const key = keyPath.join('.');
 
-    const isSchemaInclude = includeSchema ? type.isEqualWithJSONSchema(includeSchema) : true;
-    const isSchemaExclude = excludeSchema ? type.isEqualWithJSONSchema(excludeSchema) : false;
+    const isSchemaInclude = includeSchema
+      ? JsonSchemaUtils.isASTMatchSchema(type, includeSchema)
+      : true;
+    const isSchemaExclude = excludeSchema
+      ? JsonSchemaUtils.isASTMatchSchema(type, excludeSchema)
+      : false;
     const isSchemaMatch = isSchemaInclude && !isSchemaExclude;
 
     // If not match, and no children, return null

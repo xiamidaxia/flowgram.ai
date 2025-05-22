@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { PrivateScopeProvider, VarJSONSchema } from '@flowgram.ai/editor';
+import { PrivateScopeProvider } from '@flowgram.ai/editor';
 
 import { VariableSelector, VariableSelectorProps } from '../variable-selector';
+import { IJsonSchema } from '../../typings';
 
-const batchVariableSchema: VarJSONSchema.ISchema = {
+const batchVariableSchema: IJsonSchema = {
   type: 'array',
   extra: { weak: true },
 };

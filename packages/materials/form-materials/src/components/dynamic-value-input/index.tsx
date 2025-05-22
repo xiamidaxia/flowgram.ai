@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { VarJSONSchema } from '@flowgram.ai/editor';
 import { IconButton } from '@douyinfe/semi-ui';
 import { IconSetting } from '@douyinfe/semi-icons';
 
@@ -9,6 +8,7 @@ import { ConstantInput } from '../constant-input';
 import { IFlowConstantRefValue } from '../../typings/flow-value';
 import { UIContainer, UIMain, UITrigger } from './styles';
 import { VariableSelector } from '../variable-selector';
+import { IJsonSchema } from '../../typings';
 
 interface PropsType {
   value?: IFlowConstantRefValue;
@@ -16,7 +16,7 @@ interface PropsType {
   readonly?: boolean;
   hasError?: boolean;
   style?: React.CSSProperties;
-  schema?: VarJSONSchema.ISchema;
+  schema?: IJsonSchema;
   constantProps?: {
     strategies?: Strategy[];
     [key: string]: any;

@@ -12,4 +12,3 @@ export {
 export { BaseType } from './base-type';
 export { type UnionJSON } from './union';
 export { CustomType, type CustomTypeJSON } from './custom-type';
-export { VarJSONSchema } from './json-schema';

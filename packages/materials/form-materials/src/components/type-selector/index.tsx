@@ -2,17 +2,17 @@ import React, { useMemo } from 'react';
 
 import { Button, Cascader } from '@douyinfe/semi-ui';
 
-import { JsonSchema } from './types';
+import { IJsonSchema } from '../../typings';
 import { ArrayIcons, VariableTypeIcons, getSchemaIcon, options } from './constants';
 
 interface PropTypes {
-  value?: Partial<JsonSchema>;
-  onChange: (value?: Partial<JsonSchema>) => void;
+  value?: Partial<IJsonSchema>;
+  onChange: (value?: Partial<IJsonSchema>) => void;
   disabled?: boolean;
   style?: React.CSSProperties;
 }
 
-export const getTypeSelectValue = (value?: Partial<JsonSchema>): string[] | undefined => {
+export const getTypeSelectValue = (value?: Partial<IJsonSchema>): string[] | undefined => {
   if (value?.type === 'array' && value?.items) {
     return [value.type, ...(getTypeSelectValue(value.items) || [])];
   }
@@ -20,7 +20,7 @@ export const getTypeSelectValue = (value?: Partial<JsonSchema>): string[] | unde
   return value?.type ? [value.type] : undefined;
 };
 
-export const parseTypeSelectValue = (value?: string[]): Partial<JsonSchema> | undefined => {
+export const parseTypeSelectValue = (value?: string[]): Partial<IJsonSchema> | undefined => {
   const [type, ...subTypes] = value || [];
 
   if (type === 'array') {
@@ -54,4 +54,4 @@ export function TypeSelector(props: PropTypes) {
   );
 }
 
-export { JsonSchema, VariableTypeIcons, ArrayIcons, getSchemaIcon };
+export { VariableTypeIcons, ArrayIcons, getSchemaIcon };

@@ -6,6 +6,7 @@ import {
   FreeLayoutPluginContext,
   ASTFactory,
 } from '@flowgram.ai/free-layout-editor';
+import { JsonSchemaUtils } from '@flowgram.ai/form-materials';
 
 export interface SyncVariablePluginOptions {}
 
@@ -37,7 +38,7 @@ export const createSyncVariablePlugin: PluginCreator<SyncVariablePluginOptions> 
 
           // Create an Type AST from the output data's JSON schema
           // NOTICE: You can create a new function to generate an AST based on YOUR CUSTOM DSL
-          const typeAST = ASTFactory.createTypeASTFromSchema(value);
+          const typeAST = JsonSchemaUtils.schemaToAST(value);
 
           if (typeAST) {
             // Use the node's title or its ID as the title for the variable

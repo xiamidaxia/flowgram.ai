@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+import { IJsonSchema } from '../../typings';
 import { PropertyValueType } from './types';
-import { JsonSchema } from '../type-selector';
 
 let _id = 0;
 function genId() {
@@ -100,7 +100,7 @@ export function usePropertiesEdit(
       const next = updater(_list);
 
       // onChange to parent
-      const nextProperties: Record<string, JsonSchema> = {};
+      const nextProperties: Record<string, IJsonSchema> = {};
       const nextRequired: string[] = [];
 
       for (const _property of next) {
