@@ -6,6 +6,7 @@ import {
   WorkflowNodeEntity,
   WorkflowNodeMeta,
   WorkflowSelectService,
+  HistoryService,
 } from '@flowgram.ai/free-layout-editor';
 import { Toast } from '@douyinfe/semi-ui';
 
@@ -21,24 +22,34 @@ export class DeleteShortcut implements ShortcutsHandler {
 
   private selectService: WorkflowSelectService;
 
+  private historyService: HistoryService;
+
   /**
    * initialize delete shortcut - 初始化删除快捷键
    */
   constructor(context: FreeLayoutPluginContext) {
     this.document = context.get(WorkflowDocument);
     this.selectService = context.get(WorkflowSelectService);
+    this.historyService = context.get(HistoryService);
     this.execute = this.execute.bind(this);
   }
 
   /**
    * execute delete operation - 执行删除操作
    */
-  public async execute(): Promise<void> {
-    if (!this.isValid(this.selectService.selectedNodes)) {
+  public async execute(nodes?: WorkflowNodeEntity[]): Promise<void> {
+    const selection = Array.isArray(nodes) ? nodes : this.selectService.selection;
+    if (
+      !this.isValid(
+        selection.filter((n) => n instanceof WorkflowNodeEntity) as WorkflowNodeEntity[]
+      )
+    ) {
       return;
     }
+    // Merge actions to redo/undo
+    this.historyService.startTransaction();
     // delete selected entities - 删除选中实体
-    this.selectService.selection.forEach((entity) => {
+    selection.forEach((entity) => {
       if (entity instanceof WorkflowNodeEntity) {
         this.removeNode(entity);
       } else if (entity instanceof WorkflowLineEntity) {
@@ -49,6 +60,7 @@ export class DeleteShortcut implements ShortcutsHandler {
     });
     // filter out disposed entities - 过滤掉已删除的实体
     this.selectService.selection = this.selectService.selection.filter((s) => !s.disposed);
+    this.historyService.endTransaction();
   }
 
   /**
