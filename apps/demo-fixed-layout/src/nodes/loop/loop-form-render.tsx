@@ -1,7 +1,7 @@
 import { BatchVariableSelector, IFlowRefValue } from '@flowgram.ai/form-materials';
 import { FormRenderProps, FlowNodeJSON, Field } from '@flowgram.ai/fixed-layout-editor';
 
-import { useIsSidebar } from '../../hooks';
+import { useIsSidebar, useNodeRenderContext } from '../../hooks';
 import { FormHeader, FormContent, FormOutputs, FormItem, Feedback } from '../../form-components';
 
 interface LoopNodeJSON extends FlowNodeJSON {
@@ -12,7 +12,7 @@ interface LoopNodeJSON extends FlowNodeJSON {
 
 export const LoopFormRender = ({ form }: FormRenderProps<LoopNodeJSON>) => {
   const isSidebar = useIsSidebar();
-  const readonly = !isSidebar;
+  const { readonly } = useNodeRenderContext();
 
   const batchFor = (
     <Field<IFlowRefValue> name={`batchFor`}>

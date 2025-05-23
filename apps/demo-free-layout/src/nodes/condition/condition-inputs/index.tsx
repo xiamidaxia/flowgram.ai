@@ -4,7 +4,7 @@ import { IFlowValue, VariableSelector } from '@flowgram.ai/form-materials';
 import { Button } from '@douyinfe/semi-ui';
 import { IconPlus, IconCrossCircleStroked } from '@douyinfe/semi-icons';
 
-import { useIsSidebar } from '../../../hooks';
+import { useNodeRenderContext } from '../../../hooks';
 import { FormItem } from '../../../form-components';
 import { Feedback } from '../../../form-components';
 import { ConditionPort } from './styles';
@@ -15,7 +15,7 @@ interface ConditionValue {
 }
 
 export function ConditionInputs() {
-  const readonly = !useIsSidebar();
+  const { readonly } = useNodeRenderContext();
   return (
     <FieldArray name="conditions">
       {({ field }) => (
