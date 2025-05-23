@@ -4,10 +4,10 @@ import { Field } from '@flowgram.ai/fixed-layout-editor';
 import { FormItem } from '../form-item';
 import { Feedback } from '../feedback';
 import { JsonSchema } from '../../typings';
-import { useIsSidebar } from '../../hooks';
+import { useNodeRenderContext } from '../../hooks';
 
 export function FormInputs() {
-  const readonly = !useIsSidebar();
+  const { readonly } = useNodeRenderContext();
   return (
     <Field<JsonSchema> name="inputs">
       {({ field: inputsField }) => {
