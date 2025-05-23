@@ -1,3 +1,4 @@
+import { autoRenameRefEffect } from '@flowgram.ai/form-materials';
 import { FormRenderProps, FormMeta, ValidateTrigger } from '@flowgram.ai/fixed-layout-editor';
 
 import { FlowNodeJSON } from '../typings';
@@ -26,5 +27,8 @@ export const defaultFormMeta: FormMeta<FlowNodeJSON['data']> = {
       }
       return undefined;
     },
+  },
+  effect: {
+    inputsValues: autoRenameRefEffect,
   },
 };

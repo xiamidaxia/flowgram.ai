@@ -1916,6 +1916,9 @@ importers:
       commander:
         specifier: ^11.0.0
         version: 11.1.0
+      immer:
+        specifier: ~10.1.1
+        version: 10.1.1
       inquirer:
         specifier: ^9.2.7
         version: 9.3.7
@@ -11745,6 +11748,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /immer@10.1.1:
+    resolution: {integrity: sha512-s2MPrmjovJcoMaHtx6K11Ra7oD05NT97w1IC5zpMkT6Atjr7H8LjaDd81iIxUYpMKSRRNMJE703M1Fhr/TctHw==}
+    dev: false
 
   /immutable@5.0.3:
     resolution: {integrity: sha512-P8IdPQHq3lA1xVeBRi5VPqUm5HDgKnx0Ru51wZz5mjxHr5n3RWhjIpOFU7ybkUxfB+5IToy+OLaHYDBIWsv+uw==}

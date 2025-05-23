@@ -100,7 +100,7 @@ export const VariableSelector = ({
           );
         }}
         showClear={false}
-        arrowIcon={value ? null : <IconChevronDownStroked size="small" />}
+        arrowIcon={<IconChevronDownStroked size="small" />}
         triggerRender={triggerRender}
         placeholder={config?.placeholder ?? 'Select Variable...'}
       />

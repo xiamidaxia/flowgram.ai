@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 
-import { Button, Checkbox, IconButton, Input } from '@douyinfe/semi-ui';
+import { Button, Checkbox, IconButton } from '@douyinfe/semi-ui';
 import {
   IconExpand,
   IconShrink,
@@ -31,6 +31,7 @@ import {
 import { UIName } from './styles';
 import { UIRow } from './styles';
 import { usePropertiesEdit } from './hooks';
+import { BlurInput } from './components/blur-input';
 
 export function JsonSchemaEditor(props: {
   value?: IJsonSchema;
@@ -109,7 +110,7 @@ function PropertyEdit(props: {
         <UIPropertyMain $expand={expand}>
           <UIRow>
             <UIName>
-              <Input
+              <BlurInput
                 placeholder={config?.placeholder ?? 'Input Variable Name'}
                 size="small"
                 value={name}
@@ -162,7 +163,7 @@ function PropertyEdit(props: {
           {expand && (
             <UIExpandDetail>
               <UILabel>{config?.descTitle ?? 'Description'}</UILabel>
-              <Input
+              <BlurInput
                 size="small"
                 value={description}
                 onChange={(value) => onChange('description', value)}
