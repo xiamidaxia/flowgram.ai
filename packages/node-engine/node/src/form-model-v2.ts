@@ -44,29 +44,31 @@ import { renderForm } from './form-render';
 import { FormPlugin } from './form-plugin';
 
 const DEFAULT = {
-  EFFECT_MAP: {},
-  EFFECT_RETURN_MAP: new Map([
-    [DataEvent.onValueInitOrChange, {}],
-    [DataEvent.onValueChange, {}],
-    [DataEvent.onValueInit, {}],
-    [DataEvent.onArrayAppend, {}],
-    [DataEvent.onArrayDelete, {}],
-  ]),
-  FORM_FEEDBACKS: [],
+  // Different formModel should have different reference
+  EFFECT_MAP: () => ({}),
+  EFFECT_RETURN_MAP: () =>
+    new Map([
+      [DataEvent.onValueInitOrChange, {}],
+      [DataEvent.onValueChange, {}],
+      [DataEvent.onValueInit, {}],
+      [DataEvent.onArrayAppend, {}],
+      [DataEvent.onArrayDelete, {}],
+    ]),
+  FORM_FEEDBACKS: () => [],
   VALID: null,
 };
 
 export class FormModelV2 extends FormModel implements Disposable {
-  protected effectMap: Record<string, EffectOptions[]> = DEFAULT.EFFECT_MAP;
+  protected effectMap: Record<string, EffectOptions[]> = DEFAULT.EFFECT_MAP();
 
   protected effectReturnMap: Map<DataEvent, Record<string, EffectReturn>> =
-    DEFAULT.EFFECT_RETURN_MAP;
+    DEFAULT.EFFECT_RETURN_MAP();
 
   protected plugins: FormPlugin[] = [];
 
   protected node: FlowNodeEntity;
 
-  protected formFeedbacks: FormValidateReturn | undefined = DEFAULT.FORM_FEEDBACKS;
+  protected formFeedbacks: FormValidateReturn | undefined = DEFAULT.FORM_FEEDBACKS();
 
   protected onInitializedEmitter = new Emitter<FormModel>();
 
@@ -522,8 +524,8 @@ export class FormModelV2 extends FormModel implements Disposable {
       });
     });
 
-    this.effectMap = DEFAULT.EFFECT_MAP;
-    this.effectReturnMap = DEFAULT.EFFECT_RETURN_MAP;
+    this.effectMap = DEFAULT.EFFECT_MAP();
+    this.effectReturnMap = DEFAULT.EFFECT_RETURN_MAP();
 
     this.plugins.forEach((p) => {
       p.dispose();
@@ -531,7 +533,7 @@ export class FormModelV2 extends FormModel implements Disposable {
 
     this.plugins = [];
 
-    this.formFeedbacks = DEFAULT.FORM_FEEDBACKS;
+    this.formFeedbacks = DEFAULT.FORM_FEEDBACKS();
     this._valid = DEFAULT.VALID;
 
     this._formControl = undefined;
