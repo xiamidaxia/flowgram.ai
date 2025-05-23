@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { IconButton } from '@douyinfe/semi-ui';
 import { IconSetting } from '@douyinfe/semi-icons';
@@ -31,6 +31,14 @@ export function DynamicValueInput({
   schema,
   constantProps,
 }: PropsType) {
+  // When is number type, include integer as well
+  const includeSchema = useMemo(() => {
+    if (schema?.type === 'number') {
+      return [schema, { type: 'integer' }];
+    }
+    return schema;
+  }, [schema]);
+
   const renderMain = () => {
     if (value?.type === 'ref') {
       // Display Variable Or Delete
@@ -38,7 +46,7 @@ export function DynamicValueInput({
         <VariableSelector
           value={value?.content}
           onChange={(_v) => onChange(_v ? { type: 'ref', content: _v } : undefined)}
-          includeSchema={schema}
+          includeSchema={includeSchema}
           readonly={readonly}
         />
       );
@@ -60,7 +68,7 @@ export function DynamicValueInput({
       style={{ width: '100%' }}
       value={value?.type === 'ref' ? value?.content : undefined}
       onChange={(_v) => onChange({ type: 'ref', content: _v })}
-      includeSchema={schema}
+      includeSchema={includeSchema}
       readonly={readonly}
       triggerRender={() => (
         <IconButton disabled={readonly} size="small" icon={<IconSetting size="small" />} />

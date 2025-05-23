@@ -74,7 +74,12 @@ export namespace JsonSchemaUtils {
    * @param typeAST
    * @returns
    */
-  export function astToSchema(typeAST: ASTNode): IJsonSchema | undefined {
+  export function astToSchema(
+    typeAST: ASTNode,
+    options?: { drilldown?: boolean }
+  ): IJsonSchema | undefined {
+    const { drilldown = true } = options || {};
+
     if (ASTMatch.isString(typeAST)) {
       return {
         type: 'string',
@@ -102,23 +107,25 @@ export namespace JsonSchemaUtils {
     if (ASTMatch.isObject(typeAST)) {
       return {
         type: 'object',
-        properties: Object.fromEntries(
-          Object.entries(typeAST.properties).map(([key, value]) => [key, astToSchema(value)!])
-        ),
+        properties: drilldown
+          ? Object.fromEntries(
+              Object.entries(typeAST.properties).map(([key, value]) => [key, astToSchema(value)!])
+            )
+          : {},
       };
     }
 
     if (ASTMatch.isArray(typeAST)) {
       return {
         type: 'array',
-        items: astToSchema(typeAST.items),
+        items: drilldown ? astToSchema(typeAST.items) : undefined,
       };
     }
 
     if (ASTMatch.isMap(typeAST)) {
       return {
         type: 'map',
-        items: astToSchema(typeAST.valueType),
+        items: drilldown ? astToSchema(typeAST.valueType) : undefined,
       };
     }
 

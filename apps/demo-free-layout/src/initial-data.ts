@@ -57,15 +57,25 @@ export const initialData: FlowDocumentJSON = {
           {
             key: 'if_0',
             value: {
-              type: 'expression',
-              content: '',
+              left: {
+                type: 'ref',
+                content: ['start_0', 'query'],
+              },
+              operator: 'contains',
+              right: {
+                type: 'constant',
+                content: 'Hello Flow.',
+              },
             },
           },
           {
             key: 'if_f0rOAt',
             value: {
-              type: 'expression',
-              content: '',
+              left: {
+                type: 'ref',
+                content: ['start_0', 'enable'],
+              },
+              operator: 'is_true',
             },
           },
         ],

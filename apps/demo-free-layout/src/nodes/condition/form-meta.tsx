@@ -18,8 +18,8 @@ export const formMeta: FormMeta<FlowNodeJSON> = {
   validateTrigger: ValidateTrigger.onChange,
   validate: {
     title: ({ value }: { value: string }) => (value ? undefined : 'Title is required'),
-    'inputsValues.conditions.*': ({ value }) => {
-      if (!value?.value?.content) return 'Condition is required';
+    'conditions.*': ({ value }) => {
+      if (!value?.value) return 'Condition is required';
       return undefined;
     },
   },

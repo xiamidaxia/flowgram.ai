@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 import { Field, FieldArray } from '@flowgram.ai/free-layout-editor';
-import { IFlowValue, VariableSelector } from '@flowgram.ai/form-materials';
+import { ConditionRow, ConditionRowValueType, VariableSelector } from '@flowgram.ai/form-materials';
 import { Button } from '@douyinfe/semi-ui';
 import { IconPlus, IconCrossCircleStroked } from '@douyinfe/semi-icons';
 
@@ -11,7 +11,7 @@ import { ConditionPort } from './styles';
 
 interface ConditionValue {
   key: string;
-  value: IFlowValue;
+  value?: ConditionRowValueType;
 }
 
 export function ConditionInputs() {
@@ -25,17 +25,11 @@ export function ConditionInputs() {
               {({ field: childField, fieldState: childState }) => (
                 <FormItem name="if" type="boolean" required={true} labelWidth={40}>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <VariableSelector
-                      style={{ width: '100%' }}
-                      value={childField.value?.value?.content as string[]}
-                      onChange={(v) =>
-                        childField.onChange({
-                          key: childField.value.key,
-                          value: { type: 'ref', content: v },
-                        })
-                      }
-                      hasError={Object.keys(childState?.errors || {}).length > 0}
+                    <ConditionRow
                       readonly={readonly}
+                      style={{ flexGrow: 1 }}
+                      value={childField.value.value}
+                      onChange={(v) => childField.onChange({ value: v, key: childField.value.key })}
                     />
 
                     <Button
