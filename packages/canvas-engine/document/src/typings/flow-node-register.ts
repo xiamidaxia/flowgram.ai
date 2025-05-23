@@ -277,23 +277,53 @@ export interface FlowNodeRegistry<M extends FlowNodeMeta = FlowNodeMeta> {
   ) => FlowNodeEntity;
 
   /**
+   * 内部用于继承逻辑判断，不要使用
+   */
+  __extends__?: FlowNodeType[];
+  /**
    * 扩展注册器
    */
   [key: string]: any;
 }
 
 export namespace FlowNodeRegistry {
+  export function mergeChildRegistries(
+    r1: FlowNodeRegistry[] = [],
+    r2: FlowNodeRegistry[] = []
+  ): FlowNodeRegistry[] {
+    if (r1.length === 0 || r2.length === 0) {
+      return [...r1, ...r2];
+    }
+    const r1Filter = r1.map((r1Current) => {
+      const r2Current = r2.find((n) => n.type === r1Current.type);
+      if (r2Current) {
+        return merge(r1Current, r2Current, r1Current.type);
+      }
+      return r1Current;
+    });
+    const r2Filter = r2.filter((n) => !r1.some((r) => r.type === n.type));
+    return [...r1Filter, ...r2Filter];
+  }
   export function merge(
     registry1: FlowNodeRegistry,
     registry2: FlowNodeRegistry,
     finalType: FlowNodeType
   ): FlowNodeRegistry {
+    const extendKeys = registry1.__extends__ ? registry1.__extends__.slice() : [];
+    if (registry1.type !== registry2.type) {
+      extendKeys.unshift(registry1.type);
+    }
     return {
       ...registry1,
       ...registry2,
+      extendChildRegistries: mergeChildRegistries(
+        registry1.extendChildRegistries,
+        registry2.extendChildRegistries
+      ),
       meta: { ...registry1.meta, ...registry2.meta },
       extend: undefined,
       type: finalType,
+      __extends__: extendKeys,
     };
   }
 

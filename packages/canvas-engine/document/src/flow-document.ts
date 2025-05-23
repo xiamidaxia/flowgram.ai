@@ -433,8 +433,21 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
           ...preRegistry?.meta,
           ...newRegistry?.meta,
         },
+        extendChildRegistries: FlowNodeRegistry.mergeChildRegistries(
+          preRegistry?.extendChildRegistries,
+          newRegistry?.extendChildRegistries
+        ),
       });
     });
+  }
+
+  /**
+   * Check node extend
+   * @param currentType
+   * @param parentType
+   */
+  isExtend(currentType: FlowNodeType, parentType: FlowNodeType): boolean {
+    return (this.getNodeRegistry(currentType).__extends__ || []).includes(parentType);
   }
 
   /**
