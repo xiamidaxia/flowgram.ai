@@ -1,3 +1,6 @@
+import { PackageManagerTabs } from '@theme';
+import { MaterialDisplay } from '../../../../components/materials';
+
 # Official Form Materials
 
 ## How to Use?
@@ -6,25 +9,22 @@
 
 Official form materials can be used directly via package reference:
 
-import { PackageManagerTabs } from '@theme';
-
-<PackageManagerTabs command={{
-  npm: "npm install @flowgram.ai/form-materials"
-}} />
+<PackageManagerTabs command="install @flowgram.ai/form-materials" />
 
 ```tsx
 import { JsonSchemaEditor } from '@flowgram.ai/form-materials'
 ```
 
+
 ### Adding Material Source Code via CLI
 
-If customization is required (e.g., modifying text, styles, or business logic), it is recommended to **add the material source code to the project for customization via CLI**:
+If customization of components is required (e.g., changing text, styles, or business logic), it is recommended to **add the material source code to the project for customization via CLI**:
 
 ```bash
 npx @flowgram.ai/form-materials
 ```
 
-After running, the CLI will prompt the user to select the material to add:
+After running, the CLI will prompt the user to select the material to add to the project:
 
 ```console
 ? Select one material to add: (Use arrow keys)
@@ -33,110 +33,90 @@ After running, the CLI will prompt the user to select the material to add:
   components/variable-selector
 ```
 
-Users can also directly add the source code of a specific material via CLI:
+Users can also directly add the source code of a specified material via CLI:
 
 ```bash
 npx @flowgram.ai/form-materials components/json-schema-editor
 ```
 
-Once the CLI completes successfully, the relevant materials will be automatically added to the `src/form-materials` directory in the current project.
+After the CLI runs successfully, the relevant materials will be automatically added to the `src/form-materials` directory in the current project.
 
 :::warning Notes
 
-1. The official materials are currently implemented based on [Semi Design](https://semi.design/). If there are requirements for an underlying component library, the source code can be copied via CLI and replaced.
-2. Some materials depend on third-party npm libraries, which will be automatically installed during CLI execution.
-3. Some materials depend on other official materials. The source code of these dependent materials will also be added to the project during CLI execution.
+1. Official materials are currently implemented based on [Semi Design](https://semi.design/). If there is a need for a different underlying component library, the source code can be copied via CLI for replacement.
+2. Some materials may depend on third-party npm libraries, which will be automatically installed during CLI execution.
+3. Some materials may depend on other official materials. The source code of these dependent materials will also be added to the project during CLI execution.
 
 :::
 
 ## Currently Supported Component Materials
 
-### [TypeSelector](https://github.com/bytedance/flowgram.ai/tree/main/packages/materials/form-materials/src/components/type-selector/index.tsx)
+### TypeSelector
 
-TypeSelector is used for variable type selection.
+<MaterialDisplay
+  imgs={['/materials/type-selector.png']}
+  filePath="components/type-selector/index.tsx"
+  exportName="TypeSelector"
+>
+  TypeSelector is used for variable type selection.
+</MaterialDisplay>
 
-<img loading="lazy" src="/materials/type-selector.png" style={{width:500}}/>
 
-Usage via package reference:
+### VariableSelector
 
-```tsx
-import { TypeSelector } from '@flowgram.ai/materials'
-```
+<MaterialDisplay
+  imgs={['/materials/variable-selector.png']}
+  filePath="components/variable-selector/index.tsx"
+  exportName="VariableSelector"
+>
+  VariableSelector is used to display a variable tree and select a single variable from it.
+</MaterialDisplay>
 
-Adding source code via CLI:
-```bash
-npx @flowgram.ai/materials components/type-selector
-```
 
-### [VariableSelector](https://github.com/bytedance/flowgram.ai/tree/main/packages/materials/form-materials/src/components/variable-selector/index.tsx)
+### JsonSchemaEditor
 
-VariableSelector is used for selecting a single variable.
+<MaterialDisplay
+  imgs={['/materials/json-schema-editor.png']}
+  filePath="components/json-schema-editor/index.tsx"
+  exportName="JsonSchemaEditor"
+>
+  JsonSchemaEditor is used for visually editing [JsonSchema](https://json-schema.org/).
 
-<img loading="lazy" src="/materials/variable-selector.png" style={{width:500}}/>
+  Commonly used for visually configuring the output variables of nodes.
+</MaterialDisplay>
 
-Usage via package reference:
 
-```tsx
-import { VariableSelector } from '@flowgram.ai/materials'
-```
+### DynamicValueInput
 
-Adding source code via CLI:
-```bash
-npx @flowgram.ai/materials components/variable-selector
-```
-
-### [JsonSchemaEditor](https://github.com/bytedance/flowgram.ai/tree/main/packages/materials/form-materials/src/components/json-schema-editor/index.tsx)
-
-JsonSchemaEditor is used for visually editing JsonSchema, commonly used for configuring node output variables visually.
-
-<img loading="lazy" src="/materials/json-schema-editor.png" style={{width:500}}/>
-
-Usage via package reference:
-
-```tsx
-import { JsonSchemaEditor } from '@flowgram.ai/materials'
-```
-
-Adding source code via CLI:
-```bash
-npx @flowgram.ai/materials components/json-schema-editor
-```
-
-### [DynamicValueInput](https://github.com/bytedance/flowgram.ai/tree/main/packages/materials/form-materials/src/components/dynamic-value-input/index.tsx)
-
-DynamicValueInput is used for configuring values (constant values + variable values).
-
-<img loading="lazy" src="/materials/dynamic-value-input.png" style={{width:500}}/>
-
-Usage via package reference:
-
-```tsx
-import { DynamicValueInput } from '@flowgram.ai/materials'
-```
-
-Adding source code via CLI:
-```bash
-npx @flowgram.ai/materials components/dynamic-value-input
-```
+<MaterialDisplay
+  imgs={['/materials/dynamic-value-input.png']}
+  filePath="components/dynamic-value-input/index.tsx"
+  exportName="DynamicValueInput"
+>
+  DynamicValueInput is used for configuring values (constant values + variable values).
+</MaterialDisplay>
 
 ## Currently Supported Effect Materials
 
-### [provideBatchInputEffect](https://github.com/bytedance/flowgram.ai/tree/main/packages/materials/form-materials/src/effects/provide-batch-input/index.ts)
+### provideBatchInput
 
-provideBatchInputEffect is used for configuring batch input derivation in loops. It automatically derives two variables based on the input:
+<MaterialDisplay
+  imgs={[{ src: '/materials/provide-batch-input.png', caption: 'Type of item is automatically inferred based on preceding type.' }]}
+  filePath="effects/provide-batch-input/index.ts"
+  exportName="provideBatchInputEffect"
+>
+  provideBatchInputEffect is used for configuring loop batch input derivation. It automatically derives two variables based on the input:
+  - item: Derived from the input variable array type, representing each item in the loop.
+  - index: Numeric type, representing the iteration count.
+</MaterialDisplay>
 
-- item: Derived from the input variable array type, representing each item in the loop
-- index: Numeric type, representing the iteration count
+### autoRenameRef
 
-<img loading="lazy" src="/materials/provide-batch-input.png" style={{width:500}}/>
-
-Usage via package reference:
-
-```tsx
-import { provideBatchInputEffect } from '@flowgram.ai/materials'
-```
-
-Adding source code via CLI:
-```bash
-npx @flowgram.ai/materials effects/provide-batch-input
-```
+<MaterialDisplay
+  imgs={[{ src: '/materials/auto-rename-ref.gif', caption: 'When the query variable name changes, automatically rename references in downstream inputs.' }]}
+  filePath="effects/auto-rename-ref/index.ts"
+  exportName="autoRenameRefEffect"
+>
+  When the name of a preceding output variable changes:
+  - All references to that variable in form items are automatically renamed.
+</MaterialDisplay>

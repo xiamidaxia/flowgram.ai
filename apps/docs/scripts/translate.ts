@@ -45,13 +45,15 @@ You are a translator.
 You will translate the following content from ${sourceLang} to ${targetLang}.\n
 `;
 
-  if (previousTargetContent) {
-    systemPrompts += `
-The target file is translated previously, here is the content:
-${previousTargetContent}
-Only translate the content that is different in ${sourceLang}.\n
-`;
-  }
+  console.log('previousTargetContent', previousTargetContent);
+
+  //   if (previousTargetContent) {
+  //     systemPrompts += `
+  // The target file is translated previously, here is the content:
+  // ${previousTargetContent}
+  // Only translate the content that is different in ${sourceLang}.\n
+  // `;
+  //   }
 
   systemPrompts += `
 Constraint:

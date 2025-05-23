@@ -1,3 +1,6 @@
+import { PackageManagerTabs } from '@theme';
+import { MaterialDisplay } from '../../../../components/materials';
+
 # 官方表单物料
 
 ## 如何使用？
@@ -6,11 +9,7 @@
 
 官方表单物料可以直接通过包引用使用：
 
-import { PackageManagerTabs } from '@theme';
-
-<PackageManagerTabs command={{
-  npm: "npm install @flowgram.ai/form-materials"
-}} />
+<PackageManagerTabs command="install @flowgram.ai/form-materials" />
 
 ```tsx
 import { JsonSchemaEditor } from '@flowgram.ai/form-materials'
@@ -53,98 +52,72 @@ CLI 运行成功后，相关物料会自动添加到当前项目下的 `src/form
 
 ## 当前支持的 Component 物料
 
-### [TypeSelector](https://github.com/bytedance/flowgram.ai/tree/main/packages/materials/form-materials/src/components/type-selector/index.tsx)
+### TypeSelector
 
-TypeSelector 用于变量类型选择
-
-<img loading="lazy" src="/materials/type-selector.png" style={{width:500}}/>
-
-通过包引用使用：
-
-```tsx
-import { TypeSelector } from '@flowgram.ai/materials'
-```
-
-通过 CLI 复制源代码使用：
-```bash
-npx @flowgram.ai/materials components/type-selector
-```
+<MaterialDisplay
+  imgs={['/materials/type-selector.png']}
+  filePath="components/type-selector/index.tsx"
+  exportName="TypeSelector"
+>
+  TypeSelector 用于变量类型选择
+</MaterialDisplay>
 
 
-### [VariableSelector](https://github.com/bytedance/flowgram.ai/tree/main/packages/materials/form-materials/src/components/variable-selector/index.tsx)
+### VariableSelector
 
-VariableSelector 用于选择单个变量
-
-<img loading="lazy" src="/materials/variable-selector.png" style={{width:500}}/>
-
-
-通过包引用使用：
-
-```tsx
-import { VariableSelector } from '@flowgram.ai/materials'
-```
-
-通过 CLI 复制源代码使用：
-```bash
-npx @flowgram.ai/materials components/variable-selector
-```
+<MaterialDisplay
+  imgs={['/materials/variable-selector.png']}
+  filePath="components/variable-selector/index.tsx"
+  exportName="VariableSelector"
+>
+  VariableSelector 用于展示变量树，并从变量树中选择单个变量
+</MaterialDisplay>
 
 
-### [JsonSchemaEditor](https://github.com/bytedance/flowgram.ai/tree/main/packages/materials/form-materials/src/components/json-schema-editor/index.tsx)
+### JsonSchemaEditor
 
-JsonSchemaEditor 用于可视化编辑 JsonSchema，常用于可视化配置节点的输出变量
+<MaterialDisplay
+  imgs={['/materials/json-schema-editor.png']}
+  filePath="components/json-schema-editor/index.tsx"
+  exportName="JsonSchemaEditor"
+>
+  JsonSchemaEditor 用于可视化编辑 [JsonSchema](https://json-schema.org/)
 
-<img loading="lazy" src="/materials/json-schema-editor.png" style={{width:500}}/>
-
-
-通过包引用使用：
-
-```tsx
-import { JsonSchemaEditor } from '@flowgram.ai/materials'
-```
-
-通过 CLI 复制源代码使用：
-```bash
-npx @flowgram.ai/materials components/json-schema-editor
-```
+  常用于可视化配置节点的输出变量
+</MaterialDisplay>
 
 
-### [DynamicValueInput](https://github.com/bytedance/flowgram.ai/tree/main/packages/materials/form-materials/src/components/dynamic-value-input/index.tsx)
+### DynamicValueInput
 
-DynamicValueInput 用于值（常量值 + 变量值）的配置
-
-<img loading="lazy" src="/materials/dynamic-value-input.png" style={{width:500}}/>
-
-
-通过包引用使用：
-
-```tsx
-import { DynamicValueInput } from '@flowgram.ai/materials'
-```
-
-通过 CLI 复制源代码使用：
-```bash
-npx @flowgram.ai/materials components/dynamic-value-input
-```
+<MaterialDisplay
+  imgs={['/materials/dynamic-value-input.png']}
+  filePath="components/dynamic-value-input/index.tsx"
+  exportName="DynamicValueInput"
+>
+  DynamicValueInput 用于值（常量值 + 变量值）的配置
+</MaterialDisplay>
 
 ## 当前支持的 Effect 物料
 
-### [provideBatchInputEffect](https://github.com/bytedance/flowgram.ai/tree/main/packages/materials/form-materials/src/effects/provide-batch-input/index.ts)
+### provideBatchInput
 
-provideBatchInputEffect 用于配置循环批处理输入推导，会根据输入自动推导出两个变量：
+<MaterialDisplay
+  imgs={[{ src: '/materials/provide-batch-input.png', caption: 'item 的类型会自动根据前置类型联动推导' }]}
+  filePath="effects/provide-batch-input/index.ts"
+  exportName="provideBatchInputEffect"
+>
+  provideBatchInputEffect 用于配置循环批处理输入推导，会根据输入自动推导出两个变量：
+  - item：根据输入变量数组类型自动推导，代表循环的每一项
+  - index：数字类型，代表循环第几次
+</MaterialDisplay>
 
-- item：根据输入变量数组类型自动推导，代表循环的每一项
-- index：数字类型，代表循环第几次
+### autoRenameRef
 
-<img loading="lazy" src="/materials/provide-batch-input.png" style={{width:500}}/>
-
-通过包引用使用：
-
-```tsx
-import { provideBatchInputEffect } from '@flowgram.ai/materials'
-```
-
-通过 CLI 复制源代码使用：
-```bash
-npx @flowgram.ai/materials effects/provide-batch-input
-```
+<MaterialDisplay
+  imgs={[{ src: '/materials/auto-rename-ref.gif', caption: 'query 变量名变化时，自动重命名下游 inputs 中的引用' }]}
+  filePath="effects/auto-rename-ref/index.ts"
+  exportName="autoRenameRefEffect"
+>
+  当前置输出变量名发生变化时:
+  - 表单项中所有的对该变量的引用，自动重命名
+</MaterialDisplay>
