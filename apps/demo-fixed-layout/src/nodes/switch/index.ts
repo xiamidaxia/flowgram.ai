@@ -5,9 +5,9 @@ import { defaultFormMeta } from '../default-form-meta';
 import { FlowNodeRegistry } from '../../typings';
 import iconCondition from '../../assets/icon-condition.svg';
 
-export const ConditionNodeRegistry: FlowNodeRegistry = {
+export const SwitchNodeRegistry: FlowNodeRegistry = {
   extend: FlowNodeSplitType.DYNAMIC_SPLIT,
-  type: 'condition',
+  type: 'switch',
   info: {
     icon: iconCondition,
     description:
@@ -20,7 +20,7 @@ export const ConditionNodeRegistry: FlowNodeRegistry = {
   onAdd() {
     return {
       id: `switch_${nanoid(5)}`,
-      type: 'condition',
+      type: 'switch',
       data: {
         title: 'Switch',
       },

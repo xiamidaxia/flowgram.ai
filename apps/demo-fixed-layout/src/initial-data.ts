@@ -134,7 +134,7 @@ export const initialData: FlowDocumentJSON = {
               blocks: [
                 {
                   id: 'switch_0',
-                  type: 'condition',
+                  type: 'switch',
                   data: {
                     title: 'Switch',
                   },
