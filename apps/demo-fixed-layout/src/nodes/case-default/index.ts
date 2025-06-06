@@ -12,6 +12,11 @@ export const CaseDefaultNodeRegistry: FlowNodeRegistry = {
   meta: {
     copyDisable: true,
     addDisable: true,
+    /**
+     * caseDefault 永远在最后一个分支，所以不允许拖拽排序
+     * "caseDefault" is always in the last branch, so dragging and sorting is not allowed.
+     */
+    draggable: false,
     deleteDisable: true,
     style: {
       width: 240,
@@ -19,7 +24,7 @@ export const CaseDefaultNodeRegistry: FlowNodeRegistry = {
   },
   info: {
     icon: iconCase,
-    description: 'Condition default branch',
+    description: 'Switch default branch',
   },
   canDelete: (ctx, node) => false,
   formMeta,

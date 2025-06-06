@@ -1,5 +1,4 @@
 import { FormRenderProps, FlowNodeJSON, Field } from '@flowgram.ai/free-layout-editor';
-import { SubCanvasRender } from '@flowgram.ai/free-container-plugin';
 import { BatchVariableSelector, IFlowRefValue } from '@flowgram.ai/form-materials';
 
 import { useIsSidebar, useNodeRenderContext } from '../../hooks';
@@ -48,7 +47,6 @@ export const LoopFormRender = ({ form }: FormRenderProps<LoopNodeJSON>) => {
       <FormHeader />
       <FormContent>
         {batchFor}
-        <SubCanvasRender />
         <FormOutputs />
       </FormContent>
     </>
