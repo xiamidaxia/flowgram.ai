@@ -88,63 +88,115 @@ export const initialData: FlowDocumentJSON = {
       },
     },
     {
-      id: 'loop_0',
-      type: 'loop',
+      id: 'if_0',
+      type: 'if',
       data: {
-        title: 'Loop',
-        batchFor: {
-          type: 'ref',
-          content: ['start_0', 'array_obj'],
+        title: 'If',
+        inputsValues: {
+          condition: { type: 'constant', content: true },
+        },
+        inputs: {
+          type: 'object',
+          required: ['condition'],
+          properties: {
+            condition: {
+              type: 'boolean',
+            },
+          },
         },
       },
       blocks: [
         {
-          id: 'condition_0',
-          type: 'condition',
+          id: 'if_true',
+          type: 'ifBlock',
           data: {
-            title: 'Condition',
+            title: 'true',
+          },
+          blocks: [],
+        },
+        {
+          id: 'if_false',
+          type: 'ifBlock',
+          data: {
+            title: 'false',
           },
           blocks: [
             {
-              id: 'case_0',
-              type: 'case',
+              id: 'loop_0',
+              type: 'loop',
               data: {
-                title: 'If_0',
-                inputsValues: {
-                  condition: { type: 'constant', content: true },
-                },
-                inputs: {
-                  type: 'object',
-                  required: ['condition'],
-                  properties: {
-                    condition: {
-                      type: 'boolean',
-                    },
-                  },
+                title: 'Loop',
+                batchFor: {
+                  type: 'ref',
+                  content: ['start_0', 'array_obj'],
                 },
               },
-              blocks: [],
-            },
-            {
-              id: 'case_1',
-              type: 'case',
-              data: {
-                title: 'If_1',
-                inputsValues: {
-                  condition: { type: 'constant', content: true },
-                },
-                inputs: {
-                  type: 'object',
-                  required: ['condition'],
-                  properties: {
-                    condition: {
-                      type: 'boolean',
-                    },
+              blocks: [
+                {
+                  id: 'switch_0',
+                  type: 'switch',
+                  data: {
+                    title: 'Switch',
                   },
+                  blocks: [
+                    {
+                      id: 'case_0',
+                      type: 'case',
+                      data: {
+                        title: 'Case_0',
+                        inputsValues: {
+                          condition: { type: 'constant', content: true },
+                        },
+                        inputs: {
+                          type: 'object',
+                          required: ['condition'],
+                          properties: {
+                            condition: {
+                              type: 'boolean',
+                            },
+                          },
+                        },
+                      },
+                      blocks: [],
+                    },
+                    {
+                      id: 'case_1',
+                      type: 'case',
+                      data: {
+                        title: 'Case_1',
+                        inputsValues: {
+                          condition: { type: 'constant', content: true },
+                        },
+                        inputs: {
+                          type: 'object',
+                          required: ['condition'],
+                          properties: {
+                            condition: {
+                              type: 'boolean',
+                            },
+                          },
+                        },
+                      },
+                    },
+                    {
+                      id: 'case_default_1',
+                      type: 'caseDefault',
+                      data: {
+                        title: 'Default',
+                      },
+                      blocks: [
+                        {
+                          id: 'break_0',
+                          type: 'breakLoop',
+                          data: {
+                            title: 'BreakLoop',
+                          },
+                        },
+                      ],
+                    },
+                  ],
                 },
-              },
-              meta: {},
-              blocks: [],
+              ],
             },
           ],
         },
