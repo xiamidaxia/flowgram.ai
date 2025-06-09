@@ -6,7 +6,7 @@ import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin';
 import { createFreeSnapPlugin } from '@flowgram.ai/free-snap-plugin';
 import { createFreeNodePanelPlugin } from '@flowgram.ai/free-node-panel-plugin';
 import { createFreeLinesPlugin } from '@flowgram.ai/free-lines-plugin';
-import { FreeLayoutProps, WorkflowNodeLinesData, Form } from '@flowgram.ai/free-layout-editor';
+import { FreeLayoutProps, WorkflowNodeLinesData } from '@flowgram.ai/free-layout-editor';
 import { createFreeGroupPlugin } from '@flowgram.ai/free-group-plugin';
 import { createContainerNodePlugin } from '@flowgram.ai/free-container-plugin';
 
@@ -76,12 +76,12 @@ export function useEditorProps(
         return json;
       },
       lineColor: {
-        hidden: 'transparent',
-        default: '#4d53e8',
-        drawing: '#5DD6E3',
-        hovered: '#37d0ff',
-        selected: '#37d0ff',
-        error: 'red',
+        hidden: 'var(--g-line-color-hidden,transparent)',
+        default: 'var(--g-line-color-default,#4d53e8)',
+        drawing: 'var(--g-line-color-drawing, #5DD6E3)',
+        hovered: 'var(--g-line-color-hover,#37d0ff)',
+        selected: 'var(--g-line-color-selected,#37d0ff)',
+        error: 'var(--g-line-color-hover,red)',
       },
       /*
        * Check whether the line can be added
