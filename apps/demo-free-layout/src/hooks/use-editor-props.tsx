@@ -13,8 +13,9 @@ import { createContainerNodePlugin } from '@flowgram.ai/free-container-plugin';
 import { onDragLineEnd } from '../utils';
 import { FlowNodeRegistry, FlowDocumentJSON } from '../typings';
 import { shortcuts } from '../shortcuts';
-import { CustomService, RunningService } from '../services';
-import { createSyncVariablePlugin, createContextMenuPlugin } from '../plugins';
+import { CustomService } from '../services';
+import { WorkflowRuntimeService } from '../plugins/runtime-plugin/runtime-service';
+import { createSyncVariablePlugin, createRuntimePlugin, createContextMenuPlugin } from '../plugins';
 import { defaultFormMeta } from '../nodes/default-form-meta';
 import { WorkflowNodeType } from '../nodes';
 import { SelectorBoxPopover } from '../components/selector-box-popover';
@@ -160,7 +161,7 @@ export function useEditorProps(
       /**
        * Running line
        */
-      isFlowingLine: (ctx, line) => ctx.get(RunningService).isFlowingLine(line),
+      isFlowingLine: (ctx, line) => ctx.get(WorkflowRuntimeService).isFlowingLine(line),
 
       /**
        * Shortcuts
@@ -171,7 +172,6 @@ export function useEditorProps(
        */
       onBind: ({ bind }) => {
         bind(CustomService).toSelf().inSingletonScope();
-        bind(RunningService).toSelf().inSingletonScope();
       },
       /**
        * Playground init
@@ -264,6 +264,15 @@ export function useEditorProps(
          * ContextMenu plugin
          */
         createContextMenuPlugin({}),
+        createRuntimePlugin({
+          mode: 'browser',
+          // mode: 'server',
+          // serverConfig: {
+          //   domain: 'localhost',
+          //   port: 4000,
+          //   protocol: 'http',
+          // },
+        }),
       ],
     }),
     []

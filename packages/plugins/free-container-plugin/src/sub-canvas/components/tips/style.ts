@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const SubCanvasTipsStyle = styled.div`
+  pointer-events: auto;
   position: absolute;
   top: 0;
 
