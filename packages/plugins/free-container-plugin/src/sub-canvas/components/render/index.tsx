@@ -7,12 +7,12 @@ import { SubCanvasBackground } from '../background';
 import { useNodeSize, useSyncNodeRenderSize } from '../../hooks';
 
 interface ISubCanvasRender {
-  offsetY: number;
+  offsetY?: number;
   className?: string;
   style?: CSSProperties;
 }
 
-export const SubCanvasRender: FC<ISubCanvasRender> = ({ className, style, offsetY }) => {
+export const SubCanvasRender: FC<ISubCanvasRender> = ({ className, style, offsetY = 0 }) => {
   const nodeSize = useNodeSize();
   const nodeHeight = nodeSize?.height ?? 0;
 
