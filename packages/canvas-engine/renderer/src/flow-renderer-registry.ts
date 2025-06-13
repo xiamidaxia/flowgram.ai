@@ -95,7 +95,7 @@ export class FlowRendererRegistry {
   }
 
   getText(textKey: string) {
-    return I18n.t(textKey, { disableReturnKey: true }) || this.textMap.get(textKey);
+    return I18n.t(textKey, { defaultValue: '' }) || this.textMap.get(textKey);
   }
 
   /**
