@@ -2679,6 +2679,9 @@ importers:
       '@flowgram.ai/free-lines-plugin':
         specifier: workspace:*
         version: link:../free-lines-plugin
+      '@flowgram.ai/i18n':
+        specifier: workspace:*
+        version: link:../../common/i18n
       '@flowgram.ai/renderer':
         specifier: workspace:*
         version: link:../../canvas-engine/renderer
