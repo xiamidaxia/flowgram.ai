@@ -25,7 +25,10 @@ export class LayoutStore {
     return this.init;
   }
 
-  public getNode(id: string): LayoutNode | undefined {
+  public getNode(id?: string): LayoutNode | undefined {
+    if (!id) {
+      return undefined;
+    }
     return this.store.nodes.get(id);
   }
 
@@ -235,8 +238,15 @@ export class LayoutStore {
       // 访问后续节点
       const { outputLines } = node.getData(WorkflowNodeLinesData);
       const sortedLines = outputLines.sort((a, b) => {
+        const aNode = this.getNode(a.to?.id);
+        const bNode = this.getNode(b.to?.id);
         const aPort = a.fromPort;
         const bPort = b.fromPort;
+        // 同端口，对比to节点y轴坐标
+        if (aPort === bPort && aNode && bNode) {
+          return aNode.position.y - bNode.position.y;
+        }
+        // 同from节点的不同端口，对比端口y轴坐标
         if (aPort && bPort) {
           return aPort.point.y - bPort.point.y;
         }
