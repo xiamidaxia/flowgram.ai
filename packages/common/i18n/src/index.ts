@@ -18,6 +18,17 @@ interface I18nLanguage {
 import zhCNLanguageDefault from './i18n/zh-CN';
 import enUSLanguageDefault from './i18n/en-US';
 
+function getDefaultLanugage(): string {
+  if (typeof navigator !== 'object') return 'en-US';
+  const defaultLanguage = navigator.language;
+  if (defaultLanguage === 'en' || defaultLanguage === 'en-US') {
+    return 'en-US';
+  }
+  if (defaultLanguage === 'zh' || defaultLanguage === 'zh-CN') {
+    return 'zh-CN';
+  }
+  return defaultLanguage;
+}
 class I18nImpl {
   public i18n = new I18nStore();
 
@@ -27,7 +38,7 @@ class I18nImpl {
 
   constructor(languages: I18nLanguage[]) {
     this.addLanguages(languages);
-    this.locale = 'en-US';
+    this.locale = getDefaultLanugage();
     this.i18n.onChange(() => {
       this._onLanguageChangeEmitter.fire(this.i18n.locale);
     });

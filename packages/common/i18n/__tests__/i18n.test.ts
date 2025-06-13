@@ -35,6 +35,7 @@ describe('i18n', () => {
     expect(I18n.t('Unknown', { defaultValue: '' })).toEqual('未知');
   });
   it('missingStrictMode', () => {
+    I18n.locale = 'en-US';
     I18n.missingStrictMode = true;
     expect(I18n.t('Unknown')).toEqual('[missing "en-US.Unknown" translation]');
     I18n.missingStrictMode = false;
