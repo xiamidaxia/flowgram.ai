@@ -5,7 +5,7 @@ import {
 } from '@flowgram.ai/free-layout-core';
 import { FlowNodeBaseType, FlowNodeTransformData } from '@flowgram.ai/document';
 
-import { LayoutEdge, LayoutNode, LayoutParams } from './type';
+import type { LayoutConfig, LayoutEdge, LayoutNode, LayoutParams } from './type';
 
 interface LayoutStoreData {
   nodes: Map<string, LayoutNode>;
@@ -20,6 +20,8 @@ export class LayoutStore {
   private store: LayoutStoreData;
 
   private container: WorkflowNodeEntity;
+
+  constructor(public readonly config: LayoutConfig) {}
 
   public get initialized(): boolean {
     return this.init;
