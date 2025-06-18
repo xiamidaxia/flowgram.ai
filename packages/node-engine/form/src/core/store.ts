@@ -7,7 +7,7 @@ import { Path } from './path';
 export class Store<TValues = FieldValue> {
   protected _values: TValues;
 
-  get values() {
+  get values(): TValues {
     return clone(this._values);
   }
 
