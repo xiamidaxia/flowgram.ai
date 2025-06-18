@@ -184,6 +184,13 @@ export function useEditorProps(
       onBind: ({ bind }) => {
         bind(CustomService).toSelf().inSingletonScope();
       },
+      scroll: {
+        /**
+         * 限制滚动，防止节点都看不到
+         * Limit scrolling so that none of the nodes can see it
+         */
+        enableScrollLimit: true,
+      },
       /**
        * Playground init
        */

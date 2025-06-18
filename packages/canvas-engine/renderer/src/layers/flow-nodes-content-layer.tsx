@@ -81,7 +81,7 @@ export class FlowNodesContentLayer extends Layer {
       const PortalRenderer = this.getPortalRenderer(data!);
 
       function Portal(): JSX.Element {
-        React.useLayoutEffect(() => {
+        React.useEffect(() => {
           // 第一次加载需要把宽高通知
           if (!entity.getNodeMeta().autoResizeDisable && node.clientWidth && node.clientHeight) {
             const transform = entity.getData<FlowNodeTransformData>(FlowNodeTransformData);
