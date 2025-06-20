@@ -10,7 +10,7 @@ our name.
 <div align="center">
 
 [![License](https://img.shields.io/github/license/bytedance/flowgram.ai)](https://github.com/bytedance/flowgram.ai/blob/main/LICENSE)
-[![@flowgram.ai/editor](https://img.shields.io/npm/dw/%40flowgram.ai%2Fcore
+[![@flowgram.ai/editor](https://img.shields.io/npm/dm/%40flowgram.ai%2Fcore
 )](https://www.npmjs.com/package/@flowgram.ai/editor)
 
 </div>
@@ -118,9 +118,6 @@ rush dev:demo-free-layout
 After that, you can start to develop projects inside this repository.
 
 Enjoy it!
-
-## Stats
-![Repo Stats](https://repobeats.axiom.co/api/embed/2b88f04ae1568daf1e49f77de99bb9d2fbe0d296.svg)
 
 ## 🌟 Contributors
 
