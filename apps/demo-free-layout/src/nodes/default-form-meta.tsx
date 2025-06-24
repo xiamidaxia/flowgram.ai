@@ -1,4 +1,9 @@
-import { FormRenderProps, FormMeta, ValidateTrigger } from '@flowgram.ai/free-layout-editor';
+import {
+  FormRenderProps,
+  FormMeta,
+  ValidateTrigger,
+  FeedbackLevel,
+} from '@flowgram.ai/free-layout-editor';
 import {
   autoRenameRefEffect,
   provideJsonSchemaOutputs,
@@ -30,7 +35,10 @@ export const defaultFormMeta: FormMeta<FlowNodeJSON> = {
         required.includes(valuePropetyKey) &&
         (value === '' || value === undefined || value?.content === '')
       ) {
-        return `${valuePropetyKey} is required`;
+        return {
+          message: `${valuePropetyKey} is required`,
+          level: FeedbackLevel.Error, // Error || Warning
+        };
       }
       return undefined;
     },
