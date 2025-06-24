@@ -3,7 +3,12 @@ import {
   provideJsonSchemaOutputs,
   syncVariableTitle,
 } from '@flowgram.ai/form-materials';
-import { FormRenderProps, FormMeta, ValidateTrigger } from '@flowgram.ai/fixed-layout-editor';
+import {
+  FormRenderProps,
+  FormMeta,
+  ValidateTrigger,
+  FeedbackLevel,
+} from '@flowgram.ai/fixed-layout-editor';
 
 import { FlowNodeJSON } from '../typings';
 import { FormHeader, FormContent, FormInputs, FormOutputs } from '../form-components';
@@ -30,7 +35,10 @@ export const defaultFormMeta: FormMeta<FlowNodeJSON['data']> = {
         required.includes(valuePropetyKey) &&
         (value === '' || value === undefined || value?.content === '')
       ) {
-        return `${valuePropetyKey} is required`;
+        return {
+          message: `${valuePropetyKey} is required`,
+          level: FeedbackLevel.Error, // Error || Warning
+        };
       }
       return undefined;
     },
