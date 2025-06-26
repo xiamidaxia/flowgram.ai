@@ -57,6 +57,10 @@ export const DefaultSpacingKey = {
    */
   NODE_SPACING: 'SPACING',
   /**
+   * 分支节点间距
+   */
+  BRANCH_SPACING: 'BRANCH_SPACING',
+  /**
    * 圆弧线条 x radius
    */
   ROUNDED_LINE_X_RADIUS: 'ROUNDED_LINE_X_RADIUS',
@@ -85,7 +89,11 @@ export const DefaultSpacingKey = {
 export const DEFAULT_SPACING = {
   NULL: 0,
   [DefaultSpacingKey.NODE_SPACING]: 32, // 普通节点间距。垂直 / 水平
-  MARGIN_RIGHT: 20, // 普通节点右边间距
+  [DefaultSpacingKey.BRANCH_SPACING]: 20, // 分支节点间距
+  /**
+   * @deprecated use 'BRANCH_SPACING' instead
+   */
+  MARGIN_RIGHT: 20, // 分支节点右边间距
   INLINE_BLOCK_PADDING_BOTTOM: 16, // block 底部留白
   INLINE_BLOCKS_PADDING_TOP: 30, // block list 上部留白间距
   [DefaultSpacingKey.INLINE_BLOCKS_PADDING_BOTTOM]: 40, // block lit 下部留白间距，因为有两个拐弯，所以翻一倍
