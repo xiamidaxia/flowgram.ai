@@ -261,51 +261,51 @@ export class WorkflowLinesManager {
     return this.toDispose.disposed;
   }
 
-  isErrorLine(fromPort: WorkflowPortEntity, toPort?: WorkflowPortEntity) {
+  isErrorLine(fromPort: WorkflowPortEntity, toPort?: WorkflowPortEntity, defaultValue?: boolean) {
     if (this.options.isErrorLine) {
       return this.options.isErrorLine(fromPort, toPort, this);
     }
 
-    return false;
+    return !!defaultValue;
   }
 
-  isReverseLine(line: WorkflowLineEntity): boolean {
+  isReverseLine(line: WorkflowLineEntity, defaultValue = false): boolean {
     if (this.options.isReverseLine) {
       return this.options.isReverseLine(line);
     }
 
-    return false;
+    return defaultValue;
   }
 
-  isHideArrowLine(line: WorkflowLineEntity): boolean {
+  isHideArrowLine(line: WorkflowLineEntity, defaultValue = false): boolean {
     if (this.options.isHideArrowLine) {
       return this.options.isHideArrowLine(line);
     }
 
-    return false;
+    return defaultValue;
   }
 
-  isFlowingLine(line: WorkflowLineEntity): boolean {
+  isFlowingLine(line: WorkflowLineEntity, defaultValue = false): boolean {
     if (this.options.isFlowingLine) {
       return this.options.isFlowingLine(line);
     }
 
-    return false;
+    return defaultValue;
   }
 
-  isDisabledLine(line: WorkflowLineEntity): boolean {
+  isDisabledLine(line: WorkflowLineEntity, defaultValue = false): boolean {
     if (this.options.isDisabledLine) {
       return this.options.isDisabledLine(line);
     }
-    return false;
+    return defaultValue;
   }
 
-  isVerticalLine(line: WorkflowLineEntity): boolean {
+  isVerticalLine(line: WorkflowLineEntity, defaultValue = false): boolean {
     if (this.options.isVerticalLine) {
       return this.options.isVerticalLine(line);
     }
 
-    return false;
+    return defaultValue;
   }
 
   setLineRenderType(line: WorkflowLineEntity): LineRenderType | undefined {

@@ -36,7 +36,16 @@ export interface WorkflowLineEntityOpts extends EntityOpts, WorkflowLinePortInfo
 export interface WorkflowLineInfo extends WorkflowLinePortInfo {
   drawingTo?: IPoint; // 正在画中的元素
   isDefaultLine?: boolean; // 是否为默认的线
-  highlightColor?: string; // 高亮显示
+}
+
+export interface WorkflowLineUIState {
+  hasError: boolean; //是否出错
+  flowing: boolean; // 流动
+  disabled: boolean; // 禁用
+  vertical: boolean; // 垂直模式
+  reverse: boolean; // 箭头反转
+  hideArrow: boolean; // 隐藏箭头
+  highlightColor: string; // 高亮显示
 }
 
 /**
@@ -62,9 +71,58 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
 
   private _to?: WorkflowNodeEntity;
 
-  private _processing = false;
+  private _lineData: any;
 
-  private _hasError = false;
+  private _uiState: WorkflowLineUIState = {
+    hasError: false,
+    flowing: false,
+    disabled: false,
+    vertical: false,
+    hideArrow: false,
+    reverse: false,
+    highlightColor: '',
+  };
+
+  /**
+   * 线条的 UI 状态
+   */
+  get uiState(): WorkflowLineUIState {
+    return this._uiState;
+  }
+
+  /**
+   * 更新线条的 ui 状态
+   * @param newState
+   */
+  updateUIState(newState: Partial<WorkflowLineUIState>): void {
+    let changed = false;
+    Object.keys(newState).forEach((key: string) => {
+      const value: any = newState[key as keyof WorkflowLineUIState] as any;
+      if (this._uiState[key as keyof WorkflowLineUIState] !== value) {
+        (this._uiState as any)[key as keyof WorkflowLineUIState] = value;
+        changed = true;
+      }
+    });
+    if (changed) {
+      this.fireChange();
+    }
+  }
+
+  /**
+   * 线条的扩展数据
+   */
+  get lineData(): any {
+    return this._lineData;
+  }
+
+  /**
+   * 更新线条扩展数据
+   * @param data
+   */
+  set lineData(data: any) {
+    this._lineData = data;
+    this.fireChange();
+  }
 
   public stackIndex = 0;
 
@@ -128,32 +186,33 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
 
   /**
    * 获取是否 testrun processing
+   * @deprecated  use `uiState.flowing` instead
    */
   get processing(): boolean {
-    return this._processing;
+    return this._uiState.flowing;
   }
 
   /**
    * 设置 testrun processing 状态
+   * @deprecated  use `uiState.flowing` instead
    */
   set processing(status: boolean) {
-    if (this._processing !== status) {
-      this._processing = status;
+    if (this._uiState.flowing !== status) {
+      this._uiState.flowing = status;
       this.fireChange();
     }
   }
 
   // 获取连线是否为错误态
   get hasError() {
-    return this._hasError;
+    return this.uiState.hasError;
   }
 
   // 设置连线的错误态
   set hasError(hasError: boolean) {
-    if (this._hasError !== hasError) {
-      this._hasError = hasError;
-      this.fireChange();
-    }
+    this.updateUIState({
+      hasError,
+    });
     if (this._node) {
       this._node.dataset.hasError = this.hasError ? 'true' : 'false';
     }
@@ -215,14 +274,13 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
   }
 
   get highlightColor(): string {
-    return this.info.highlightColor || '';
+    return this.uiState.highlightColor || '';
   }
 
-  set highlightColor(color) {
-    if (this.info.highlightColor !== color) {
-      this.info.highlightColor = color;
-      this.fireChange();
-    }
+  set highlightColor(highlightColor) {
+    this.updateUIState({
+      highlightColor,
+    });
   }
 
   /**
@@ -261,27 +319,27 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
 
   /** 是否反转箭头 */
   get reverse(): boolean {
-    return this.linesManager.isReverseLine(this);
+    return this.linesManager.isReverseLine(this, this.uiState.reverse);
   }
 
   /** 是否隐藏箭头 */
   get hideArrow(): boolean {
-    return this.linesManager.isHideArrowLine(this);
+    return this.linesManager.isHideArrowLine(this, this.uiState.hideArrow);
   }
 
   /** 是否流动 */
   get flowing(): boolean {
-    return this.linesManager.isFlowingLine(this);
+    return this.linesManager.isFlowingLine(this, this.uiState.flowing);
   }
 
   /** 是否禁用 */
   get disabled(): boolean {
-    return this.linesManager.isDisabledLine(this);
+    return this.linesManager.isDisabledLine(this, this.uiState.disabled);
   }
 
   /** 是否竖向 */
   get vertical(): boolean {
-    return this.linesManager.isVerticalLine(this);
+    return this.linesManager.isVerticalLine(this, this.uiState.vertical);
   }
 
   /** 获取线条渲染器类型 */
@@ -323,7 +381,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     const { fromPort, toPort } = this;
 
     if (fromPort) {
-      this.hasError = this.linesManager.isErrorLine(fromPort, toPort);
+      this.hasError = this.linesManager.isErrorLine(fromPort, toPort, this.uiState.hasError);
     }
   }
 
@@ -352,12 +410,15 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
   }
 
   toJSON(): WorkflowEdgeJSON {
-    const json = {
+    const json: WorkflowEdgeJSON = {
       sourceNodeID: this.info.from,
       targetNodeID: this.info.to!,
       sourcePortID: this.info.fromPort,
       targetPortID: this.info.toPort,
     };
+    if (this._lineData !== undefined) {
+      json.data = this._lineData;
+    }
     if (!json.sourcePortID) {
       delete json.sourcePortID;
     }

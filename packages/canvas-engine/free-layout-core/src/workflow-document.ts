@@ -633,12 +633,12 @@ export class WorkflowDocument extends FlowDocument {
   /**
    * 判断端口是否为错误态
    */
-  isErrorPort(port: WorkflowPortEntity) {
+  isErrorPort(port: WorkflowPortEntity, defaultValue = false) {
     if (typeof this.options.isErrorPort === 'function') {
       return this.options.isErrorPort(port);
     }
 
-    return false;
+    return defaultValue;
   }
 
   /**

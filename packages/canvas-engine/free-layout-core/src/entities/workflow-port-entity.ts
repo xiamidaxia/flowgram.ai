@@ -130,7 +130,7 @@ export class WorkflowPortEntity extends Entity<WorkflowPortEntityOpts> {
   }
 
   isErrorPort() {
-    return (this.node.document as WorkflowDocument).isErrorPort(this);
+    return (this.node.document as WorkflowDocument).isErrorPort(this, this.hasError);
   }
 
   get point(): IPoint {
