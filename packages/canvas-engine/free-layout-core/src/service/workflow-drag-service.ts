@@ -297,6 +297,7 @@ export class WorkflowDragService {
         const dropNode = this._dropNode;
         const { allowDrop } = this.canDropToNode({
           dragNodeType: type,
+          dropNodeType: dropNode?.flowNodeType,
           dropNode,
         });
         const dragNode = allowDrop ? await this.dropCard(type, e, data, dropNode) : undefined;
@@ -366,12 +367,31 @@ export class WorkflowDragService {
   /**
    * 判断是否可以放置节点
    */
-  public canDropToNode(params: { dragNodeType?: FlowNodeType; dropNode?: WorkflowNodeEntity }): {
+
+  public canDropToNode(params: {
+    dragNodeType?: FlowNodeType;
+    dragNode?: WorkflowNodeEntity;
+    dropNode?: WorkflowNodeEntity;
+    dropNodeType?: FlowNodeType;
+  }): {
     allowDrop: boolean;
     message?: string;
     dropNode?: WorkflowNodeEntity;
   } {
+    const { canDropToNode } = this.document.options;
     const { dragNodeType, dropNode } = params;
+    if (canDropToNode) {
+      const result = canDropToNode(params);
+      if (result) {
+        return {
+          allowDrop: true,
+          dropNode,
+        };
+      }
+      return {
+        allowDrop: false,
+      };
+    }
     if (!dragNodeType) {
       return {
         allowDrop: false,

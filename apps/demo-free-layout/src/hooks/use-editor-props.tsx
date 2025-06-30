@@ -114,6 +114,20 @@ export function useEditorProps(
       canDeleteNode(ctx, node) {
         return true;
       },
+      canDropToNode: (ctx, params) => {
+        const { dragNodeType, dropNodeType } = params;
+        /**
+         * 开始/结束节点无法拖入 loop or group
+         * The start and end nodes cannot be dragged into loop or group
+         */
+        if (
+          (dragNodeType === 'start' || dragNodeType === 'end') &&
+          (dropNodeType === 'loop' || dropNodeType === 'group')
+        ) {
+          return false;
+        }
+        return true;
+      },
       /**
        * Drag the end of the line to create an add panel (feature optional)
        * 拖拽线条结束需要创建一个添加面板 （功能可选）

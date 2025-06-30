@@ -1,5 +1,5 @@
 import { FlowNodeErrorData } from '@flowgram.ai/form-core';
-import { FlowDocumentOptions, FlowNodeTransformData } from '@flowgram.ai/document';
+import { FlowDocumentOptions, FlowNodeTransformData, FlowNodeType } from '@flowgram.ai/document';
 import { TransformData } from '@flowgram.ai/core';
 
 import { type WorkflowLinesManager } from './workflow-lines-manager';
@@ -83,6 +83,17 @@ export interface WorkflowDocumentOptions extends FlowDocumentOptions {
     newToPort: WorkflowPortEntity,
     lines: WorkflowLinesManager
   ) => boolean;
+  /**
+   * 是否允许拖入子画布 (loop or group)
+   * Whether to allow dragging into the sub-canvas (loop or group)
+   * @param params
+   */
+  canDropToNode?: (params: {
+    dragNodeType?: FlowNodeType;
+    dragNode?: WorkflowNodeEntity;
+    dropNode?: WorkflowNodeEntity;
+    dropNodeType?: FlowNodeType;
+  }) => boolean;
 }
 
 export const WorkflowDocumentOptionsDefault: WorkflowDocumentOptions = {
