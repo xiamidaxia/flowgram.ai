@@ -160,6 +160,7 @@ export function createFreeLayoutPreset(
             setLineClassName: opts.setLineClassName?.bind(null, ctx),
             canDeleteNode: opts.canDeleteNode?.bind(null, ctx),
             canResetLine: opts.canResetLine?.bind(null, ctx),
+            canDropToNode: opts.canDropToNode?.bind(null, ctx),
             cursors: opts.cursors ?? WorkflowDocumentOptionsDefault.cursors,
             lineColor: opts.lineColor ?? WorkflowDocumentOptionsDefault.lineColor,
             allNodesDefaultExpanded: opts.allNodesDefaultExpanded,

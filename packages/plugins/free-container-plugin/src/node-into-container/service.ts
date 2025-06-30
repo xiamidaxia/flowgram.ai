@@ -111,6 +111,8 @@ export class NodeIntoContainerService {
     }
     const canDrop = this.dragService.canDropToNode({
       dragNodeType: node.flowNodeType,
+      dragNode: node,
+      dropNodeType: containerNode?.flowNodeType,
       dropNode: containerNode,
     });
     if (!canDrop.allowDrop) {
@@ -358,6 +360,8 @@ export class NodeIntoContainerService {
     }
     const canDrop = this.dragService.canDropToNode({
       dragNodeType: dragNode.flowNodeType,
+      dropNodeType: dropNode?.flowNodeType,
+      dragNode,
       dropNode,
     });
     if (!canDrop.allowDrop) {

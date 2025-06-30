@@ -20,6 +20,7 @@ import {
   EditorProps,
   SelectionService,
   PluginContext,
+  FlowNodeType,
 } from '@flowgram.ai/editor';
 
 export const FreeLayoutPluginContext = PluginContext;
@@ -189,6 +190,20 @@ export interface FreeLayoutProps extends EditorProps<FreeLayoutPluginContext, Wo
     oldToPort: WorkflowPortEntity,
     newToPort: WorkflowPortEntity,
     lines: WorkflowLinesManager
+  ) => boolean;
+  /**
+   * 是否允许拖入子画布 (loop or group)
+   * Whether to allow dragging into the sub-canvas (loop or group)
+   * @param params
+   */
+  canDropToNode?: (
+    ctx: FreeLayoutPluginContext,
+    params: {
+      dragNodeType?: FlowNodeType;
+      dragNode?: WorkflowNodeEntity;
+      dropNode?: WorkflowNodeEntity;
+      dropNodeType?: FlowNodeType;
+    }
   ) => boolean;
 }
 
