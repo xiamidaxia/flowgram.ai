@@ -50,6 +50,7 @@ export function DynamicValueInput({
       // Display Variable Or Delete
       return (
         <VariableSelector
+          style={{ width: '100%' }}
           value={value?.content}
           onChange={(_v) => onChange(_v ? { type: 'ref', content: _v } : undefined)}
           includeSchema={includeSchema}

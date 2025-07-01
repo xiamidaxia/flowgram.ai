@@ -13,6 +13,8 @@ export const UIContainer = styled.div`
 
 export const UIMain = styled.div`
   flex-grow: 1;
+  overflow: hidden;
+  min-width: 0;
 
   & .semi-tree-select,
   & .semi-input-number,

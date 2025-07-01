@@ -11,7 +11,7 @@ import { IconChevronDownStroked, IconIssueStroked } from '@douyinfe/semi-icons';
 
 import { IJsonSchema } from '../../typings/json-schema';
 import { useVariableTree } from './use-variable-tree';
-import { UIRootTitle, UITag, UITreeSelect } from './styles';
+import { UIRootTitle, UITag, UITreeSelect, UIVarName } from './styles';
 
 interface PropTypes {
   value?: string[];
@@ -102,7 +102,7 @@ export const VariableSelector = ({
               <UIRootTitle>
                 {_option.rootMeta?.title ? `${_option.rootMeta?.title} -` : null}
               </UIRootTitle>
-              {_option.label}
+              <UIVarName>{_option.label}</UIVarName>
             </UITag>
           );
         }}

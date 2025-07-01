@@ -6,9 +6,20 @@
 import styled from 'styled-components';
 import { Tag, TreeSelect } from '@douyinfe/semi-ui';
 
-export const UIRootTitle = styled.span`
+export const UIRootTitle = styled.div`
   margin-right: 4px;
+  min-width: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: var(--semi-color-text-2);
+`;
+
+export const UIVarName = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 50%;
 `;
 
 export const UITag = styled(Tag)`
