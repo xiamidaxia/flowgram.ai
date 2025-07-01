@@ -48,7 +48,7 @@ export class TransformData extends EntityData<TransformSchema> implements Transf
 
   clearChildren(): void {
     if (this._children) {
-      this._children.slice().forEach(child => {
+      this._children.slice().forEach((child) => {
         child.setParent(undefined);
       });
     }
@@ -341,7 +341,7 @@ export class TransformData extends EntityData<TransformSchema> implements Transf
   get bounds(): Rectangle {
     if (this.isContainer) {
       const children = this._children!;
-      return Rectangle.enlarge(children.map(c => c.bounds));
+      return Rectangle.enlarge(children.map((c) => c.bounds));
     }
     return Bounds.getBounds(this, this.worldTransform);
   }
@@ -369,7 +369,7 @@ export class TransformData extends EntityData<TransformSchema> implements Transf
   get localSize(): SizeSchema {
     let { size } = this;
     if (this.isContainer) {
-      const childrenBounds = Rectangle.enlarge(this.children.map(c => c.localBounds));
+      const childrenBounds = Rectangle.enlarge(this.children.map((c) => c.localBounds));
       size = {
         width: childrenBounds.width,
         height: childrenBounds.height,
@@ -396,12 +396,12 @@ export class TransformData extends EntityData<TransformSchema> implements Transf
   get localBounds(): Rectangle {
     if (this.isContainer) {
       const children = this._children!;
-      const childrenBounds = Rectangle.enlarge(children.map(c => c.localBounds));
+      const childrenBounds = Rectangle.enlarge(children.map((c) => c.localBounds));
       // 投射 local
       return Bounds.applyMatrix(childrenBounds, this.localTransform);
     }
     return this.getMutationCache<Rectangle>('localBounds', () =>
-      Bounds.getBounds(this, this.localTransform),
+      Bounds.getBounds(this, this.localTransform)
     );
   }
 
@@ -478,6 +478,7 @@ export class TransformData extends EntityData<TransformSchema> implements Transf
             const index = parent._children!.indexOf(this);
             if (index !== -1) {
               parent._children!.splice(index, 1);
+              parent.fireChange();
             }
           }),
         ]);
@@ -496,7 +497,7 @@ export class TransformData extends EntityData<TransformSchema> implements Transf
       this.boundsWithoutRotation,
       this.worldRotation,
       rect,
-      0,
+      0
     );
   }
 
@@ -571,7 +572,7 @@ export class TransformData extends EntityData<TransformSchema> implements Transf
 
   sizeToScaleValue(
     size: { width: number; height: number },
-    isWorldSize?: boolean,
+    isWorldSize?: boolean
   ): { x: number; y: number } {
     return {
       x: this.widthToScaleX(size.width, isWorldSize),
