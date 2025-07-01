@@ -28,6 +28,7 @@ export class WrapArrayExpression extends BaseExpression<WrapArrayExpressionJSON>
   refreshReturnType() {
     // 被遍历表达式的返回值
     const childReturnTypeJSON = this.wrapFor?.returnType?.toJSON();
+
     this.updateChildNodeByKey('_returnType', {
       kind: ASTKind.Array,
       items: childReturnTypeJSON,
@@ -51,9 +52,12 @@ export class WrapArrayExpression extends BaseExpression<WrapArrayExpressionJSON>
 
   @postConstructAST()
   protected init() {
+    this.refreshReturnType = this.refreshReturnType.bind(this);
+
     this.toDispose.push(
       this.subscribe(this.refreshReturnType, {
         selector: (curr) => curr.wrapFor?.returnType,
+        triggerOnInit: true,
       })
     );
   }

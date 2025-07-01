@@ -53,19 +53,19 @@ export class FreeLayoutScopeChain extends ScopeChain {
 
   // 获取同一层级所有输入节点
   protected getAllInputLayerNodes(curr: FlowNodeEntity): FlowNodeEntity[] {
-    const currParent = this.getParent(curr);
+    const currParent = this.getNodeParent(curr);
 
     return (curr.getData(WorkflowNodeLinesData)?.allInputNodes || []).filter(
-      (_node) => this.getParent(_node) === currParent
+      (_node) => this.getNodeParent(_node) === currParent
     );
   }
 
   // 获取同一层级所有输出节点
   protected getAllOutputLayerNodes(curr: FlowNodeEntity): FlowNodeEntity[] {
-    const currParent = this.getParent(curr);
+    const currParent = this.getNodeParent(curr);
 
     return (curr.getData(WorkflowNodeLinesData)?.allOutputNodes || []).filter(
-      (_node) => this.getParent(_node) === currParent
+      (_node) => this.getNodeParent(_node) === currParent
     );
   }
 
@@ -94,7 +94,7 @@ export class FreeLayoutScopeChain extends ScopeChain {
         deps.push(currVarData.private);
       }
 
-      curr = this.getParent(curr);
+      curr = this.getNodeParent(curr);
     }
 
     // If scope is GlobalScope, add globalScope to deps
@@ -110,9 +110,11 @@ export class FreeLayoutScopeChain extends ScopeChain {
   getCovers(scope: FlowNodeScope): FlowNodeScope[] {
     // If scope is GlobalScope, return all scopes except GlobalScope
     if (GlobalScope.is(scope)) {
-      return this.variableEngine
+      const scopes = this.variableEngine
         .getAllScopes({ sort: true })
         .filter((_scope) => !GlobalScope.is(_scope));
+
+      return this.transformService.transformCovers(scopes, { scope });
     }
 
     const { node } = scope.meta || {};
@@ -127,7 +129,7 @@ export class FreeLayoutScopeChain extends ScopeChain {
 
     if (isPrivate) {
       // private 只能覆盖其子节点
-      queue.push(...this.getChildren(node));
+      queue.push(...this.getNodeChildren(node));
     } else {
       // 否则覆盖其所有输出线的节点
       queue.push(...(this.getAllOutputLayerNodes(node) || []));
@@ -140,7 +142,7 @@ export class FreeLayoutScopeChain extends ScopeChain {
       const _node = queue.shift()!;
       const variableData: FlowNodeVariableData = _node.getData(FlowNodeVariableData);
       scopes.push(...variableData.allScopes);
-      const children = _node && this.getChildren(_node);
+      const children = _node && this.getNodeChildren(_node);
 
       if (children?.length) {
         queue.push(...children);
@@ -158,9 +160,9 @@ export class FreeLayoutScopeChain extends ScopeChain {
     return this.transformService.transformCovers(uniqScopes, { scope });
   }
 
-  getChildren(node: FlowNodeEntity): FlowNodeEntity[] {
-    if (this.configs?.getFreeChildren) {
-      return this.configs.getFreeChildren?.(node);
+  getNodeChildren(node: FlowNodeEntity): FlowNodeEntity[] {
+    if (this.configs?.getNodeChildren) {
+      return this.configs.getNodeChildren?.(node);
     }
     const nodeMeta = node.getNodeMeta<WorkflowNodeMeta>();
     const subCanvas = nodeMeta.subCanvas?.(node);
@@ -178,10 +180,10 @@ export class FreeLayoutScopeChain extends ScopeChain {
     return this.tree.getChildren(node);
   }
 
-  getParent(node: FlowNodeEntity): FlowNodeEntity | undefined {
+  getNodeParent(node: FlowNodeEntity): FlowNodeEntity | undefined {
     // 部分场景通过连线来表达父子关系，因此需要上层配置
-    if (this.configs?.getFreeParent) {
-      return this.configs.getFreeParent(node);
+    if (this.configs?.getNodeParent) {
+      return this.configs.getNodeParent(node);
     }
     let parent = node.document.originTree.getParent(node);
 

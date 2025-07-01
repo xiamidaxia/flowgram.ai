@@ -6,7 +6,9 @@ import {
   merge,
   share,
   skip,
+  startWith,
   switchMap,
+  tap,
 } from 'rxjs';
 import { flatten } from 'lodash';
 import { shallowEqual } from 'fast-equals';
@@ -17,7 +19,7 @@ import { IVariableTable } from '../types';
 import { type Scope } from '../scope';
 import { subsToDisposable } from '../../utils/toDisposable';
 import { createMemo } from '../../utils/memo';
-import { Property, VariableDeclaration } from '../../ast';
+import { BaseVariableField, VariableDeclaration } from '../../ast';
 /**
  * 作用域可用变量
  */
@@ -135,11 +137,35 @@ export class ScopeAvailableData {
    * @param keyPath
    * @returns
    */
-  getByKeyPath(keyPath: string[] = []): VariableDeclaration | Property | undefined {
+  getByKeyPath(keyPath: string[] = []): BaseVariableField | undefined {
     // 检查变量是否在可访问范围内
     if (!this.variableKeys.includes(keyPath[0])) {
       return;
     }
     return this.globalVariableTable.getByKeyPath(keyPath);
+  }
+
+  /**
+   * Track Variable Change (Includes type update and children update) By KeyPath
+   * @returns
+   */
+  trackByKeyPath(
+    keyPath: string[] = [],
+    cb: (variable?: BaseVariableField | undefined) => void,
+    opts?: {
+      triggerOnInit?: boolean;
+    }
+  ): Disposable {
+    const { triggerOnInit = true } = opts || {};
+
+    return subsToDisposable(
+      merge(this.anyVariableChange$, this.variables$)
+        .pipe(
+          triggerOnInit ? startWith() : tap(() => null),
+          map(() => this.getByKeyPath(keyPath)),
+          distinctUntilChanged((_prevNode, _node) => _prevNode?.hash !== _node?.hash)
+        )
+        .subscribe(cb)
+    );
   }
 }

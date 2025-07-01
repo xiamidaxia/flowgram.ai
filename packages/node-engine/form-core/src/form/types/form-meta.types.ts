@@ -1,6 +1,6 @@
+import { MaybePromise } from '@flowgram.ai/utils';
 import { FlowNodeEntity } from '@flowgram.ai/document';
 import { PlaygroundContext } from '@flowgram.ai/core';
-import { MaybePromise } from '@flowgram.ai/utils';
 
 import { type FormItemAbilityMeta } from './form-ability.types';
 
@@ -82,7 +82,7 @@ export interface IFormMeta {
   /**
    * 表单树结构root
    */
-  root: IFormItemMeta;
+  root?: IFormItemMeta;
   /**
    * 表单全局配置
    */
@@ -109,7 +109,7 @@ export interface FormMetaGeneratorParams<PlaygroundContext, FormValue = any> {
 }
 
 export type FormMetaGenerator<PlaygroundContext = any, FormValue = any> = (
-  params: FormMetaGeneratorParams<FormValue, FormValue>,
+  params: FormMetaGeneratorParams<FormValue, FormValue>
 ) => MaybePromise<IFormMeta>;
 
 export type FormMetaOrFormMetaGenerator = FormMetaGenerator | IFormMeta;

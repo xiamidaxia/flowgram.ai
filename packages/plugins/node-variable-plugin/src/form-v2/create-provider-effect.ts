@@ -10,7 +10,7 @@ import { type VariableProviderAbilityOptions } from '../types';
  * @returns
  */
 export function createEffectFromVariableProvider(
-  options: VariableProviderAbilityOptions,
+  options: VariableProviderAbilityOptions
 ): EffectOptions[] {
   const getScope = (node: FlowNodeEntity): Scope => {
     const variableData: FlowNodeVariableData = node.getData(FlowNodeVariableData);
@@ -42,7 +42,7 @@ export function createEffectFromVariableProvider(
   return [
     {
       event: DataEvent.onValueInit,
-      effect: (params => {
+      effect: ((params) => {
         const { context } = params;
 
         const scope = getScope(context.node);
@@ -51,8 +51,6 @@ export function createEffectFromVariableProvider(
           scope,
           options,
           formItem: undefined,
-          // Hack: 新表单引擎暂时不支持 triggerSync
-          triggerSync: undefined as any,
         });
 
         if (disposable) {
@@ -65,7 +63,7 @@ export function createEffectFromVariableProvider(
     },
     {
       event: DataEvent.onValueChange,
-      effect: (params => {
+      effect: ((params) => {
         transformValueToAST(params);
       }) as Effect,
     },

@@ -12,19 +12,18 @@ export interface VariableLayoutConfig {
   isNodeChildrenPrivate?: (node: ScopeChainNode) => boolean;
 
   /**
-   * 用于自由画布场景，部分场景通过连线或者其他交互形式来表达节点之间的父子关系，需要可配置化
+   * 用于固定布局场景时：父子中间存在大量无用节点（如 inlineBlocks 等，需要配置化略过）
+   * 用于自由画布场景时：部分场景通过连线或者其他交互形式来表达节点之间的父子关系，需可配置化
    */
-  getFreeChildren?: (node: FlowNodeEntity) => FlowNodeEntity[];
-  getFreeParent?: (node: FlowNodeEntity) => FlowNodeEntity | undefined;
+  getNodeChildren?: (node: FlowNodeEntity) => FlowNodeEntity[];
+  getNodeParent?: (node: FlowNodeEntity) => FlowNodeEntity | undefined;
 
   /**
-   * @deprecated
    * 对依赖作用域进行微调
    */
   transformDeps?: IScopeTransformer;
 
   /**
-   * @deprecated
    * 对依赖作用域进行微调
    */
   transformCovers?: IScopeTransformer;

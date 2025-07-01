@@ -42,14 +42,15 @@ describe('FormModelV2', () => {
       });
 
       const formItem = formModelV2.getFormItemByPath('/');
-      expect(formItem.value).toEqual({
+      expect(formItem?.value).toEqual({
         a: 1,
         b: 2,
       });
 
-      formItem.value = { a: 3, b: 4 };
+      // @ts-expect-error
+      formItem?.value = { a: 3, b: 4 };
 
-      expect(formItem.value).toEqual({
+      expect(formItem?.value).toEqual({
         a: 3,
         b: 4,
       });
@@ -336,7 +337,8 @@ describe('FormModelV2', () => {
     });
     it('should call onInit when formModel init', () => {
       const mockInit = vi.fn();
-      const plugin = defineFormPluginCreator('test', {
+      const plugin = defineFormPluginCreator({
+        name: 'test',
         onInit: mockInit,
       })({ opt1: 1 });
       const formMeta = {
@@ -353,7 +355,8 @@ describe('FormModelV2', () => {
     });
     it('should call onDispose when formModel dispose', () => {
       const mockDispose = vi.fn();
-      const plugin = defineFormPluginCreator('test', {
+      const plugin = defineFormPluginCreator({
+        name: 'test',
         onDispose: mockDispose,
       })({ opt1: 1 });
       const formMeta = {
@@ -373,14 +376,17 @@ describe('FormModelV2', () => {
       const mockEffectPlugin = vi.fn();
       const mockEffectOrigin = vi.fn();
 
-      const plugin = defineFormPluginCreator('test', {
-        effect: {
-          a: [
-            {
-              event: DataEvent.onValueInitOrChange,
-              effect: mockEffectPlugin,
-            },
-          ],
+      const plugin = defineFormPluginCreator({
+        name: 'test',
+        onSetupFormMeta(ctx, opts) {
+          ctx.mergeEffect({
+            a: [
+              {
+                event: DataEvent.onValueInitOrChange,
+                effect: mockEffectPlugin,
+              },
+            ],
+          });
         },
       })({ opt1: 1 });
 
@@ -407,20 +413,23 @@ describe('FormModelV2', () => {
       const mockEffectOriginArrStar = vi.fn();
       const mockEffectPluginOther = vi.fn();
 
-      const plugin = defineFormPluginCreator('test', {
-        effect: {
-          'arr.*': [
-            {
-              event: DataEvent.onValueChange,
-              effect: mockEffectPluginArrStar,
-            },
-          ],
-          other: [
-            {
-              event: DataEvent.onValueChange,
-              effect: mockEffectPluginOther,
-            },
-          ],
+      const plugin = defineFormPluginCreator({
+        name: 'test',
+        onSetupFormMeta(ctx, opts) {
+          ctx.mergeEffect({
+            'arr.*': [
+              {
+                event: DataEvent.onValueChange,
+                effect: mockEffectPluginArrStar,
+              },
+            ],
+            other: [
+              {
+                event: DataEvent.onValueChange,
+                effect: mockEffectPluginOther,
+              },
+            ],
+          });
         },
       })({ opt1: 1 });
 

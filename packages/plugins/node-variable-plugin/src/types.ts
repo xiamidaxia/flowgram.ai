@@ -3,9 +3,9 @@ import {
   type ASTNodeJSON,
   type VariableDeclarationJSON,
 } from '@flowgram.ai/variable-plugin';
+import { Disposable } from '@flowgram.ai/utils';
 import { FormItem } from '@flowgram.ai/form-core';
 import { FlowNodeEntity } from '@flowgram.ai/document';
-import { Disposable } from '@flowgram.ai/utils';
 
 export interface VariableAbilityCommonContext {
   node: FlowNodeEntity; // 节点
@@ -14,9 +14,7 @@ export interface VariableAbilityCommonContext {
   options: VariableAbilityOptions;
 }
 
-export interface VariableAbilityInitCtx extends VariableAbilityCommonContext {
-  triggerSync: () => void; // 触发变量同步
-}
+export interface VariableAbilityInitCtx extends VariableAbilityCommonContext {}
 
 export interface VariableAbilityOptions {
   // 变量提供能力可复用

@@ -24,10 +24,12 @@ import { WorkflowDocumentContainerModule, WorkflowLinesManager, WorkflowSimpleLi
 
 export interface TestConfig extends VariableLayoutConfig {
   enableGlobalScope?: boolean;
+  onInit?: (container: Container) => void;
+  runExtraTest?: (container: Container) => void
 }
 
 export function getContainer(layout: 'free' | 'fixed', config?: TestConfig): Container {
-  const { enableGlobalScope, ...layoutConfig } = config || {};
+  const { enableGlobalScope, onInit, runExtraTest, ...layoutConfig } = config || {};
 
   const container = createPlaygroundContainer() as Container;
   container.load(VariableContainerModule);
@@ -73,6 +75,8 @@ export function getContainer(layout: 'free' | 'fixed', config?: TestConfig): Con
     () => ({ variableEngine } as any),
   );
   document.registerNodeDatas(FlowNodeVariableData);
+
+  onInit?.(container);
 
   return container;
 }

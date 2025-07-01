@@ -19,4 +19,4 @@ export interface ScopeVirtualNode {
 export type ScopeChainNode = FlowNodeEntity | ScopeVirtualNode;
 
 // 节点内部的作用域
-export type FlowNodeScope = Scope<FlowNodeScopeMeta>;
+export interface FlowNodeScope extends Scope<FlowNodeScopeMeta> {}

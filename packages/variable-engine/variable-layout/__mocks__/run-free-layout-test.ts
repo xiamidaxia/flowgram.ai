@@ -95,6 +95,8 @@ export const runFreeLayoutTest = (testName: string, spec: WorkflowJSON, config?:
     test('test sort', () => {
       expect(variableEngine.getAllScopes({ sort: true }).map(_scope => _scope.id)).toMatchSnapshot();
     });
+
+    config?.runExtraTest?.(container);
   });
 
 

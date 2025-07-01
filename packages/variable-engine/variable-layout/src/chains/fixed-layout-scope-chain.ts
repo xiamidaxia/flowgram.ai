@@ -136,9 +136,11 @@ export class FixedLayoutScopeChain extends ScopeChain {
 
     // If scope is GlobalScope, return all scopes except GlobalScope
     if (GlobalScope.is(scope)) {
-      return this.variableEngine
+      const scopes = this.variableEngine
         .getAllScopes({ sort: true })
         .filter((_scope) => !GlobalScope.is(_scope));
+
+      return this.transformService.transformCovers(scopes, { scope });
     }
 
     const node = scope.meta.node;

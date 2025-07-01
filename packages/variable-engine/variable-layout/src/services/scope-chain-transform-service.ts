@@ -14,11 +14,14 @@ export interface TransformerContext {
 
 export type IScopeTransformer = (scopes: Scope[], ctx: TransformerContext) => Scope[];
 
+const passthrough: IScopeTransformer = (scopes, ctx) => scopes;
+
 @injectable()
 export class ScopeChainTransformService {
-  protected transformDepsFns: IScopeTransformer[] = [];
-
-  protected transformCoversFns: IScopeTransformer[] = [];
+  protected transformerMap: Map<
+    string,
+    { transformDeps: IScopeTransformer; transformCovers: IScopeTransformer }
+  > = new Map();
 
   @lazyInject(FlowDocument) document: FlowDocument;
 
@@ -29,43 +32,65 @@ export class ScopeChainTransformService {
     @inject(VariableLayoutConfig)
     protected configs?: VariableLayoutConfig
   ) {
-    if (this.configs?.transformDeps) {
-      this.transformDepsFns.push(this.configs.transformDeps);
-    }
-    if (this.configs?.transformCovers) {
-      this.transformCoversFns.push(this.configs.transformCovers);
+    if (this.configs?.transformDeps || this.configs?.transformCovers) {
+      this.transformerMap.set('VARIABLE_LAYOUT_CONFIG', {
+        transformDeps: this.configs.transformDeps || passthrough,
+        transformCovers: this.configs.transformCovers || passthrough,
+      });
     }
   }
 
-  registerTransformDeps(transformer: IScopeTransformer) {
-    this.transformDepsFns.push(transformer);
+  /**
+   * check if transformer registered
+   * @param transformerId used to identify transformer, prevent duplicated
+   * @returns
+   */
+  hasTransformer(transformerId: string) {
+    return this.transformerMap.has(transformerId);
   }
 
-  registerTransformCovers(transformer: IScopeTransformer) {
-    this.transformCoversFns.push(transformer);
+  /**
+   * register new transform function
+   * @param transformerId used to identify transformer, prevent duplicated transformer
+   * @param transformer
+   */
+  registerTransformer(
+    transformerId: string,
+    transformer: {
+      transformDeps: IScopeTransformer;
+      transformCovers: IScopeTransformer;
+    }
+  ) {
+    this.transformerMap.set(transformerId, transformer);
   }
 
   transformDeps(scopes: Scope[], { scope }: { scope: Scope }): Scope[] {
-    return this.transformDepsFns.reduce(
-      (scopes, transformer) =>
-        transformer(scopes, {
-          scope,
-          document: this.document,
-          variableEngine: this.variableEngine,
-        }),
-      scopes
-    );
+    return Array.from(this.transformerMap.values()).reduce((scopes, transformer) => {
+      if (!transformer.transformDeps) {
+        return scopes;
+      }
+
+      scopes = transformer.transformDeps(scopes, {
+        scope,
+        document: this.document,
+        variableEngine: this.variableEngine,
+      });
+      return scopes;
+    }, scopes);
   }
 
   transformCovers(scopes: Scope[], { scope }: { scope: Scope }): Scope[] {
-    return this.transformCoversFns.reduce(
-      (scopes, transformer) =>
-        transformer(scopes, {
-          scope,
-          document: this.document,
-          variableEngine: this.variableEngine,
-        }),
-      scopes
-    );
+    return Array.from(this.transformerMap.values()).reduce((scopes, transformer) => {
+      if (!transformer.transformCovers) {
+        return scopes;
+      }
+
+      scopes = transformer.transformCovers(scopes, {
+        scope,
+        document: this.document,
+        variableEngine: this.variableEngine,
+      });
+      return scopes;
+    }, scopes);
   }
 }

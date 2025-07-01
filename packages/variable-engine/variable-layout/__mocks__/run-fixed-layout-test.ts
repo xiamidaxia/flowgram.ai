@@ -95,6 +95,8 @@ export const runFixedLayoutTest = (testName:string, spec: FlowDocumentJSON, conf
     test('test sort', () => {
       expect(variableEngine.getAllScopes({ sort: true }).map(_scope => _scope.id)).toMatchSnapshot();
     });
+
+    config?.runExtraTest?.(container);
   });
 
 

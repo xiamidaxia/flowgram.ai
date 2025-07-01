@@ -2,7 +2,7 @@ import { injectable } from 'inversify';
 import { DisposableCollection, Event, MaybePromise } from '@flowgram.ai/utils';
 import { type FlowNodeEntity } from '@flowgram.ai/document';
 
-import { FormFeedback, FormModelValid, IFormItem, IFormMeta } from '../types';
+import { FormFeedback, FormModelValid, IFormItem } from '../types';
 import { FormManager } from '../services/form-manager';
 import { type FormItem } from '.';
 
@@ -33,7 +33,7 @@ export abstract class FormModel {
    */
   abstract get formManager(): FormManager;
 
-  abstract get formMeta(): IFormMeta;
+  abstract get formMeta(): any;
 
   abstract get initialized(): boolean;
 

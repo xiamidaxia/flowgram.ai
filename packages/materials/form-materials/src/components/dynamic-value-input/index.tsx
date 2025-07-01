@@ -19,6 +19,7 @@ interface PropsType {
   schema?: IJsonSchema;
   constantProps?: {
     strategies?: Strategy[];
+    schema?: IJsonSchema; // set schema of constant input only
     [key: string]: any;
   };
 }

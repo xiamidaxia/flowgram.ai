@@ -9,7 +9,6 @@ import {
 import { IFlowRefValue } from '../../typings';
 
 export const provideBatchOutputsEffect: EffectOptions[] = createEffectFromVariableProvider({
-  private: true,
   parse: (value: Record<string, IFlowRefValue>, ctx) => [
     ASTFactory.createVariableDeclaration({
       key: `${ctx.node.id}`,

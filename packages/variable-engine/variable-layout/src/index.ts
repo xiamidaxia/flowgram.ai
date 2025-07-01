@@ -9,3 +9,4 @@ export {
 } from './types';
 export { GlobalScope, bindGlobalScope } from './scopes/global-scope';
 export { ScopeChainTransformService } from './services/scope-chain-transform-service';
+export { getNodeScope, getNodePrivateScope } from './utils';
