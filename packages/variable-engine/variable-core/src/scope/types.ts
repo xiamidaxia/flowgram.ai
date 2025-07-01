@@ -25,6 +25,7 @@ export interface IVariableTable extends Disposable {
   // addVariableToTable(variable: VariableDeclaration): void;
   // removeVariableFromTable(key: string): void;
   dispose(): void;
+  onVariableListChange(observer: (variables: VariableDeclaration[]) => void): Disposable;
   onAnyVariableChange(observer: (changedVariable: VariableDeclaration) => void): Disposable;
-  onAnyChange(observer: () => void): Disposable;
+  onListOrAnyVarChange(observer: () => void): Disposable;
 }

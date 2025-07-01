@@ -15,7 +15,11 @@ import { FlowNodeRegistry, FlowDocumentJSON } from '../typings';
 import { shortcuts } from '../shortcuts';
 import { CustomService } from '../services';
 import { WorkflowRuntimeService } from '../plugins/runtime-plugin/runtime-service';
-import { createRuntimePlugin, createContextMenuPlugin } from '../plugins';
+import {
+  createRuntimePlugin,
+  createContextMenuPlugin,
+  createVariablePanelPlugin,
+} from '../plugins';
 import { defaultFormMeta } from '../nodes/default-form-meta';
 import { WorkflowNodeType } from '../nodes';
 import { SelectorBoxPopover } from '../components/selector-box-popover';
@@ -294,6 +298,12 @@ export function useEditorProps(
           //   protocol: 'http',
           // },
         }),
+
+        /**
+         * Variable panel plugin
+         * 变量面板插件
+         */
+        createVariablePanelPlugin({}),
       ],
     }),
     []

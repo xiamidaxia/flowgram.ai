@@ -18,7 +18,7 @@ export function useAvailableVariables(): VariableDeclaration[] {
   useEffect(() => {
     // 没有作用域时，监听全局变量表
     if (!scope) {
-      const disposable = variableEngine.globalVariableTable.onAnyChange(() => {
+      const disposable = variableEngine.globalVariableTable.onListOrAnyVarChange(() => {
         refresh();
       });
 

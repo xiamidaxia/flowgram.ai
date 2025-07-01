@@ -109,7 +109,7 @@ export namespace JsonSchemaUtils {
         type: 'object',
         properties: drilldown
           ? Object.fromEntries(
-              Object.entries(typeAST.properties).map(([key, value]) => [key, astToSchema(value)!])
+              typeAST.properties.map((property) => [property.key, astToSchema(property.type)!])
             )
           : {},
       };

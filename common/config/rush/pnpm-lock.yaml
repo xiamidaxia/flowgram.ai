@@ -102,6 +102,9 @@ importers:
       '@rsbuild/core':
         specifier: ^1.2.16
         version: 1.2.19
+      '@rsbuild/plugin-less':
+        specifier: ^1.1.1
+        version: 1.1.1(@rsbuild/core@1.2.19)
       '@rsbuild/plugin-react':
         specifier: ^1.1.1
         version: 1.1.1(@rsbuild/core@1.2.19)

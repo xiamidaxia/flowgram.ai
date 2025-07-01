@@ -70,8 +70,8 @@ export class ScopeAvailableData {
   );
 
   /**
-   * 监听任意变量变化
-   * @param observer 监听器，变量变化时会吐出值
+   * listen to any variable update in list
+   * @param observer
    * @returns
    */
   onAnyVariableChange(observer: (changedVariable: VariableDeclaration) => void) {
@@ -79,7 +79,7 @@ export class ScopeAvailableData {
   }
 
   /**
-   * 监听变量列表变化
+   * listen to variable list change
    * @param observer
    * @returns
    */
@@ -87,12 +87,22 @@ export class ScopeAvailableData {
     return subsToDisposable(this.variables$.subscribe(observer));
   }
 
+  /**
+   * @deprecated
+   */
   protected onDataChangeEmitter = new Emitter<VariableDeclaration[]>();
 
+  protected onListOrAnyVarChangeEmitter = new Emitter<VariableDeclaration[]>();
+
   /**
-   * 监听变量列表变化 + 任意子变量变化
+   * @deprecated use available.onListOrAnyVarChange instead
    */
   public onDataChange = this.onDataChangeEmitter.event;
+
+  /**
+   * listen to variable list change + any variable drilldown change
+   */
+  public onListOrAnyVarChange = this.onListOrAnyVarChangeEmitter.event;
 
   constructor(public readonly scope: Scope) {
     this.scope.toDispose.pushAll([
@@ -100,9 +110,11 @@ export class ScopeAvailableData {
         this._variables = _variables;
         this.memo.clear();
         this.onDataChangeEmitter.fire(this._variables);
+        this.onListOrAnyVarChangeEmitter.fire(this._variables);
       }),
       this.onAnyVariableChange(() => {
         this.onDataChangeEmitter.fire(this._variables);
+        this.onListOrAnyVarChangeEmitter.fire(this._variables);
       }),
       Disposable.create(() => {
         this.refresh$.complete();

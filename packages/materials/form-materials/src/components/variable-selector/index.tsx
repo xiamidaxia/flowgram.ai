@@ -25,6 +25,8 @@ interface PropTypes {
 
 export type VariableSelectorProps = PropTypes;
 
+export { useVariableTree };
+
 export const VariableSelector = ({
   value,
   config = {},

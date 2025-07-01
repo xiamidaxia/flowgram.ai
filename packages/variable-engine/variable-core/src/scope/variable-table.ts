@@ -29,8 +29,8 @@ export class VariableTable implements IVariableTable {
   );
 
   /**
-   * 监听任意变量变化
-   * @param observer 监听器，变量变化时会吐出值
+   * listen to any variable update in list
+   * @param observer
    * @returns
    */
   onAnyVariableChange(observer: (changedVariable: VariableDeclaration) => void) {
@@ -38,15 +38,27 @@ export class VariableTable implements IVariableTable {
   }
 
   /**
-   * 列表或者任意变量变化
+   * listen to variable list change
+   * @param observer
+   * @returns
+   */
+  onVariableListChange(observer: (variables: VariableDeclaration[]) => void) {
+    return subsToDisposable(this.variables$.subscribe(observer));
+  }
+
+  /**
+   * listen to variable list change + any variable update in list
    * @param observer
    */
-  onAnyChange(observer: () => void) {
+  onListOrAnyVarChange(observer: () => void) {
     const disposables = new DisposableCollection();
-    disposables.pushAll([this.onDataChange(observer), this.onAnyVariableChange(observer)]);
+    disposables.pushAll([this.onVariableListChange(observer), this.onAnyVariableChange(observer)]);
     return disposables;
   }
 
+  /**
+   * @deprecated use onListOrAnyVarChange instead
+   */
   public onDataChange = this.onDataChangeEmitter.event;
 
   protected _version: number = 0;
@@ -54,6 +66,7 @@ export class VariableTable implements IVariableTable {
   fireChange() {
     this._version++;
     this.onDataChangeEmitter.fire();
+    this.variables$.next(this.variables);
     this.parentTable?.fireChange();
   }
 
@@ -108,7 +121,6 @@ export class VariableTable implements IVariableTable {
     if (this.parentTable) {
       (this.parentTable as VariableTable).addVariableToTable(variable);
     }
-    this.variables$.next(this.variables);
   }
 
   /**
@@ -120,13 +132,15 @@ export class VariableTable implements IVariableTable {
     if (this.parentTable) {
       (this.parentTable as VariableTable).removeVariableFromTable(key);
     }
-    this.variables$.next(this.variables);
   }
 
   dispose(): void {
     this.variableKeys.forEach((_key) =>
       (this.parentTable as VariableTable)?.removeVariableFromTable(_key)
     );
+    this.parentTable?.fireChange();
+    this.variables$.complete();
+    this.variables$.unsubscribe();
     this.onDataChangeEmitter.dispose();
   }
 }
