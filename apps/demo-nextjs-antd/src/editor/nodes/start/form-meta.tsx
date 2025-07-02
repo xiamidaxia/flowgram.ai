@@ -12,7 +12,7 @@ import {
   FormRenderProps,
   ValidateTrigger,
 } from '@flowgram.ai/free-layout-editor';
-import { JsonSchemaEditor } from '@flowgram.ai/form-antd-materials';
+import { JsonSchemaEditor, syncVariableTitle, provideJsonSchemaOutputs } from '@flowgram.ai/form-antd-materials';
 
 import { FlowNodeJSON, JsonSchema } from '@editor/typings';
 import { useIsSidebar } from '@editor/hooks';
@@ -56,5 +56,9 @@ export const formMeta: FormMeta<FlowNodeJSON> = {
   validateTrigger: ValidateTrigger.onChange,
   validate: {
     title: ({ value }: { value: string }) => (value ? undefined : 'Title is required'),
+  },
+  effect: {
+    title: syncVariableTitle,
+    outputs: provideJsonSchemaOutputs,
   },
 };

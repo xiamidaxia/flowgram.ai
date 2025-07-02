@@ -18,7 +18,7 @@ import { createContainerNodePlugin } from '@flowgram.ai/free-container-plugin';
 
 import { onDragLineEnd } from '@editor/utils';
 import { FlowNodeRegistry } from '@editor/typings';
-import { createContextMenuPlugin, createSyncVariablePlugin } from '@editor/plugins';
+import { createContextMenuPlugin } from '@editor/plugins';
 import { defaultFormMeta } from '@editor/nodes/default-form-meta';
 import { WorkflowNodeType } from '@editor/nodes';
 import { BaseNode } from '@editor/components/base-node';
@@ -156,11 +156,6 @@ export const useEditorProps = (initialData: WorkflowJSON, nodeRegistries: FlowNo
           },
           inactiveDebounceTime: 1,
         }),
-        /**
-         * Variable plugin
-         * 变量插件
-         */
-        createSyncVariablePlugin({}),
         /**
          * Snap plugin
          * 自动对齐及辅助线插件

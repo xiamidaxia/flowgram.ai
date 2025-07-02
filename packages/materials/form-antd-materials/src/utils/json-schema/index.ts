@@ -42,7 +42,10 @@ export namespace JsonSchemaUtils {
             .map(([key, _property]) => ({
               key,
               type: schemaToAST(_property),
-              meta: { description: _property.description },
+              meta: {
+                title: _property.title,
+                description: _property.description,
+              },
             })),
         });
       case 'array':
@@ -114,7 +117,18 @@ export namespace JsonSchemaUtils {
         type: 'object',
         properties: drilldown
           ? Object.fromEntries(
-              Object.entries(typeAST.properties).map(([key, value]) => [key, astToSchema(value)!])
+              typeAST.properties.map((property) => {
+                const schema = astToSchema(property.type);
+
+                if (property.meta?.title && schema) {
+                  schema.title = property.meta.title;
+                }
+                if (property.meta?.description && schema) {
+                  schema.description = property.meta.description;
+                }
+
+                return [property.key, schema!];
+              })
             )
           : {},
       };

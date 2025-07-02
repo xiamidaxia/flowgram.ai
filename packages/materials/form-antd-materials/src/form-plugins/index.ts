@@ -3,4 +3,4 @@
  * SPDX-License-Identifier: MIT
  */
 
-export * from './sync-variable-plugin';
+export { createBatchOutputsFormPlugin } from './batch-outputs-plugin';
