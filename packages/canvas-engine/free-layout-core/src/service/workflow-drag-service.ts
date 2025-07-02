@@ -331,8 +331,7 @@ export class WorkflowDragService {
   public adjustSubNodePosition(
     subNodeType?: string,
     containerNode?: WorkflowNodeEntity,
-    mousePos?: IPoint,
-    resetEmptyPos: boolean = true
+    mousePos?: IPoint
   ): IPoint {
     if (!mousePos) {
       return { x: 0, y: 0 };
@@ -342,8 +341,8 @@ export class WorkflowDragService {
     }
     const isParentEmpty = !containerNode.children || containerNode.children.length === 0;
     const parentPadding = this.document.layout.getPadding(containerNode);
-    const parentTransform = containerNode.getData<TransformData>(TransformData);
-    if (isParentEmpty && resetEmptyPos) {
+    const containerWorldTransform = containerNode.transform.transform.worldTransform;
+    if (isParentEmpty) {
       // 确保空容器节点不偏移
       return {
         x: 0,
@@ -351,8 +350,8 @@ export class WorkflowDragService {
       };
     } else {
       return {
-        x: mousePos.x - parentTransform.position.x,
-        y: mousePos.y - parentTransform.position.y,
+        x: mousePos.x - containerWorldTransform.tx,
+        y: mousePos.y - containerWorldTransform.ty,
       };
     }
   }
