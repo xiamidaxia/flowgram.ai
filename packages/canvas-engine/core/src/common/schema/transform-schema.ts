@@ -458,8 +458,14 @@ export class TransformData extends EntityData<TransformSchema> implements Transf
 
   private _parentChangedDispose?: DisposableCollection;
 
+  private entityDispose?: Disposable;
+
   setParent(parent: TransformData | undefined, listenParentData = true): void {
     if (this._parent !== parent) {
+      if (this.entityDispose) {
+        this.entityDispose.dispose();
+        this.entityDispose = undefined;
+      }
       if (this._parentChangedDispose) {
         this._parentChangedDispose.dispose();
         this._parentChangedDispose = undefined;
@@ -470,6 +476,9 @@ export class TransformData extends EntityData<TransformSchema> implements Transf
         parent._children.push(this);
         this._parentChangedDispose = new DisposableCollection();
         this.toDispose.push(this._parentChangedDispose);
+        this.entityDispose = this.entity.onDispose(() => {
+          parent.fireChange();
+        });
         this._parentChangedDispose.pushAll([
           parent.onDispose(() => {
             this.setParent(undefined);
@@ -478,7 +487,6 @@ export class TransformData extends EntityData<TransformSchema> implements Transf
             const index = parent._children!.indexOf(this);
             if (index !== -1) {
               parent._children!.splice(index, 1);
-              parent.fireChange();
             }
           }),
         ]);
