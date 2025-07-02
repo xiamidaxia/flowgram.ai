@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { LayoutConfig } from './type';
+import { LayoutConfig, LayoutOptions } from './type';
 
 export const DefaultLayoutConfig: LayoutConfig = {
   rankdir: 'LR',
@@ -15,4 +15,9 @@ export const DefaultLayoutConfig: LayoutConfig = {
   marginy: 0,
   acyclicer: undefined,
   ranker: 'network-simplex',
+};
+
+export const DefaultLayoutOptions: LayoutOptions = {
+  getFollowNode: undefined,
+  enableAnimation: false,
 };

@@ -71,6 +71,7 @@ export interface LayoutParams {
 
 export interface LayoutOptions {
   getFollowNode?: GetFollowNode;
+  enableAnimation: boolean;
 }
 
 export interface LayoutConfig {

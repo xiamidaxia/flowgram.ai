@@ -13,6 +13,7 @@ import {
 
 import { AutoLayoutOptions } from './type';
 import { LayoutConfig } from './layout/type';
+import { DefaultLayoutOptions } from './layout/constant';
 import { DefaultLayoutConfig, Layout, type LayoutOptions } from './layout';
 
 @injectable()
@@ -28,8 +29,11 @@ export class AutoLayoutService {
     };
   }
 
-  public async layout(options: LayoutOptions = {}): Promise<void> {
-    await this.layoutNode(this.document.root, options);
+  public async layout(options: Partial<LayoutOptions> = {}): Promise<void> {
+    await this.layoutNode(this.document.root, {
+      ...DefaultLayoutOptions,
+      ...options,
+    });
   }
 
   private async layoutNode(node: WorkflowNodeEntity, options: LayoutOptions): Promise<void> {
