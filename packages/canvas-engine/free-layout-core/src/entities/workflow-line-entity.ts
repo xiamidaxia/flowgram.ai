@@ -66,6 +66,8 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
 
   private _hasError = false;
 
+  public stackIndex = 0;
+
   /**
    * 线条数据
    */

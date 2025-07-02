@@ -7,7 +7,7 @@ import { last } from 'lodash-es';
 import { inject, injectable } from 'inversify';
 import { DisposableCollection, Emitter, type IPoint } from '@flowgram.ai/utils';
 import { FlowNodeRenderData, FlowNodeTransformData } from '@flowgram.ai/document';
-import { EntityManager, PlaygroundConfigEntity, TransformData } from '@flowgram.ai/core';
+import { EntityManager, PlaygroundConfigEntity } from '@flowgram.ai/core';
 
 import { WorkflowDocumentOptions } from './workflow-document-option';
 import { type WorkflowDocument } from './workflow-document';
@@ -416,13 +416,8 @@ export class WorkflowLinesManager {
       .filter((port) => port.node.flowNodeType !== 'root');
     const targetPort = allPorts.find((port) => port.isHovered(pos.x, pos.y));
     if (targetPort) {
-      // 后创建的要先校验
-      const targetNode = this.document
-        .getAllNodes()
-        .slice()
-        .reverse()
-        .filter((node) => targetPort.node?.parent?.id !== node.id)
-        .find((node) => node.getData(TransformData)!.contains(pos.x, pos.y));
+      const containNodes = this.getContainNodesFromMousePos(pos);
+      const targetNode = last(containNodes);
       // 点位可能会被节点覆盖
       if (targetNode && targetNode !== targetPort.node) {
         return;
@@ -436,27 +431,9 @@ export class WorkflowLinesManager {
    * @param pos - 鼠标位置
    */
   getNodeFromMousePos(pos: IPoint): WorkflowNodeEntity | undefined {
-    const allNodes = this.document
-      .getAllNodes()
-      .sort((a, b) => this.getNodeIndex(a) - this.getNodeIndex(b));
     // 先挑选出 bounds 区域符合的 node
-    const containNodes: WorkflowNodeEntity[] = [];
     const { selection } = this.selectService;
-    const zoom =
-      this.entityManager.getEntity<PlaygroundConfigEntity>(PlaygroundConfigEntity)?.config?.zoom ||
-      1;
-    allNodes.forEach((node) => {
-      const { bounds } = node.getData<FlowNodeTransformData>(FlowNodeTransformData);
-      // 交互要求，节点边缘 4px 的时候就生效连线逻辑
-      if (
-        bounds
-          .clone()
-          .pad(4 / zoom)
-          .contains(pos.x, pos.y)
-      ) {
-        containNodes.push(node);
-      }
-    });
+    const containNodes = this.getContainNodesFromMousePos(pos);
     // 当有元素被选中的时候选中元素在顶层
     if (selection?.length) {
       const filteredNodes = containNodes.filter((node) =>
@@ -477,6 +454,31 @@ export class WorkflowLinesManager {
 
   private registerData(line: WorkflowLineEntity) {
     line.addData(WorkflowLineRenderData);
+  }
+
+  /** 获取鼠标坐标位置的所有节点（stackIndex 从小到大排序） */
+  private getContainNodesFromMousePos(pos: IPoint): WorkflowNodeEntity[] {
+    const allNodes = this.document
+      .getAllNodes()
+      .sort((a, b) => this.getNodeIndex(a) - this.getNodeIndex(b));
+    const zoom =
+      this.entityManager.getEntity<PlaygroundConfigEntity>(PlaygroundConfigEntity)?.config?.zoom ||
+      1;
+    const containNodes = allNodes
+      .map((node) => {
+        const { bounds } = node.getData<FlowNodeTransformData>(FlowNodeTransformData);
+        // 交互要求，节点边缘 4px 的时候就认为选中节点
+        if (
+          bounds
+            .clone()
+            .pad(4 / zoom)
+            .contains(pos.x, pos.y)
+        ) {
+          return node;
+        }
+      })
+      .filter(Boolean) as WorkflowNodeEntity[];
+    return containNodes;
   }
 
   private getNodeIndex(node: WorkflowNodeEntity): number {
