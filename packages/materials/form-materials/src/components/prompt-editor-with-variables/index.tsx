@@ -5,13 +5,15 @@
 
 import React from 'react';
 
-import Variable from './extensions/variable';
+import { VariableTree } from './extensions/variable-tree';
+import { VariableTagInject } from './extensions/variable-tag';
 import { PromptEditor, PromptEditorPropsType } from '../prompt-editor';
 
 export function PromptEditorWithVariables(props: PromptEditorPropsType) {
   return (
     <PromptEditor {...props}>
-      <Variable />
+      <VariableTree />
+      <VariableTagInject />
     </PromptEditor>
   );
 }

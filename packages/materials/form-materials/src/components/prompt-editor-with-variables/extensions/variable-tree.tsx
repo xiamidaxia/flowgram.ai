@@ -17,7 +17,7 @@ import { EditorAPI } from '@coze-editor/editor/preset-prompt';
 
 import { useVariableTree } from '../../variable-selector';
 
-function Variable() {
+export function VariableTree() {
   const [posKey, setPosKey] = useState('');
   const [visible, setVisible] = useState(false);
   const [position, setPosition] = useState(-1);
@@ -53,7 +53,7 @@ function Variable() {
 
   return (
     <>
-      <Mention triggerCharacters={['{', '{}']} onOpenChange={handleOpenChange} />
+      <Mention triggerCharacters={['{', '{}', '@']} onOpenChange={handleOpenChange} />
 
       <Popover
         visible={visible}
@@ -81,5 +81,3 @@ function Variable() {
     </>
   );
 }
-
-export default Variable;

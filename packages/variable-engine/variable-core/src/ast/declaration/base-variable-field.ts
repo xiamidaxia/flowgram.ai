@@ -41,7 +41,7 @@ export abstract class BaseVariableField<VariableMeta = any> extends ASTNode<
   }
 
   get keyPath(): string[] {
-    return this.parentFields.reverse().map((_field) => _field.key);
+    return [...this.parentFields.reverse().map((_field) => _field.key), this.key];
   }
 
   get meta(): VariableMeta {

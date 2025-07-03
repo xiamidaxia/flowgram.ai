@@ -7,6 +7,7 @@ import {
   Observable,
   Subject,
   distinctUntilChanged,
+  distinctUntilKeyChanged,
   map,
   merge,
   share,
@@ -179,8 +180,12 @@ export class ScopeAvailableData {
       merge(this.anyVariableChange$, this.variables$)
         .pipe(
           triggerOnInit ? startWith() : tap(() => null),
-          map(() => this.getByKeyPath(keyPath)),
-          distinctUntilChanged((_prevNode, _node) => _prevNode?.hash !== _node?.hash)
+          map(() => {
+            const v = this.getByKeyPath(keyPath);
+            return { v, hash: v?.hash };
+          }),
+          distinctUntilKeyChanged('hash'),
+          map(({ v }) => v)
         )
         .subscribe(cb)
     );

@@ -1,6 +1,8 @@
 {
   "name": "prompt-editor",
-  "depMaterials": [],
+  "depMaterials": [
+    "variable-selector"
+  ],
   "depPackages": [
     "@coze-editor/editor@0.1.0-alpha.8d7a30",
     "@codemirror/view",

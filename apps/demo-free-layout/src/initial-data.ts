@@ -185,7 +185,7 @@ export const initialData: FlowDocumentJSON = {
               },
               prompt: {
                 type: 'constant',
-                content: '',
+                content: '# User Input\nquery:{{loop_sGybT_locals.item.int}}',
               },
             },
             inputs: {
@@ -262,7 +262,7 @@ export const initialData: FlowDocumentJSON = {
               },
               prompt: {
                 type: 'constant',
-                content: '',
+                content: '# User Input\nquery:{{loop_sGybT_locals.item.str}}',
               },
             },
             inputs: {
@@ -358,7 +358,7 @@ export const initialData: FlowDocumentJSON = {
               },
               prompt: {
                 type: 'constant',
-                content: '',
+                content: '# User Input\nquery:{{start_0.query}}\nenable:{{start_0.enable}}',
               },
             },
             inputs: {
@@ -435,7 +435,7 @@ export const initialData: FlowDocumentJSON = {
               },
               prompt: {
                 type: 'constant',
-                content: '',
+                content: '# LLM Input\nresult:{{llm_8--A3.result}}',
               },
             },
             inputs: {

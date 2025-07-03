@@ -108,7 +108,23 @@ CLI 运行成功后，相关物料会自动添加到当前项目下的 `src/form
   ConditionRow 用于 **一行** 条件判断的配置
 </MaterialDisplay>
 
+### PromptEditorWithVariables
 
+<MaterialDisplay
+  imgs={[{ src: '/materials/prompt-editor-with-variables.png', caption: 'LLM_3 和 LLM_4 的提示词中引用了循环的批处理变量' }]}
+  filePath="components/prompt-editor-with-variables/index.tsx"
+  exportName="PromptEditorWithVariables"
+>
+  PromptEditorWithVariables 用于支持变量配置的 Prompt 编辑器。
+
+  下面是一个 Prompt 编辑器的配置示例，其中 `query` 变量为字符串类型，`enable` 变量为布尔类型：
+  ```typescript
+  {
+    type: "template",
+    content: "#User Input:\nquery:{{start_0.query}}\nenable:{{start_0.enable}}"
+  }
+  ```
+</MaterialDisplay>
 
 ## 当前支持的 Effect 物料
 

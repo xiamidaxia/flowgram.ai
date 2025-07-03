@@ -106,6 +106,24 @@ After the CLI runs successfully, the relevant materials will be automatically ad
   ConditionRow is used for configuring a **single row** of condition judgment.
 </MaterialDisplay>
 
+### PromptEditorWithVariables
+
+<MaterialDisplay
+  imgs={[{ src: '/materials/prompt-editor-with-variables.png', caption: 'LLM_3 and LLM_4 use variables from batch item of Loop' }]}
+  filePath="components/prompt-editor-with-variables/index.tsx"
+  exportName="PromptEditorWithVariables"
+>
+  PromptEditorWithVariables is a Prompt editor that supports variable configuration.
+
+  Below is a configuration example for the Prompt editor, where the `query` variable is of string type and the `enable` variable is of boolean type:
+  ```typescript
+  {
+    type: "template",
+    content: "#User Input:\nquery:{{start_0.query}}\nenable:{{start_0.enable}}"
+  }
+  ```
+</MaterialDisplay>
+
 ## Currently Supported Effect Materials
 
 ### provideBatchInput
