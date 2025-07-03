@@ -88,17 +88,16 @@ export class NodeIntoContainerService {
     ) {
       return;
     }
+    const parentTransform = parentNode.getData<TransformData>(TransformData);
     this.operationService.moveNode(node, {
       parent: containerNode,
     });
-    const parentTransform = parentNode.getData<TransformData>(TransformData);
+    await this.nextFrame();
+    parentTransform.fireChange();
     this.operationService.updateNodePosition(node, {
       x: parentTransform.position.x + nodeJSON.meta!.position!.x,
       y: parentTransform.position.y + nodeJSON.meta!.position!.y,
     });
-    parentTransform.fireChange();
-    await this.nextFrame();
-    parentTransform.fireChange();
     this.emitter.fire({
       type: NodeIntoContainerType.Out,
       node,

@@ -9,5 +9,7 @@ export enum WorkflowNodeType {
   LLM = 'llm',
   Condition = 'condition',
   Loop = 'loop',
+  BlockStart = 'block-start',
+  BlockEnd = 'block-end',
   Comment = 'comment',
 }

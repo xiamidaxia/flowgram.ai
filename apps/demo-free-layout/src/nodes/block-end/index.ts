@@ -8,23 +8,29 @@ import iconStart from '../../assets/icon-start.jpg';
 import { formMeta } from './form-meta';
 import { WorkflowNodeType } from '../constants';
 
-export const StartNodeRegistry: FlowNodeRegistry = {
-  type: WorkflowNodeType.Start,
+export const BlockEndNodeRegistry: FlowNodeRegistry = {
+  type: WorkflowNodeType.BlockEnd,
   meta: {
-    isStart: true,
+    isNodeEnd: true,
     deleteDisable: true,
     copyDisable: true,
+    sidebarDisabled: true,
     nodePanelVisible: false,
-    defaultPorts: [{ type: 'output' }],
+    defaultPorts: [{ type: 'input' }],
     size: {
-      width: 360,
-      height: 211,
+      width: 100,
+      height: 100,
+    },
+    wrapperStyle: {
+      minWidth: 'unset',
+      borderWidth: 2,
+      borderRadius: 12,
+      cursor: 'move',
     },
   },
   info: {
     icon: iconStart,
-    description:
-      'The starting node of the workflow, used to set the information needed to initiate the workflow.',
+    description: 'The final node of the block.',
   },
   /**
    * Render node via formMeta

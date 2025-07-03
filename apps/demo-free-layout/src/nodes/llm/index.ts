@@ -20,7 +20,7 @@ export const LLMNodeRegistry: FlowNodeRegistry = {
   meta: {
     size: {
       width: 360,
-      height: 300,
+      height: 390,
     },
   },
   onAdd() {

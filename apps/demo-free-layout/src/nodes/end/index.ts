@@ -13,6 +13,7 @@ export const EndNodeRegistry: FlowNodeRegistry = {
   meta: {
     deleteDisable: true,
     copyDisable: true,
+    nodePanelVisible: false,
     defaultPorts: [{ type: 'input' }],
     size: {
       width: 360,

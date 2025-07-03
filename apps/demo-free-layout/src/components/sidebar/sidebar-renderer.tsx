@@ -68,8 +68,8 @@ export const SidebarRenderer = () => {
     if (!node) {
       return false;
     }
-    const { sidebarDisable = false } = node.getNodeMeta<FlowNodeMeta>();
-    return !sidebarDisable;
+    const { sidebarDisabled = false } = node.getNodeMeta<FlowNodeMeta>();
+    return !sidebarDisabled;
   }, [node]);
 
   if (playground.config.readonly) {
