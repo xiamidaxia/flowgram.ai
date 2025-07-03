@@ -65,7 +65,12 @@ export function ConditionRow({ style, value, onChange, readonly }: PropTypes) {
               onChange={(v) => onChange({ ...value, right: v })}
             />
           ) : (
-            <Input size="small" disabled value={opConfig?.rightDisplay || 'Empty'} />
+            <Input
+              size="small"
+              disabled
+              style={{ pointerEvents: 'none' }}
+              value={opConfig?.rightDisplay || 'Empty'}
+            />
           )}
         </UIRight>
       </UIValues>
