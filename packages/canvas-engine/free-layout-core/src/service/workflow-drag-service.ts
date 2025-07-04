@@ -646,13 +646,9 @@ export class WorkflowDragService {
         });
 
         this.setLineColor(line, this.linesManager.lineColor.drawing);
-        if (toNode && !this.isContainer(toNode)) {
+        if (toNode) {
           // 如果鼠标 hover 在 node 中的时候，默认连线到这个 node 的初始位置
-          const portsData = toNode.getData(WorkflowNodePortsData)!;
-          const { inputPorts } = portsData;
-          if (inputPorts.length === 1) {
-            toPort = inputPorts[0];
-          }
+          toPort = this.getNearestPort(toNode, dragPos);
           const { hasError } = this.handleDragOnNode(toNode, fromPort, line, toPort, originLine);
           lineErrorReset = hasError;
         }
@@ -782,5 +778,16 @@ export class WorkflowDragService {
         this._onDragLineEndCallbacks.delete(id);
       },
     };
+  }
+
+  /** 获取最近的 port */
+  private getNearestPort(node: WorkflowNodeEntity, mousePos: IPoint): WorkflowPortEntity {
+    const portsData = node.getData(WorkflowNodePortsData)!;
+    const distanceSortedPorts = portsData.inputPorts.sort((a, b) => {
+      const aDistance = Math.abs(mousePos.y - a.point.y);
+      const bDistance = Math.abs(mousePos.y - b.point.y);
+      return aDistance - bDistance;
+    });
+    return distanceSortedPorts[0];
   }
 }
