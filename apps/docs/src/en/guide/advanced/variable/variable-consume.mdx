@@ -181,8 +181,8 @@ function UserNameDisplay() {
     // Start tracking!
     const disposable = available.trackByKeyPath(keyPath, (nameField) => {
       // This callback function will be triggered when user.name changes
-      // nameField is the changed variable field, from which we can get the latest value
-      setUserName(nameField?.value || '');
+      // nameField is the changed variable field, from which we can get the latest default value
+      setUserName(nameField?.meta.default || '');
     });
 
     // When the component unmounts, don't forget to cancel the tracking to avoid memory leaks
@@ -202,7 +202,7 @@ Let's use a table to compare these three core listening APIs in detail:
 | API | Trigger | Callback Parameters | Core Differences and Applicable Scenarios |
 | :--- | :--- | :--- | :--- |
 | `onVariableListChange` | When the **list structure** of available variables changes. | `(variables: VariableDeclaration[]) => void` | **Only cares about the list itself**. For example, an upstream node adds/deletes an output variable, causing the total number or members of available variables to change. It does not care about internal or drilled-down changes to variables. Suitable for scenarios where the UI needs to be updated based on the presence or number of variables in the list. |
-| `onAnyVariableChange` | When the **internal value** of **any** variable in the list changes. | `(changedVariable: VariableDeclaration) => void` | **Only cares about content updates to variables**. For example, a user modifies the type of an output variable. It does not care about changes to the list structure. Suitable for scenarios where you need to react to changes in the content of any variable. |
+| `onAnyVariableChange` | When the **content (meta, type, drilldown fields)** of **any** variable in the list changes. | `(changedVariable: VariableDeclaration) => void` | **Only cares about content (type, meta, drilldown) updates to variables**. For example, a user modifies the type of an output variable. It does not care about changes to the list structure. Suitable for scenarios where you need to react to changes in the content of any variable. |
 | `onListOrAnyVarChange` | When **either** of the above two situations occurs. | `(variables: VariableDeclaration[]) => void` | **The most comprehensive listener**, a combination of the previous two. It is triggered by either a change in the list structure or a change in the value of any variable. Suitable for "catch-all" scenarios where you need to respond to any possible changes. |
 
 #### Code Example
@@ -224,12 +224,12 @@ function AdvancedListenerComponent() {
 
     // 2. Listen for changes in the value of any variable
     const valueChangeDisposable = available.onAnyVariableChange((changedVariable) => {
-      console.log(`The value of variable '${changedVariable.name}' has changed! The new value is:`, changedVariable.value);
+      console.log(`The content of variable '${changedVariable.keyPath.join('.')}' has changed!`);
     });
 
-    // 3. Listen for all changes (structure or value)
+    // 3. Listen for all changes (structure or content)
     const allChangesDisposable = available.onListOrAnyVarChange((variables) => {
-      console.log('The variable list or the value of one of its variables has changed!');
+      console.log('The variable list or the content of one of its variables has changed!');
       // Note: The callback parameter here is the complete variable list, not the single changed variable
     });
 
