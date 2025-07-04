@@ -20,7 +20,11 @@ import { TransformData } from '@flowgram.ai/editor';
 
 type AutoLayoutResetFn = () => void;
 
-type AutoLayoutFn = (options?: LayoutOptions) => Promise<AutoLayoutResetFn>;
+export type AutoLayoutOptions = LayoutOptions & {
+  disableFitView?: boolean;
+};
+
+type AutoLayoutFn = (options?: AutoLayoutOptions) => Promise<AutoLayoutResetFn>;
 
 type UseAutoLayout = () => AutoLayoutFn;
 
@@ -124,10 +128,15 @@ export const useAutoLayout: UseAutoLayout = () => {
     [document, playground]
   );
   const autoLayout: AutoLayoutFn = useCallback(
-    async (options?: LayoutOptions): Promise<AutoLayoutResetFn> => {
-      handleFitView();
+    async (options: AutoLayoutOptions = {}): Promise<AutoLayoutResetFn> => {
+      const { disableFitView } = options;
+      if (disableFitView !== true) {
+        handleFitView();
+      }
       const resetFn: AutoLayoutResetFn = await applyLayout(options);
-      handleFitView();
+      if (disableFitView !== true) {
+        handleFitView();
+      }
       return resetFn;
     },
     [applyLayout]

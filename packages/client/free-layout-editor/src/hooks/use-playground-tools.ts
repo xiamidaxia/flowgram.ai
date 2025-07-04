@@ -16,10 +16,9 @@ import {
   usePlayground,
   useService,
 } from '@flowgram.ai/free-layout-core';
-import { LayoutOptions } from '@flowgram.ai/free-auto-layout-plugin';
 import { EditorState } from '@flowgram.ai/editor';
 
-import { useAutoLayout } from './use-auto-layout';
+import { useAutoLayout, type AutoLayoutOptions } from './use-auto-layout';
 
 interface SetCursorStateCallbackEvent {
   isPressingSpaceBar: boolean;
@@ -31,7 +30,7 @@ export interface PlaygroundTools {
   zoomin: (easing?: boolean) => void;
   zoomout: (easing?: boolean) => void;
   fitView: (easing?: boolean) => void;
-  autoLayout: (options?: LayoutOptions) => Promise<() => void>;
+  autoLayout: (options?: AutoLayoutOptions) => Promise<() => void>;
   /**
    * 切换线条
    */
