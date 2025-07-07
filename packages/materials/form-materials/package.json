@@ -43,7 +43,8 @@
     "inquirer": "^9.2.7",
     "immer": "~10.1.1",
     "@coze-editor/editor": "0.1.0-alpha.8d7a30",
-    "@codemirror/view": "~6.38.0"
+    "@codemirror/view": "~6.38.0",
+    "@codemirror/state": "~6.5.2"
   },
   "devDependencies": {
     "@flowgram.ai/eslint-config": "workspace:*",
