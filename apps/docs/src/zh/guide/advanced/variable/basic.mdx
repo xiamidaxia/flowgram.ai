@@ -19,9 +19,9 @@
 <div style={{display: 'flex', gap: '20px'}}>
   <img style={{width: "50%"}} loading="lazy" src="/variable/variable-biz-context-websearch-llm.png" />
   <div>
-    <p style={{marginTop: 10}}>1. **`WebSearch` 节点**：负责上网搜索，然后把搜到的知识（比如“今天天气怎么样？”的答案）放进一个名为 `searchResult` 的变量里。</p>
-    <p style={{marginTop: 5}}>2. **`LLM` 节点**：它会接过 `searchResult` 这个“信使”，读取里面的内容，然后用更自然、更友好的方式回答用户。</p>
-    <p style={{marginTop: 5}}>3. 在这个过程中，`searchResult` 的类型就是“字符串”，因为它装的是文字内容。</p>
+    <p style={{marginTop: 10}}>1. **`WebSearch` 节点**：负责上网搜索，然后把搜到的知识（比如“今天天气怎么样？”的答案）放进一个名为 `natural_language_desc` 的变量里。</p>
+    <p style={{marginTop: 5}}>2. **`LLM` 节点**：它会接过 `natural_language_desc` 这个“信使”，读取里面的内容，然后用更自然、更友好的方式回答用户。</p>
+    <p style={{marginTop: 5}}>3. 在这个过程中，`natural_language_desc` 的类型就是“字符串”，因为它装的是文字内容。</p>
   </div>
 </div>
 
