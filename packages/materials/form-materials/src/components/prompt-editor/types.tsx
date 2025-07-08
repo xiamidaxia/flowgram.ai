@@ -12,5 +12,7 @@ export type PropsType = React.PropsWithChildren<{
   onChange: (value?: IFlowTemplateValue) => void;
   readonly?: boolean;
   hasError?: boolean;
+  placeholder?: string;
+  activeLinePlaceholder?: string;
   style?: React.CSSProperties;
 }>;

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Renderer, EditorProvider } from '@coze-editor/editor/react';
+import { Renderer, EditorProvider, ActiveLinePlaceholder } from '@coze-editor/editor/react';
 import preset from '@coze-editor/editor/preset-prompt';
 
 import { PropsType } from './types';
@@ -17,7 +17,16 @@ import JinjaHighlight from './extensions/jinja';
 export type PromptEditorPropsType = PropsType;
 
 export function PromptEditor(props: PropsType) {
-  const { value, onChange, readonly, style, hasError, children } = props || {};
+  const {
+    value,
+    onChange,
+    readonly,
+    placeholder,
+    activeLinePlaceholder,
+    style,
+    hasError,
+    children,
+  } = props || {};
 
   return (
     <UIContainer $hasError={hasError} style={style}>
@@ -28,11 +37,15 @@ export function PromptEditor(props: PropsType) {
           options={{
             readOnly: readonly,
             editable: !readonly,
+            placeholder,
           }}
           onChange={(e) => {
             onChange({ type: 'template', content: e.value });
           }}
         />
+        {activeLinePlaceholder && (
+          <ActiveLinePlaceholder>{activeLinePlaceholder}</ActiveLinePlaceholder>
+        )}
         <MarkdownHighlight />
         <LanguageSupport />
         <JinjaHighlight />

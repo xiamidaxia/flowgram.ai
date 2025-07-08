@@ -2125,8 +2125,8 @@ importers:
         specifier: ~6.38.0
         version: 6.38.0
       '@coze-editor/editor':
-        specifier: 0.1.0-alpha.8d7a30
-        version: 0.1.0-alpha.8d7a30(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/merge@6.10.2)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)(@types/react@18.3.16)(react-dom@18.3.1)(react@18.3.1)(typescript@5.0.4)(vue@3.5.17)
+        specifier: 0.1.0-alpha.879fbb
+        version: 0.1.0-alpha.879fbb(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/merge@6.10.2)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)(@types/react@18.3.16)(react-dom@18.3.1)(react@18.3.1)(typescript@5.0.4)(vue@3.5.17)
       '@douyinfe/semi-icons':
         specifier: ^2.80.0
         version: 2.80.0(react@18.3.1)
@@ -5829,12 +5829,6 @@ packages:
       crelt: 1.0.6
     dev: false
 
-  /@codemirror/state@6.5.0:
-    resolution: {integrity: sha512-MwBHVK60IiIHDcoMet78lxt6iw5gJOGSbNbOIVBHWVXIH4/Nq1+GQgLLGgI1KlnN86WDXsPudVaqYHKBIx7Eyw==}
-    dependencies:
-      '@marijn/find-cluster-break': 1.0.2
-    dev: false
-
   /@codemirror/state@6.5.2:
     resolution: {integrity: sha512-FVqsPqtPWKVVL3dPSxy8wEF/ymIEuVzF1PK3VbUgrxXpJUSHQWWZz4JMToquRxnkw+36LTamCZG2iua2Ptq0fA==}
     dependencies:
@@ -5880,7 +5874,7 @@ packages:
       '@codemirror/lang-html': 6.4.9
       '@codemirror/lang-javascript': 6.2.2
       '@codemirror/language': 6.10.7
-      '@codemirror/state': 6.5.0
+      '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
       '@codesandbox/sandpack-client': 2.19.8
       '@lezer/highlight': 1.2.1
@@ -5897,22 +5891,22 @@ packages:
       react-is: 17.0.2
     dev: false
 
-  /@coze-editor/code-language-json@0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.8d7a30):
-    resolution: {integrity: sha512-Q1FYiAmXXw+MbMai5fJPimcBwq/+j+tYtIEBibVSLZlYNotWoP9XqCJ5aVm6aq3/rh/DfkE5uqPWM2b2ngfU6Q==}
+  /@coze-editor/code-language-json@0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.879fbb):
+    resolution: {integrity: sha512-0OQj4mzoORHHW6yU2V5vcCEi8rOrWKpqIs7Ydb7+Y80aTqA8LNIAO6NQkzByCsKMMBtLQW8uBUKa5DKKj3sCVw==}
     peerDependencies:
       '@codemirror/language': ^6.0.0
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
-      '@coze-editor/code-language-shared': 0.1.0-alpha.8d7a30
+      '@coze-editor/code-language-shared': 0.1.0-alpha.879fbb
     dependencies:
       '@codemirror/autocomplete': 6.18.4
       '@codemirror/language': 6.10.7
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/code-language-shared': 0.1.0-alpha.8d7a30(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/extension-lint': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/lezer-parser-json': 0.1.0-alpha.8d7a30
-      '@coze-editor/parser-json': 0.1.0-alpha.8d7a30
+      '@coze-editor/code-language-shared': 0.1.0-alpha.879fbb(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extension-lint': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/lezer-parser-json': 0.1.0-alpha.879fbb
+      '@coze-editor/parser-json': 0.1.0-alpha.879fbb
       '@lezer/json': 1.0.3
       '@lukeed/uuid': 2.0.1
       text-mapping: 1.0.1
@@ -5920,21 +5914,21 @@ packages:
       vscode-uri: 3.1.0
     dev: false
 
-  /@coze-editor/code-language-python@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.8d7a30):
-    resolution: {integrity: sha512-c2M8yMDHanoW/Vaqbc51YBIsWKYxmW3QBcv4jnZ9jRjq/2dXRCYKM6bHaE95VfDvbdLQsR5Hfy2X/4kWuD5iyA==}
+  /@coze-editor/code-language-python@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.879fbb):
+    resolution: {integrity: sha512-tVi196X9cA9hwAlKAGfgA8TgvWu3Z+XoBPsZ23ufom4u2ScaWkzr9lVL1o9DYFWzJ5H5Ubzne3aHMZyqnNQX0Q==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
-      '@coze-editor/code-language-shared': 0.1.0-alpha.8d7a30
+      '@coze-editor/code-language-shared': 0.1.0-alpha.879fbb
     dependencies:
       '@codemirror/lang-python': 6.2.1
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/code-language-shared': 0.1.0-alpha.8d7a30(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/code-language-shared': 0.1.0-alpha.879fbb(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
     dev: false
 
-  /@coze-editor/code-language-shared@0.1.0-alpha.8d7a30(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
-    resolution: {integrity: sha512-1eU9oQzNPNsLmsnmKbDnis1PktFJMhygKNzgZWxipOrkHvYCj54qVTk7HrAxNPGF5iyiM4U+WRj4a29zzczTnA==}
+  /@coze-editor/code-language-shared@0.1.0-alpha.879fbb(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
+    resolution: {integrity: sha512-991B8Yf+3Ebd5C9O/1cj45fzWpoRk4/XBoVIKgtDjGbMzWcEUffzYFc70XDOASmjYC+57Iv6cLvVxoLsQEOB9g==}
     peerDependencies:
       '@codemirror/autocomplete': ^6.18.0
       '@codemirror/language': ^6.0.0
@@ -5945,8 +5939,8 @@ packages:
       '@codemirror/language': 6.10.7
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/extension-lint': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/utils': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extension-lint': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/utils': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
       mitt: 3.0.1
       vscode-languageserver-textdocument: 1.0.12
       vscode-languageserver-types: 3.17.5
@@ -5954,34 +5948,34 @@ packages:
       - '@lezer/common'
     dev: false
 
-  /@coze-editor/code-language-shell@0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.8d7a30):
-    resolution: {integrity: sha512-WnlS6018tGchh2FBJaxVLLfwraqj3Vc9XBr91sxPqpTZ9igssDzrX5Y/mddFY5JfGjZr1hFhDWGJHKvOlQ9eig==}
+  /@coze-editor/code-language-shell@0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.879fbb):
+    resolution: {integrity: sha512-SDPQ/fpj6mcPGZPvHD40FPvyHHAVt5eU1o8AR2ElwclUy33CJshjkKyL5FP06giIVq/HQP0Y6JHEG+/rKR1tkw==}
     peerDependencies:
       '@codemirror/language': ^6.0.0
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
-      '@coze-editor/code-language-shared': 0.1.0-alpha.8d7a30
+      '@coze-editor/code-language-shared': 0.1.0-alpha.879fbb
     dependencies:
       '@codemirror/language': 6.10.7
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/code-language-shared': 0.1.0-alpha.8d7a30(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/code-language-shared': 0.1.0-alpha.879fbb(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
     dev: false
 
-  /@coze-editor/code-language-typescript@0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.8d7a30)(typescript@5.0.4):
-    resolution: {integrity: sha512-R5ukNDbSuxzjVUB5nlPcYcKwhUpKofvsVX+toUyCfYO3UtbtVx4nq8o/uOYjOO73Rd8m9JU3AVFc4hBouVShbA==}
+  /@coze-editor/code-language-typescript@0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.879fbb)(typescript@5.0.4):
+    resolution: {integrity: sha512-p8dcbIaLEORp09A2zmevnFyMVMEW7mCG0ucZzMmE6KZ1ay8SvzKIG/cdFUiGO0hkrAyWCupTkT1PGt0MStbdFg==}
     peerDependencies:
       '@codemirror/language': ^6.0.0
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
-      '@coze-editor/code-language-shared': 0.1.0-alpha.8d7a30
+      '@coze-editor/code-language-shared': 0.1.0-alpha.879fbb
       typescript: '*'
     dependencies:
       '@codemirror/lang-javascript': 6.2.2
       '@codemirror/language': 6.10.7
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/code-language-shared': 0.1.0-alpha.8d7a30(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/code-language-shared': 0.1.0-alpha.879fbb(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
       '@lukeed/uuid': 2.0.1
       '@typescript/vfs': 1.6.1(typescript@5.0.4)
       comlink: 4.4.2
@@ -5995,8 +5989,8 @@ packages:
       - supports-color
     dev: false
 
-  /@coze-editor/core-plugins@0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
-    resolution: {integrity: sha512-D0nAlwWEUDQ5DKmAF5Ubghj+7TGpEgyE1yj3FOO+SG4n59nl7ifyVFrzot5JOg76mmt1+cvVcTh2OiLH9aKA1A==}
+  /@coze-editor/core-plugins@0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
+    resolution: {integrity: sha512-m9orsWEyjP+VAmvKsIb3ryxrQuo3TCt2RRJ/TXck/XcD6IIvsFAV0PnKu/jF9qu3oWcga/RrF8G187m/DBTtVQ==}
     peerDependencies:
       '@codemirror/commands': ^6.3.3
       '@codemirror/state': ^6.4.1
@@ -6005,15 +5999,15 @@ packages:
       '@codemirror/commands': 6.7.1
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/core': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/extension-placeholder': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/core': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/extension-placeholder': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
       es-toolkit: 1.39.5
     transitivePeerDependencies:
       - '@lezer/common'
     dev: false
 
-  /@coze-editor/core@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
-    resolution: {integrity: sha512-SWXl0pxuf3D2MNX9/l5PWKfucnwjYAEumvJH+MwPElVxYdn4uGTcbFIJdYKtkphFM1L2O3cWklsrd9pEgYzzUQ==}
+  /@coze-editor/core@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
+    resolution: {integrity: sha512-mtztq3wRcBtisxQ4/AO6pHf+JlBFYClJRTLSMg5O/+6ex6aSHapwkm5ICTJZzuej5FdPi8pfLkr/lR9cEjKHYw==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
@@ -6023,8 +6017,8 @@ packages:
       mitt: 3.0.1
     dev: false
 
-  /@coze-editor/editor@0.1.0-alpha.8d7a30(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/merge@6.10.2)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)(@types/react@18.3.16)(react-dom@18.3.1)(react@18.3.1)(typescript@5.0.4)(vue@3.5.17):
-    resolution: {integrity: sha512-5gDI+/piZoXQYb8dFc22dzo3Dv21K7RMzrt74GYRLTDFJhK5/ihF2bIObPZ4JFJ9FaIcEFy2nmqon7LWvTV7UQ==}
+  /@coze-editor/editor@0.1.0-alpha.879fbb(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/merge@6.10.2)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)(@types/react@18.3.16)(react-dom@18.3.1)(react@18.3.1)(typescript@5.0.4)(vue@3.5.17):
+    resolution: {integrity: sha512-jhmcyYk41wNjvwvNDqt7Tgr+hdSW3XgKuv0UYKFlXHu7lUURMtJtxFtFjycvVjGUnJr2xWxZaxhf9UjQSDBTKg==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
@@ -6034,32 +6028,32 @@ packages:
       '@codemirror/commands': 6.7.1
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/code-language-json': 0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.8d7a30)
-      '@coze-editor/code-language-python': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.8d7a30)
-      '@coze-editor/code-language-shared': 0.1.0-alpha.8d7a30(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/code-language-shell': 0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.8d7a30)
-      '@coze-editor/code-language-typescript': 0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.8d7a30)(typescript@5.0.4)
-      '@coze-editor/core': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/extension-json-ast': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/extension-json-empty-string-value-completion': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/extension-json-hover': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/extension-json-unnecessary-properties': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/extension-regexp-decorator': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/extensions': 0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/preset-code': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.8d7a30)(@lezer/common@1.2.3)
-      '@coze-editor/preset-expression': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/preset-none': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/preset-prompt': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/preset-universal': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/preset-variable': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/react': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(react-dom@18.3.1)(react@18.3.1)
-      '@coze-editor/react-components': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/react@0.1.0-alpha.8d7a30)(@lezer/common@1.2.3)(@types/react@18.3.16)(react-dom@18.3.1)(react@18.3.1)
-      '@coze-editor/react-hooks': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/react@0.1.0-alpha.8d7a30)(react-dom@18.3.1)(react@18.3.1)
-      '@coze-editor/react-merge': 0.1.0-alpha.8d7a30(@codemirror/merge@6.10.2)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/react@0.1.0-alpha.8d7a30)(react-dom@18.3.1)(react@18.3.1)
-      '@coze-editor/utils': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/vscode': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/vue': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)(vue@3.5.17)
-      '@coze-editor/vue-components': 0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/vue@0.1.0-alpha.8d7a30)(@lezer/common@1.2.3)(vue@3.5.17)
+      '@coze-editor/code-language-json': 0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.879fbb)
+      '@coze-editor/code-language-python': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.879fbb)
+      '@coze-editor/code-language-shared': 0.1.0-alpha.879fbb(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/code-language-shell': 0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.879fbb)
+      '@coze-editor/code-language-typescript': 0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.879fbb)(typescript@5.0.4)
+      '@coze-editor/core': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/extension-json-ast': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extension-json-empty-string-value-completion': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extension-json-hover': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extension-json-unnecessary-properties': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extension-regexp-decorator': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/extensions': 0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/preset-code': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.879fbb)(@lezer/common@1.2.3)
+      '@coze-editor/preset-expression': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/preset-none': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/preset-prompt': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/preset-universal': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/preset-variable': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/react': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(react-dom@18.3.1)(react@18.3.1)
+      '@coze-editor/react-components': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/react@0.1.0-alpha.879fbb)(@lezer/common@1.2.3)(@types/react@18.3.16)(react-dom@18.3.1)(react@18.3.1)
+      '@coze-editor/react-hooks': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/react@0.1.0-alpha.879fbb)(react-dom@18.3.1)(react@18.3.1)
+      '@coze-editor/react-merge': 0.1.0-alpha.879fbb(@codemirror/merge@6.10.2)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/react@0.1.0-alpha.879fbb)(react-dom@18.3.1)(react@18.3.1)
+      '@coze-editor/utils': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/vscode': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/vue': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)(vue@3.5.17)
+      '@coze-editor/vue-components': 0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/vue@0.1.0-alpha.879fbb)(@lezer/common@1.2.3)(vue@3.5.17)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
     transitivePeerDependencies:
@@ -6073,8 +6067,8 @@ packages:
       - vue
     dev: false
 
-  /@coze-editor/extension-completion-icons@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
-    resolution: {integrity: sha512-aZ1BEK6Y7kNCqDr1vmHX2K6r0Dqot7RVjBne5h8gWPPEtpMxEUjvScGe3pyOZbzIbFsoV6bbBx9U/4aXJ4x2cg==}
+  /@coze-editor/extension-completion-icons@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
+    resolution: {integrity: sha512-3pzqU8THdU5kl/KGc4QoZjsueUJZEdtFZdBKfGthIr6cnZ+9QeEWQlVWRWcOO0Fv+xtjgGxGX81RLA4Uk1l1nQ==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
@@ -6083,65 +6077,65 @@ packages:
       '@codemirror/view': 6.38.0
     dev: false
 
-  /@coze-editor/extension-json-ast@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
-    resolution: {integrity: sha512-CiUK+WM8h/y7nOTAlGhI1z53SORQn7BiIri5tZIOFEqn0hKrogjDeMbR58WBr0eLeCCJ2qDSm/FIzGg3A5Rnlg==}
+  /@coze-editor/extension-json-ast@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
+    resolution: {integrity: sha512-P7Srh8J2ROoNP/pcevtWaTLXg6VWLtaFTt2JPMM3DOZzZ4nJf1eFcTRLxWBHAQbtt3IFhv96z+tNSi5DxorUrw==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/parser-json': 0.1.0-alpha.8d7a30
-      '@coze-editor/utils': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/parser-json': 0.1.0-alpha.879fbb
+      '@coze-editor/utils': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
       vscode-languageserver-textdocument: 1.0.12
     transitivePeerDependencies:
       - '@lezer/common'
     dev: false
 
-  /@coze-editor/extension-json-empty-string-value-completion@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
-    resolution: {integrity: sha512-TZGfHyD+7Z1WLZyZObjQUBUtcuujyU2e8JWq+4TVkFz70tuwdT95gUOCptomc6BAckMdKm6ul0ac/OEur5/eNw==}
+  /@coze-editor/extension-json-empty-string-value-completion@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
+    resolution: {integrity: sha512-B40evyrP+ixXtVabZmUTTWxgK5GhzwYn3xPMO0hyV11IBB6Pur6xkPu7S5lFG/+aT7rrB0TYFvE0nbbXkw/Klw==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/extension-json-ast': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/utils': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extension-json-ast': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/utils': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
     transitivePeerDependencies:
       - '@lezer/common'
     dev: false
 
-  /@coze-editor/extension-json-hover@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
-    resolution: {integrity: sha512-lqhUufwUaaAqjS1RJa89eL8rmOAfVnJv5vaICJXsceQwmM3uNGqsw5B4tW4Ofrz5UWHn/Wh5snjm3z3doafZVA==}
+  /@coze-editor/extension-json-hover@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
+    resolution: {integrity: sha512-IH4R0ouXajUbYmXpIlbMCJLByQGJmYsEJZb2peihX6vD9S4o1vg2RQqKtVpjx6v9LJnIm8XyThS9WO5832b3MA==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/extension-json-ast': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/utils': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extension-json-ast': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/utils': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
     transitivePeerDependencies:
       - '@lezer/common'
     dev: false
 
-  /@coze-editor/extension-json-unnecessary-properties@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
-    resolution: {integrity: sha512-fqNno6NgBRnJbSKAyMqNWaubvRch1SZjpCsVNwNQcAybxzBqKNfkzoOHsB8XuY1oL+U/UrhZH32WVkcAYlShKQ==}
+  /@coze-editor/extension-json-unnecessary-properties@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
+    resolution: {integrity: sha512-j1MJUS1HqUjxZaQtpcj/hsLGp6BDQoP+BN+8jNoo12yHfw4uVWGNIv/oAUd9kCS3lRhTXcSiwPEQdPWwZ0WJAg==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/extension-json-ast': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/utils': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extension-json-ast': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/utils': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
     transitivePeerDependencies:
       - '@lezer/common'
     dev: false
 
-  /@coze-editor/extension-links@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
-    resolution: {integrity: sha512-w6b36AARA/XTg+G21WKo4aAzWxjyRHd7r/db4t3CpHePgZ/Ol1Z6nqwTgknwStm21ub/kcSHeUvq+YKX6K2wmg==}
+  /@coze-editor/extension-links@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
+    resolution: {integrity: sha512-ew52w1Q22EGnNBhmb+EogaQ+rK85M/SZSnMdT4fEFClTaHNNploOn1CVdEDTHE6Dl7jyxxs319S6/vnri/AY1A==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
@@ -6150,8 +6144,8 @@ packages:
       '@codemirror/view': 6.38.0
     dev: false
 
-  /@coze-editor/extension-lint@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
-    resolution: {integrity: sha512-fTZH57Whf43m4AHytcirnJKYnRa6RO8nrSnEbi1i8zYiQLbNsY/uQ+ME/8wamJBgIG8Q9mJ02aBpoSu13ZLICQ==}
+  /@coze-editor/extension-lint@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
+    resolution: {integrity: sha512-6Q5kUyQD3oTlDDkz/xPXm14jgeHVFxzX5B2gbstbFR1oz77EH1TDifkyL1Umrfy1FaTKMSRTAU29IOVXgINeoA==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
@@ -6161,21 +6155,21 @@ packages:
       crelt: 1.0.6
     dev: false
 
-  /@coze-editor/extension-placeholder@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
-    resolution: {integrity: sha512-0axi97xt19OQSPZQp6bPXEmAduY74mkBBVLFISZrX5ZGS5O78c/bRmlaSZi1ofgutIUx9/7LusQAzUg49h+Xrw==}
+  /@coze-editor/extension-placeholder@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
+    resolution: {integrity: sha512-J8ES31+dR9s7i3FmFPvHv06JocOZOcMMyoC2iY0AfbXxzqxtvwC0nJu60apRBpZ9eN6UMIEzqdlzy8Qs36Ky7g==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/utils': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/utils': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
     transitivePeerDependencies:
       - '@lezer/common'
     dev: false
 
-  /@coze-editor/extension-regexp-decorator@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
-    resolution: {integrity: sha512-eplGwOm2zTWNiDaGrmd48E+iiVRr955PegFNKoAAt/Xfchmo1cAMKGB+C1wsvQKOhcRmG+NpGXbjNnewfmyZgA==}
+  /@coze-editor/extension-regexp-decorator@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
+    resolution: {integrity: sha512-Ac6q4MbKYebjkGtF3RxCuUNbvoNFn9wRM02+cEVYxuXzfgLnQjW1zrDF4tUScaKv5wZZjnAVk7PHRpKOsUJELg==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
@@ -6184,8 +6178,8 @@ packages:
       '@codemirror/view': 6.38.0
     dev: false
 
-  /@coze-editor/extension-scrollbar@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
-    resolution: {integrity: sha512-0Azq69k6xTtpasuQWUnHp9sIzEwGVS8QiakRSltPyX6JORONNKa18pTTnspURL2BH68jp/gmE8YfxODWvafpRA==}
+  /@coze-editor/extension-scrollbar@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
+    resolution: {integrity: sha512-1qRv860vvLgHc+/V/Y0nUpPnDsX6GdXrithRHxzcAvOHSRWxqxOsT2mKWDl0jAFh9y4jprL6XkSF0gHr4OpTNA==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
@@ -6195,8 +6189,8 @@ packages:
       overlayscrollbars: 2.11.4
     dev: false
 
-  /@coze-editor/extensions@0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
-    resolution: {integrity: sha512-ORM9nuhrq3L/VAmxLkiy77Q0Aoqm8BtC5RGt5Ze0cZoCTnM+Ne6U1wJGic8aHVpCSpRA/UwBsMqALnky0UtmHw==}
+  /@coze-editor/extensions@0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
+    resolution: {integrity: sha512-9sHnLdcxaVjcxCvPJG8J6QzMPQiu5CrnRyjqtM2bMUQQGwmQRAE0Kp3PSwSE1YW0pIAFAjBxkMiJowy5cqSwGA==}
     peerDependencies:
       '@codemirror/language': ^6.0.0
       '@codemirror/state': ^6.4.1
@@ -6205,67 +6199,67 @@ packages:
       '@codemirror/language': 6.10.7
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/extension-placeholder': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/lezer-parser-template': 0.1.0-alpha.8d7a30
-      '@coze-editor/utils': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extension-placeholder': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/lezer-parser-template': 0.1.0-alpha.879fbb
+      '@coze-editor/utils': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
       '@lezer/common': 1.2.3
       crelt: 1.0.6
       es-toolkit: 1.39.5
     dev: false
 
-  /@coze-editor/lezer-parser-jinja2@0.1.0-alpha.8d7a30:
-    resolution: {integrity: sha512-I3f1EDV3xE26lsCXqCTZ1Y02x+2VfXhpIQtqTzM5fqzqhoxsR7GpAlGaN99kplLpr71ZDXr4fqNKUOGdRyHFlQ==}
+  /@coze-editor/lezer-parser-jinja2@0.1.0-alpha.879fbb:
+    resolution: {integrity: sha512-k5vD2thElUDssJ+Ph/CJjm6U1S9wlI2fRuvcRFK0T32xPh65n2dst6KVvbkCii4Vjij0ZSEPSwNqmNZ6CCfcDQ==}
     dependencies:
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
     dev: false
 
-  /@coze-editor/lezer-parser-json@0.1.0-alpha.8d7a30:
-    resolution: {integrity: sha512-DTee+E9zE+c42eBBzMZrmaGIcvXhut6uyGZrK9bscOecCAALap6ZezPGB/Avt6k74+hL36bxBik6ssGlsNp4Hg==}
+  /@coze-editor/lezer-parser-json@0.1.0-alpha.879fbb:
+    resolution: {integrity: sha512-As5JrjjJ+PIeIq8SQWep8aRfvXNCnlamVwPQNTli4F18d4lXOqI8iyXTDsjuwRc4a3aCKZAjocVBAv8kN5u2sA==}
     dependencies:
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
     dev: false
 
-  /@coze-editor/lezer-parser-template@0.1.0-alpha.8d7a30:
-    resolution: {integrity: sha512-ty+yjRNIUw9oGk7krkHwZ/o9rySpf6Mx3qrtiGvV4zyFWGdbIfX/ISmWu3dpsU4IVmer0thxiv33svaFvGIQ5A==}
+  /@coze-editor/lezer-parser-template@0.1.0-alpha.879fbb:
+    resolution: {integrity: sha512-d3PRrr0sV7w/FYFZ8fiJghkfjdOabyK5pCJYJLDZLgbwXXs07k8cyhU0LdJ3Cs/RHhG6cuccRYmgPGKZdQF2dQ==}
     dependencies:
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
     dev: false
 
-  /@coze-editor/parser-json@0.1.0-alpha.8d7a30:
-    resolution: {integrity: sha512-nMRoSjtMgTZonntylYXJkmSey+6Z1pgx5ets9a+UHK8odKNoSteacv2Gk7lbLei5LgZd0vg2LFTOUswYqOCF9w==}
+  /@coze-editor/parser-json@0.1.0-alpha.879fbb:
+    resolution: {integrity: sha512-AGUGt8dZUiUUFHwYK82GK1/kdzVfJ8xdxRenCZIpFs3w16ZtuTBB4H13rsugWiq3XfZqZQv5cH8QUiGgR1t56A==}
     dependencies:
       '@vscode/l10n': 0.0.18
       vscode-languageserver-textdocument: 1.0.12
       vscode-languageserver-types: 3.17.5
     dev: false
 
-  /@coze-editor/preset-code@0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.8d7a30)(@lezer/common@1.2.3):
-    resolution: {integrity: sha512-mV6qBq8FSbvJVevmt+k7FY8vADIxLeycVSaisUab1osLPJSYApd+4DTfYEtVhMudDN6KFx2PbUhWfZwnOnHGrg==}
+  /@coze-editor/preset-code@0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/code-language-shared@0.1.0-alpha.879fbb)(@lezer/common@1.2.3):
+    resolution: {integrity: sha512-i3qmOXPf67UKIyZyuEFQDz7zjI4AW3cGxwJtndm3yr68BbFdzThyO7CPArje0Eu/DdESq7pOK53egj9E4B+5sw==}
     peerDependencies:
       '@codemirror/commands': ^6.3.3
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
-      '@coze-editor/code-language-shared': 0.1.0-alpha.8d7a30
+      '@coze-editor/code-language-shared': 0.1.0-alpha.879fbb
     dependencies:
       '@codemirror/autocomplete': 6.18.4
       '@codemirror/commands': 6.7.1
       '@codemirror/language': 6.10.7
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/code-language-shared': 0.1.0-alpha.8d7a30(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/core': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/core-plugins': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/extension-completion-icons': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/extension-links': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/extension-lint': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/extension-scrollbar': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/extensions': 0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/preset-universal': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/utils': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/vscode': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/code-language-shared': 0.1.0-alpha.879fbb(@codemirror/autocomplete@6.18.4)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/core': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/core-plugins': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extension-completion-icons': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/extension-links': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/extension-lint': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/extension-scrollbar': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/extensions': 0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/preset-universal': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/utils': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/vscode': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
       '@lezer/highlight': 1.2.1
       '@nozbe/microfuzz': 1.0.0
       codemirror-shiki: 0.2.3(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(shiki@3.7.0)
@@ -6279,8 +6273,8 @@ packages:
       - '@lezer/common'
     dev: false
 
-  /@coze-editor/preset-expression@0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
-    resolution: {integrity: sha512-U/x5ausLukTxgH5lwO7HmMMOh1eaNNJGsuFKr2C13msvI7BjGo6AEBxz8F0HMiw1+pC87EEPdkg+IB50kmmL7Q==}
+  /@coze-editor/preset-expression@0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
+    resolution: {integrity: sha512-vjI5fUcbmCTuQAYZAhFPSnHqkWsIj2DMSQCL9ZRV3t5ZHYvakRlP2V8lvHd9bt3K1hmU+VGitVDqLZ2i2drqeg==}
     peerDependencies:
       '@codemirror/commands': ^6.3.3
       '@codemirror/state': ^6.4.1
@@ -6291,26 +6285,26 @@ packages:
       '@codemirror/language': 6.10.7
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/core': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/core-plugins': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/extensions': 0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/core': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/core-plugins': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extensions': 0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
     transitivePeerDependencies:
       - '@lezer/common'
     dev: false
 
-  /@coze-editor/preset-none@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
-    resolution: {integrity: sha512-714dcAcfDKLQb+dxPqkNDL7gC/8HjVCkSxl1kPnKKWbc0fK12hkmcsePoYS4KG/6vZKKGW322Lh+1dLkATYwiA==}
+  /@coze-editor/preset-none@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
+    resolution: {integrity: sha512-ZHNv4oWdDANO8BoiSzlPfnvluTzIcmFbsgm0rlsL9aZXUt12iLBbJsPxKUJPPxd1dys8vSDPOB3vq4lj6tOpeg==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/core': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/core': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
     dev: false
 
-  /@coze-editor/preset-prompt@0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
-    resolution: {integrity: sha512-v7c2uhtS0tG1JnDhgYH5qiCzR+H9Pbq1bn3gVBflv2sHvRVE54kCv9uQRAre2I7TBAm0VInicXmH05Mi1TTOtw==}
+  /@coze-editor/preset-prompt@0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
+    resolution: {integrity: sha512-MWy5PIAwc/Iu6f0tyi5lhDh/I60kwiIJEHnMdDpU/vFytJn2CxBXwXDztNR5+GghAPvL5K0vdjLSB2fIhLRvUQ==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
@@ -6319,11 +6313,11 @@ packages:
       '@codemirror/language': 6.10.7
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/core': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/core-plugins': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/extensions': 0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/lezer-parser-jinja2': 0.1.0-alpha.8d7a30
-      '@coze-editor/preset-expression': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/core': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/core-plugins': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extensions': 0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/lezer-parser-jinja2': 0.1.0-alpha.879fbb
+      '@coze-editor/preset-expression': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
       '@lezer/common': 1.2.3
       '@lezer/html': 1.3.10
       '@lezer/markdown': 1.4.3
@@ -6331,25 +6325,25 @@ packages:
       - '@codemirror/commands'
     dev: false
 
-  /@coze-editor/preset-universal@0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
-    resolution: {integrity: sha512-uv+9u2mRawuzeJcRDiY/Wiwn3DuFpQ2jvvwePe8aXmXZHeOG93FPnuNJ7zVo5xSDF6isbUuPJWKfavLP+XnjhA==}
+  /@coze-editor/preset-universal@0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
+    resolution: {integrity: sha512-D3jyTLfSyYtZ7RlHVAdCv5/BCvwS+90bSpV7Qye3XF4CMkZESAn+y2YLBzPK7O7dPCLc/M6k/1eEgLXL45i0DQ==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/core': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/core-plugins': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/extensions': 0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/core': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/core-plugins': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extensions': 0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
     transitivePeerDependencies:
       - '@codemirror/commands'
       - '@codemirror/language'
       - '@lezer/common'
     dev: false
 
-  /@coze-editor/preset-variable@0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
-    resolution: {integrity: sha512-ZlbD2PKhkoorb1j7aSJrj+r2W/chwygpwLXZT8Fhd769OaeLsW8F4X4pE5FJkcdrz5Bhx4g4n4uEuprLVGxFWw==}
+  /@coze-editor/preset-variable@0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
+    resolution: {integrity: sha512-gEFFfO/Rs/ehaDivNjLfjO4+Wi/qXUtE45yuPVx9osYsWY3wRtbeOaVZCnpoyj+quGssXRIz+BZPw+w6Jxodjw==}
     peerDependencies:
       '@codemirror/commands': ^6.3.3
       '@codemirror/state': ^6.4.1
@@ -6360,22 +6354,22 @@ packages:
       '@codemirror/language': 6.10.7
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/core': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/core-plugins': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/extensions': 0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/preset-expression': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/utils': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/core': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/core-plugins': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extensions': 0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/preset-expression': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/utils': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
       '@lezer/common': 1.2.3
       '@lezer/javascript': 1.4.21
       '@lezer/python': 1.1.18
     dev: false
 
-  /@coze-editor/react-components@0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/react@0.1.0-alpha.8d7a30)(@lezer/common@1.2.3)(@types/react@18.3.16)(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-WMKBso8FS4GsRLYgT2Hq3/+LGRE8bJNI9nV1JbcAcRsY5a3SlOQN4iLZb1N9ZXVIggl6cARcYJSYdQ7h1dwSaQ==}
+  /@coze-editor/react-components@0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/react@0.1.0-alpha.879fbb)(@lezer/common@1.2.3)(@types/react@18.3.16)(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-tm/DkQq/POcJYv8uWiNzAcNJ49HX9PRbP6c8jDEjV8wquEAtsgwNfF2pHkJmgf1D3VPEvSnlD8Qb8GSFlTTgXQ==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
-      '@coze-editor/react': 0.1.0-alpha.8d7a30
+      '@coze-editor/react': 0.1.0-alpha.879fbb
       react: ~18.2.0
       react-dom: ~18.2.0
     dependencies:
@@ -6383,12 +6377,12 @@ packages:
       '@codemirror/merge': 6.10.2
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/extension-placeholder': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/extensions': 0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/react': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(react-dom@18.3.1)(react@18.3.1)
-      '@coze-editor/react-hooks': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/react@0.1.0-alpha.8d7a30)(react-dom@18.3.1)(react@18.3.1)
-      '@coze-editor/utils': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/vscode': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/extension-placeholder': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extensions': 0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/react': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(react-dom@18.3.1)(react@18.3.1)
+      '@coze-editor/react-hooks': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/react@0.1.0-alpha.879fbb)(react-dom@18.3.1)(react@18.3.1)
+      '@coze-editor/utils': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/vscode': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
       '@floating-ui/dom': 1.7.2
       '@lezer/highlight': 1.2.1
       '@lukeed/uuid': 2.0.1
@@ -6403,44 +6397,44 @@ packages:
       - '@types/react'
     dev: false
 
-  /@coze-editor/react-hooks@0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/react@0.1.0-alpha.8d7a30)(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-vQMiAtm4OIpDrLqVG+2e1w3PBat8NrSZAu57pAhppmRvqZUCBrngqeg9iYB/tnzvxj35NwyecLcLmnriTjy6fA==}
+  /@coze-editor/react-hooks@0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/react@0.1.0-alpha.879fbb)(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-cJBUIFP3CXUCQzpaitQLGZ6kbbCu+0JdfKEP49wEFLUJZVRTgwuT+d9N58Mfw3kXOiohyqcDczfN5+M834G9lg==}
     peerDependencies:
       '@codemirror/commands': ^6.3.3
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
-      '@coze-editor/react': 0.1.0-alpha.8d7a30
+      '@coze-editor/react': 0.1.0-alpha.879fbb
       react: ~18.2.0
       react-dom: ~18.2.0
     dependencies:
       '@codemirror/commands': 6.7.1
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/react': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(react-dom@18.3.1)(react@18.3.1)
+      '@coze-editor/react': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(react-dom@18.3.1)(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
     dev: false
 
-  /@coze-editor/react-merge@0.1.0-alpha.8d7a30(@codemirror/merge@6.10.2)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/react@0.1.0-alpha.8d7a30)(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-vsUO3O7y7vHivJ5c3J/rCj3gwKOEgnIjvsEWyyBqkN2Pq7z8i7pnurzRjIRmu+2vUhWQrapkCNq+pk7bRvyjdg==}
+  /@coze-editor/react-merge@0.1.0-alpha.879fbb(@codemirror/merge@6.10.2)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/react@0.1.0-alpha.879fbb)(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-h7vY5kpbFP8UFL/upTXaFq6rsqQaTRdrZ130BWvrDKs79C6iP1ScQbMK6B6lS9ZRPCDTKE6UuCavEk6b5Jf16Q==}
     peerDependencies:
       '@codemirror/merge': ^6.10.0
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
-      '@coze-editor/react': 0.1.0-alpha.8d7a30
+      '@coze-editor/react': 0.1.0-alpha.879fbb
       react: ~18.2.0
       react-dom: ~18.2.0
     dependencies:
       '@codemirror/merge': 6.10.2
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/react': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(react-dom@18.3.1)(react@18.3.1)
+      '@coze-editor/react': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(react-dom@18.3.1)(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
     dev: false
 
-  /@coze-editor/react@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-wUg1LDyNMAy/m03cV/nd53xQ2ZG2aIQLHcpWqSVy1qNy+urLyYxtR9mDsPMrcheIdSWGFQYHMdVcqCsHPIffBQ==}
+  /@coze-editor/react@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-yfZZdi8z7f86TV2P995e/mz9e5ofu7AvKbIzd451iaW0aG9YtaKpv4sHvqYL6fiFze4NXfXEQm1H0D1c+iu+8w==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
@@ -6449,13 +6443,13 @@ packages:
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/core': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/core': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
     dev: false
 
-  /@coze-editor/utils@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
-    resolution: {integrity: sha512-z/XsahazUIYbfWmnXQHtQVa9iqyhN8z1sdoZBX+z03tAkKgbIznzVt0LyB+uT+nTDmWJ4zJ7SlU3LJjEEXgfZQ==}
+  /@coze-editor/utils@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3):
+    resolution: {integrity: sha512-ashmTlrXKgx/RW+75sk4M0Yg7zkvTh0H0a98dyupPV2SYM6sCwXz/+KtSfl9nEjCunwQrZWuI+0pOSDByZf9tQ==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
@@ -6466,8 +6460,8 @@ packages:
       '@lezer/common': 1.2.3
     dev: false
 
-  /@coze-editor/vscode@0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
-    resolution: {integrity: sha512-LvbiK1zlMShOE8wVPGoxvWKDq5vYDJhPR4fDZW7AIWBNqpK7bt2svzYjL8dP0jQJUwD9oD67OekCu0gfgXLrZw==}
+  /@coze-editor/vscode@0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0):
+    resolution: {integrity: sha512-WMNUWhjh2t1Z8rrzk2n3Tq/B8M/F45UXAgXCtWbApyA+CZglMGn+lhd6cT2T/MtXxfmaBkTdvGFsCyq9CGc8pA==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
@@ -6479,20 +6473,20 @@ packages:
       crelt: 1.0.6
     dev: false
 
-  /@coze-editor/vue-components@0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/vue@0.1.0-alpha.8d7a30)(@lezer/common@1.2.3)(vue@3.5.17):
-    resolution: {integrity: sha512-hX9aXUPKPyUuIVpS1vlcdaJ5HgqhGREvoE44cFAvrDZOrdrBzupqAeUnaOCJWlAeAWamg5YQGSFIhcj/wN9nXQ==}
+  /@coze-editor/vue-components@0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@coze-editor/vue@0.1.0-alpha.879fbb)(@lezer/common@1.2.3)(vue@3.5.17):
+    resolution: {integrity: sha512-8h750O/9PsvwQTixxkI1yxTL2EjsRMkpATAABCOBcRH3Y2R6u6kPouxu4421+2jCEIiHDWPOYU0s/L4WIJ8GaQ==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
-      '@coze-editor/vue': 0.1.0-alpha.8d7a30
+      '@coze-editor/vue': 0.1.0-alpha.879fbb
       vue: ^3.5.0
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/extension-placeholder': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/extensions': 0.1.0-alpha.8d7a30(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/utils': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/vue': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)(vue@3.5.17)
+      '@coze-editor/extension-placeholder': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extensions': 0.1.0-alpha.879fbb(@codemirror/language@6.10.7)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/utils': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/vue': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)(vue@3.5.17)
       '@floating-ui/dom': 1.7.2
       vue: 3.5.17(typescript@5.0.4)
     transitivePeerDependencies:
@@ -6500,8 +6494,8 @@ packages:
       - '@lezer/common'
     dev: false
 
-  /@coze-editor/vue@0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)(vue@3.5.17):
-    resolution: {integrity: sha512-PHXsE1ue3yHMR3EvaxyByT0Xh7jGKaqX5nDISJGZVB3Y/qzfNn+tVxCicflwaDBbV6KOYTG3NF48BC93p6Jnhg==}
+  /@coze-editor/vue@0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)(vue@3.5.17):
+    resolution: {integrity: sha512-c3Pn9skBMBVKeY1tS+TNlCRE6ay+n79g4LUSzWEoMfywWzMMuqjxytSLDgd3qxLXnPPPNrfq8Ui3fJ+EgSJUsw==}
     peerDependencies:
       '@codemirror/state': ^6.4.1
       '@codemirror/view': ^6.26.1
@@ -6509,9 +6503,9 @@ packages:
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.0
-      '@coze-editor/core': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
-      '@coze-editor/core-plugins': 0.1.0-alpha.8d7a30(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
-      '@coze-editor/extension-placeholder': 0.1.0-alpha.8d7a30(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/core': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)
+      '@coze-editor/core-plugins': 0.1.0-alpha.879fbb(@codemirror/commands@6.7.1)(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
+      '@coze-editor/extension-placeholder': 0.1.0-alpha.879fbb(@codemirror/state@6.5.2)(@codemirror/view@6.38.0)(@lezer/common@1.2.3)
       vue: 3.5.17(typescript@5.0.4)
     transitivePeerDependencies:
       - '@codemirror/commands'

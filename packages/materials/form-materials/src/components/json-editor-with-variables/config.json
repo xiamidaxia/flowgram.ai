@@ -5,7 +5,7 @@
     "code-editor"
   ],
   "depPackages": [
-    "@coze-editor/editor@0.1.0-alpha.8d7a30",
+    "@coze-editor/editor@0.1.0-alpha.879fbb",
     "@codemirror/view",
     "styled-components",
     "@douyinfe/semi-ui"
