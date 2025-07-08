@@ -141,8 +141,8 @@ export const twoLLMSchema: WorkflowSchema = {
             content: ['start_0', 'num'],
           },
           prompt: {
-            type: 'ref',
-            content: ['start_0', 'query'],
+            type: 'template',
+            content: '{{start_0.query}}',
           },
         },
         inputs: {
@@ -163,9 +163,15 @@ export const twoLLMSchema: WorkflowSchema = {
             },
             systemPrompt: {
               type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
             },
             prompt: {
               type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
             },
           },
         },
@@ -212,8 +218,8 @@ export const twoLLMSchema: WorkflowSchema = {
             content: 'AAAA',
           },
           prompt: {
-            type: 'ref',
-            content: ['start_0', 'query'],
+            type: 'template',
+            content: '{{start_0.query}}',
           },
         },
         inputs: {
@@ -234,9 +240,15 @@ export const twoLLMSchema: WorkflowSchema = {
             },
             systemPrompt: {
               type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
             },
             prompt: {
               type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
             },
           },
         },

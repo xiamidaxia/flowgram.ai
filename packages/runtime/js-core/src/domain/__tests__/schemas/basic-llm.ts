@@ -12,8 +12,8 @@ export const basicLLMSchema: WorkflowSchema = {
       type: 'start',
       meta: {
         position: {
-          x: 0,
-          y: 0,
+          x: 180,
+          y: 152.2,
         },
       },
       data: {
@@ -24,41 +24,41 @@ export const basicLLMSchema: WorkflowSchema = {
             model_name: {
               key: 14,
               name: 'model_name',
+              isPropertyRequired: true,
               type: 'string',
               extra: {
-                index: 1,
+                index: 0,
               },
-              isPropertyRequired: true,
-            },
-            prompt: {
-              key: 5,
-              name: 'prompt',
-              type: 'string',
-              extra: {
-                index: 3,
-              },
-              isPropertyRequired: true,
             },
             api_key: {
               key: 19,
               name: 'api_key',
+              isPropertyRequired: true,
               type: 'string',
               extra: {
-                index: 4,
+                index: 1,
               },
-              isPropertyRequired: true,
             },
             api_host: {
               key: 20,
               name: 'api_host',
+              isPropertyRequired: true,
               type: 'string',
               extra: {
-                index: 5,
+                index: 2,
               },
+            },
+            formula: {
+              key: 4,
+              name: 'formula',
               isPropertyRequired: true,
+              type: 'string',
+              extra: {
+                index: 3,
+              },
             },
           },
-          required: ['model_name', 'prompt', 'api_key', 'api_host'],
+          required: ['model_name', 'api_key', 'api_host', 'formula'],
         },
       },
     },
@@ -67,8 +67,8 @@ export const basicLLMSchema: WorkflowSchema = {
       type: 'end',
       meta: {
         position: {
-          x: 1000,
-          y: 0,
+          x: 1124.4,
+          y: 152.2,
         },
       },
       data: {
@@ -94,7 +94,7 @@ export const basicLLMSchema: WorkflowSchema = {
       type: 'llm',
       meta: {
         position: {
-          x: 500,
+          x: 652.2,
           y: 0,
         },
       },
@@ -118,12 +118,13 @@ export const basicLLMSchema: WorkflowSchema = {
             content: 0,
           },
           prompt: {
-            type: 'ref',
-            content: ['start_0', 'prompt'],
+            type: 'template',
+            content:
+              'Just give me the answer of "{{start_0.formula}}=?", just one number, no other words',
           },
           systemPrompt: {
-            type: 'constant',
-            content: 'You are a helpful AI assistant.',
+            type: 'template',
+            content: 'You are a "math formula" calculator.',
           },
         },
         inputs: {
@@ -144,9 +145,15 @@ export const basicLLMSchema: WorkflowSchema = {
             },
             systemPrompt: {
               type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
             },
             prompt: {
               type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
             },
           },
         },

@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { IFlowConstantRefValue, IJsonSchema, PositionSchema } from '@schema/index';
+import { IFlowValue, IJsonSchema, PositionSchema } from '@schema/index';
 import { FlowGramNode } from '@node/constant';
 import { IPort } from './port';
 import { IEdge } from './edge';
 
 export interface NodeDeclare {
-  inputsValues?: Record<string, IFlowConstantRefValue>;
+  inputsValues?: Record<string, IFlowValue>;
   inputs?: IJsonSchema;
   outputs?: IJsonSchema;
 }

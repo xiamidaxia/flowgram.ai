@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { IFlowConstantRefValue } from '@schema/value';
+import { IFlowConstantRefValue, IFlowConstantValue, IFlowTemplateValue } from '@schema/value';
 import { WorkflowNodeSchema } from '@schema/node';
 import { IJsonSchema } from '@schema/json-schema';
 import { FlowGramNode } from '@node/constant';
@@ -17,8 +17,8 @@ interface LLMNodeData {
     modelType: IFlowConstantRefValue;
     baseURL: IFlowConstantRefValue;
     temperature: IFlowConstantRefValue;
-    systemPrompt: IFlowConstantRefValue;
-    prompt: IFlowConstantRefValue;
+    systemPrompt: IFlowConstantValue | IFlowTemplateValue;
+    prompt: IFlowConstantValue | IFlowTemplateValue;
   };
 }
 

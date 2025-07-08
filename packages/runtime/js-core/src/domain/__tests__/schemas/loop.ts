@@ -115,8 +115,8 @@ export const loopSchema: WorkflowSchema = {
                 content: ['start_0', 'system_prompt'],
               },
               prompt: {
-                type: 'ref',
-                content: ['loop_0_locals', 'item'],
+                type: 'template',
+                content: '{{loop_0_locals.item}}',
               },
             },
             inputs: {
@@ -137,9 +137,15 @@ export const loopSchema: WorkflowSchema = {
                 },
                 systemPrompt: {
                   type: 'string',
+                  extra: {
+                    formComponent: 'prompt-editor',
+                  },
                 },
                 prompt: {
                   type: 'string',
+                  extra: {
+                    formComponent: 'prompt-editor',
+                  },
                 },
               },
             },

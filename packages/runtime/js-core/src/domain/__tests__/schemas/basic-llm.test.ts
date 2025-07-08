@@ -37,7 +37,7 @@ describe('workflow runtime basic test', () => {
         model_name: modelName,
         api_key: apiKey,
         api_host: apiHost,
-        prompt: 'Just give me the answer of "1+1=?", just one number, no other words',
+        formula: '1+1',
       },
     });
     expect(context.statusCenter.workflow.status).toBe(WorkflowStatus.Processing);
@@ -55,7 +55,7 @@ describe('workflow runtime basic test', () => {
           model_name: modelName,
           api_key: apiKey,
           api_host: apiHost,
-          prompt: 'Just give me the answer of "1+1=?", just one number, no other words',
+          formula: '1+1',
         },
         data: {},
       },
@@ -67,7 +67,7 @@ describe('workflow runtime basic test', () => {
           apiHost: apiHost,
           temperature: 0,
           prompt: 'Just give me the answer of "1+1=?", just one number, no other words',
-          systemPrompt: 'You are a helpful AI assistant.',
+          systemPrompt: 'You are a "math formula" calculator.',
         },
         outputs: { result: '2' },
         data: {},

@@ -155,8 +155,8 @@ export const branchSchema: WorkflowSchema = {
             content: "I'm Model 1.",
           },
           prompt: {
-            type: 'ref',
-            content: ['start_0', 'prompt'],
+            type: 'template',
+            content: '{{start_0.prompt}}',
           },
         },
         inputs: {
@@ -177,9 +177,15 @@ export const branchSchema: WorkflowSchema = {
             },
             systemPrompt: {
               type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
             },
             prompt: {
               type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
             },
           },
         },
@@ -226,8 +232,8 @@ export const branchSchema: WorkflowSchema = {
             content: "I'm Model 2.",
           },
           prompt: {
-            type: 'ref',
-            content: ['start_0', 'prompt'],
+            type: 'template',
+            content: '{{start_0.prompt}}',
           },
         },
         inputs: {
@@ -248,9 +254,15 @@ export const branchSchema: WorkflowSchema = {
             },
             systemPrompt: {
               type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
             },
             prompt: {
               type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
             },
           },
         },

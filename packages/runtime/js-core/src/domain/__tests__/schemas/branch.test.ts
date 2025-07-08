@@ -26,7 +26,7 @@ describe('WorkflowRuntime branch schema', () => {
     const result = await processing;
     expect(context.statusCenter.workflow.status).toBe(WorkflowStatus.Succeeded);
     expect(result).toStrictEqual({
-      m1_res: `Hi, I'm an AI assistant, my name is AI_MODEL_1, temperature is 0.5, system prompt is "I'm Model 1.", prompt is "Tell me a joke"`,
+      m1_res: `Hi, I'm an AI model, my name is AI_MODEL_1, temperature is 0.5, system prompt is "I'm Model 1.", prompt is "Tell me a joke"`,
     });
     const snapshots = snapshotsToVOData(context.snapshotCenter.exportAll());
     expect(snapshots).toStrictEqual([
@@ -74,7 +74,7 @@ describe('WorkflowRuntime branch schema', () => {
         },
         outputs: {
           result:
-            'Hi, I\'m an AI assistant, my name is AI_MODEL_1, temperature is 0.5, system prompt is "I\'m Model 1.", prompt is "Tell me a joke"',
+            'Hi, I\'m an AI model, my name is AI_MODEL_1, temperature is 0.5, system prompt is "I\'m Model 1.", prompt is "Tell me a joke"',
         },
         data: {},
       },
@@ -82,11 +82,11 @@ describe('WorkflowRuntime branch schema', () => {
         nodeID: 'end_0',
         inputs: {
           m1_res:
-            'Hi, I\'m an AI assistant, my name is AI_MODEL_1, temperature is 0.5, system prompt is "I\'m Model 1.", prompt is "Tell me a joke"',
+            'Hi, I\'m an AI model, my name is AI_MODEL_1, temperature is 0.5, system prompt is "I\'m Model 1.", prompt is "Tell me a joke"',
         },
         outputs: {
           m1_res:
-            'Hi, I\'m an AI assistant, my name is AI_MODEL_1, temperature is 0.5, system prompt is "I\'m Model 1.", prompt is "Tell me a joke"',
+            'Hi, I\'m an AI model, my name is AI_MODEL_1, temperature is 0.5, system prompt is "I\'m Model 1.", prompt is "Tell me a joke"',
         },
         data: {},
       },
@@ -113,7 +113,7 @@ describe('WorkflowRuntime branch schema', () => {
     const result = await processing;
     expect(context.statusCenter.workflow.status).toBe(WorkflowStatus.Succeeded);
     expect(result).toStrictEqual({
-      m2_res: `Hi, I'm an AI assistant, my name is AI_MODEL_2, temperature is 0.6, system prompt is "I'm Model 2.", prompt is "Tell me a story"`,
+      m2_res: `Hi, I'm an AI model, my name is AI_MODEL_2, temperature is 0.6, system prompt is "I'm Model 2.", prompt is "Tell me a story"`,
     });
     const snapshots = snapshotsToVOData(context.snapshotCenter.exportAll());
     expect(snapshots).toStrictEqual([
@@ -161,7 +161,7 @@ describe('WorkflowRuntime branch schema', () => {
         },
         outputs: {
           result:
-            'Hi, I\'m an AI assistant, my name is AI_MODEL_2, temperature is 0.6, system prompt is "I\'m Model 2.", prompt is "Tell me a story"',
+            'Hi, I\'m an AI model, my name is AI_MODEL_2, temperature is 0.6, system prompt is "I\'m Model 2.", prompt is "Tell me a story"',
         },
         data: {},
       },
@@ -169,11 +169,11 @@ describe('WorkflowRuntime branch schema', () => {
         nodeID: 'end_0',
         inputs: {
           m2_res:
-            'Hi, I\'m an AI assistant, my name is AI_MODEL_2, temperature is 0.6, system prompt is "I\'m Model 2.", prompt is "Tell me a story"',
+            'Hi, I\'m an AI model, my name is AI_MODEL_2, temperature is 0.6, system prompt is "I\'m Model 2.", prompt is "Tell me a story"',
         },
         outputs: {
           m2_res:
-            'Hi, I\'m an AI assistant, my name is AI_MODEL_2, temperature is 0.6, system prompt is "I\'m Model 2.", prompt is "Tell me a story"',
+            'Hi, I\'m an AI model, my name is AI_MODEL_2, temperature is 0.6, system prompt is "I\'m Model 2.", prompt is "Tell me a story"',
         },
         data: {},
       },

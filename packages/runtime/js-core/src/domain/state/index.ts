@@ -6,7 +6,7 @@
 import { isNil } from 'lodash-es';
 import {
   IState,
-  IFlowConstantRefValue,
+  IFlowValue,
   IFlowRefValue,
   IVariableParseResult,
   INode,
@@ -14,6 +14,7 @@ import {
   WorkflowOutputs,
   IVariableStore,
   WorkflowVariableType,
+  IFlowTemplateValue,
 } from '@flowgram.ai/runtime-interface';
 
 import { uuid, WorkflowRuntimeType } from '@infra/utils';
@@ -105,7 +106,38 @@ export class WorkflowRuntimeState implements IState {
     return result;
   }
 
-  public parseValue<T = unknown>(flowValue: IFlowConstantRefValue): IVariableParseResult<T> | null {
+  public parseTemplate(template: IFlowTemplateValue): IVariableParseResult<string> | null {
+    if (template?.type !== 'template') {
+      throw new Error(`invalid template value: ${template}`);
+    }
+    if (!template.content) {
+      return null;
+    }
+    const parsedValue = template.content.replace(
+      /\{\{([^\}]+)\}\}/g,
+      (match: string, pattern: string): string => {
+        // 将路径分割成数组，如 'start_0.work.role' => ['start_0', 'work', 'role']
+        const ref = pattern.trim().split('.');
+
+        const variable = this.parseRef<string>({
+          type: 'ref',
+          content: ref,
+        });
+
+        if (!variable) {
+          return '';
+        }
+
+        return variable.value;
+      }
+    );
+    return {
+      type: WorkflowVariableType.String,
+      value: parsedValue,
+    };
+  }
+
+  public parseValue<T = unknown>(flowValue: IFlowValue): IVariableParseResult<T> | null {
     if (!flowValue?.type) {
       throw new Error(`invalid flow value type: ${(flowValue as any).type}`);
     }
@@ -124,6 +156,10 @@ export class WorkflowRuntimeState implements IState {
     // ref
     if (flowValue.type === 'ref') {
       return this.parseRef<T>(flowValue);
+    }
+    // template
+    if (flowValue.type === 'template') {
+      return this.parseTemplate(flowValue) as IVariableParseResult<T> | null;
     }
     // unknown type
     throw new Error(`unknown flow value type: ${(flowValue as any).type}`);

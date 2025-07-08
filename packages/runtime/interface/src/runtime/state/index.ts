@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { IFlowConstantRefValue, IFlowRefValue, WorkflowVariableType } from '@schema/index';
+import { IFlowValue, IFlowRefValue, WorkflowVariableType, IFlowTemplateValue } from '@schema/index';
 import { IVariableParseResult, IVariableStore } from '../variable';
 import { INode } from '../document';
 import { WorkflowInputs, WorkflowOutputs } from '../base';
@@ -16,8 +16,9 @@ export interface IState {
   getNodeInputs(node: INode): WorkflowInputs;
   setNodeOutputs(params: { node: INode; outputs: WorkflowOutputs }): void;
   parseRef<T = unknown>(ref: IFlowRefValue): IVariableParseResult<T> | null;
+  parseTemplate(template: IFlowTemplateValue): IVariableParseResult<string> | null;
   parseValue<T = unknown>(
-    flowValue: IFlowConstantRefValue,
+    flowValue: IFlowValue,
     type?: WorkflowVariableType
   ): IVariableParseResult<T> | null;
   isExecutedNode(node: INode): boolean;

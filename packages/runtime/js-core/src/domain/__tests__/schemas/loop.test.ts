@@ -72,7 +72,7 @@ describe('WorkflowRuntime loop schema', () => {
         },
         outputs: {
           result:
-            'Hi, I\'m an AI assistant, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - A"',
+            'Hi, I\'m an AI model, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - A"',
         },
         data: {},
       },
@@ -87,7 +87,7 @@ describe('WorkflowRuntime loop schema', () => {
         },
         outputs: {
           result:
-            'Hi, I\'m an AI assistant, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - B"',
+            'Hi, I\'m an AI model, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - B"',
         },
         data: {},
       },
@@ -102,7 +102,7 @@ describe('WorkflowRuntime loop schema', () => {
         },
         outputs: {
           result:
-            'Hi, I\'m an AI assistant, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - C"',
+            'Hi, I\'m an AI model, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - C"',
         },
         data: {},
       },
@@ -117,7 +117,7 @@ describe('WorkflowRuntime loop schema', () => {
         },
         outputs: {
           result:
-            'Hi, I\'m an AI assistant, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - D"',
+            'Hi, I\'m an AI model, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - D"',
         },
         data: {},
       },
@@ -132,7 +132,7 @@ describe('WorkflowRuntime loop schema', () => {
         },
         outputs: {
           result:
-            'Hi, I\'m an AI assistant, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - E"',
+            'Hi, I\'m an AI model, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - E"',
         },
         data: {},
       },
@@ -147,7 +147,7 @@ describe('WorkflowRuntime loop schema', () => {
         },
         outputs: {
           result:
-            'Hi, I\'m an AI assistant, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - F"',
+            'Hi, I\'m an AI model, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - F"',
         },
         data: {},
       },
@@ -162,7 +162,7 @@ describe('WorkflowRuntime loop schema', () => {
         },
         outputs: {
           result:
-            'Hi, I\'m an AI assistant, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - G"',
+            'Hi, I\'m an AI model, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - G"',
         },
         data: {},
       },
@@ -177,7 +177,7 @@ describe('WorkflowRuntime loop schema', () => {
         },
         outputs: {
           result:
-            'Hi, I\'m an AI assistant, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - H"',
+            'Hi, I\'m an AI model, my name is AI_MODEL_1, temperature is 0.6, system prompt is "undefined", prompt is "TASK - H"',
         },
         data: {},
       },
