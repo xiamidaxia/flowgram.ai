@@ -35,13 +35,13 @@ FlowGram Runtime **定位为 demo 而非 SDK**，它的主要目标是：
 ```json
 {
   "nodes": [
-    { "id": "start", "type": "Start", "metadata": {}, "data": {} },
-    { "id": "llm", "type": "LLM", "metadata": {}, "data": { "systemPrompt": "你是助手", "userPrompt": "{{input}}" } },
-    { "id": "end", "type": "End", "metadata": {}, "data": {} }
+    { "id": "start", "type": "Start", "meta": {}, "data": {} },
+    { "id": "llm", "type": "LLM", "meta": {}, "data": { "systemPrompt": "你是助手", "userPrompt": "{{start.input}}" } },
+    { "id": "end", "type": "End", "meta": {}, "data": {} }
   ],
   "edges": [
-    { "source": "start", "target": "llm" },
-    { "source": "llm", "target": "end" }
+    { "sourceNodeID": "start", "targetNodeID": "llm" },
+    { "sourceNodeID": "llm", "targetNodeID": "end" }
   ]
 }
 ```

@@ -32,16 +32,17 @@ As a reference implementation, FlowGram Runtime will not be published as a packa
 A workflow is a directed graph composed of nodes and edges, describing the execution order and logical relationships of a series of tasks. In FlowGram Runtime, workflows are defined in JSON format, containing nodes and edges.
 
 Example workflow definition:
+
 ```json
 {
   "nodes": [
-    { "id": "start", "type": "Start", "metadata": {}, "data": {} },
-    { "id": "llm", "type": "LLM", "metadata": {}, "data": { "systemPrompt": "You are an assistant", "userPrompt": "{{input}}" } },
-    { "id": "end", "type": "End", "metadata": {}, "data": {} }
+    { "id": "start", "type": "Start", "meta": {}, "data": {} },
+    { "id": "llm", "type": "LLM", "meta": {}, "data": { "systemPrompt": "You are an assistant", "userPrompt": "{{start.input}}" } },
+    { "id": "end", "type": "End", "meta": {}, "data": {} }
   ],
   "edges": [
-    { "source": "start", "target": "llm" },
-    { "source": "llm", "target": "end" }
+    { "sourceNodeID": "start", "targetNodeID": "llm" },
+    { "sourceNodeID": "llm", "targetNodeID": "end" }
   ]
 }
 ```
