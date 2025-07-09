@@ -646,7 +646,7 @@ export class WorkflowDragService {
         });
 
         this.setLineColor(line, this.linesManager.lineColor.drawing);
-        if (toNode) {
+        if (toNode && this.canBuildContainerLine(toNode, dragPos)) {
           // 如果鼠标 hover 在 node 中的时候，默认连线到这个 node 的初始位置
           toPort = this.getNearestPort(toNode, dragPos);
           const { hasError } = this.handleDragOnNode(toNode, fromPort, line, toPort, originLine);
@@ -778,6 +778,22 @@ export class WorkflowDragService {
         this._onDragLineEndCallbacks.delete(id);
       },
     };
+  }
+
+  /** 能否建立容器连线 */
+  private canBuildContainerLine(node: WorkflowNodeEntity, mousePos: IPoint): boolean {
+    const isContainer = this.isContainer(node);
+    if (!isContainer) {
+      return true;
+    }
+    const { padding, bounds } = node.transform;
+    const contentRect = new Rectangle(
+      bounds.x + padding.left,
+      bounds.y,
+      bounds.width - padding.left - padding.right,
+      bounds.height
+    );
+    return !contentRect.contains(mousePos.x, mousePos.y);
   }
 
   /** 获取最近的 port */
