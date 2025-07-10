@@ -64,6 +64,7 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
     expandable: false, // disable expanded
     wrapperStyle: {
       minWidth: 'unset',
+      width: '100%',
     },
   },
   onAdd() {

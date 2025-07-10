@@ -16,8 +16,7 @@ export const NodeWrapperStyle = styled.div`
   flex-direction: column;
   justify-content: center;
   position: relative;
-  min-width: 360px;
-  width: 100%;
+  width: 360px;
   height: auto;
 
   &.selected {
