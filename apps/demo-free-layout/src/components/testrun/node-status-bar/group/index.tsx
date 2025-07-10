@@ -36,7 +36,10 @@ export const NodeStatusGroup: FC<NodeStatusGroupProps> = ({
 
   return (
     <>
-      <div className="node-status-group" onClick={() => hasContent && setIsExpanded(!isExpanded)}>
+      <div
+        className="node-status-group"
+        onClick={() => hasContent && !disableCollapse && setIsExpanded(!isExpanded)}
+      >
         {!disableCollapse && (
           <IconSmallTriangleDown
             style={{

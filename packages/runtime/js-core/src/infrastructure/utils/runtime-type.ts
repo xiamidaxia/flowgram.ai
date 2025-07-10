@@ -62,4 +62,14 @@ export namespace WorkflowRuntimeType {
     }
     return leftType === rightType;
   };
+
+  export const getArrayItemsType = (types: WorkflowVariableType[]): WorkflowVariableType => {
+    const expectedType = types[0];
+    types.forEach((type) => {
+      if (type !== expectedType) {
+        throw new Error(`array items type must be same, expect ${expectedType}, but got ${type}`);
+      }
+    });
+    return expectedType;
+  };
 }

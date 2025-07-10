@@ -5,6 +5,7 @@
 
 import { isNil } from 'lodash-es';
 import {
+  ConditionItem,
   ExecutionContext,
   ExecutionResult,
   FlowGramNode,
@@ -12,7 +13,7 @@ import {
   WorkflowVariableType,
 } from '@flowgram.ai/runtime-interface';
 
-import { ConditionItem, ConditionValue, Conditions } from './type';
+import { ConditionValue, Conditions } from './type';
 import { conditionRules } from './rules';
 import { conditionHandlers } from './handlers';
 

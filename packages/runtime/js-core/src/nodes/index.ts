@@ -9,6 +9,7 @@ import { StartExecutor } from './start';
 import { LoopExecutor } from './loop';
 import { LLMExecutor } from './llm';
 import { EndExecutor } from './end';
+import { BlockEndExecutor, BlockStartExecutor } from './empty';
 import { ConditionExecutor } from './condition';
 
 export const WorkflowRuntimeNodeExecutors: INodeExecutorFactory[] = [
@@ -17,4 +18,6 @@ export const WorkflowRuntimeNodeExecutors: INodeExecutorFactory[] = [
   LLMExecutor,
   ConditionExecutor,
   LoopExecutor,
+  BlockStartExecutor,
+  BlockEndExecutor,
 ];

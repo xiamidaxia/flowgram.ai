@@ -104,8 +104,8 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
     ...defaultFormMeta,
     render: LoopFormRender,
     effect: {
-      batchFor: provideBatchInputEffect,
+      loopFor: provideBatchInputEffect,
     },
-    plugins: [createBatchOutputsFormPlugin({ outputKey: 'batchOutputs' })],
+    plugins: [createBatchOutputsFormPlugin({ outputKey: 'loopOutputs' })],
   },
 };

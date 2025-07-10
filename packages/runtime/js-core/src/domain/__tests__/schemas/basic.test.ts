@@ -32,7 +32,7 @@ describe('WorkflowRuntime basic schema', () => {
     const result = await processing;
     expect(context.statusCenter.workflow.status).toBe(WorkflowStatus.Succeeded);
     expect(result).toStrictEqual({
-      llm_res: `Hi, I'm an AI model, my name is ai-model, temperature is 0.5, system prompt is "You are a helpful AI assistant.", prompt is "<Role>Chat</Role>\n\n<Task>\nTell me a story about love\n</Task>"`,
+      llm_res: `Hi, I am an AI model, my name is ai-model, temperature is 0.5, system prompt is "You are a helpful AI assistant.", prompt is "<Role>Chat</Role>\n\n<Task>\nTell me a story about love\n</Task>"`,
       llm_task: 'Tell me a story about love',
     });
     const snapshots = snapshotsToVOData(context.snapshotCenter.exportAll());
@@ -59,7 +59,7 @@ describe('WorkflowRuntime basic schema', () => {
         },
         outputs: {
           result:
-            'Hi, I\'m an AI model, my name is ai-model, temperature is 0.5, system prompt is "You are a helpful AI assistant.", prompt is "<Role>Chat</Role>\n\n<Task>\nTell me a story about love\n</Task>"',
+            'Hi, I am an AI model, my name is ai-model, temperature is 0.5, system prompt is "You are a helpful AI assistant.", prompt is "<Role>Chat</Role>\n\n<Task>\nTell me a story about love\n</Task>"',
         },
         data: {},
       },
@@ -67,12 +67,12 @@ describe('WorkflowRuntime basic schema', () => {
         nodeID: 'end_0',
         inputs: {
           llm_res:
-            'Hi, I\'m an AI model, my name is ai-model, temperature is 0.5, system prompt is "You are a helpful AI assistant.", prompt is "<Role>Chat</Role>\n\n<Task>\nTell me a story about love\n</Task>"',
+            'Hi, I am an AI model, my name is ai-model, temperature is 0.5, system prompt is "You are a helpful AI assistant.", prompt is "<Role>Chat</Role>\n\n<Task>\nTell me a story about love\n</Task>"',
           llm_task: 'Tell me a story about love',
         },
         outputs: {
           llm_res:
-            'Hi, I\'m an AI model, my name is ai-model, temperature is 0.5, system prompt is "You are a helpful AI assistant.", prompt is "<Role>Chat</Role>\n\n<Task>\nTell me a story about love\n</Task>"',
+            'Hi, I am an AI model, my name is ai-model, temperature is 0.5, system prompt is "You are a helpful AI assistant.", prompt is "<Role>Chat</Role>\n\n<Task>\nTell me a story about love\n</Task>"',
           llm_task: 'Tell me a story about love',
         },
         data: {},

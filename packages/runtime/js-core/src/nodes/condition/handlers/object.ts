@@ -4,8 +4,9 @@
  */
 
 import { isNil } from 'lodash-es';
+import { ConditionOperation } from '@flowgram.ai/runtime-interface';
 
-import { ConditionHandler, ConditionOperation } from '../type';
+import { ConditionHandler } from '../type';
 
 export const conditionObjectHandler: ConditionHandler = (condition) => {
   const { operator } = condition;

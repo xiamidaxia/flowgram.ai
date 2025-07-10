@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { WorkflowVariableType } from '@flowgram.ai/runtime-interface';
+import { ConditionOperation, WorkflowVariableType } from '@flowgram.ai/runtime-interface';
 
-import { ConditionOperation, ConditionRules } from './type';
+import { ConditionRules } from './type';
 
 export const conditionRules: ConditionRules = {
   [WorkflowVariableType.String]: {

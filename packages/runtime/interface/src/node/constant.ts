@@ -13,4 +13,6 @@ export enum FlowGramNode {
   Loop = 'loop',
   Comment = 'comment',
   Group = 'group',
+  BlockStart = 'block-start',
+  BlockEnd = 'block-end',
 }

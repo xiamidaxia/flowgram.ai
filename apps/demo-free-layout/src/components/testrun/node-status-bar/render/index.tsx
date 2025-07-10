@@ -183,7 +183,7 @@ export const NodeStatusRender: FC<NodeStatusRenderProps> = ({ report }) => {
             value={currentSnapshotIndex >= displayCount ? currentSnapshotIndex : undefined}
             onChange={(value) => setCurrentSnapshotIndex(value as number)}
             style={{
-              width: '100px',
+              width: '90px',
               height: '32px',
               border: '1px solid',
               borderColor:
