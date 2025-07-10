@@ -36,8 +36,8 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
      * 子画布默认大小设置
      */
     size: {
-      width: 560,
-      height: 400,
+      width: 424,
+      height: 244,
     },
     /**
      * The subcanvas padding setting
@@ -81,7 +81,7 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
           meta: {
             position: {
               x: -80,
-              y: 0,
+              y: 120,
             },
           },
           data: {},
@@ -92,7 +92,7 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
           meta: {
             position: {
               x: 80,
-              y: 0,
+              y: 120,
             },
           },
           data: {},

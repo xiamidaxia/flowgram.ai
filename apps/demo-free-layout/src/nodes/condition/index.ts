@@ -22,6 +22,10 @@ export const ConditionNodeRegistry: FlowNodeRegistry = {
     // Condition Outputs use dynamic port
     useDynamicPort: true,
     expandable: false, // disable expanded
+    size: {
+      width: 360,
+      height: 210,
+    },
   },
   formMeta,
   onAdd() {

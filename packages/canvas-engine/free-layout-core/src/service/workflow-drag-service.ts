@@ -787,13 +787,8 @@ export class WorkflowDragService {
       return true;
     }
     const { padding, bounds } = node.transform;
-    const contentRect = new Rectangle(
-      bounds.x + padding.left,
-      bounds.y,
-      bounds.width - padding.left - padding.right,
-      bounds.height
-    );
-    return !contentRect.contains(mousePos.x, mousePos.y);
+    const contentRect = new Rectangle(bounds.x, bounds.y, (padding.left * 2) / 3, bounds.height);
+    return contentRect.contains(mousePos.x, mousePos.y);
   }
 
   /** 获取最近的 port */
