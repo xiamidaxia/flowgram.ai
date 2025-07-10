@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-import { createRenderer, EditorProvider } from '@coze-editor/editor/react';
+import { ActiveLinePlaceholder, createRenderer, EditorProvider } from '@coze-editor/editor/react';
 import preset, { type EditorAPI } from '@coze-editor/editor/preset-code';
 import { EditorView } from '@codemirror/view';
 
@@ -27,6 +27,8 @@ export interface CodeEditorPropsType extends React.PropsWithChildren<{}> {
   onChange?: (value: string) => void;
   languageId: 'python' | 'typescript' | 'shell' | 'json';
   theme?: 'dark' | 'light';
+  placeholder?: string;
+  activeLinePlaceholder?: string;
 }
 
 export function CodeEditor({
@@ -35,8 +37,17 @@ export function CodeEditor({
   languageId = 'python',
   theme = 'light',
   children,
+  placeholder,
+  activeLinePlaceholder,
 }: CodeEditorPropsType) {
   const editorRef = useRef<EditorAPI | null>(null);
+
+  useEffect(() => {
+    // listen to value change
+    if (editorRef.current?.getValue() !== value) {
+      editorRef.current?.setValue(String(value || ''));
+    }
+  }, [value]);
 
   return (
     <EditorProvider>
@@ -46,12 +57,16 @@ export function CodeEditor({
           uri: `file:///untitled${getSuffixByLanguageId(languageId)}`,
           languageId,
           theme,
+          placeholder,
         }}
         didMount={(editor: EditorAPI) => {
           editorRef.current = editor;
         }}
         onChange={(e) => onChange?.(e.value)}
       >
+        {activeLinePlaceholder && (
+          <ActiveLinePlaceholder>{activeLinePlaceholder}</ActiveLinePlaceholder>
+        )}
         {children}
       </OriginCodeEditor>
     </EditorProvider>

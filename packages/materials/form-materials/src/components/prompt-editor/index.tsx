@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { Renderer, EditorProvider, ActiveLinePlaceholder } from '@coze-editor/editor/react';
-import preset from '@coze-editor/editor/preset-prompt';
+import preset, { EditorAPI } from '@coze-editor/editor/preset-prompt';
 
 import { PropsType } from './types';
 import { UIContainer } from './styles';
@@ -28,10 +28,22 @@ export function PromptEditor(props: PropsType) {
     children,
   } = props || {};
 
+  const editorRef = useRef<EditorAPI | null>(null);
+
+  useEffect(() => {
+    // listen to value change
+    if (editorRef.current?.getValue() !== value?.content) {
+      editorRef.current?.setValue(String(value?.content || ''));
+    }
+  }, [value]);
+
   return (
     <UIContainer $hasError={hasError} style={style}>
       <EditorProvider>
         <Renderer
+          didMount={(editor: EditorAPI) => {
+            editorRef.current = editor;
+          }}
           plugins={preset}
           defaultValue={String(value?.content)}
           options={{

@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
+import ReactDOM from 'react-dom';
 import React, { useLayoutEffect } from 'react';
 
-import { createRoot, Root } from 'react-dom/client';
 import { isEqual, last } from 'lodash';
 import {
   BaseVariableField,
@@ -35,7 +35,7 @@ class VariableTagWidget extends WidgetType {
 
   scope: Scope;
 
-  root: Root;
+  rootDOM?: HTMLSpanElement;
 
   constructor({ keyPath, scope }: { keyPath?: string[]; scope: Scope }) {
     super();
@@ -52,9 +52,14 @@ class VariableTagWidget extends WidgetType {
     return icon;
   };
 
+  renderReact(jsx: React.ReactElement) {
+    // NOTICE: For React 19, upgrade to 'react-dom/client'
+    ReactDOM.render(jsx, this.rootDOM!);
+  }
+
   renderVariable(v?: BaseVariableField) {
     if (!v) {
-      this.root.render(
+      this.renderReact(
         <UITag prefixIcon={<IconIssueStroked />} color="amber">
           Unknown
         </UITag>
@@ -69,7 +74,7 @@ class VariableTagWidget extends WidgetType {
     );
     const rootIcon = this.renderIcon(rootField?.meta.icon);
 
-    this.root.render(
+    this.renderReact(
       <Popover
         content={
           <UIPopoverContent>
@@ -90,11 +95,12 @@ class VariableTagWidget extends WidgetType {
   toDOM(view: EditorView): HTMLElement {
     const dom = document.createElement('span');
 
-    this.root = createRoot(dom);
+    this.rootDOM = dom;
 
     this.toDispose.push(
       Disposable.create(() => {
-        this.root.unmount();
+        // NOTICE: For React 19, upgrade to 'react-dom/client'
+        ReactDOM.unmountComponentAtNode(this.rootDOM!);
       })
     );
 

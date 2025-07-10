@@ -85,9 +85,14 @@ program
     // 5. Copy the materials to the project
     console.log(chalk.bold('These Materials will be added to your project'));
     console.log(allMaterials);
+    copyMaterial(material, projectInfo, { overwrite: true });
+
     allMaterials.forEach((mat: Material) => {
+      if (mat === material) {
+        return;
+      }
       // Add type for mat
-      copyMaterial(mat, projectInfo);
+      copyMaterial(mat, projectInfo, { overwrite: false });
     });
   });
 

@@ -115,7 +115,15 @@ export function bfsMaterials(material: Material, _materials: Material[] = []): B
   };
 }
 
-export const copyMaterial = (material: Material, projectInfo: ProjectInfo): void => {
+export const copyMaterial = (
+  material: Material,
+  projectInfo: ProjectInfo,
+  {
+    overwrite,
+  }: {
+    overwrite?: boolean;
+  } = {}
+): void => {
   const sourceDir: string = material.path;
   const materialRoot: string = path.join(
     projectInfo.projectPath,
@@ -124,6 +132,12 @@ export const copyMaterial = (material: Material, projectInfo: ProjectInfo): void
     `${material.type}`
   );
   const targetDir = path.join(materialRoot, material.name);
+
+  if (!overwrite && fs.readdirSync(targetDir)?.length > 0) {
+    console.log(`Material ${material.name} already exists in ${materialRoot}, skip copying.`);
+    return;
+  }
+
   fs.cpSync(sourceDir, targetDir, { recursive: true });
 
   let materialRootIndexTs: string = '';

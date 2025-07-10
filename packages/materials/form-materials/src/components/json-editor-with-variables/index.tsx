@@ -11,7 +11,7 @@ import { CodeEditor, type CodeEditorPropsType } from '../code-editor';
 
 export function JsonEditorWithVariables(props: Omit<CodeEditorPropsType, 'languageId'>) {
   return (
-    <CodeEditor languageId="json" {...props}>
+    <CodeEditor languageId="json" activeLinePlaceholder="Press '@' to Select variable" {...props}>
       <VariableTree />
       <VariableTagInject />
     </CodeEditor>
