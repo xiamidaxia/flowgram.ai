@@ -17,9 +17,9 @@ import {
 } from '@flowgram.ai/runtime-interface';
 import { injectable } from '@flowgram.ai/free-layout-editor';
 
+import { ServerConfig } from '../../type';
 import type { ServerError } from './type';
 import { DEFAULT_SERVER_CONFIG } from './constant';
-import { ServerConfig } from '../type';
 
 @injectable()
 export class WorkflowRuntimeServerClient implements IRuntimeClient {

@@ -22,7 +22,7 @@ import {
   getNodeForm,
 } from '@flowgram.ai/free-layout-editor';
 
-import { WorkflowRuntimeClient } from '../browser-client';
+import { WorkflowRuntimeClient } from '../client';
 import { WorkflowNodeType } from '../../../nodes';
 
 const SYNC_TASK_REPORT_INTERVAL = 500;
