@@ -14,8 +14,10 @@ import {
   IReporter,
   IIOCenter,
   ContextData,
+  IMessageCenter,
 } from '@flowgram.ai/runtime-interface';
 
+import { WorkflowRuntimeMessageCenter } from '@workflow/message';
 import { uuid } from '@infra/utils';
 import { WorkflowRuntimeVariableStore } from '../variable';
 import { WorkflowRuntimeStatusCenter } from '../status';
@@ -40,6 +42,8 @@ export class WorkflowRuntimeContext implements IContext {
 
   public readonly statusCenter: IStatusCenter;
 
+  public readonly messageCenter: IMessageCenter;
+
   public readonly reporter: IReporter;
 
   private subContexts: IContext[] = [];
@@ -52,6 +56,7 @@ export class WorkflowRuntimeContext implements IContext {
     this.ioCenter = data.ioCenter;
     this.snapshotCenter = data.snapshotCenter;
     this.statusCenter = data.statusCenter;
+    this.messageCenter = data.messageCenter;
     this.reporter = data.reporter;
   }
 
@@ -63,6 +68,7 @@ export class WorkflowRuntimeContext implements IContext {
     this.ioCenter.init(inputs);
     this.snapshotCenter.init();
     this.statusCenter.init();
+    this.messageCenter.init();
     this.reporter.init();
   }
 
@@ -77,6 +83,7 @@ export class WorkflowRuntimeContext implements IContext {
     this.ioCenter.dispose();
     this.snapshotCenter.dispose();
     this.statusCenter.dispose();
+    this.messageCenter.dispose();
     this.reporter.dispose();
   }
 
@@ -89,6 +96,7 @@ export class WorkflowRuntimeContext implements IContext {
       ioCenter: this.ioCenter,
       snapshotCenter: this.snapshotCenter,
       statusCenter: this.statusCenter,
+      messageCenter: this.messageCenter,
       reporter: this.reporter,
       variableStore,
       state,
@@ -107,7 +115,13 @@ export class WorkflowRuntimeContext implements IContext {
     const ioCenter = new WorkflowRuntimeIOCenter();
     const snapshotCenter = new WorkflowRuntimeSnapshotCenter();
     const statusCenter = new WorkflowRuntimeStatusCenter();
-    const reporter = new WorkflowRuntimeReporter(ioCenter, snapshotCenter, statusCenter);
+    const messageCenter = new WorkflowRuntimeMessageCenter();
+    const reporter = new WorkflowRuntimeReporter(
+      ioCenter,
+      snapshotCenter,
+      statusCenter,
+      messageCenter
+    );
     return new WorkflowRuntimeContext({
       document,
       variableStore,
@@ -115,6 +129,7 @@ export class WorkflowRuntimeContext implements IContext {
       ioCenter,
       snapshotCenter,
       statusCenter,
+      messageCenter,
       reporter,
     });
   }

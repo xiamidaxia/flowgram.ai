@@ -200,11 +200,13 @@ describe('WorkflowRuntime branch schema', () => {
     });
     expect(context.statusCenter.workflow.status).toBe(WorkflowStatus.Processing);
     const result = await processing;
-    expect(context.statusCenter.workflow.status).toBe(WorkflowStatus.Succeeded);
+    expect(context.statusCenter.workflow.status).toBe(WorkflowStatus.Failed);
     expect(result).toStrictEqual({});
 
     const report = context.reporter.export();
-    expect(report.workflowStatus.status).toBe(WorkflowStatus.Succeeded);
+    expect(report.messages.error.length).toBe(1);
+    expect(report.messages.error[0].nodeID).toBe('condition_0');
+    expect(report.workflowStatus.status).toBe(WorkflowStatus.Failed);
     expect(report.reports.start_0.status).toBe(WorkflowStatus.Succeeded);
     expect(report.reports.condition_0.status).toBe(WorkflowStatus.Failed);
     expect(report.reports.llm_1).toBeUndefined();

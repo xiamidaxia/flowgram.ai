@@ -11,6 +11,7 @@ export interface SnapshotData {
   outputs: WorkflowOutputs;
   data: any;
   branch?: string;
+  error?: string;
 }
 
 export interface Snapshot extends SnapshotData {
@@ -20,7 +21,7 @@ export interface Snapshot extends SnapshotData {
 export interface ISnapshot {
   id: string;
   data: Partial<SnapshotData>;
-  addData(data: Partial<SnapshotData>): void;
+  update(data: Partial<SnapshotData>): void;
   validate(): boolean;
   export(): Snapshot;
 }

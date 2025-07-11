@@ -46,11 +46,14 @@ export class WorkflowRuntimeEngine implements IEngine {
       return;
     }
     context.statusCenter.nodeStatus(node.id).process();
+    const snapshot = context.snapshotCenter.create({
+      nodeID: node.id,
+      data: node.data,
+    });
+    let nextNodes: INode[] = [];
     try {
       const inputs = context.state.getNodeInputs(node);
-      const snapshot = context.snapshotCenter.create({
-        nodeID: node.id,
-        data: node.data,
+      snapshot.update({
         inputs,
       });
       const result = await this.executor.execute({
@@ -63,17 +66,23 @@ export class WorkflowRuntimeEngine implements IEngine {
         return;
       }
       const { outputs, branch } = result;
-      snapshot.addData({ outputs, branch });
+      snapshot.update({ outputs, branch });
       context.state.setNodeOutputs({ node, outputs });
       context.state.addExecutedNode(node);
       context.statusCenter.nodeStatus(node.id).success();
-      const nextNodes = this.getNextNodes({ node, branch, context });
-      await this.executeNext({ node, nextNodes, context });
+      nextNodes = this.getNextNodes({ node, branch, context });
     } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : 'An unknown error occurred';
+      snapshot.update({ error: errorMessage });
+      context.messageCenter.error({
+        nodeID: node.id,
+        message: errorMessage,
+      });
       context.statusCenter.nodeStatus(node.id).fail();
       console.error(e);
-      return;
+      throw e;
     }
+    await this.executeNext({ node, nextNodes, context });
   }
 
   private async process(context: IContext): Promise<WorkflowOutputs> {
@@ -86,7 +95,7 @@ export class WorkflowRuntimeEngine implements IEngine {
       return outputs;
     } catch (e) {
       context.statusCenter.workflow.fail();
-      throw e;
+      return {};
     }
   }
 

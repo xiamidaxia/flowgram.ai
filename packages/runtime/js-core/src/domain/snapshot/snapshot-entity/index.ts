@@ -17,7 +17,7 @@ export class WorkflowRuntimeSnapshot implements ISnapshot {
     this.data = data;
   }
 
-  public addData(data: Partial<SnapshotData>): void {
+  public update(data: Partial<SnapshotData>): void {
     Object.assign(this.data, data);
   }
 

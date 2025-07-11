@@ -17,3 +17,4 @@ export * from './status';
 export * from './task';
 export * from './validation';
 export * from './variable';
+export * from './message';

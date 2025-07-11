@@ -4,6 +4,7 @@
  */
 
 import {
+  IMessage,
   IReport,
   NodeReport,
   WorkflowInputs,
@@ -52,6 +53,7 @@ export class WorkflowRuntimeService {
   private resetEmitter = new Emitter<{}>();
 
   public terminatedEmitter = new Emitter<{
+    errors?: IMessage[];
     result?: {
       inputs: WorkflowInputs;
       outputs: WorkflowOutputs;
@@ -125,24 +127,26 @@ export class WorkflowRuntimeService {
     if (!this.taskID) {
       return;
     }
-    const output = await this.runtimeClient.TaskReport({
+    const report = await this.runtimeClient.TaskReport({
       taskID: this.taskID,
     });
-    if (!output) {
+    if (!report) {
       clearInterval(this.syncTaskReportIntervalID);
       console.error('Sync task report failed');
       return;
     }
-    const { workflowStatus, inputs, outputs } = output;
+    const { workflowStatus, inputs, outputs, messages } = report;
     if (workflowStatus.terminated) {
       clearInterval(this.syncTaskReportIntervalID);
       if (Object.keys(outputs).length > 0) {
         this.terminatedEmitter.fire({ result: { inputs, outputs } });
       } else {
-        this.terminatedEmitter.fire({});
+        this.terminatedEmitter.fire({
+          errors: messages.error,
+        });
       }
     }
-    this.updateReport(output);
+    this.updateReport(report);
   }
 
   private updateReport(report: IReport): void {

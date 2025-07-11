@@ -6,6 +6,7 @@
 import { IVariableStore } from '@runtime/variable';
 import { IStatusCenter } from '@runtime/status';
 import { ISnapshotCenter } from '@runtime/snapshot';
+import { IMessageCenter } from '@runtime/message';
 import { IIOCenter } from '@runtime/io-center';
 import { IState } from '../state';
 import { IReporter } from '../reporter';
@@ -19,6 +20,7 @@ export interface ContextData {
   ioCenter: IIOCenter;
   snapshotCenter: ISnapshotCenter;
   statusCenter: IStatusCenter;
+  messageCenter: IMessageCenter;
   reporter: IReporter;
 }
 

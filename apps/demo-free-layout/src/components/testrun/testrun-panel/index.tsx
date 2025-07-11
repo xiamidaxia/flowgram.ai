@@ -25,7 +25,7 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
   const runtimeService = useService(WorkflowRuntimeService);
   const [isRunning, setRunning] = useState(false);
   const [value, setValue] = useState<string>(`{}`);
-  const [error, setError] = useState<string | undefined>();
+  const [errors, setErrors] = useState<string[]>();
   const [result, setResult] = useState<
     | {
         inputs: WorkflowInputs;
@@ -40,12 +40,12 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
       return;
     }
     setResult(undefined);
-    setError(undefined);
+    setErrors(undefined);
     setRunning(true);
     try {
       await runtimeService.taskRun(value);
     } catch (e: any) {
-      setError(e.message);
+      setErrors([e.message]);
     }
   };
 
@@ -57,9 +57,14 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
   };
 
   useEffect(() => {
-    const disposer = runtimeService.onTerminated(({ result }) => {
+    const disposer = runtimeService.onTerminated(({ result, errors }) => {
       setRunning(false);
       setResult(result);
+      if (errors) {
+        setErrors(errors.map((e) => `${e.nodeID}: ${e.message}`));
+      } else {
+        setErrors(undefined);
+      }
     });
     return () => disposer.dispose();
   }, []);
@@ -77,8 +82,11 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
       <div className={styles['code-editor-container']}>
         <CodeEditor languageId="json" value={value} onChange={setValue} />
       </div>
-      <div className={styles.error}>{error}</div>
-
+      {errors?.map((e) => (
+        <div className={styles.error} key={e}>
+          {e}
+        </div>
+      ))}
       <NodeStatusGroup title="Inputs" data={result?.inputs} optional disableCollapse />
       <NodeStatusGroup title="Outputs" data={result?.outputs} optional disableCollapse />
     </div>
