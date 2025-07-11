@@ -14,6 +14,8 @@ import {
   WorkflowPortType,
 } from '@flowgram.ai/runtime-interface';
 
+import { traverseNodes } from '@infra/index';
+
 export class WorkflowRuntimeNode<T = any> implements INode {
   public readonly id: string;
 
@@ -110,6 +112,14 @@ export class WorkflowRuntimeNode<T = any> implements INode {
 
   public get next() {
     return this._next;
+  }
+
+  public get successors(): INode[] {
+    return traverseNodes(this, (node) => node.next);
+  }
+
+  public get predecessors(): INode[] {
+    return traverseNodes(this, (node) => node.prev);
   }
 
   public get isBranch() {

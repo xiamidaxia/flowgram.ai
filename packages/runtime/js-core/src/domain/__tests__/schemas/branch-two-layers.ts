@@ -5,7 +5,7 @@
 
 import { WorkflowSchema } from '@flowgram.ai/runtime-interface';
 
-export const branchSchema: WorkflowSchema = {
+export const branchTwoLayersSchema: WorkflowSchema = {
   nodes: [
     {
       id: 'start_0',
@@ -50,8 +50,8 @@ export const branchSchema: WorkflowSchema = {
       type: 'end',
       meta: {
         position: {
-          x: 1560,
-          y: 368.3,
+          x: 2020,
+          y: 368.29999999999995,
         },
       },
       data: {
@@ -59,22 +59,22 @@ export const branchSchema: WorkflowSchema = {
         inputs: {
           type: 'object',
           properties: {
-            m1_res: {
+            m3_res: {
               type: 'string',
             },
-            m2_res: {
+            m4_res: {
               type: 'string',
             },
           },
         },
         inputsValues: {
-          m1_res: {
+          m3_res: {
             type: 'ref',
-            content: ['llm_1', 'result'],
+            content: ['llm_3', 'result'],
           },
-          m2_res: {
+          m4_res: {
             type: 'ref',
-            content: ['llm_2', 'result'],
+            content: ['llm_4', 'result'],
           },
         },
       },
@@ -151,8 +151,8 @@ export const branchSchema: WorkflowSchema = {
             content: 0.5,
           },
           systemPrompt: {
-            type: 'constant',
-            content: "I'm Model 1.",
+            type: 'template',
+            content: "I'm Model 1",
           },
           prompt: {
             type: 'template',
@@ -205,7 +205,7 @@ export const branchSchema: WorkflowSchema = {
       meta: {
         position: {
           x: 1100,
-          y: 459.8,
+          y: 459.3,
         },
       },
       data: {
@@ -228,8 +228,8 @@ export const branchSchema: WorkflowSchema = {
             content: 0.6,
           },
           systemPrompt: {
-            type: 'constant',
-            content: "I'm Model 2.",
+            type: 'template',
+            content: "I'm Model 2",
           },
           prompt: {
             type: 'template',
@@ -276,6 +276,160 @@ export const branchSchema: WorkflowSchema = {
         },
       },
     },
+    {
+      id: 'llm_3',
+      type: 'llm',
+      meta: {
+        position: {
+          x: 1560,
+          y: 0,
+        },
+      },
+      data: {
+        title: 'LLM_3',
+        inputsValues: {
+          modelName: {
+            type: 'constant',
+            content: 'AI_MODEL_3',
+          },
+          apiKey: {
+            type: 'constant',
+            content: 'sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          },
+          apiHost: {
+            type: 'constant',
+            content: 'https://mock-ai-url/api/v3',
+          },
+          temperature: {
+            type: 'constant',
+            content: 0.5,
+          },
+          systemPrompt: {
+            type: 'template',
+            content: "I'm Model 3",
+          },
+          prompt: {
+            type: 'template',
+            content: '{{llm_1.result}}',
+          },
+        },
+        inputs: {
+          type: 'object',
+          required: ['modelName', 'apiKey', 'apiHost', 'temperature', 'prompt'],
+          properties: {
+            modelName: {
+              type: 'string',
+            },
+            apiKey: {
+              type: 'string',
+            },
+            apiHost: {
+              type: 'string',
+            },
+            temperature: {
+              type: 'number',
+            },
+            systemPrompt: {
+              type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
+            },
+            prompt: {
+              type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
+            },
+          },
+        },
+        outputs: {
+          type: 'object',
+          properties: {
+            result: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+    {
+      id: 'llm_4',
+      type: 'llm',
+      meta: {
+        position: {
+          x: 1560,
+          y: 459.8,
+        },
+      },
+      data: {
+        title: 'LLM_4',
+        inputsValues: {
+          modelName: {
+            type: 'constant',
+            content: 'AI_MODEL_4',
+          },
+          apiKey: {
+            type: 'constant',
+            content: 'sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          },
+          apiHost: {
+            type: 'constant',
+            content: 'https://mock-ai-url/api/v3',
+          },
+          temperature: {
+            type: 'constant',
+            content: 0.5,
+          },
+          systemPrompt: {
+            type: 'template',
+            content: "I'm Model 4",
+          },
+          prompt: {
+            type: 'template',
+            content: '{{llm_2.result}}',
+          },
+        },
+        inputs: {
+          type: 'object',
+          required: ['modelName', 'apiKey', 'apiHost', 'temperature', 'prompt'],
+          properties: {
+            modelName: {
+              type: 'string',
+            },
+            apiKey: {
+              type: 'string',
+            },
+            apiHost: {
+              type: 'string',
+            },
+            temperature: {
+              type: 'number',
+            },
+            systemPrompt: {
+              type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
+            },
+            prompt: {
+              type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
+            },
+          },
+        },
+        outputs: {
+          type: 'object',
+          properties: {
+            result: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
   ],
   edges: [
     {
@@ -283,11 +437,11 @@ export const branchSchema: WorkflowSchema = {
       targetNodeID: 'condition_0',
     },
     {
-      sourceNodeID: 'llm_1',
+      sourceNodeID: 'llm_3',
       targetNodeID: 'end_0',
     },
     {
-      sourceNodeID: 'llm_2',
+      sourceNodeID: 'llm_4',
       targetNodeID: 'end_0',
     },
     {
@@ -299,6 +453,14 @@ export const branchSchema: WorkflowSchema = {
       sourceNodeID: 'condition_0',
       targetNodeID: 'llm_2',
       sourcePortID: 'if_2',
+    },
+    {
+      sourceNodeID: 'llm_1',
+      targetNodeID: 'llm_3',
+    },
+    {
+      sourceNodeID: 'llm_2',
+      targetNodeID: 'llm_4',
     },
   ],
 };

@@ -32,9 +32,7 @@ export class ConditionExecutor implements INodeExecutor {
       .filter((item) => this.checkCondition(item));
     const activatedCondition = parsedConditions.find((item) => this.handleCondition(item));
     if (!activatedCondition) {
-      return {
-        outputs: {},
-      };
+      throw new Error('no condition is activated');
     }
     return {
       outputs: {},

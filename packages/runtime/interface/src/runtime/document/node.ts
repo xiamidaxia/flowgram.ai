@@ -33,6 +33,8 @@ export interface INode<T = any> {
   children: INode[];
   prev: INode[];
   next: INode[];
+  successors: INode[];
+  predecessors: INode[];
   isBranch: boolean;
 }
 

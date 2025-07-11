@@ -98,6 +98,7 @@ describe('WorkflowRuntime branch schema', () => {
     expect(report.reports.condition_0.status).toBe(WorkflowStatus.Succeeded);
     expect(report.reports.llm_1.status).toBe(WorkflowStatus.Succeeded);
     expect(report.reports.end_0.status).toBe(WorkflowStatus.Succeeded);
+    expect(report.reports.llm_2).toBeUndefined();
   });
 
   it('should execute a workflow with branch 2', async () => {
@@ -185,5 +186,29 @@ describe('WorkflowRuntime branch schema', () => {
     expect(report.reports.condition_0.status).toBe(WorkflowStatus.Succeeded);
     expect(report.reports.llm_2.status).toBe(WorkflowStatus.Succeeded);
     expect(report.reports.end_0.status).toBe(WorkflowStatus.Succeeded);
+    expect(report.reports.llm_1).toBeUndefined();
+  });
+
+  it('should execute a workflow with branch not exist', async () => {
+    const engine = container.get<IEngine>(IEngine);
+    const { context, processing } = engine.invoke({
+      schema: TestSchemas.branchSchema,
+      inputs: {
+        model_id: 3,
+        prompt: 'Not Exist',
+      },
+    });
+    expect(context.statusCenter.workflow.status).toBe(WorkflowStatus.Processing);
+    const result = await processing;
+    expect(context.statusCenter.workflow.status).toBe(WorkflowStatus.Succeeded);
+    expect(result).toStrictEqual({});
+
+    const report = context.reporter.export();
+    expect(report.workflowStatus.status).toBe(WorkflowStatus.Succeeded);
+    expect(report.reports.start_0.status).toBe(WorkflowStatus.Succeeded);
+    expect(report.reports.condition_0.status).toBe(WorkflowStatus.Failed);
+    expect(report.reports.llm_1).toBeUndefined();
+    expect(report.reports.llm_2).toBeUndefined();
+    expect(report.reports.end_0).toBeUndefined();
   });
 });

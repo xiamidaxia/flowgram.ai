@@ -15,6 +15,7 @@ import {
   FlowGramNode,
 } from '@flowgram.ai/runtime-interface';
 
+import { compareNodeGroups } from '@infra/utils';
 import { WorkflowRuntimeTask } from '../task';
 import { WorkflowRuntimeContext } from '../context';
 import { WorkflowRuntimeContainer } from '../container';
@@ -111,8 +112,11 @@ export class WorkflowRuntimeEngine implements IEngine {
     const nextNodeIDs: Set<string> = new Set(targetPort.edges.map((edge) => edge.to.id));
     const nextNodes = allNextNodes.filter((nextNode) => nextNodeIDs.has(nextNode.id));
     const skipNodes = allNextNodes.filter((nextNode) => !nextNodeIDs.has(nextNode.id));
-    skipNodes.forEach((skipNode) => {
-      context.state.addExecutedNode(skipNode);
+    const nextGroups = nextNodes.map((nextNode) => [nextNode, ...nextNode.successors]);
+    const skipGroups = skipNodes.map((skipNode) => [skipNode, ...skipNode.successors]);
+    const { uniqueToB: skippedNodes } = compareNodeGroups(nextGroups, skipGroups);
+    skippedNodes.forEach((node) => {
+      context.state.addExecutedNode(node);
     });
     return nextNodes;
   }
