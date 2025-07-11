@@ -27,7 +27,6 @@
     "@flowgram.ai/free-layout-editor": "workspace:*",
     "@flowgram.ai/group-plugin": "workspace:*",
     "@flowgram.ai/form-core": "workspace:*",
-    "@flowgram.ai/fixed-reactor-plugin": "workspace:*",
     "@flowgram.ai/free-auto-layout-plugin": "workspace:*",
     "@flowgram.ai/minimap-plugin": "workspace:*",
     "@flowgram.ai/free-stack-plugin": "workspace:*",

@@ -1,8 +1,4 @@
-/**
- * Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
- * SPDX-License-Identifier: MIT
- */
-
+import { IPoint, Point } from '@flowgram.ai/utils';
 import {
   type FlowNodeTransitionData,
   FlowTransitionLineEnum,
@@ -11,17 +7,16 @@ import {
   type FlowTransitionLine,
   type FlowTransitionLabel,
 } from '@flowgram.ai/document';
-import { IPoint, Point } from '@flowgram.ai/utils';
 
-import { REACTOR_COLLAPSE_MARGIN, RENDER_REACTOR_COLLAPSE_KEY } from '../constants';
+import { SLOT_COLLAPSE_MARGIN, RENDER_SLOT_COLLAPSE_KEY } from '../constants';
 import { getDisplayFirstChildTransform } from './node';
 
 /**
- * 画 Reactor 节点虚线起点
+ * 画 Slot 节点虚线起点
  * @param iconTransform blockIcon 的 transform
  * @returns
  */
-export const getReactorChildLineStartPoint = (iconTransform?: FlowNodeTransformData): IPoint => {
+export const getSlotChildLineStartPoint = (iconTransform?: FlowNodeTransformData): IPoint => {
   if (!iconTransform) {
     return { x: 0, y: 0 };
   }
@@ -29,11 +24,11 @@ export const getReactorChildLineStartPoint = (iconTransform?: FlowNodeTransformD
   if (!iconTransform.entity.isVertical) {
     return {
       x: iconTransform?.bounds.center.x,
-      y: iconTransform?.bounds.bottom + REACTOR_COLLAPSE_MARGIN,
+      y: iconTransform?.bounds.bottom + SLOT_COLLAPSE_MARGIN,
     };
   }
   return {
-    x: iconTransform?.bounds.right + REACTOR_COLLAPSE_MARGIN,
+    x: iconTransform?.bounds.right + SLOT_COLLAPSE_MARGIN,
     y: iconTransform?.bounds.center.y,
   };
 };
@@ -109,7 +104,7 @@ export const getTransitionToPoint = (transition: FlowNodeTransitionData): IPoint
 
 /**
  * 画实现线
- * @param transition Reactor 节点的 transition
+ * @param transition Slot 节点的 transition
  * @returns
  */
 export const drawStraightLine = (transition: FlowNodeTransitionData): FlowTransitionLine[] => {
@@ -140,10 +135,10 @@ export const drawCollapseLabel = (transition: FlowNodeTransitionData): FlowTrans
   return [
     {
       type: FlowTransitionLabelEnum.CUSTOM_LABEL,
-      renderKey: RENDER_REACTOR_COLLAPSE_KEY,
-      offset: getReactorChildLineStartPoint(icon),
+      renderKey: RENDER_SLOT_COLLAPSE_KEY,
+      offset: getSlotChildLineStartPoint(icon),
       props: {
-        reactor: transition.entity.parent,
+        Slot: transition.entity.parent,
       },
     },
   ];
@@ -152,12 +147,12 @@ export const drawCollapseLabel = (transition: FlowNodeTransitionData): FlowTrans
 export const drawCollapseLine = (transition: FlowNodeTransitionData): FlowTransitionLine[] => [
   {
     type: FlowTransitionLineEnum.STRAIGHT_LINE,
-    from: getReactorChildLineStartPoint(transition.transform),
+    from: getSlotChildLineStartPoint(transition.transform),
     to: Point.move(
-      getReactorChildLineStartPoint(transition.transform),
+      getSlotChildLineStartPoint(transition.transform),
       transition.entity.isVertical
-        ? { x: -REACTOR_COLLAPSE_MARGIN, y: 0 }
-        : { x: 0, y: -REACTOR_COLLAPSE_MARGIN },
+        ? { x: -SLOT_COLLAPSE_MARGIN, y: 0 }
+        : { x: 0, y: -SLOT_COLLAPSE_MARGIN }
     ),
     style: {
       strokeDasharray: '5 5',

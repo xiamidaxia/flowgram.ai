@@ -388,6 +388,13 @@ export class FlowNodeEntity extends Entity<FlowNodeEntityConfig> {
   get bounds(): Rectangle {
     return this.transform.bounds;
   }
+
+  /**
+   * Check node extend
+   */
+  isExtend(parentType: string): boolean {
+    return this.document.isExtend(this.flowNodeType, parentType);
+  }
 }
 
 export namespace FlowNodeEntity {

@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
- * SPDX-License-Identifier: MIT
- */
-
 import { mean } from 'lodash';
 import {
   FlowNodeRegistry,
@@ -12,28 +7,28 @@ import {
 } from '@flowgram.ai/document';
 import { FlowNodeTransformData } from '@flowgram.ai/document';
 
-import { getPortChildInput, getReactorChildLineStartPoint } from '../utils/transition';
-import { ReactorNodeType } from '../typings';
-import { REACTOR_PORT_DISTANCE, RENDER_REACTOR_PORT_KEY } from '../constants';
+import { getPortChildInput, getSlotChildLineStartPoint } from '../utils/transition';
+import { SlotNodeType } from '../typings';
+import { SLOT_PORT_DISTANCE, RENDER_SLOT_PORT_KEY } from '../constants';
 
-export const reactorPort: FlowNodeRegistry = {
-  type: ReactorNodeType.ReactorPort,
+export const SlotPortRegistry: FlowNodeRegistry = {
+  type: SlotNodeType.SlotPort,
   extend: FlowNodeBaseType.BLOCK,
   meta: {
     inlineSpacingAfter: 0,
     inlineSpacingPre: 0,
-    spacing: transform => {
+    spacing: (transform) => {
       // 水平布局没有子节点情况
       if (!transform.entity.isVertical && transform.size.width === 0) {
         return 90;
       }
       return 30;
     },
-    isInlineBlocks: node => !node.isVertical,
+    isInlineBlocks: (node) => !node.isVertical,
   },
   getLines(transition) {
     const icon = transition.transform.parent?.pre;
-    const start = getReactorChildLineStartPoint(icon);
+    const start = getSlotChildLineStartPoint(icon);
     const portPoint = transition.transform.inputPoint;
 
     return [
@@ -47,7 +42,7 @@ export const reactorPort: FlowNodeRegistry = {
         },
         radius: 5,
       },
-      ...transition.transform.children.map(_child => {
+      ...transition.transform.children.map((_child) => {
         const childInput = getPortChildInput(_child);
 
         return {
@@ -69,7 +64,7 @@ export const reactorPort: FlowNodeRegistry = {
     return [
       {
         type: FlowTransitionLabelEnum.CUSTOM_LABEL,
-        renderKey: RENDER_REACTOR_PORT_KEY,
+        renderKey: RENDER_SLOT_PORT_KEY,
         props: {
           port: transition.entity,
         },
@@ -79,7 +74,7 @@ export const reactorPort: FlowNodeRegistry = {
   },
   getInputPoint(transform) {
     const icon = transform.parent?.pre;
-    const start = getReactorChildLineStartPoint(icon);
+    const start = getSlotChildLineStartPoint(icon);
 
     let inputY = transform.bounds.center.y;
     if (transform.children.length) {
@@ -90,7 +85,7 @@ export const reactorPort: FlowNodeRegistry = {
     }
 
     return {
-      x: start.x + REACTOR_PORT_DISTANCE,
+      x: start.x + SLOT_PORT_DISTANCE,
       y: inputY,
     };
   },
