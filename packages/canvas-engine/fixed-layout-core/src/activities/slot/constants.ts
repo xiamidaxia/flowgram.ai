@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+ * SPDX-License-Identifier: MIT
+ */
+
 import { FlowRendererKey } from '@flowgram.ai/renderer';
 
 export const RENDER_SLOT_PORT_KEY = FlowRendererKey.SLOT_PORT_RENDER;

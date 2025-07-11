@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+ * SPDX-License-Identifier: MIT
+ */
+
 import { IFormMeta } from '@flow-ide-editor/form-core';
 import { createFixedReactorPlugin } from '@flow-ide-editor/fixed-reactor-plugin';
 
