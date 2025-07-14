@@ -5,8 +5,8 @@
 
 import { FlowRendererKey } from '@flowgram.ai/renderer';
 
-export const RENDER_SLOT_LABEL_KEY = FlowRendererKey.SLOT_LABEL_RENDER;
-export const RENDER_SLOT_COLLAPSE_KEY = FlowRendererKey.SLOT_COLLPASE_RENDER;
+export const RENDER_SLOT_ADDER_KEY = FlowRendererKey.SLOT_ADDER;
+export const RENDER_SLOT_COLLAPSE_KEY = FlowRendererKey.SLOT_COLLPASE;
 
 export const SLOT_BLOCK_DISTANCE = 60;
 export const SLOT_COLLAPSE_MARGIN = 20;

@@ -5,4 +5,4 @@
 
 export { DemoTools } from './tools';
 export { DragNode } from './drag-node';
-export { AgentLabel } from './agent-label';
+export { AgentAdder } from './agent-adder';
