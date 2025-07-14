@@ -17,6 +17,7 @@ import {
   RootRegistry,
   InlineBlocksRegistry,
   EndRegistry,
+  SlotRegistry,
 } from './activities';
 
 export const FixedLayoutRegistries = {
@@ -32,4 +33,5 @@ export const FixedLayoutRegistries = {
   RootRegistry,
   InlineBlocksRegistry,
   EndRegistry,
+  SlotRegistry,
 };

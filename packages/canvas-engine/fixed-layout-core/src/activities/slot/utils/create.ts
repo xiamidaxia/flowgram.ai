@@ -11,7 +11,7 @@ import { SlotNodeType } from '../typings';
 
 // Slot 样例数据
 // const mock = {
-//   type: 'Slot',
+//   type: 'slot',
 //   id: 'reactor_parent',
 //   blocks: [
 //     {
@@ -64,13 +64,13 @@ export const createSlotFromJSON = (node: FlowNodeEntity, json: FlowNodeJSON): Fl
 
   // 块列表开始节点，用来展示块的按钮
   const blockIconNode = document.addNode({
-    id: `$reactorIcon$${node.id}`,
+    id: `$slotIcon$${node.id}`,
     type: FlowNodeBaseType.BLOCK_ICON,
     originParent: node,
     parent: node,
   });
   const inlineBlocksNode = document.addNode({
-    id: `$reactorInlineBlocks$${node.id}`,
+    id: `$slotInlineBlocks$${node.id}`,
     type: SlotNodeType.SlotInlineBlocks,
     originParent: node,
     parent: node,
@@ -82,8 +82,8 @@ export const createSlotFromJSON = (node: FlowNodeEntity, json: FlowNodeJSON): Fl
 
   portJSONList.forEach((_portJSON) => {
     const port = document.addNode({
-      ..._portJSON,
       type: SlotNodeType.SlotPort,
+      ..._portJSON,
       originParent: node,
       parent: inlineBlocksNode,
     });

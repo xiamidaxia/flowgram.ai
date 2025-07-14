@@ -143,7 +143,7 @@ export const drawCollapseLabel = (transition: FlowNodeTransitionData): FlowTrans
       renderKey: RENDER_SLOT_COLLAPSE_KEY,
       offset: getSlotChildLineStartPoint(icon),
       props: {
-        Slot: transition.entity.parent,
+        node: transition.entity.parent,
       },
     },
   ];

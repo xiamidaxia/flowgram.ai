@@ -4,3 +4,4 @@
  */
 
 export { SlotRegistry } from './slot';
+export { SlotPortRegistry } from './extends';

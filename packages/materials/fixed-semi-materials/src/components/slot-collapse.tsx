@@ -9,18 +9,18 @@ import {
   type FlowNodeEntity,
   FlowNodeRenderData,
   FlowNodeTransformData,
-} from '@flow-ide-editor/fixed-layout-editor';
+} from '@flowgram.ai/fixed-layout-editor';
 
-import Collapse from '../collapse';
+import Collapse from './collapse';
 
-export function ReactorCollapse({ reactor }: { reactor: FlowNodeEntity }) {
+export function SlotCollapse({ node }: { node: FlowNodeEntity }) {
   const [hoverActivated, setHoverActivated] = useState(false);
 
-  const icon = reactor.firstChild!;
+  const icon = node.firstChild!;
   const iconActivated = icon.getData(FlowNodeRenderData).activated;
   const iconHeight = icon.getData(FlowNodeTransformData).size.height;
 
-  const isChildVisible = reactor.collapsed || hoverActivated || iconActivated;
+  const isChildVisible = node.collapsed || hoverActivated || iconActivated;
 
   return (
     <div
@@ -36,9 +36,9 @@ export function ReactorCollapse({ reactor }: { reactor: FlowNodeEntity }) {
     >
       {isChildVisible && (
         <Collapse
-          node={reactor}
+          node={node}
           activateNode={icon}
-          collapseNode={reactor}
+          collapseNode={node}
           arrowDirection="left"
           hoverActivated={hoverActivated}
         />

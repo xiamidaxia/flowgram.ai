@@ -6,6 +6,7 @@
 import { nanoid } from 'nanoid';
 
 import { defaultFormMeta } from '../default-form-meta';
+import { AgentLLMNodeRegistry } from '../agent/agent-llm';
 import { FlowNodeRegistry } from '../../typings';
 import iconLLM from '../../assets/icon-llm.jpg';
 
@@ -18,6 +19,12 @@ export const LLMNodeRegistry: FlowNodeRegistry = {
       'Call the large language model and use variables and prompt words to generate responses.',
   },
   formMeta: defaultFormMeta,
+  meta: {
+    draggable: (node) => node.parent?.flowNodeType !== AgentLLMNodeRegistry.type,
+  },
+  canDelete(ctx, node) {
+    return node.parent?.flowNodeType !== AgentLLMNodeRegistry.type;
+  },
   onAdd() {
     return {
       id: `llm_${nanoid(5)}`,

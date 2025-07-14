@@ -14,7 +14,7 @@ import { FlowNodeTransformData } from '@flowgram.ai/document';
 
 import { getPortChildInput, getSlotChildLineStartPoint } from '../utils/transition';
 import { SlotNodeType } from '../typings';
-import { SLOT_PORT_DISTANCE, RENDER_SLOT_PORT_KEY } from '../constants';
+import { SLOT_PORT_DISTANCE, RENDER_SLOT_LABEL_KEY } from '../constants';
 
 export const SlotPortRegistry: FlowNodeRegistry = {
   type: SlotNodeType.SlotPort,
@@ -69,9 +69,9 @@ export const SlotPortRegistry: FlowNodeRegistry = {
     return [
       {
         type: FlowTransitionLabelEnum.CUSTOM_LABEL,
-        renderKey: RENDER_SLOT_PORT_KEY,
+        renderKey: RENDER_SLOT_LABEL_KEY,
         props: {
-          port: transition.entity,
+          node: transition.entity,
         },
         offset: portPoint,
       },

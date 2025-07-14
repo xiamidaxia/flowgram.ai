@@ -14,7 +14,7 @@ import {
 import { insideSlot } from './utils/node';
 import { getAllPortsMiddle } from './utils/layout';
 import { createSlotFromJSON } from './utils/create';
-import { SlotPortRegistry, SlotInlineBlocksRegistry, SlotIconRegistry } from './extends';
+import { SlotInlineBlocksRegistry, SlotIconRegistry } from './extends';
 import { SLOT_COLLAPSE_MARGIN, SLOT_NODE_LAST_SPACING, SLOT_SPACING } from './constants';
 
 export const SlotRegistry: FlowNodeRegistry = {
@@ -97,5 +97,5 @@ export const SlotRegistry: FlowNodeRegistry = {
       },
     });
   },
-  extendChildRegistries: [SlotIconRegistry, SlotPortRegistry, SlotInlineBlocksRegistry],
+  extendChildRegistries: [SlotIconRegistry, SlotInlineBlocksRegistry],
 };
