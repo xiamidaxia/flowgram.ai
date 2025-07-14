@@ -17,11 +17,10 @@ export enum FlowGramAPIName {
   TaskReport = 'TaskReport',
   TaskResult = 'TaskResult',
   TaskCancel = 'TaskCancel',
-  Validation = 'Validation',
+  TaskValidate = 'TaskValidate',
 }
 
 export enum FlowGramAPIModule {
   Info = 'Info',
   Task = 'Task',
-  Validation = 'Validation',
 }

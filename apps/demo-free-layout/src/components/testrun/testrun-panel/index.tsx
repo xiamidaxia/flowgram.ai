@@ -57,11 +57,11 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
   };
 
   useEffect(() => {
-    const disposer = runtimeService.onTerminated(({ result, errors }) => {
+    const disposer = runtimeService.onResultChanged(({ result, errors }) => {
       setRunning(false);
       setResult(result);
       if (errors) {
-        setErrors(errors.map((e) => `${e.nodeID}: ${e.message}`));
+        setErrors(errors);
       } else {
         setErrors(undefined);
       }

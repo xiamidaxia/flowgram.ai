@@ -3,10 +3,34 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { WorkflowSchema, IValidation, ValidationResult } from '@flowgram.ai/runtime-interface';
+import {
+  WorkflowSchema,
+  IValidation,
+  ValidationResult,
+  InvokeParams,
+  IJsonSchema,
+  FlowGramNode,
+} from '@flowgram.ai/runtime-interface';
+
+import { JSONSchemaValidator } from '@infra/index';
 
 export class WorkflowRuntimeValidation implements IValidation {
-  validate(schema: WorkflowSchema): ValidationResult {
+  public invoke(params: InvokeParams): ValidationResult {
+    const { schema, inputs } = params;
+    const schemaValidationResult = this.schema(schema);
+    if (!schemaValidationResult.valid) {
+      return schemaValidationResult;
+    }
+    const inputsValidationResult = this.inputs(this.getWorkflowInputsDeclare(schema), inputs);
+    if (!inputsValidationResult.valid) {
+      return inputsValidationResult;
+    }
+    return {
+      valid: true,
+    };
+  }
+
+  private schema(schema: WorkflowSchema): ValidationResult {
     // TODO
     // 检查成环
     // 检查边的节点是否存在
@@ -19,5 +43,30 @@ export class WorkflowRuntimeValidation implements IValidation {
     return {
       valid: true,
     };
+  }
+
+  private inputs(inputsSchema: IJsonSchema, inputs: Record<string, unknown>): ValidationResult {
+    const { result, errorMessage } = JSONSchemaValidator({
+      schema: inputsSchema,
+      value: inputs,
+    });
+    if (!result) {
+      const error = `JSON Schema validation failed: ${errorMessage}`;
+      return {
+        valid: false,
+        errors: [error],
+      };
+    }
+    return {
+      valid: true,
+    };
+  }
+
+  private getWorkflowInputsDeclare(schema: WorkflowSchema): IJsonSchema {
+    const startNode = schema.nodes.find((node) => node.type === FlowGramNode.Start);
+    if (!startNode) {
+      throw new Error('Workflow schema must have a start node');
+    }
+    return startNode.data.outputs;
   }
 }

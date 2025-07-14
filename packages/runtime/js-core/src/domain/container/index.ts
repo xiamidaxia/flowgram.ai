@@ -39,6 +39,7 @@ export class WorkflowRuntimeContainer implements IContainer {
     const Validation = new WorkflowRuntimeValidation();
     const Executor = new WorkflowRuntimeExecutor(WorkflowRuntimeNodeExecutors);
     const Engine = new WorkflowRuntimeEngine({
+      Validation,
       Executor,
     });
 

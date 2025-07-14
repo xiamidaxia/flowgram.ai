@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { WorkflowSchema } from '@schema/index';
+import { InvokeParams } from '@runtime/base';
 
 export interface ValidationResult {
   valid: boolean;
@@ -11,7 +11,7 @@ export interface ValidationResult {
 }
 
 export interface IValidation {
-  validate(schema: WorkflowSchema): ValidationResult;
+  invoke(params: InvokeParams): ValidationResult;
 }
 
 export const IValidation = Symbol.for('Validation');

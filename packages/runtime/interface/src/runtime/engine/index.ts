@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+import { IValidation } from '@runtime/validation';
 import { ITask } from '../task';
 import { IExecutor } from '../executor';
 import { INode } from '../document';
@@ -10,6 +11,7 @@ import { IContext } from '../context';
 import { InvokeParams } from '../base';
 
 export interface EngineServices {
+  Validation: IValidation;
   Executor: IExecutor;
 }
 

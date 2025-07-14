@@ -4,7 +4,6 @@
  */
 
 import {
-  IMessage,
   IReport,
   NodeReport,
   WorkflowInputs,
@@ -52,8 +51,8 @@ export class WorkflowRuntimeService {
 
   private resetEmitter = new Emitter<{}>();
 
-  public terminatedEmitter = new Emitter<{
-    errors?: IMessage[];
+  private resultEmitter = new Emitter<{
+    errors?: string[];
     result?: {
       inputs: WorkflowInputs;
       outputs: WorkflowOutputs;
@@ -66,7 +65,7 @@ export class WorkflowRuntimeService {
 
   public onReset = this.resetEmitter.event;
 
-  public onTerminated = this.terminatedEmitter.event;
+  public onResultChanged = this.resultEmitter.event;
 
   public isFlowingLine(line: WorkflowLineEntity) {
     return this.runningNodes.some((node) =>
@@ -78,16 +77,28 @@ export class WorkflowRuntimeService {
     if (this.taskID) {
       await this.taskCancel();
     }
-    if (!this.validate()) {
+    if (!this.validateForm()) {
+      return;
+    }
+    const inputs = JSON.parse(inputsString) as WorkflowInputs;
+    const schema = this.document.toJSON();
+    const validateResult = await this.runtimeClient.TaskValidate({
+      schema: JSON.stringify(schema),
+      inputs,
+    });
+    if (!validateResult?.valid) {
+      this.resultEmitter.fire({
+        errors: validateResult?.errors ?? ['Internal Server Error'],
+      });
       return;
     }
     this.reset();
     const output = await this.runtimeClient.TaskRun({
-      schema: JSON.stringify(this.document.toJSON()),
-      inputs: JSON.parse(inputsString) as WorkflowInputs,
+      schema: JSON.stringify(schema),
+      inputs,
     });
     if (!output) {
-      this.terminatedEmitter.fire({});
+      this.resultEmitter.fire({});
       return;
     }
     this.taskID = output.taskID;
@@ -105,7 +116,7 @@ export class WorkflowRuntimeService {
     });
   }
 
-  private async validate(): Promise<boolean> {
+  private async validateForm(): Promise<boolean> {
     const allForms = this.document.getAllNodes().map((node) => getNodeForm(node));
     const formValidations = await Promise.all(allForms.map(async (form) => form?.validate()));
     const validations = formValidations.filter((validation) => validation !== undefined);
@@ -139,10 +150,12 @@ export class WorkflowRuntimeService {
     if (workflowStatus.terminated) {
       clearInterval(this.syncTaskReportIntervalID);
       if (Object.keys(outputs).length > 0) {
-        this.terminatedEmitter.fire({ result: { inputs, outputs } });
+        this.resultEmitter.fire({ result: { inputs, outputs } });
       } else {
-        this.terminatedEmitter.fire({
-          errors: messages.error,
+        this.resultEmitter.fire({
+          errors: messages?.error?.map((message) =>
+            message.nodeID ? `${message.nodeID}: ${message.message}` : message.message
+          ),
         });
       }
     }

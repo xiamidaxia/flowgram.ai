@@ -30,7 +30,8 @@ export const TaskReportDefine: FlowGramAPIDefine = {
       inputs: WorkflowZodSchema.Inputs,
       outputs: WorkflowZodSchema.Outputs,
       workflowStatus: WorkflowZodSchema.Status,
-      reports: z.record(z.string(), WorkflowZodSchema.NodeReport),
+      reports: WorkflowZodSchema.Reports,
+      messages: WorkflowZodSchema.Messages,
     }),
   },
 };

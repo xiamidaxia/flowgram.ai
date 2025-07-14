@@ -13,6 +13,7 @@ import {
   InvokeParams,
   ITask,
   FlowGramNode,
+  IValidation,
 } from '@flowgram.ai/runtime-interface';
 
 import { compareNodeGroups } from '@infra/utils';
@@ -21,15 +22,25 @@ import { WorkflowRuntimeContext } from '../context';
 import { WorkflowRuntimeContainer } from '../container';
 
 export class WorkflowRuntimeEngine implements IEngine {
+  private readonly validation: IValidation;
+
   private readonly executor: IExecutor;
 
   constructor(service: EngineServices) {
+    this.validation = service.Validation;
     this.executor = service.Executor;
   }
 
   public invoke(params: InvokeParams): ITask {
     const context = WorkflowRuntimeContext.create();
     context.init(params);
+    const valid = this.validate(params, context);
+    if (!valid) {
+      return WorkflowRuntimeTask.create({
+        processing: Promise.resolve({}),
+        context,
+      });
+    }
     const processing = this.process(context);
     processing.then(() => {
       context.dispose();
@@ -97,6 +108,20 @@ export class WorkflowRuntimeEngine implements IEngine {
       context.statusCenter.workflow.fail();
       return {};
     }
+  }
+
+  private validate(params: InvokeParams, context: IContext): boolean {
+    const { valid, errors } = this.validation.invoke(params);
+    if (valid) {
+      return true;
+    }
+    errors?.forEach((message) => {
+      context.messageCenter.error({
+        message,
+      });
+    });
+    context.statusCenter.workflow.fail();
+    return false;
   }
 
   private canExecuteNode(params: { context: IContext; node: INode }) {

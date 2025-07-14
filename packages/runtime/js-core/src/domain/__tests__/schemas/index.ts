@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+import { validateInputsSchema } from './validate-inputs';
 import { twoLLMSchema } from './two-llm';
 import { loopSchema } from './loop';
 import { branchTwoLayersSchema } from './branch-two-layers';
@@ -17,4 +18,5 @@ export const TestSchemas = {
   basicLLMSchema,
   loopSchema,
   branchTwoLayersSchema,
+  validateInputsSchema,
 };

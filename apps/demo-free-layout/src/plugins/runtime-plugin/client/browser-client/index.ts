@@ -36,4 +36,11 @@ export class WorkflowRuntimeBrowserClient implements IRuntimeClient {
     const { TaskCancelAPI } = await import('@flowgram.ai/runtime-js'); // Load on demand - 按需加载
     return TaskCancelAPI(input);
   };
+
+  public [FlowGramAPIName.TaskValidate]: IRuntimeClient[FlowGramAPIName.TaskValidate] = async (
+    input
+  ) => {
+    const { TaskValidateAPI } = await import('@flowgram.ai/runtime-js'); // Load on demand - 按需加载
+    return TaskValidateAPI(input);
+  };
 }

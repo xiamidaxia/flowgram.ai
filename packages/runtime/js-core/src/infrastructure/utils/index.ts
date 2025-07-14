@@ -8,3 +8,4 @@ export { uuid } from './uuid';
 export { WorkflowRuntimeType } from './runtime-type';
 export { traverseNodes } from './traverse-nodes';
 export { compareNodeGroups } from './compare-node-groups';
+export { JSONSchemaValidator } from './json-schema-validator';

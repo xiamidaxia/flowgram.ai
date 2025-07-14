@@ -25,6 +25,9 @@ export interface IJsonSchema<T = string> {
   items?: IJsonSchema<T>;
   required?: string[];
   $ref?: string;
+  key?: number;
+  name?: string;
+  isPropertyRequired?: boolean;
   extra?: {
     index?: number;
     // Used in BaseType.isEqualWithJSONSchema, the type comparison will be weak

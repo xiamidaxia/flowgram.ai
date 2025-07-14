@@ -5,13 +5,13 @@
 
 import { IVariableStore } from '@runtime/variable';
 import { IStatusCenter } from '@runtime/status';
+import { IState } from '@runtime/state';
 import { ISnapshotCenter } from '@runtime/snapshot';
+import { IReporter } from '@runtime/reporter';
 import { IMessageCenter } from '@runtime/message';
 import { IIOCenter } from '@runtime/io-center';
-import { IState } from '../state';
-import { IReporter } from '../reporter';
-import { IDocument } from '../document';
-import { InvokeParams } from '../base';
+import { IDocument } from '@runtime/document';
+import { InvokeParams } from '@runtime/base';
 
 export interface ContextData {
   variableStore: IVariableStore;

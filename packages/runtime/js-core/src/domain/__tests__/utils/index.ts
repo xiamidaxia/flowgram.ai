@@ -4,3 +4,4 @@
  */
 
 export { snapshotsToVOData } from './snapshot';
+export { arrayVOData } from './array-vo-data';

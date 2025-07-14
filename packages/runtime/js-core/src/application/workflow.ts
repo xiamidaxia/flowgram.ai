@@ -11,6 +11,8 @@ import {
   ITask,
   IReport,
   WorkflowOutputs,
+  IValidation,
+  ValidationResult,
 } from '@flowgram.ai/runtime-interface';
 
 import { WorkflowRuntimeContainer } from '@workflow/container';
@@ -67,6 +69,13 @@ export class WorkflowApplication {
       return;
     }
     return task.context.ioCenter.outputs;
+  }
+
+  public validate(params: InvokeParams): ValidationResult {
+    const validation = this.container.get<IValidation>(IValidation);
+    const result = validation.invoke(params);
+    console.log('> POST TaskValidate - valid: ', result.valid);
+    return result;
   }
 
   private static _instance: WorkflowApplication;

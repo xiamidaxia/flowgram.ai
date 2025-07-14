@@ -17,4 +17,6 @@ export class WorkflowRuntimeClient implements IRuntimeClient {
   public [FlowGramAPIName.TaskResult]: IRuntimeClient[FlowGramAPIName.TaskResult];
 
   public [FlowGramAPIName.TaskCancel]: IRuntimeClient[FlowGramAPIName.TaskCancel];
+
+  public [FlowGramAPIName.TaskValidate]: IRuntimeClient[FlowGramAPIName.TaskValidate];
 }

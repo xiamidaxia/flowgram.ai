@@ -6,14 +6,21 @@
 import {
   FlowGramAPIName,
   IRuntimeClient,
+  TaskCancelDefine,
   TaskCancelInput,
   TaskCancelOutput,
+  TaskReportDefine,
   TaskReportInput,
   TaskReportOutput,
+  TaskResultDefine,
   TaskResultInput,
   TaskResultOutput,
+  TaskRunDefine,
   TaskRunInput,
   TaskRunOutput,
+  TaskValidateDefine,
+  TaskValidateInput,
+  TaskValidateOutput,
 } from '@flowgram.ai/runtime-interface';
 import { injectable } from '@flowgram.ai/free-layout-editor';
 
@@ -32,97 +39,102 @@ export class WorkflowRuntimeServerClient implements IRuntimeClient {
   }
 
   public async [FlowGramAPIName.TaskRun](input: TaskRunInput): Promise<TaskRunOutput | undefined> {
-    try {
-      const body = JSON.stringify(input);
-      const response = await fetch(this.getURL('/api/task/run'), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: body,
-        redirect: 'follow',
-      });
-      const output: TaskRunOutput | ServerError = await response.json();
-      if (this.isError(output)) {
-        console.error('TaskRun failed', output);
-        return;
-      }
-      return output;
-    } catch (e) {
-      console.error(e);
-      return;
-    }
+    return this.request<TaskRunOutput>(TaskRunDefine.path, TaskRunDefine.method, {
+      body: input,
+      errorMessage: 'TaskRun failed',
+    });
   }
 
   public async [FlowGramAPIName.TaskReport](
     input: TaskReportInput
   ): Promise<TaskReportOutput | undefined> {
-    try {
-      const response = await fetch(this.getURL(`/api/task/report?taskID=${input.taskID}`), {
-        method: 'GET',
-        redirect: 'follow',
-      });
-      const output: TaskReportOutput | ServerError = await response.json();
-      if (this.isError(output)) {
-        console.error('TaskReport failed', output);
-        return;
-      }
-      return output;
-    } catch (e) {
-      console.error(e);
-      return;
-    }
+    return this.request<TaskReportOutput>(TaskReportDefine.path, TaskReportDefine.method, {
+      queryParams: { taskID: input.taskID },
+      errorMessage: 'TaskReport failed',
+    });
   }
 
   public async [FlowGramAPIName.TaskResult](
     input: TaskResultInput
   ): Promise<TaskResultOutput | undefined> {
-    try {
-      const response = await fetch(this.getURL(`/api/task/result?taskID=${input.taskID}`), {
-        method: 'GET',
-        redirect: 'follow',
-      });
-      const output: TaskResultOutput | ServerError = await response.json();
-      if (this.isError(output)) {
-        console.error('TaskReport failed', output);
-        return {
-          success: false,
-        };
-      }
-      return output;
-    } catch (e) {
-      console.error(e);
-      return {
-        success: false,
-      };
-    }
+    return this.request<TaskResultOutput>(TaskResultDefine.path, TaskResultDefine.method, {
+      queryParams: { taskID: input.taskID },
+      errorMessage: 'TaskResult failed',
+      fallbackValue: { success: false },
+    });
   }
 
   public async [FlowGramAPIName.TaskCancel](input: TaskCancelInput): Promise<TaskCancelOutput> {
-    try {
-      const body = JSON.stringify(input);
-      const response = await fetch(this.getURL(`/api/task/cancel`), {
-        method: 'PUT',
-        redirect: 'follow',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body,
-      });
-      const output: TaskCancelOutput | ServerError = await response.json();
-      if (this.isError(output)) {
-        console.error('TaskReport failed', output);
-        return {
-          success: false,
-        };
+    const result = await this.request<TaskCancelOutput>(
+      TaskCancelDefine.path,
+      TaskCancelDefine.method,
+      {
+        body: input,
+        errorMessage: 'TaskCancel failed',
+        fallbackValue: { success: false },
       }
-      return output;
-    } catch (e) {
-      console.error(e);
-      return {
-        success: false,
-      };
+    );
+    return result ?? { success: false };
+  }
+
+  public async [FlowGramAPIName.TaskValidate](
+    input: TaskValidateInput
+  ): Promise<TaskValidateOutput | undefined> {
+    return this.request<TaskValidateOutput>(TaskValidateDefine.path, TaskValidateDefine.method, {
+      body: input,
+      errorMessage: 'TaskValidate failed',
+    });
+  }
+
+  // Generic request method to reduce code duplication
+  private async request<T>(
+    path: string,
+    method: string,
+    options: {
+      body?: unknown;
+      queryParams?: Record<string, string>;
+      errorMessage: string;
+      fallbackValue?: T;
     }
+  ): Promise<T | undefined> {
+    try {
+      const url = this.url(path, options.queryParams);
+      const requestOptions: RequestInit = {
+        method,
+        redirect: 'follow',
+      };
+
+      if (options.body) {
+        requestOptions.headers = {
+          'Content-Type': 'application/json',
+        };
+        requestOptions.body = JSON.stringify(options.body);
+      }
+
+      const response = await fetch(url, requestOptions);
+      const output: T | ServerError = await response.json();
+
+      if (this.isError(output)) {
+        console.error(options.errorMessage, output);
+        return options.fallbackValue;
+      }
+
+      return output;
+    } catch (error) {
+      console.error(error);
+      return options.fallbackValue;
+    }
+  }
+
+  // Build URL with query parameters
+  private url(path: string, queryParams?: Record<string, string>): string {
+    const baseURL = this.getURL(`/api${path}`);
+    if (!queryParams) {
+      return baseURL;
+    }
+
+    const searchParams = new URLSearchParams(queryParams);
+    return `${baseURL}?${searchParams.toString()}`;
   }
 
   private isError(output: unknown | undefined): output is ServerError {
