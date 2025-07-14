@@ -9,7 +9,7 @@ import { FlowNodeRegistry } from '../../typings';
 
 export const AgentLLMNodeRegistry: FlowNodeRegistry = {
   type: 'agentLLM',
-  extend: FlowNodeBaseType.SLOT_PORT,
+  extend: FlowNodeBaseType.SLOT_BLOCK,
   meta: {
     addDisable: true,
     sidebarDisable: true,

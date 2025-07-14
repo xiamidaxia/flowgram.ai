@@ -11,7 +11,7 @@ import { FlowNodeRegistry } from '../../typings';
 let index = 0;
 export const AgentToolsNodeRegistry: FlowNodeRegistry = {
   type: 'agentTools',
-  extend: FlowNodeBaseType.SLOT_PORT,
+  extend: FlowNodeBaseType.SLOT_BLOCK,
   info: {
     icon: '',
     description: 'Agent Tools.',

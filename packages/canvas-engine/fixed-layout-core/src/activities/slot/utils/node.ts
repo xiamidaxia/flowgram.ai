@@ -21,7 +21,7 @@ export const canSlotDrilldown = (Slot: FlowNodeEntity): boolean =>
  * @returns
  */
 export const insideSlot = (entity?: FlowNodeEntity): boolean =>
-  !!entity?.parent?.isExtend(SlotNodeType.SlotPort);
+  !!entity?.parent?.isExtend(SlotNodeType.SlotBlock);
 
 /**
  * 获取在页面上实际渲染的第一个 Child 节点

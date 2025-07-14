@@ -7,7 +7,7 @@ import { FlowNodeRegistry, FlowNodeBaseType } from '@flowgram.ai/document';
 import { FlowNodeTransformData } from '@flowgram.ai/document';
 
 import { SlotNodeType } from '../typings';
-import { SLOT_COLLAPSE_MARGIN, SLOT_INLINE_BLOCKS_DELTA, SLOT_PORT_DISTANCE } from '../constants';
+import { SLOT_COLLAPSE_MARGIN, SLOT_INLINE_BLOCKS_DELTA, SLOT_BLOCK_DISTANCE } from '../constants';
 
 export const SlotInlineBlocksRegistry: FlowNodeRegistry = {
   type: SlotNodeType.SlotInlineBlocks,
@@ -60,12 +60,12 @@ export const SlotInlineBlocksRegistry: FlowNodeRegistry = {
        */
       if (noChildren) {
         return {
-          x: SLOT_PORT_DISTANCE - icon.localBounds.width / 2,
+          x: SLOT_BLOCK_DISTANCE - icon.localBounds.width / 2,
           y: icon.localBounds.bottom + SLOT_COLLAPSE_MARGIN,
         };
       }
       return {
-        x: 2 * SLOT_PORT_DISTANCE - icon.localBounds.width / 2,
+        x: 2 * SLOT_BLOCK_DISTANCE - icon.localBounds.width / 2,
         y: icon.localBounds.bottom + SLOT_COLLAPSE_MARGIN,
       };
     }
