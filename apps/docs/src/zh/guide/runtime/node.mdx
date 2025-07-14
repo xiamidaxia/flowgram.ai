@@ -304,7 +304,8 @@ Loop节点用于对数组中的每个元素执行相同的操作，实现工作�
 
 | 选项 | 类型 | 必填 | 描述 |
 |------|------|------|------|
-| batchFor | ValueSchema | 是 | 要迭代的数组，通常是一个引用 |
+| loopFor | ValueSchema | 是 | 要迭代的数组，通常是一个引用 |
+| loopOutputs | `Record<string, ValueSchema>` | 是 | 循环输出，引用子节点的变量 |
 | blocks | `Array<NodeSchema>` | 是 | 循环体内的节点数组 |
 
 #### 使用示例
@@ -315,9 +316,15 @@ Loop节点用于对数组中的每个元素执行相同的操作，实现工作�
   "type": "loop",
   "data": {
     "title": "循环节点",
-    "batchFor": {
+    "loopFor": {
       "type": "ref",
       "content": ["start_0", "items"]
+    },
+    "loopOutputs": {
+      "results": {
+        "type": "ref",
+        "content": ["llm_1", "result"]
+      }
     }
   },
   "blocks": [
@@ -337,7 +344,7 @@ Loop节点用于对数组中的每个元素执行相同的操作，实现工作�
 }
 ```
 
-在这个例子中，循环节点对Start节点的items输出（假设是一个数组）进行迭代，对每个元素调用一个LLM节点。在循环体内，可以通过`loop_0_locals.item`引用当前迭代的元素。
+在这个例子中，循环节点对Start节点的items输出（假设是一个数组）进行迭代，对每个元素调用一个LLM节点。在循环体内，可以通过`loop_0_locals.item`引用当前迭代的元素，循环输出可引用LLM节点输出作为循环节点的输出。
 
 ## 如何新增自定义节点
 

@@ -6,17 +6,23 @@ sidebar_position: 2
 
 # FlowGram Runtime 介绍
 
-**⚠️ FlowGram Runtime 处于早期开发阶段，目前只支持 nodejs 运行时，且只支持自由布局**
+
+<div className="rs-highlight">
+**⚠️ 目前为早期开发阶段**
+
+- API 接口可能会有变更，不保证向后兼容
+- 目前只支持 nodejs 运行时，且只支持自由布局
+</div>
 
 本文档将介绍 FlowGram Runtime 的基本概念、设计理念和核心功能，帮助业务接入方开发者了解和使用这个工作流运行时引擎的参考实现。
 
 ## 什么是 FlowGram Runtime
 
-FlowGram Runtime 是一个工作流运行时引擎的参考实现，旨在为业务接入方开发者提供运行时参考。它能够解析和执行基于图结构的工作流，支持多种节点类型，包括 Start、End、LLM、Condition、Loop 等。
+FlowGram Runtime 是一个工作流运行时引擎的参考实现，旨在为业务接入方开发者提供运行时参考。能够解析和执行基于图结构的工作流，支持多种节点类型，包括 Start、End、LLM、Condition、Loop 等。
 
 ### 项目定位与目标
 
-FlowGram Runtime **定位为 demo 而非 SDK**，它的主要目标是：
+FlowGram Runtime **定位为 demo 而非 SDK**，主要目标是：
 
 - 提供工作流运行时的设计和实现参考
 - 展示如何构建和扩展工作流引擎
@@ -66,7 +72,7 @@ FlowGram Runtime **定位为 demo 而非 SDK**，它的主要目标是：
 
 ### 执行引擎 (Engine)
 
-执行引擎负责解析工作流定义，按照定义的逻辑顺序执行各个节点，并处理节点间的数据流转。它是 FlowGram Runtime 的核心组件，管理整个工作流的生命周期。
+执行引擎负责解析工作流定义，按照定义的逻辑顺序执行各个节点，并处理节点间的数据流转。是 FlowGram Runtime 的核心组件，管理整个工作流的生命周期。
 
 ## 技术架构
 

@@ -304,7 +304,8 @@ The Loop node is used to perform the same operation on each element in an array,
 
 | Option | Type | Required | Description |
 |------|------|------|------|
-| batchFor | ValueSchema | Yes | The array to iterate over, usually a reference |
+| loopFor | ValueSchema | Yes | The array to iterate over, usually a reference |
+| loopOutputs | `Record<string, ValueSchema>` | Yes | Loop outputs, references to sub-node outputs |
 | blocks | `Array<NodeSchema>` | Yes | Array of nodes within the loop body |
 
 #### Usage Example
@@ -315,9 +316,15 @@ The Loop node is used to perform the same operation on each element in an array,
   "type": "loop",
   "data": {
     "title": "Loop Node",
-    "batchFor": {
+    "loopFor": {
       "type": "ref",
       "content": ["start_0", "items"]
+    },
+    "loopOutputs": {
+      "results": {
+        "type": "ref",
+        "content": ["llm_1", "result"]
+      }
     }
   },
   "blocks": [
@@ -337,7 +344,7 @@ The Loop node is used to perform the same operation on each element in an array,
 }
 ```
 
-In this example, the loop node iterates over the items output of the Start node (assuming it's an array), calling an LLM node for each element. Within the loop body, the current iteration element can be referenced via `loop_0_locals.item`.
+In this example, the loop node iterates over the items output of the Start node (assuming it's an array), calling an LLM node for each element. Within the loop body, the current iteration element can be referenced via `loop_0_locals.item`, and the LLM node's result is referenced as Loop node's output.
 
 ## How to Add Custom Nodes
 

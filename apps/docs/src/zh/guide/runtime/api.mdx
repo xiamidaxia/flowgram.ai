@@ -23,7 +23,7 @@ TaskRun API 接收一个 `TaskRunInput` 对象作为参数：
 | schema | string | 是 | 工作流 schema 的 JSON 字符串，定义了工作流的节点和边 |
 | inputs | object | 否 | 工作流的初始输入参数，可以为空 |
 
-`schema` 参数是一个 JSON 字符串，它定义了工作流的结构，包括节点和边的信息。schema 的基本结构如下：
+`schema` 参数是一个 JSON 字符串，定义了工作流的结构，包括节点和边的信息。schema 的基本结构如下：
 
 ```typescript
 interface WorkflowSchema {
