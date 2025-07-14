@@ -11,4 +11,5 @@ export interface WorkflowEdgeJSON {
   targetNodeID: string;
   sourcePortID?: string | number;
   targetPortID?: string | number;
+  data?: any;
 }
