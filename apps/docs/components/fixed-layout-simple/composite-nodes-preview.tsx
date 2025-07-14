@@ -8,6 +8,7 @@ import { FixedLayoutSimple } from './fixed-layout-simple.tsx';
 import { PreviewEditor } from '../preview-editor.tsx';
 
 import tryCatch from '!!raw-loader!@flowgram.ai/demo-fixed-layout-simple/src/data/tryCatch.ts';
+import slot from '!!raw-loader!@flowgram.ai/demo-fixed-layout-simple/src/data/slot.ts';
 import multiOutputs from '!!raw-loader!@flowgram.ai/demo-fixed-layout-simple/src/data/multiOutputs.ts';
 import multiInputs from '!!raw-loader!@flowgram.ai/demo-fixed-layout-simple/src/data/multiInputs.ts';
 import loop from '!!raw-loader!@flowgram.ai/demo-fixed-layout-simple/src/data/loop.ts';
@@ -141,6 +142,31 @@ export function CompositeNodesPreview(props: { cellHeight?: number }) {
             }}
           >
             <FixedLayoutSimple hideTools demo="multiOutputs" />
+          </PreviewEditor>
+        </td>
+      </tr>
+      <tr>
+        <td style={{ textAlign: 'center' }}>slot</td>
+        <td>
+          <PreviewEditor
+            codeInRight
+            files={{
+              'index.tsx': {
+                code: slot,
+                active: true,
+              },
+            }}
+            previewStyle={{
+              width: previewWidth,
+              height: cellHeight,
+              position: 'relative',
+            }}
+            editorStyle={{
+              height: cellHeight,
+              width: editorWidth,
+            }}
+          >
+            <FixedLayoutSimple hideTools demo="slot" />
           </PreviewEditor>
         </td>
       </tr>
