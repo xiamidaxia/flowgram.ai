@@ -3,16 +3,17 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 
 import { WorkflowInputs, WorkflowOutputs } from '@flowgram.ai/runtime-interface';
 import { useService } from '@flowgram.ai/free-layout-editor';
 import { CodeEditor } from '@flowgram.ai/form-materials';
 import { Button, SideSheet } from '@douyinfe/semi-ui';
-import { IconPlay, IconSpin, IconStop } from '@douyinfe/semi-icons';
+import { IconClose, IconPlay, IconSpin, IconStop } from '@douyinfe/semi-icons';
 
 import { NodeStatusGroup } from '../node-status-bar/group';
 import { WorkflowRuntimeService } from '../../../plugins/runtime-plugin/runtime-service';
+import { SidebarContext } from '../../../context';
 
 import styles from './index.module.less';
 
@@ -23,6 +24,8 @@ interface TestRunSidePanelProps {
 
 export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel }) => {
   const runtimeService = useService(WorkflowRuntimeService);
+  const { nodeId: sidebarNodeId, setNodeId } = useContext(SidebarContext);
+
   const [isRunning, setRunning] = useState(false);
   const [value, setValue] = useState<string>(`{}`);
   const [errors, setErrors] = useState<string[]>();
@@ -56,7 +59,9 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
     onCancel();
   };
 
+  // runtime effect
   useEffect(() => {
+    setNodeId(undefined);
     const disposer = runtimeService.onResultChanged(({ result, errors }) => {
       setRunning(false);
       setResult(result);
@@ -69,6 +74,13 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
     return () => disposer.dispose();
   }, []);
 
+  // sidebar effect
+  useEffect(() => {
+    if (sidebarNodeId) {
+      onCancel();
+    }
+  }, [sidebarNodeId]);
+
   const renderRunning = (
     <div className={styles['testrun-panel-running']}>
       <IconSpin spin size="large" />
@@ -78,7 +90,7 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
 
   const renderForm = (
     <div className={styles['testrun-panel-form']}>
-      <div className={styles.title}>Input</div>
+      <div className={styles.title}>Input Form</div>
       <div className={styles['code-editor-container']}>
         <CodeEditor languageId="json" value={value} onChange={setValue} />
       </div>
@@ -87,8 +99,8 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
           {e}
         </div>
       ))}
-      <NodeStatusGroup title="Inputs" data={result?.inputs} optional disableCollapse />
-      <NodeStatusGroup title="Outputs" data={result?.outputs} optional disableCollapse />
+      <NodeStatusGroup title="Inputs Result" data={result?.inputs} optional disableCollapse />
+      <NodeStatusGroup title="Outputs Result" data={result?.outputs} optional disableCollapse />
     </div>
   );
 
@@ -107,10 +119,37 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
       title="Test Run"
       visible={visible}
       mask={false}
+      motion={false}
       onCancel={onClose}
-      footer={renderButton}
+      width={368}
+      headerStyle={{
+        display: 'none',
+      }}
+      bodyStyle={{
+        padding: 0,
+      }}
+      style={{
+        background: 'none',
+        boxShadow: 'none',
+      }}
     >
-      {isRunning ? renderRunning : renderForm}
+      <div className={styles['testrun-panel-container']}>
+        <div className={styles['testrun-panel-header']}>
+          <div className={styles['testrun-panel-title']}>Test Run</div>
+          <Button
+            className={styles['testrun-panel-title']}
+            type="tertiary"
+            icon={<IconClose />}
+            size="small"
+            theme="borderless"
+            onClick={onClose}
+          />
+        </div>
+        <div className={styles['testrun-panel-content']}>
+          {isRunning ? renderRunning : renderForm}
+        </div>
+        <div className={styles['testrun-panel-footer']}>{renderButton}</div>
+      </div>
     </SideSheet>
   );
 };
