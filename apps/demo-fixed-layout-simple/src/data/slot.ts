@@ -26,15 +26,15 @@ export const slot: FlowDocumentJSON = {
       },
       blocks: [
         {
-          id: 'slot_0',
+          id: 'slot_port_1',
           type: 'slotBlock',
           data: {
-            title: 'Slot 0',
+            title: 'Slot 1',
             content: 'slot 1 content',
           },
           blocks: [
             {
-              id: 'custom_0',
+              id: 'custom_1',
               type: 'custom',
               data: {
                 title: 'Custom',
@@ -44,15 +44,41 @@ export const slot: FlowDocumentJSON = {
           ],
         },
         {
-          id: 'slot_1',
+          id: 'slot_port_2',
           type: 'slotBlock',
           data: {
-            title: 'Slot 1',
-            content: 'slot 1 content',
+            title: 'Slot 2',
+            content: 'slot 2 content',
           },
           blocks: [
             {
-              id: 'custom_1',
+              id: 'custom_2',
+              type: 'custom',
+              data: {
+                title: 'Custom',
+                content: 'custom content',
+              },
+            },
+          ],
+        },
+        {
+          id: 'slot_port_3',
+          type: 'slotBlock',
+          data: {
+            title: 'Slot 3',
+            content: 'slot 3 content',
+          },
+          blocks: [
+            {
+              id: 'custom_3',
+              type: 'custom',
+              data: {
+                title: 'Custom',
+                content: 'custom content',
+              },
+            },
+            {
+              id: 'custom_4',
               type: 'custom',
               data: {
                 title: 'Custom',
