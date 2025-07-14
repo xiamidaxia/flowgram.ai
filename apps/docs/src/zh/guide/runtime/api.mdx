@@ -6,7 +6,7 @@ sidebar_position: 2
 
 # FlowGram Runtime API 参考
 
-FlowGram Runtime 提供了四个核心 API，用于工作流的运行、监控、结果获取和取消。本文档详细介绍了这些 API 的使用方法、参数和返回值。
+FlowGram Runtime 提供了五个核心 API，用于工作流的验证、运行、监控、结果获取和取消。本文档详细介绍了这些 API 的使用方法、参数和返回值。
 
 ## TaskRun API
 
@@ -374,3 +374,180 @@ async function waitForResult(taskID, pollingInterval = 1000, timeout = 60000) {
 - 建议先通过 TaskReport API 检查任务是否已终止，再调用 TaskResult API 获取结果
 - 对于已取消的任务，可能只能获取到部分结果或没有结果
 - 结果的具体结构取决于工作流的定义，需要根据实际工作流的输出进行解析
+
+## TaskValidate API
+
+### 功能描述
+
+TaskValidate API 用于验证工作流 schema 和输入参数的有效性，在实际运行工作流之前检查配置是否正确。这个 API 可以帮助您在启动工作流之前发现潜在的配置错误。
+
+### 参数说明
+
+TaskValidate API 接收一个 `TaskValidateInput` 对象作为参数：
+
+| 参数名 | 类型 | 必填 | 描述 |
+| ------ | ---- | ---- | ---- |
+| schema | string | 是 | 工作流 schema 的 JSON 字符串，定义了工作流的节点和边 |
+| inputs | object | 否 | 工作流的初始输入参数，用于验证输入是否符合 schema 要求 |
+
+### 返回值说明
+
+TaskValidate API 返回一个 `TaskValidateOutput` 对象：
+
+| 字段名 | 类型 | 描述 |
+| ------ | ---- | ---- |
+| valid | boolean | 表示验证是否通过，true 表示验证成功，false 表示验证失败 |
+| errors | string[] | 可选字段，当验证失败时包含具体的错误信息列表 |
+
+### 验证内容
+
+TaskValidate API 会对以下内容进行验证：
+
+- **Schema 结构验证**：检查 schema 是否符合 WorkflowSchema 的格式要求
+- **节点类型验证**：验证 schema 中的节点类型是否被支持
+- **边连接验证**：检查节点之间的连接是否正确
+- **输入参数验证**：验证提供的 inputs 是否符合 schema 中定义的输入要求
+- **工作流完整性验证**：检查工作流是否包含必要的起始和结束节点
+
+### 错误处理
+
+TaskValidate API 可能会返回以下类型的验证错误：
+
+- **Schema 解析错误**：当提供的 schema 不是有效的 JSON 字符串时
+- **Schema 结构错误**：当 schema 结构不符合预期格式时
+- **节点配置错误**：当节点配置不完整或不正确时
+- **连接错误**：当节点之间的连接存在问题时
+- **输入参数错误**：当输入参数不符合要求时
+
+### 使用示例
+
+```javascript
+import { TaskValidateAPI } from '@flowgram.ai/runtime-js';
+
+const schema = JSON.stringify({
+  nodes: [
+    {
+      id: 'start',
+      type: 'start',
+      meta: { position: { x: 0, y: 0 } },
+      data: {
+        outputs: {
+          type: 'object',
+          properties: {
+            userInput: {
+              key: 14,
+              name: 'userInput',
+              isPropertyRequired: true,
+              type: 'string',
+              extra: {
+                index: 0,
+              },
+            }
+          },
+          required: ['userInput'],
+        },
+      }
+    },
+    {
+      id: 'llm',
+      type: 'llm',
+      meta: { position: { x: 200, y: 0 } },
+      data: {
+        title: 'LLM_0',
+        inputsValues: {
+          prompt: {
+            type: 'ref',
+            content: ['start_0', 'userInput'],
+          }
+        },
+        inputs: {
+          type: 'object',
+          required: ['editor'],
+          properties: {
+            prompt: {
+              type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
+            },
+          },
+        },
+        outputs: {
+          type: 'object',
+          properties: {
+            result: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+    {
+      id: 'end',
+      type: 'end',
+      meta: { position: { x: 400, y: 0 } },
+      data: {}
+    }
+  ],
+  edges: [
+    {
+      sourceNodeID: 'start',
+      sourcePort: 'out',
+      targetNodeID: 'llm',
+      targetPort: 'in'
+    },
+    {
+      sourceNodeID: 'llm',
+      sourcePort: 'out',
+      targetNodeID: 'end',
+      targetPort: 'in'
+    }
+  ]
+});
+
+const inputs = {
+  userInput: '请介绍一下自己'
+};
+
+async function validateWorkflow() {
+  try {
+    const result = await TaskValidateAPI({
+      schema,
+      inputs
+    });
+
+    if (result.valid) {
+      console.log('工作流验证通过，可以安全运行');
+      return true;
+    } else {
+      console.error('工作流验证失败:');
+      result.errors?.forEach(error => {
+        console.error('- ' + error);
+      });
+      return false;
+    }
+  } catch (error) {
+    console.error('验证过程中发生错误:', error);
+    return false;
+  }
+}
+
+// 在运行工作流之前先进行验证
+async function safeRunWorkflow() {
+  const isValid = await validateWorkflow();
+  if (isValid) {
+    // 验证通过后再运行工作流
+    const runResult = await TaskRunAPI({ schema, inputs });
+    console.log('工作流已启动，任务 ID:', runResult.taskID);
+  } else {
+    console.log('工作流验证失败，请修复错误后重试');
+  }
+}
+```
+
+### 注意事项
+
+- 建议在调用 TaskRun API 之前先调用 TaskValidate API 进行验证
+- 验证通过并不保证工作流运行时不会出错，但可以提前发现大部分配置问题
+- TaskValidate API 的执行速度通常比 TaskRun API 快，适合用于实时验证
+- 验证结果中的错误信息可以帮助快速定位和修复问题

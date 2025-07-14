@@ -6,7 +6,7 @@ sidebar_position: 2
 
 # FlowGram Runtime API Reference
 
-FlowGram Runtime provides four core APIs for running, monitoring, retrieving results, and canceling workflows. This document details the usage, parameters, and return values of these APIs.
+FlowGram Runtime provides five core APIs for validating, running, monitoring, retrieving results, and canceling workflows. This document details the usage, parameters, and return values of these APIs.
 
 ## TaskRun API
 
@@ -374,3 +374,142 @@ async function waitForResult(taskID, pollingInterval = 1000, timeout = 60000) {
 - It is recommended to check if the task has terminated through TaskReport API before calling TaskResult API to get the result
 - For canceled tasks, only partial results or no results may be available
 - The specific structure of the result depends on the definition of the workflow, and needs to be parsed according to the actual output of the workflow
+
+## TaskValidate API
+
+### Function Description
+
+The TaskValidate API is used to validate the validity of workflow schema and input parameters before actually running the workflow. This API helps you discover potential configuration errors before starting the workflow.
+
+### Parameters
+
+TaskValidate API accepts a `TaskValidateInput` object as its parameter:
+
+| Parameter | Type | Required | Description |
+| --------- | ---- | -------- | ----------- |
+| schema | string | Yes | JSON string of the workflow schema, defining nodes and edges |
+| inputs | object | No | Initial input parameters for the workflow, used to validate if inputs meet schema requirements |
+
+### Return Value
+
+TaskValidate API returns a `TaskValidateOutput` object:
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| valid | boolean | Indicates whether validation passed, true means validation succeeded, false means validation failed |
+| errors | string[] | Optional field, contains specific error message list when validation fails |
+
+### Validation Content
+
+TaskValidate API validates the following content:
+
+- **Schema Structure Validation**: Checks if the schema conforms to WorkflowSchema format requirements
+- **Node Type Validation**: Validates if node types in the schema are supported
+- **Edge Connection Validation**: Checks if connections between nodes are correct
+- **Input Parameter Validation**: Validates if provided inputs meet the input requirements defined in the schema
+- **Workflow Integrity Validation**: Checks if the workflow contains necessary start and end nodes
+
+### Error Handling
+
+TaskValidate API may return the following types of validation errors:
+
+- **Schema parsing error**: When the provided schema is not a valid JSON string
+- **Schema structure error**: When the schema structure does not match the expected format
+- **Node configuration error**: When node configuration is incomplete or incorrect
+- **Connection error**: When there are issues with connections between nodes
+- **Input parameter error**: When input parameters do not meet requirements
+
+### Usage Example
+
+```javascript
+import { TaskValidateAPI } from '@flowgram.ai/runtime-js';
+
+const schema = JSON.stringify({
+  nodes: [
+    {
+      id: 'start',
+      type: 'start',
+      meta: { position: { x: 0, y: 0 } },
+      data: {}
+    },
+    {
+      id: 'llm',
+      type: 'llm',
+      meta: { position: { x: 200, y: 0 } },
+      data: {
+        modelName: 'gpt-3.5-turbo',
+        temperature: 0.7,
+        systemPrompt: '你是一个助手',
+        prompt: '介绍一下自己'
+      }
+    },
+    {
+      id: 'end',
+      type: 'end',
+      meta: { position: { x: 400, y: 0 } },
+      data: {}
+    }
+  ],
+  edges: [
+    {
+      sourceNodeID: 'start',
+      sourcePort: 'out',
+      targetNodeID: 'llm',
+      targetPort: 'in'
+    },
+    {
+      sourceNodeID: 'llm',
+      sourcePort: 'out',
+      targetNodeID: 'end',
+      targetPort: 'in'
+    }
+  ]
+});
+
+const inputs = {
+  userInput: 'Please introduce yourself'
+};
+
+async function validateWorkflow() {
+  try {
+    const result = await TaskValidateAPI({
+      schema,
+      inputs
+    });
+
+    if (result.valid) {
+      console.log('Workflow validation passed, safe to run');
+      return true;
+    } else {
+      console.error('Workflow validation failed:');
+      result.errors?.forEach(error => {
+        console.error('- ' + error);
+      });
+      return false;
+    }
+  } catch (error) {
+    console.error('Error occurred during validation:', error);
+    return false;
+  }
+}
+
+// Validate before running the workflow
+async function safeRunWorkflow() {
+  const isValid = await validateWorkflow();
+  if (isValid) {
+    // Run the workflow after validation passes
+    const runResult = await TaskRunAPI({ schema, inputs });
+    console.log('Workflow started, Task ID:', runResult.taskID);
+  } else {
+    console.log('Workflow validation failed, please fix errors and retry');
+  }
+}
+```
+
+### Notes
+
+- It is recommended to call TaskValidate API before calling TaskRun API for validation
+- Passing validation does not guarantee that the workflow will not encounter errors during runtime, but it can identify most configuration issues in advance
+- TaskValidate API typically executes faster than TaskRun API, making it suitable for real-time validation
+- Error messages in validation results can help quickly locate and fix issues
+- For complex workflows, it is recommended to use this API frequently during development for validation
