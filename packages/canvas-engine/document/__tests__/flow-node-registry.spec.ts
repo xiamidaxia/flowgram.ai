@@ -80,6 +80,8 @@ describe('flow-node-registry', () => {
     expect(doc.isExtend('c', 'dynamicSplit')).toBeTruthy();
     expect(doc.isExtend('c', 'b')).toBeTruthy();
     expect(doc.isExtend('c', 'a')).toBeTruthy();
+    expect(doc.isTypeOrExtendType('dynamicSplit', 'dynamicSplit')).toBeTruthy();
+    expect(doc.isTypeOrExtendType('c', 'a')).toBeTruthy();
   });
   it('base extend', () => {
     expect(doc.getNodeRegistry('a').onAdd).toBeTypeOf('function');
