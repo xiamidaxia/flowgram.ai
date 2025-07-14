@@ -27,7 +27,7 @@ import { SelectorBoxPopover } from '../components/selector-box-popover';
 import NodeAdder from '../components/node-adder';
 import BranchAdder from '../components/branch-adder';
 import { BaseNode } from '../components/base-node';
-import { DragNode, AgentLabel } from '../components';
+import { DragNode, AgentAdder } from '../components';
 
 export function useEditorProps(
   initialData: FlowDocumentJSON,
@@ -174,7 +174,7 @@ export function useEditorProps(
           [FlowRendererKey.ADDER]: NodeAdder, // Node Add Button
           [FlowRendererKey.BRANCH_ADDER]: BranchAdder, // Branch Add Button
           [FlowRendererKey.DRAG_NODE]: DragNode, // Component in node dragging
-          [FlowRendererKey.SLOT_LABEL_RENDER]: AgentLabel, // Agent Label
+          [FlowRendererKey.SLOT_ADDER]: AgentAdder, // Agent adder
         },
         renderDefaultNode: BaseNode, // node render
         renderTexts: {

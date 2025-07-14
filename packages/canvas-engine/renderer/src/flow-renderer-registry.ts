@@ -29,8 +29,8 @@ export enum FlowRendererKey {
   CONTEXT_MENU_POPOVER = 'context-menu-popover', // 右键菜单
   SUB_CANVAS = 'sub-canvas', // 子画布渲染
 
-  SLOT_LABEL_RENDER = 'slot-label-render', // 插槽端口渲染
-  SLOT_COLLPASE_RENDER = 'slot-collapse-render', // 插槽收起按钮渲染
+  SLOT_ADDER = 'slot-adder', // 插槽添加按钮
+  SLOT_COLLPASE = 'slot-collapse', // 插槽收起按钮渲染
 
   // 工作流线条箭头自定义渲染
   ARROW_RENDERER = 'arrow-renderer', // 工作流线条箭头渲染器

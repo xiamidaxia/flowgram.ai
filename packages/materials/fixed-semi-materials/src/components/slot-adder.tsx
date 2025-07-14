@@ -19,7 +19,7 @@ interface PropsType {
   node: FlowNodeEntity;
 }
 
-export function SlotLabel(props: PropsType) {
+export function SlotAdder(props: PropsType) {
   const { node } = props;
 
   const nodeData = node.firstChild?.getData<FlowNodeRenderData>(FlowNodeRenderData);

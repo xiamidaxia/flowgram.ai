@@ -390,10 +390,18 @@ export class FlowNodeEntity extends Entity<FlowNodeEntityConfig> {
   }
 
   /**
-   * Check node extend
+   * Check node extend type
    */
-  isExtend(parentType: string): boolean {
+  isExtend(parentType: FlowNodeType): boolean {
     return this.document.isExtend(this.flowNodeType, parentType);
+  }
+
+  /**
+   * Check node type
+   * @param parentType
+   */
+  isTypeOrExtendType(parentType: FlowNodeType): boolean {
+    return this.document.isTypeOrExtendType(this.flowNodeType, parentType);
   }
 }
 

@@ -20,7 +20,7 @@ interface PropsType {
   node: FlowNodeEntity;
 }
 
-export function AgentLabel(props: PropsType) {
+export function AgentAdder(props: PropsType) {
   const { node } = props;
 
   const nodeData = node.firstChild?.getData<FlowNodeRenderData>(FlowNodeRenderData);

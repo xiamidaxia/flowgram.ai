@@ -443,10 +443,19 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
   /**
    * Check node extend
    * @param currentType
-   * @param parentType
+   * @param extendType
    */
-  isExtend(currentType: FlowNodeType, parentType: FlowNodeType): boolean {
-    return (this.getNodeRegistry(currentType).__extends__ || []).includes(parentType);
+  isExtend(currentType: FlowNodeType, extendType: FlowNodeType): boolean {
+    return (this.getNodeRegistry(currentType).__extends__ || []).includes(extendType);
+  }
+
+  /**
+   * Check node type
+   * @param currentType
+   * @param extendType
+   */
+  isTypeOrExtendType(currentType: FlowNodeType, extendType: FlowNodeType): boolean {
+    return currentType === extendType || this.isExtend(currentType, extendType);
   }
 
   /**
