@@ -5,7 +5,12 @@
 
 import React, { useEffect, useRef } from 'react';
 
-import { ActiveLinePlaceholder, createRenderer, EditorProvider } from '@coze-editor/editor/react';
+import {
+  ActiveLinePlaceholder,
+  createRenderer,
+  EditorProvider,
+  InferValues,
+} from '@coze-editor/editor/react';
 import preset, { type EditorAPI } from '@coze-editor/editor/preset-code';
 import { EditorView } from '@codemirror/view';
 
@@ -22,6 +27,9 @@ const OriginCodeEditor = createRenderer(preset, [
   }),
 ]);
 
+type Preset = typeof preset;
+type Options = Partial<InferValues<Preset[number]>>;
+
 export interface CodeEditorPropsType extends React.PropsWithChildren<{}> {
   value?: string;
   onChange?: (value: string) => void;
@@ -29,6 +37,8 @@ export interface CodeEditorPropsType extends React.PropsWithChildren<{}> {
   theme?: 'dark' | 'light';
   placeholder?: string;
   activeLinePlaceholder?: string;
+  readonly?: boolean;
+  options?: Options;
 }
 
 export function CodeEditor({
@@ -39,6 +49,8 @@ export function CodeEditor({
   children,
   placeholder,
   activeLinePlaceholder,
+  options,
+  readonly,
 }: CodeEditorPropsType) {
   const editorRef = useRef<EditorAPI | null>(null);
 
@@ -58,6 +70,9 @@ export function CodeEditor({
           languageId,
           theme,
           placeholder,
+          readOnly: readonly,
+          editable: !readonly,
+          ...(options || {}),
         }}
         didMount={(editor: EditorAPI) => {
           editorRef.current = editor;
