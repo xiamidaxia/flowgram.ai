@@ -42,7 +42,7 @@ export enum FlowNodeBaseType {
   INPUT = 'input', // 输入节点
   OUTPUT = 'output', // 输出节点
   SLOT = 'slot', // 插槽节点
-  SLOT_PORT = 'slotPort', // 插槽端口节点
+  SLOT_BLOCK = 'slotBlock', // 插槽子节点
 }
 
 export enum FlowNodeSplitType {

@@ -35,11 +35,11 @@ import { SlotNodeType } from '../typings';
  * - Slot
  *  - SlotBlockIcon
  *  - SlotInlineBlocks
- *    - SlotPort 1
- *        - SlotPortIcon 1
+ *    - SlotBlock 1
+ *        - SlotBlockIcon 1
  *          - ChildSlot 1
  *          - ChildSlot 2
- *    - SlotPort 2
+ *    - SlotBlock 2
  *
  * 范例数据：
  * {
@@ -82,7 +82,7 @@ export const createSlotFromJSON = (node: FlowNodeEntity, json: FlowNodeJSON): Fl
 
   portJSONList.forEach((_portJSON) => {
     const port = document.addNode({
-      type: SlotNodeType.SlotPort,
+      type: SlotNodeType.SlotBlock,
       ..._portJSON,
       originParent: node,
       parent: inlineBlocksNode,

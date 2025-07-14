@@ -14,10 +14,10 @@ import { FlowNodeTransformData } from '@flowgram.ai/document';
 
 import { getPortChildInput, getSlotChildLineStartPoint } from '../utils/transition';
 import { SlotNodeType } from '../typings';
-import { SLOT_PORT_DISTANCE, RENDER_SLOT_LABEL_KEY } from '../constants';
+import { SLOT_BLOCK_DISTANCE, RENDER_SLOT_LABEL_KEY } from '../constants';
 
-export const SlotPortRegistry: FlowNodeRegistry = {
-  type: SlotNodeType.SlotPort,
+export const SlotBlockRegistry: FlowNodeRegistry = {
+  type: SlotNodeType.SlotBlock,
   extend: FlowNodeBaseType.BLOCK,
   meta: {
     inlineSpacingAfter: 0,
@@ -90,7 +90,7 @@ export const SlotPortRegistry: FlowNodeRegistry = {
     }
 
     return {
-      x: start.x + SLOT_PORT_DISTANCE,
+      x: start.x + SLOT_BLOCK_DISTANCE,
       y: inputY,
     };
   },

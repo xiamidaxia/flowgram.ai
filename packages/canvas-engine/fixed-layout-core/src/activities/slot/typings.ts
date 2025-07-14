@@ -7,7 +7,7 @@ import { FlowNodeBaseType } from '@flowgram.ai/document';
 
 export enum SlotNodeType {
   Slot = FlowNodeBaseType.SLOT,
-  SlotPort = FlowNodeBaseType.SLOT_PORT,
+  SlotBlock = FlowNodeBaseType.SLOT_BLOCK,
   SlotInlineBlocks = 'slotInlineBlocks',
-  SlotPortInlineBlocks = 'slotPortInlineBlocks',
+  SlotBlockInlineBlocks = 'slotBlockInlineBlocks',
 }
