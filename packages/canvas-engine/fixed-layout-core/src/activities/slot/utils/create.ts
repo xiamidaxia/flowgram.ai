@@ -7,16 +7,16 @@ import { FlowNodeBaseType } from '@flowgram.ai/document';
 import { type FlowNodeEntity } from '@flowgram.ai/document';
 import { FlowNodeJSON } from '@flowgram.ai/document';
 
-import { ReactorNodeType } from '../typings';
+import { SlotNodeType } from '../typings';
 
-// Reactor 样例数据
+// Slot 样例数据
 // const mock = {
-//   type: 'reactor',
+//   type: 'slot',
 //   id: 'reactor_parent',
 //   blocks: [
 //     {
 //       id: 'port_LnSdK',
-//       blocks: [{ type: 'reactor', id: 'reactor_child' }],
+//       blocks: [{ type: 'Slot', id: 'reactor_child' }],
 //     },
 //     {
 //       id: 'port_60X7U',
@@ -31,24 +31,24 @@ import { ReactorNodeType } from '../typings';
 // };
 
 /**
- * 创建 Reactor 子节点
- * - Reactor
- *  - ReactorBlockIcon
- *  - ReactorInlineBlocks
- *    - ReactorPort 1
- *        - ReactorPortIcon 1
- *          - ChildReactor 1
- *          - ChildReactor 2
- *    - ReactorPort 2
+ * 创建 Slot 子节点
+ * - Slot
+ *  - SlotBlockIcon
+ *  - SlotInlineBlocks
+ *    - SlotPort 1
+ *        - SlotPortIcon 1
+ *          - ChildSlot 1
+ *          - ChildSlot 2
+ *    - SlotPort 2
  *
  * 范例数据：
  * {
- *  type: 'reactor',
+ *  type: 'Slot',
  *  id: 'reactor_parent',
  *  blocks: [
  *    {
  *      id: 'port_LnSdK',
- *      blocks: [{ type: 'reactor', id: 'reactor_child' }],
+ *      blocks: [{ type: 'Slot', id: 'reactor_child' }],
  *    },
  *    {
  *      id: 'port_60X7U',
@@ -56,28 +56,22 @@ import { ReactorNodeType } from '../typings';
  *  ],
  * }
  *
- * @param node
- * @param json
- * @returns
  */
-export const createReactorFromJSON = (
-  node: FlowNodeEntity,
-  json: FlowNodeJSON,
-): FlowNodeEntity[] => {
+export const createSlotFromJSON = (node: FlowNodeEntity, json: FlowNodeJSON): FlowNodeEntity[] => {
   const { document } = node;
 
   const addedNodes: FlowNodeEntity[] = [];
 
   // 块列表开始节点，用来展示块的按钮
   const blockIconNode = document.addNode({
-    id: `$reactorIcon$${node.id}`,
+    id: `$slotIcon$${node.id}`,
     type: FlowNodeBaseType.BLOCK_ICON,
     originParent: node,
     parent: node,
   });
   const inlineBlocksNode = document.addNode({
-    id: `$reactorInlineBlocks$${node.id}`,
-    type: ReactorNodeType.ReactorInlineBlocks,
+    id: `$slotInlineBlocks$${node.id}`,
+    type: SlotNodeType.SlotInlineBlocks,
     originParent: node,
     parent: node,
   });
@@ -86,23 +80,23 @@ export const createReactorFromJSON = (
 
   const portJSONList = json.blocks || [];
 
-  portJSONList.forEach(_portJSON => {
+  portJSONList.forEach((_portJSON) => {
     const port = document.addNode({
+      type: SlotNodeType.SlotPort,
       ..._portJSON,
-      type: ReactorNodeType.ReactorPort,
       originParent: node,
       parent: inlineBlocksNode,
     });
     addedNodes.push(port);
 
-    (_portJSON.blocks || []).forEach(_portChild => {
+    (_portJSON.blocks || []).forEach((_portChild) => {
       document.addNode(
         {
-          type: ReactorNodeType.Reactor,
+          type: SlotNodeType.Slot,
           ..._portChild,
           parent: port,
         },
-        addedNodes,
+        addedNodes
       );
     });
   });

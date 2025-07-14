@@ -41,6 +41,8 @@ export enum FlowNodeBaseType {
   MULTI_OUTPUTS = 'multiOutputs', // 多输出
   INPUT = 'input', // 输入节点
   OUTPUT = 'output', // 输出节点
+  SLOT = 'slot', // 插槽节点
+  SLOT_PORT = 'slotPort', // 插槽端口节点
 }
 
 export enum FlowNodeSplitType {

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { FlowNodeRegistry } from '@flowgram.ai/document';
+import { FlowNodeRegistry, FlowNodeBaseType } from '@flowgram.ai/document';
 
 import {
   drawStraightAdder,
@@ -11,38 +11,38 @@ import {
   getInputPoint,
   getOutputPoint,
 } from './utils/transition';
-import { insideReactor } from './utils/node';
+import { insideSlot } from './utils/node';
 import { getAllPortsMiddle } from './utils/layout';
-import { createReactorFromJSON } from './utils/create';
-import { REACTOR_COLLAPSE_MARGIN, REACTOR_NODE_LAST_SPACING, REACTOR_SPACING } from './constants';
+import { createSlotFromJSON } from './utils/create';
+import { SlotInlineBlocksRegistry, SlotIconRegistry } from './extends';
+import { SLOT_COLLAPSE_MARGIN, SLOT_NODE_LAST_SPACING, SLOT_SPACING } from './constants';
 
-export const Reactor: FlowNodeRegistry = {
-  type: 'reactor',
+export const SlotRegistry: FlowNodeRegistry = {
+  type: FlowNodeBaseType.SLOT,
   extend: 'block',
   meta: {
-    // Reactor 节点内部暂时不允许拖拽
-    draggable: (node) => !insideReactor(node),
+    // Slot 节点内部暂时不允许拖拽
+    draggable: (node) => !insideSlot(node),
     hidden: true,
-    spacing: REACTOR_SPACING,
+    spacing: SLOT_SPACING,
     padding: (node) => ({
       left: 0,
-      right: node.collapsed ? REACTOR_COLLAPSE_MARGIN : 0,
-      bottom: !insideReactor(node.entity) && node.isLast ? REACTOR_NODE_LAST_SPACING : 0,
+      right: node.collapsed ? SLOT_COLLAPSE_MARGIN : 0,
+      bottom: !insideSlot(node.entity) && node.isLast ? SLOT_NODE_LAST_SPACING : 0,
       top: 0,
     }),
     copyDisable: false,
     defaultExpanded: false,
-    isReactor: true,
   },
   /**
    * 业务通常需要重载方法
    */
-  onCreate: createReactorFromJSON,
+  onCreate: createSlotFromJSON,
   getLines: (transition) => [
-    ...(!insideReactor(transition.entity) ? drawStraightLine(transition) : []),
+    ...(!insideSlot(transition.entity) ? drawStraightLine(transition) : []),
   ],
   getLabels: (transition) => [
-    ...(!insideReactor(transition.entity) ? drawStraightAdder(transition) : []),
+    ...(!insideSlot(transition.entity) ? drawStraightAdder(transition) : []),
   ],
   getInputPoint,
   getOutputPoint,
@@ -97,4 +97,5 @@ export const Reactor: FlowNodeRegistry = {
       },
     });
   },
+  extendChildRegistries: [SlotIconRegistry, SlotInlineBlocksRegistry],
 };

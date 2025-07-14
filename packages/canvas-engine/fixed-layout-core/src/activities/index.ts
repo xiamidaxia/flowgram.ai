@@ -21,3 +21,4 @@ export * from './input';
 export * from './output';
 export * from './multi-outputs';
 export * from './multi-inputs';
+export * from './slot';

@@ -24,8 +24,8 @@ export const getPortMiddle = (_port: FlowNodeTransformData) => {
     return _port.localBounds.top;
   }
 
-  const portChildInputs = [_port.firstChild!, _port.lastChild!].map(_portChild =>
-    getDisplayFirstChildTop(_portChild),
+  const portChildInputs = [_port.firstChild!, _port.lastChild!].map((_portChild) =>
+    getDisplayFirstChildTop(_portChild)
   );
 
   return _port.localBounds.top + mean(portChildInputs);
@@ -41,8 +41,8 @@ export const getAllPortsMiddle = (inlineBlocks: FlowNodeTransformData) => {
     return inlineBlocks.localBounds.height / 2;
   }
 
-  const portInputs = [inlineBlocks.firstChild!, inlineBlocks.lastChild!].map(_port =>
-    getPortMiddle(_port),
+  const portInputs = [inlineBlocks.firstChild!, inlineBlocks.lastChild!].map((_port) =>
+    getPortMiddle(_port)
   );
 
   return mean(portInputs);

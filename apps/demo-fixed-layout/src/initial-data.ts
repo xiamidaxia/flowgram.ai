@@ -43,6 +43,111 @@ export const initialData: FlowDocumentJSON = {
       },
     },
     {
+      id: 'agent_0',
+      type: 'agent',
+      data: {
+        title: 'Agent',
+      },
+      blocks: [
+        {
+          id: 'agentLLM_0',
+          type: 'agentLLM',
+          blocks: [
+            {
+              id: 'llm_5',
+              type: 'llm',
+              meta: {
+                defaultExpanded: false,
+              },
+              data: {
+                title: 'LLM',
+                inputsValues: {
+                  modelType: {
+                    type: 'constant',
+                    content: 'gpt-3.5-turbo',
+                  },
+                  temperature: {
+                    type: 'constant',
+                    content: 0.5,
+                  },
+                  systemPrompt: {
+                    type: 'constant',
+                    content: '# Role\nYou are an AI assistant.\n',
+                  },
+                  prompt: {
+                    type: 'constant',
+                    content: '',
+                  },
+                },
+                inputs: {
+                  type: 'object',
+                  required: ['modelType', 'temperature', 'prompt'],
+                  properties: {
+                    modelType: {
+                      type: 'string',
+                    },
+                    temperature: {
+                      type: 'number',
+                    },
+                    systemPrompt: {
+                      type: 'string',
+                      extra: { formComponent: 'prompt-editor' },
+                    },
+                    prompt: {
+                      type: 'string',
+                      extra: { formComponent: 'prompt-editor' },
+                    },
+                  },
+                },
+                outputs: {
+                  type: 'object',
+                  properties: {
+                    result: { type: 'string' },
+                  },
+                },
+              },
+            },
+          ],
+        },
+        {
+          id: 'agentMemory_0',
+          type: 'agentMemory',
+          blocks: [
+            {
+              id: 'memory_0',
+              type: 'memory',
+              meta: {
+                defaultExpanded: false,
+              },
+              data: {
+                title: 'Memory',
+              },
+            },
+          ],
+        },
+        {
+          id: 'agentTools_0',
+          type: 'agentTools',
+          blocks: [
+            {
+              id: 'tool_0',
+              type: 'tool',
+              data: {
+                title: 'Tool0',
+              },
+            },
+            {
+              id: 'tool_1',
+              type: 'tool',
+              data: {
+                title: 'Tool1',
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
       id: 'llm_0',
       type: 'llm',
       blocks: [],

@@ -6,21 +6,17 @@
 import { FlowNodeRegistry, FlowNodeBaseType } from '@flowgram.ai/document';
 import { FlowNodeTransformData } from '@flowgram.ai/document';
 
-import { ReactorNodeType } from '../typings';
-import {
-  REACTOR_COLLAPSE_MARGIN,
-  REACTOR_INLINE_BLOCKS_DELTA,
-  REACTOR_PORT_DISTANCE,
-} from '../constants';
+import { SlotNodeType } from '../typings';
+import { SLOT_COLLAPSE_MARGIN, SLOT_INLINE_BLOCKS_DELTA, SLOT_PORT_DISTANCE } from '../constants';
 
-export const reactorInlineBlocks: FlowNodeRegistry = {
-  type: ReactorNodeType.ReactorInlineBlocks,
+export const SlotInlineBlocksRegistry: FlowNodeRegistry = {
+  type: SlotNodeType.SlotInlineBlocks,
   extend: FlowNodeBaseType.BLOCK,
   meta: {
     spacing: 0,
     inlineSpacingPre: 0,
     inlineSpacingAfter: 0,
-    isInlineBlocks: node => !node.isVertical,
+    isInlineBlocks: (node) => !node.isVertical,
   },
   getLines() {
     return [];
@@ -58,24 +54,24 @@ export const reactorInlineBlocks: FlowNodeRegistry = {
     }
 
     if (!transform.entity.isVertical) {
-      const noChildren = transform?.children?.every?.(_port => !_port.children.length);
+      const noChildren = transform?.children?.every?.((_port) => !_port.children.length);
       /**
-       * 如果没有 children 的时候，不需要有右侧的间距，避免水平布局的时候 reactor 右侧空间过大。
+       * 如果没有 children 的时候，不需要有右侧的间距，避免水平布局的时候 Slot 右侧空间过大。
        */
       if (noChildren) {
         return {
-          x: REACTOR_PORT_DISTANCE - icon.localBounds.width / 2,
-          y: icon.localBounds.bottom + REACTOR_COLLAPSE_MARGIN,
+          x: SLOT_PORT_DISTANCE - icon.localBounds.width / 2,
+          y: icon.localBounds.bottom + SLOT_COLLAPSE_MARGIN,
         };
       }
       return {
-        x: 2 * REACTOR_PORT_DISTANCE - icon.localBounds.width / 2,
-        y: icon.localBounds.bottom + REACTOR_COLLAPSE_MARGIN,
+        x: 2 * SLOT_PORT_DISTANCE - icon.localBounds.width / 2,
+        y: icon.localBounds.bottom + SLOT_COLLAPSE_MARGIN,
       };
     }
 
     return {
-      x: icon.localBounds.right + REACTOR_INLINE_BLOCKS_DELTA,
+      x: icon.localBounds.right + SLOT_INLINE_BLOCKS_DELTA,
       y: -icon.localBounds.height,
     };
   },
