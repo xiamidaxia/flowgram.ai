@@ -79,7 +79,7 @@ npm run dev
 
 ```
 > Listen Port: 4000
-> Server Address: http://[::1]:4000
+> Server Address: http://localhost:4000
 > API Docs: http://localhost:4000/docs
 ```
 
@@ -121,4 +121,24 @@ createRuntimePlugin({
     protocol: 'http',
   },
 })
+```
+
+## 编译服务
+
+1. **进入运行时目录**
+
+```bash
+cd packages/runtime/nodejs
+```
+
+2. **编译服务**
+
+```bash
+npm run build
+```
+
+2. **启动 nodejs 服务器**
+
+```bash
+node dist/index.js
 ```

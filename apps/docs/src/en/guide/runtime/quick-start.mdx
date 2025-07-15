@@ -79,7 +79,7 @@ If everything is working correctly, you should see the following output in the c
 
 ```
 > Listen Port: 4000
-> Server Address: http://[::1]:4000
+> Server Address: http://localhost:4000
 > API Docs: http://localhost:4000/docs
 ```
 
@@ -105,4 +105,24 @@ You should see the following output in the command line where the service is run
 { test_input: 'Hello FlowGram!' }
 > LOG Task finished:  xxxx-xxxx-xxxx-xxxx
 { test_output: 'Hello FlowGram!' }
+```
+
+## Compiling the Service
+
+1. **Enter the Runtime Directory**
+
+```bash
+cd packages/runtime/nodejs
+```
+
+2. **Compile the Service**
+
+```bash
+npm run build
+```
+
+2. **Start the nodejs Server**
+
+```bash
+node dist/index.js
 ```
