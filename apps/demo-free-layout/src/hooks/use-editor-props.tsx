@@ -225,8 +225,8 @@ export function useEditorProps(
        * Playground render
        */
       onAllLayersRendered(ctx) {
-        //  Fitview
-        ctx.document.fitView(false);
+        // ctx.tools.autoLayout(); // init auto layout
+        ctx.document.fitView(false); // init fit view
         console.log('--- Playground rendered ---');
       },
       /**

@@ -37,6 +37,7 @@ import {
   createPlaygroundReactPreset,
 } from '@flowgram.ai/editor';
 
+import { WorkflowAutoLayoutTool } from '../tools';
 import { fromNodeJSON, toNodeJSON } from './node-serialize';
 import { FreeLayoutProps, FreeLayoutPluginContext } from './free-layout-props';
 
@@ -149,6 +150,7 @@ export function createFreeLayoutPreset(
     plugins.push(
       createPlaygroundPlugin<FreeLayoutPluginContext>({
         onBind: (bindConfig) => {
+          bindConfig.bind(WorkflowAutoLayoutTool).toSelf().inSingletonScope();
           bindConfig.rebind(WorkflowDocumentOptions).toConstantValue({
             canAddLine: opts.canAddLine?.bind(null, ctx),
             canDeleteLine: opts.canDeleteLine?.bind(null, ctx),

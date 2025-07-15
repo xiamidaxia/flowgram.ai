@@ -12,6 +12,7 @@ import {
 } from '@flowgram.ai/free-lines-plugin';
 import { AutoLayoutService } from '@flowgram.ai/free-auto-layout-plugin';
 
+import { WorkflowAutoLayoutTool } from '../src/tools';
 import {
   FlowDocumentContainerModule,
   FlowNodeBaseType,
@@ -38,6 +39,7 @@ export function createWorkflowContainer(opts: FreeLayoutProps): interfaces.Conta
     WorkflowDocumentContainerModule,
     MockContainerModule,
   ]);
+  container.bind(WorkflowAutoLayoutTool).toSelf().inSingletonScope();
   const linesManager = container.get(WorkflowLinesManager);
   linesManager
     .registerContribution(WorkflowBezierLineContribution)

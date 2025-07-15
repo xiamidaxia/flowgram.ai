@@ -28,7 +28,13 @@ import {
   FlowNodeType,
 } from '@flowgram.ai/editor';
 
+import { AutoLayoutResetFn, AutoLayoutToolOptions } from '../tools';
+
 export const FreeLayoutPluginContext = PluginContext;
+
+export interface FreeLayoutPluginTools {
+  autoLayout: (options?: AutoLayoutToolOptions) => Promise<AutoLayoutResetFn>;
+}
 
 export interface FreeLayoutPluginContext extends EditorPluginContext {
   /**
@@ -38,6 +44,7 @@ export interface FreeLayoutPluginContext extends EditorPluginContext {
   clipboard: ClipboardService;
   selection: SelectionService;
   history: HistoryService;
+  tools: FreeLayoutPluginTools;
 }
 
 /**

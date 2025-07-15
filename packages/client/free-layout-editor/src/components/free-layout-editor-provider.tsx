@@ -15,7 +15,13 @@ import {
   SelectionService,
 } from '@flowgram.ai/editor';
 
-import { createFreeLayoutPreset, FreeLayoutPluginContext, FreeLayoutProps } from '../preset';
+import { WorkflowAutoLayoutTool } from '../tools';
+import {
+  createFreeLayoutPreset,
+  FreeLayoutPluginContext,
+  FreeLayoutPluginTools,
+  FreeLayoutProps,
+} from '../preset';
 
 export const FreeLayoutEditorProvider = forwardRef<FreeLayoutPluginContext, FreeLayoutProps>(
   function FreeLayoutEditorProvider(props: FreeLayoutProps, ref) {
@@ -36,6 +42,12 @@ export const FreeLayoutEditorProvider = forwardRef<FreeLayoutPluginContext, Free
           },
           get history(): HistoryService {
             return container.get<HistoryService>(HistoryService);
+          },
+          get tools(): FreeLayoutPluginTools {
+            const autoLayoutTool = container.get<WorkflowAutoLayoutTool>(WorkflowAutoLayoutTool);
+            return {
+              autoLayout: autoLayoutTool.handle.bind(autoLayoutTool),
+            };
           },
         } as FreeLayoutPluginContext),
       []
