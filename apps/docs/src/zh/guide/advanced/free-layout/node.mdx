@@ -43,6 +43,26 @@ function BaseNode() {
 }
 ```
 
+## 获取当前节点的输入/输出节点或线条
+
+```ts pure
+import { WorkflowNodeLinesData } from '@flowgram.ai/free-layout-editor'
+
+// 获取当前节点的输入节点（通过连接线计算）
+node.getData(WorkflowNodeLinesData).inputNodes
+// 获取所有输入节点 （会往上递归获取所有）
+node.getData(WorkflowNodeLinesData).allInputNodes
+// 获取输出节点
+node.getData(WorkflowNodeLinesData).outputNodes
+// 获取所有输出节点
+node.getData(WorkflowNodeLinesData).allOutputNodes
+// 输入线条
+node.getData(WorkflowNodeLinesData).inputLines
+// 输出线条
+node.getData(WorkflowNodeLinesData).outputLines
+
+```
+
 ## 创建节点
 
 - 通过 [WorkflowDocument](/api/core/workflow-document.html) 创建

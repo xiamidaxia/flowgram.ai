@@ -615,7 +615,7 @@ export class WorkflowDragService {
             return;
           }
           config.updateCursor('grab');
-          line.highlightColor = this.linesManager.lineColor.drawing;
+          line.highlightColor = originLine?.lockedColor || this.linesManager.lineColor.drawing;
           this.hoverService.updateHoveredKey('');
         }
         if (!line) {
@@ -645,7 +645,7 @@ export class WorkflowDragService {
           type: 'onDrag',
         });
 
-        this.setLineColor(line, this.linesManager.lineColor.drawing);
+        this.setLineColor(line, originLine?.lockedColor || this.linesManager.lineColor.drawing);
         if (toNode && this.canBuildContainerLine(toNode, dragPos)) {
           // 如果鼠标 hover 在 node 中的时候，默认连线到这个 node 的初始位置
           toPort = this.getNearestPort(toNode, dragPos);
