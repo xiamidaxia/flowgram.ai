@@ -13,6 +13,7 @@ import {
   FormModel,
   FormModelValid,
   IFormItem,
+  NodeFormContext,
   OnFormValuesChangePayload,
 } from '@flowgram.ai/form-core';
 import {
@@ -173,7 +174,7 @@ export class FormModelV2 extends FormModel implements Disposable {
     return this._initialized;
   }
 
-  get nodeContext() {
+  get nodeContext(): NodeFormContext {
     return {
       node: this.node,
       playgroundContext: this.node.getService(PlaygroundContext),

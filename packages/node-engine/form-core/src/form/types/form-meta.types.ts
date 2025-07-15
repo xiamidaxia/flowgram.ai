@@ -5,7 +5,7 @@
 
 import { MaybePromise } from '@flowgram.ai/utils';
 import { FlowNodeEntity } from '@flowgram.ai/document';
-import { PlaygroundContext } from '@flowgram.ai/core';
+import { PlaygroundContext, PluginContext } from '@flowgram.ai/core';
 
 import { type FormItemAbilityMeta } from './form-ability.types';
 
@@ -97,6 +97,7 @@ export interface IFormMeta {
 export interface NodeFormContext {
   node: FlowNodeEntity;
   playgroundContext: PlaygroundContext;
+  clientContext: PluginContext & Record<string, any>;
 }
 
 export interface IFormMetaOptions {
