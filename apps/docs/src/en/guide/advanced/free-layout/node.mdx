@@ -42,6 +42,25 @@ function BaseNode() {
 }
 ```
 
+## Get Input/Output Nodes or Lines for Current Node
+
+```ts pure
+import { WorkflowNodeLinesData } from '@flowgram.ai/free-layout-editor'
+
+// get input nodes (calculated through connection lines)
+node.getData(WorkflowNodeLinesData).inputNodes
+// get all input nodes (recursively gets all upstream nodes)
+node.getData(WorkflowNodeLinesData).allInputNodes
+// get output nodes
+node.getData(WorkflowNodeLinesData).outputNodes
+// get all output nodes
+node.getData(WorkflowNodeLinesData).allOutputNodes
+// input lines
+node.getData(WorkflowNodeLinesData).inputLines
+// output lines
+node.getData(WorkflowNodeLinesData).outputLines
+```
+
 ## Create Node
 
 - Through [WorkflowDocument](/api/core/workflow-document.html)
