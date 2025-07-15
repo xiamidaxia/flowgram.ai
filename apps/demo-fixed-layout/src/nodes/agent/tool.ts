@@ -18,9 +18,9 @@ export const ToolNodeRegistry: FlowNodeRegistry = {
   },
   meta: {
     addDisable: true,
-    deleteDisable: true, // memory 不能单独删除，只能通过 agent
     copyDisable: true,
     draggable: false,
+    selectable: false,
   },
   formMeta: defaultFormMeta,
   onAdd() {
