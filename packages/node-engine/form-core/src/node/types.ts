@@ -6,19 +6,20 @@
 import React from 'react';
 
 import { FlowNodeEntity } from '@flowgram.ai/document';
-import { PlaygroundContext, PluginContext } from '@flowgram.ai/core';
 
-export interface NodeContext {
-  node: FlowNodeEntity;
-  playgroundContext: PlaygroundContext;
-  clientContext: PluginContext & Record<string, any>;
-}
+import { NodeFormContext } from '../form';
+
+/**
+ * @deprecated
+ * use `NodeFormContext` instead
+ */
+export type NodeContext = NodeFormContext;
 
 export type Render<T = any> = (props: T) => any;
 
-export type NodePluginRender = Render<NodeContext>;
+export type NodePluginRender = Render<NodeFormContext>;
 
-export type NodePlaceholderRender = Render<NodeContext>;
+export type NodePlaceholderRender = Render<NodeFormContext>;
 
 export interface NodeRenderProps {
   node: FlowNodeEntity;

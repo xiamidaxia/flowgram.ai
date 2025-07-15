@@ -58,11 +58,10 @@ export class FormPlugin<Opts = any> implements Disposable {
     return this._formModel;
   }
 
-  get ctx() {
+  get ctx(): { formModel: FormModelV2 } & NodeFormContext {
     return {
       formModel: this.formModel,
-      node: this.formModel.nodeContext.node,
-      playgroundContext: this.formModel.nodeContext.playgroundContext,
+      ...this.formModel.nodeContext,
     };
   }
 

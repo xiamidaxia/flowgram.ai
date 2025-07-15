@@ -5,7 +5,7 @@
 
 import * as React from 'react';
 
-import { FormModel, IFormMeta, NodeFormContext } from '@flowgram.ai/form-core';
+import { FormModel, IFormMeta, NodeContext } from '@flowgram.ai/form-core';
 import { FieldName, FieldValue } from '@flowgram.ai/form/src/types';
 import {
   FormRenderProps,
@@ -20,13 +20,6 @@ import { FormModelV2 } from './form-model-v2';
 export interface Node {}
 
 export interface Flow {}
-
-/**
- * NodeContext contains
- * - node: the Editor's node entity.
- * - playgroundContext: the Editor's playgroundContext injected when initiate the Editor.
- */
-type NodeContext = NodeFormContext;
 
 export type Validate<TFieldValue = any, TFormValues = any> = (props: {
   value: TFieldValue;

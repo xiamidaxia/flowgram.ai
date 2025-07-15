@@ -31,6 +31,20 @@ export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON['data']>) => (
 export const defaultFormMeta: FormMeta<FlowNodeJSON['data']> = {
   render: renderForm,
   validateTrigger: ValidateTrigger.onChange,
+  /**
+   * Initialize (fromJSON) data transformation
+   * 初始化(fromJSON) 数据转换
+   * @param value
+   * @param ctx
+   */
+  formatOnInit: (value, ctx) => value,
+  /**
+   * Save (toJSON) data transformation
+   * 保存(toJSON) 数据转换
+   * @param value
+   * @param ctx
+   */
+  formatOnSubmit: (value, ctx) => value,
   validate: {
     title: ({ value }) => (value ? undefined : 'Title is required'),
     'inputsValues.*': ({ value, context, formValues, name }) => {
