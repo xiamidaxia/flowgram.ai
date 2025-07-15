@@ -159,6 +159,13 @@ export function useEditorProps(
       selectBox: {
         SelectorBoxPopover,
       },
+      scroll: {
+        /**
+         * Whether to restrict the node from rolling out of the canvas needs to be closed because there is a running results pane
+         * 是否限制节点不能滚出画布，由于有运行结果面板，所以需要关闭
+         */
+        enableScrollLimit: false,
+      },
       materials: {
         /**
          * Render Node
