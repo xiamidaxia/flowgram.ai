@@ -46,6 +46,7 @@ export interface WorkflowLineUIState {
   reverse: boolean; // 箭头反转
   hideArrow: boolean; // 隐藏箭头
   highlightColor: string; // 高亮显示
+  lockedColor: string; // 锁定颜色
 }
 
 /**
@@ -81,6 +82,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     hideArrow: false,
     reverse: false,
     highlightColor: '',
+    lockedColor: '',
   };
 
   /**
@@ -280,6 +282,16 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
   set highlightColor(highlightColor) {
     this.updateUIState({
       highlightColor,
+    });
+  }
+
+  get lockedColor(): string {
+    return this.uiState.lockedColor;
+  }
+
+  set lockedColor(lockedColor: string) {
+    this.updateUIState({
+      lockedColor,
     });
   }
 

@@ -327,6 +327,10 @@ export class WorkflowLinesManager {
     if (line.isHidden) {
       return this.lineColor.hidden;
     }
+    // 颜色锁定
+    if (line.lockedColor) {
+      return line.lockedColor;
+    }
     if (line.hasError) {
       return this.lineColor.error;
     }
