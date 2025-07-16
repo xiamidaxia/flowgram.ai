@@ -14,27 +14,22 @@ describe('JSONSchemaValidator', () => {
     properties: {
       AA: {
         type: 'string',
-        isPropertyRequired: true,
         extra: { index: 0 },
       },
       BB: {
         type: 'integer',
-        isPropertyRequired: false,
         extra: { index: 1 },
       },
       CC: {
         type: 'object',
-        isPropertyRequired: false,
         extra: { index: 2 },
         properties: {
           CA: {
             type: 'string',
-            isPropertyRequired: true,
             extra: { index: 0 },
           },
           CB: {
             type: 'integer',
-            isPropertyRequired: true,
             extra: { index: 1 },
           },
         },
@@ -42,7 +37,6 @@ describe('JSONSchemaValidator', () => {
       },
       DD: {
         type: 'array',
-        isPropertyRequired: false,
         extra: { index: 3 },
         items: {
           type: 'object',
@@ -57,7 +51,6 @@ describe('JSONSchemaValidator', () => {
               properties: {
                 DBA: {
                   type: 'string',
-                  isPropertyRequired: true,
                   extra: { index: 1 },
                 },
               },

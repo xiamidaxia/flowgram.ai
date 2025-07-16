@@ -147,11 +147,10 @@ const validateObject = (value: unknown, schema: IJsonSchema, path: string): Vali
     }
   }
 
-  // Check isPropertyRequired field in properties (if exists)
+  // Check is field required
   if (schema.properties) {
-    for (const [propertyName, propertySchema] of Object.entries(schema.properties)) {
-      const isRequired =
-        (propertySchema as unknown as Record<string, unknown>).isPropertyRequired === true;
+    for (const [propertyName] of Object.entries(schema.properties)) {
+      const isRequired = schema.required?.includes(propertyName) ?? false;
       if (isRequired && !(propertyName in objectValue)) {
         return {
           result: false,

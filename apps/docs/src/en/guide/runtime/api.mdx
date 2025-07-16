@@ -430,18 +430,54 @@ const schema = JSON.stringify({
       id: 'start',
       type: 'start',
       meta: { position: { x: 0, y: 0 } },
-      data: {}
+      data: {
+        outputs: {
+          type: 'object',
+          properties: {
+            userInput: {
+              type: 'string',
+              extra: {
+                index: 0,
+              },
+            }
+          },
+          required: ['userInput'],
+        },
+      }
     },
     {
       id: 'llm',
       type: 'llm',
       meta: { position: { x: 200, y: 0 } },
       data: {
-        modelName: 'gpt-3.5-turbo',
-        temperature: 0.7,
-        systemPrompt: '你是一个助手',
-        prompt: '介绍一下自己'
-      }
+        title: 'LLM_0',
+        inputsValues: {
+          prompt: {
+            type: 'ref',
+            content: ['start_0', 'userInput'],
+          }
+        },
+        inputs: {
+          type: 'object',
+          required: ['editor'],
+          properties: {
+            prompt: {
+              type: 'string',
+              extra: {
+                formComponent: 'prompt-editor',
+              },
+            },
+          },
+        },
+        outputs: {
+          type: 'object',
+          properties: {
+            result: {
+              type: 'string',
+            },
+          },
+        },
+      },
     },
     {
       id: 'end',

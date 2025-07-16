@@ -51,7 +51,7 @@ export const useFormMeta = (): TestRunFormMetaItem[] => {
         type: property.type as JsonSchemaBasicType,
         name,
         defaultValue: property.default,
-        required: property.isPropertyRequired ?? false,
+        required: workflowInputs.required?.includes(name) ?? false,
         itemsType: property.items?.type as JsonSchemaBasicType,
       });
     });
