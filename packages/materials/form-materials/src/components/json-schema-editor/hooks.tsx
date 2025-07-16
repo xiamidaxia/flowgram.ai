@@ -5,6 +5,8 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+import { omit } from 'lodash';
+
 import { IJsonSchema } from '../../typings';
 import { PropertyValueType } from './types';
 
@@ -113,7 +115,7 @@ export function usePropertiesEdit(
           continue;
         }
 
-        nextProperties[_property.name] = _property;
+        nextProperties[_property.name] = omit(_property, ['key', 'name', 'isPropertyRequired']);
 
         if (_property.isPropertyRequired) {
           nextRequired.push(_property.name);
