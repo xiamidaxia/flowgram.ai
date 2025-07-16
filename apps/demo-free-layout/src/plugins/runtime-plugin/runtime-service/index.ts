@@ -73,14 +73,13 @@ export class WorkflowRuntimeService {
     );
   }
 
-  public async taskRun(inputsString: string): Promise<void> {
+  public async taskRun(inputs: WorkflowInputs): Promise<void> {
     if (this.taskID) {
       await this.taskCancel();
     }
     if (!this.validateForm()) {
       return;
     }
-    const inputs = JSON.parse(inputsString) as WorkflowInputs;
     const schema = this.document.toJSON();
     const validateResult = await this.runtimeClient.TaskValidate({
       schema: JSON.stringify(schema),

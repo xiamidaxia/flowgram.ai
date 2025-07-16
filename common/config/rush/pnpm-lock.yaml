@@ -232,6 +232,9 @@ importers:
       '@flowgram.ai/runtime-js':
         specifier: workspace:*
         version: link:../../packages/runtime/js-core
+      classnames:
+        specifier: ^2.5.1
+        version: 2.5.1
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
