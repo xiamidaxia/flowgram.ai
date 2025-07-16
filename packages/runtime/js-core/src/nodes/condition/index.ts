@@ -62,11 +62,11 @@ export class ConditionExecutor implements INodeExecutor {
   private checkCondition(condition: ConditionValue): boolean {
     const rule = conditionRules[condition.leftType];
     if (isNil(rule)) {
-      throw new Error(`condition left type ${condition.leftType} is not supported`);
+      throw new Error(`left type "${condition.leftType}" is not supported`);
     }
     const ruleType = rule[condition.operator];
     if (isNil(ruleType)) {
-      throw new Error(`condition operator ${condition.operator} is not supported`);
+      throw new Error(`left type "${condition.leftType}" has no operator "${condition.operator}"`);
     }
     if (ruleType !== condition.rightType) {
       // throw new Error(`condition right type expected ${ruleType}, got ${condition.rightType}`);

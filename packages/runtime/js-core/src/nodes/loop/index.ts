@@ -61,10 +61,14 @@ export class LoopExecutor implements INodeExecutor {
         type: WorkflowVariableType.Number,
         value: index,
       });
-      await engine.executeNode({
-        context: subContext,
-        node: blockStartNode,
-      });
+      try {
+        await engine.executeNode({
+          context: subContext,
+          node: blockStartNode,
+        });
+      } catch (e) {
+        throw new Error(`loop block execute error`);
+      }
       const blockOutput = this.getBlockOutput(context, subContext);
       blockOutputs.push(blockOutput);
     }

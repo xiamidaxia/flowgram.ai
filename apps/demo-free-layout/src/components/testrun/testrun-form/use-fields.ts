@@ -14,6 +14,14 @@ export const useFields = (params: {
 
   // Convert each meta item to a form field with value and onChange handler
   const fields: TestRunFormField[] = formMeta.map((meta) => {
+    // If there is no value in values but there is a default value, trigger onChange once
+    if (!(meta.name in values) && meta.defaultValue !== undefined) {
+      setValues({
+        ...values,
+        [meta.name]: meta.defaultValue,
+      });
+    }
+
     // Handle object type specially - serialize object to JSON string for display
     const getCurrentValue = (): unknown => {
       const rawValue = values[meta.name] ?? meta.defaultValue;

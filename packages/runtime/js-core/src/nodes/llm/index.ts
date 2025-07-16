@@ -13,6 +13,8 @@ import {
   INodeExecutor,
 } from '@flowgram.ai/runtime-interface';
 
+import { APIValidator } from './api-validator';
+
 export interface LLMExecutorInputs {
   modelName: string;
   apiKey: string;
@@ -27,7 +29,7 @@ export class LLMExecutor implements INodeExecutor {
 
   public async execute(context: ExecutionContext): Promise<ExecutionResult> {
     const inputs = context.inputs as LLMExecutorInputs;
-    this.checkInputs(inputs);
+    await this.checkInputs(inputs);
 
     const { modelName, temperature, apiKey, apiHost, systemPrompt, prompt } = inputs;
 
@@ -57,7 +59,7 @@ export class LLMExecutor implements INodeExecutor {
     };
   }
 
-  protected checkInputs(inputs: LLMExecutorInputs) {
+  protected async checkInputs(inputs: LLMExecutorInputs) {
     const { modelName, temperature, apiKey, apiHost, prompt } = inputs;
     const missingInputs = [];
 
@@ -69,6 +71,16 @@ export class LLMExecutor implements INodeExecutor {
 
     if (missingInputs.length > 0) {
       throw new Error(`LLM node missing required inputs: ${missingInputs.join(', ')}`);
+    }
+
+    // Validate apiHost format before checking existence
+    if (!APIValidator.isValidFormat(apiHost)) {
+      throw new Error(`Invalid API host format - ${apiHost}`);
+    }
+
+    const apiHostExists = await APIValidator.isExist(apiHost);
+    if (!apiHostExists) {
+      throw new Error(`Unreachable API host - ${apiHost}`);
     }
   }
 }

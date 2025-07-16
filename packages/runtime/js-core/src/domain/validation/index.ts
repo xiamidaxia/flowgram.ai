@@ -13,6 +13,7 @@ import {
 } from '@flowgram.ai/runtime-interface';
 
 import { JSONSchemaValidator } from '@infra/index';
+import { cycleDetection, edgeSourceTargetExist, startEndNode, schemaFormat } from './validators';
 
 export class WorkflowRuntimeValidation implements IValidation {
   public invoke(params: InvokeParams): ValidationResult {
@@ -31,17 +32,28 @@ export class WorkflowRuntimeValidation implements IValidation {
   }
 
   private schema(schema: WorkflowSchema): ValidationResult {
-    // TODO
-    // 检查成环
-    // 检查边的节点是否存在
-    // 检查跨层级连线
-    // 检查是否只有一个开始节点和一个结束节点
-    // 检查开始节点是否在根节点
-    // 检查结束节点是否在根节点
+    const errors: string[] = [];
 
-    // 注册节点检查器
+    // Run all validations concurrently and collect errors
+    const validations = [
+      () => schemaFormat(schema),
+      () => cycleDetection(schema),
+      () => edgeSourceTargetExist(schema),
+      () => startEndNode(schema),
+    ];
+
+    // Execute all validations and collect any errors
+    validations.forEach((validation) => {
+      try {
+        validation();
+      } catch (error) {
+        errors.push(error instanceof Error ? error.message : String(error));
+      }
+    });
+
     return {
-      valid: true,
+      valid: errors.length === 0,
+      errors: errors.length > 0 ? errors : undefined,
     };
   }
 
@@ -63,7 +75,7 @@ export class WorkflowRuntimeValidation implements IValidation {
   }
 
   private getWorkflowInputsDeclare(schema: WorkflowSchema): IJsonSchema {
-    const startNode = schema.nodes.find((node) => node.type === FlowGramNode.Start);
+    const startNode = schema.nodes.find((node) => node.type === FlowGramNode.Start)!;
     if (!startNode) {
       throw new Error('Workflow schema must have a start node');
     }
