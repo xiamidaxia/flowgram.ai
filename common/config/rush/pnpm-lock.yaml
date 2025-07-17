@@ -783,6 +783,9 @@ importers:
       '@flowgram.ai/demo-node-form':
         specifier: workspace:*
         version: link:../demo-node-form
+      '@flowgram.ai/demo-playground':
+        specifier: workspace:*
+        version: link:../demo-playground
       '@flowgram.ai/fixed-layout-editor':
         specifier: workspace:*
         version: link:../../packages/client/fixed-layout-editor
