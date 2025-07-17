@@ -46,11 +46,9 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
     }
     setResult(undefined);
     setErrors(undefined);
-    setRunning(true);
-    try {
-      await runtimeService.taskRun(values);
-    } catch (e: any) {
-      setErrors([e.message]);
+    const taskID = await runtimeService.taskRun(values);
+    if (taskID) {
+      setRunning(true);
     }
   };
 
@@ -124,7 +122,7 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
       mask={false}
       motion={false}
       onCancel={onClose}
-      width={368}
+      width={400}
       headerStyle={{
         display: 'none',
       }}
