@@ -7,6 +7,7 @@ export enum WorkflowNodeType {
   Start = 'start',
   End = 'end',
   LLM = 'llm',
+  HTTP = 'http',
   Condition = 'condition',
   Loop = 'loop',
   BlockStart = 'block-start',

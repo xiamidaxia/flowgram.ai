@@ -26,6 +26,7 @@ export function PromptEditor(props: PropsType) {
     style,
     hasError,
     children,
+    disableMarkdownHighlight,
   } = props || {};
 
   const editorRef = useRef<EditorAPI | null>(null);
@@ -58,7 +59,7 @@ export function PromptEditor(props: PropsType) {
         {activeLinePlaceholder && (
           <ActiveLinePlaceholder>{activeLinePlaceholder}</ActiveLinePlaceholder>
         )}
-        <MarkdownHighlight />
+        {!disableMarkdownHighlight && <MarkdownHighlight />}
         <LanguageSupport />
         <JinjaHighlight />
         {children}

@@ -14,5 +14,6 @@ export type PropsType = React.PropsWithChildren<{
   hasError?: boolean;
   placeholder?: string;
   activeLinePlaceholder?: string;
+  disableMarkdownHighlight?: boolean;
   style?: React.CSSProperties;
 }>;

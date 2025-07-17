@@ -12,8 +12,8 @@ export const initialData: FlowDocumentJSON = {
       type: 'start',
       meta: {
         position: {
-          x: 186.39660158249967,
-          y: 381.75,
+          x: 180,
+          y: 573.7,
         },
       },
       data: {
@@ -52,8 +52,8 @@ export const initialData: FlowDocumentJSON = {
       type: 'condition',
       meta: {
         position: {
-          x: 640,
-          y: 318.25,
+          x: 1100,
+          y: 510.20000000000005,
         },
       },
       data: {
@@ -91,8 +91,8 @@ export const initialData: FlowDocumentJSON = {
       type: 'end',
       meta: {
         position: {
-          x: 2489.2950705293442,
-          y: 381.75,
+          x: 3008,
+          y: 573.7,
         },
       },
       data: {
@@ -112,8 +112,8 @@ export const initialData: FlowDocumentJSON = {
       type: 'comment',
       meta: {
         position: {
-          x: 640,
-          y: 573.96875,
+          x: 180,
+          y: 756.7,
         },
       },
       data: {
@@ -129,8 +129,8 @@ export const initialData: FlowDocumentJSON = {
       type: 'group',
       meta: {
         position: {
-          x: 163.32056949283722,
-          y: -76.50012170998413,
+          x: 1644,
+          y: 730.1999999999999,
         },
       },
       data: {},
@@ -140,8 +140,8 @@ export const initialData: FlowDocumentJSON = {
           type: 'llm',
           meta: {
             position: {
-              x: 1177.8341013824886,
-              y: 9.249999999999977,
+              x: 180,
+              y: 0,
             },
           },
           data: {
@@ -217,8 +217,8 @@ export const initialData: FlowDocumentJSON = {
           type: 'llm',
           meta: {
             position: {
-              x: 1621.3675909579388,
-              y: 19.24999999999997,
+              x: 640,
+              y: 10,
             },
           },
           data: {
@@ -311,8 +311,8 @@ export const initialData: FlowDocumentJSON = {
       type: 'loop',
       meta: {
         position: {
-          x: 1451.8161064396056,
-          y: 384.9037102954011,
+          x: 1480,
+          y: 90,
         },
       },
       data: {
@@ -328,8 +328,8 @@ export const initialData: FlowDocumentJSON = {
           type: 'llm',
           meta: {
             position: {
-              x: -110.10677817900246,
-              y: 182.98973079191808,
+              x: 344,
+              y: 0,
             },
           },
           data: {
@@ -405,8 +405,8 @@ export const initialData: FlowDocumentJSON = {
           type: 'llm',
           meta: {
             position: {
-              x: 332.31739662589257,
-              y: 182.98973079191802,
+              x: 804,
+              y: 0,
             },
           },
           data: {
@@ -482,8 +482,8 @@ export const initialData: FlowDocumentJSON = {
           type: 'block-start',
           meta: {
             position: {
-              x: -404.5309529838977,
-              y: 346.08973079191816,
+              x: 31.999999999999943,
+              y: 163.1,
             },
           },
           data: {},
@@ -493,8 +493,8 @@ export const initialData: FlowDocumentJSON = {
           type: 'block-end',
           meta: {
             position: {
-              x: 626.7415714307878,
-              y: 346.08973079191793,
+              x: 1116,
+              y: 163.1,
             },
           },
           data: {},
@@ -515,10 +515,41 @@ export const initialData: FlowDocumentJSON = {
         },
       ],
     },
+    {
+      id: 'http_rDGIH',
+      type: 'http',
+      meta: {
+        position: {
+          x: 640,
+          y: 511.20000000000005,
+        },
+      },
+      data: {
+        title: 'HTTP_1',
+        outputs: {
+          type: 'object',
+          properties: {
+            body: {
+              type: 'string',
+            },
+            headers: {
+              type: 'object',
+            },
+            statusCode: {
+              type: 'integer',
+            },
+          },
+        },
+      },
+    },
   ],
   edges: [
     {
       sourceNodeID: 'start_0',
+      targetNodeID: 'http_rDGIH',
+    },
+    {
+      sourceNodeID: 'http_rDGIH',
       targetNodeID: 'condition_0',
     },
     {
