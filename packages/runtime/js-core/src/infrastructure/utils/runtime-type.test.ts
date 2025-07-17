@@ -427,21 +427,21 @@ describe('WorkflowRuntimeType', () => {
       it('should throw error for String and Number mix', () => {
         const types = [WorkflowVariableType.String, WorkflowVariableType.Number];
         expect(() => WorkflowRuntimeType.getArrayItemsType(types)).toThrow(
-          'array items type must be same, expect string, but got number'
+          'Array items type must be same, expect string, but got number'
         );
       });
 
       it('should throw error for Boolean and String mix', () => {
         const types = [WorkflowVariableType.Boolean, WorkflowVariableType.String];
         expect(() => WorkflowRuntimeType.getArrayItemsType(types)).toThrow(
-          'array items type must be same, expect boolean, but got string'
+          'Array items type must be same, expect boolean, but got string'
         );
       });
 
       it('should throw error for Object and Array mix', () => {
         const types = [WorkflowVariableType.Object, WorkflowVariableType.Array];
         expect(() => WorkflowRuntimeType.getArrayItemsType(types)).toThrow(
-          'array items type must be same, expect object, but got array'
+          'Array items type must be same, expect object, but got array'
         );
       });
 
@@ -452,7 +452,7 @@ describe('WorkflowRuntimeType', () => {
           WorkflowVariableType.Boolean,
         ];
         expect(() => WorkflowRuntimeType.getArrayItemsType(types)).toThrow(
-          'array items type must be same, expect string, but got number'
+          'Array items type must be same, expect string, but got number'
         );
       });
     });

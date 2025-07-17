@@ -109,6 +109,6 @@ describe('createStore', () => {
         nodeBlocks: new Map(),
         nodeEdges: new Map(),
       })
-    ).toThrow('invalid edge schema ID');
+    ).toThrow('Invalid edge schema ID');
   });
 });

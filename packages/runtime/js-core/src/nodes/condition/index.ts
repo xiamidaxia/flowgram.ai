@@ -32,7 +32,7 @@ export class ConditionExecutor implements INodeExecutor {
       .filter((item) => this.checkCondition(item));
     const activatedCondition = parsedConditions.find((item) => this.handleCondition(item));
     if (!activatedCondition) {
-      throw new Error('no condition is activated');
+      throw new Error('No condition is activated');
     }
     return {
       outputs: {},
@@ -62,14 +62,15 @@ export class ConditionExecutor implements INodeExecutor {
   private checkCondition(condition: ConditionValue): boolean {
     const rule = conditionRules[condition.leftType];
     if (isNil(rule)) {
-      throw new Error(`left type "${condition.leftType}" is not supported`);
+      throw new Error(`Condition left type "${condition.leftType}" is not supported`);
     }
     const ruleType = rule[condition.operator];
     if (isNil(ruleType)) {
-      throw new Error(`left type "${condition.leftType}" has no operator "${condition.operator}"`);
+      throw new Error(
+        `Condition left type "${condition.leftType}" has no operator "${condition.operator}"`
+      );
     }
     if (ruleType !== condition.rightType) {
-      // throw new Error(`condition right type expected ${ruleType}, got ${condition.rightType}`);
       return false;
     }
     return true;
@@ -78,7 +79,7 @@ export class ConditionExecutor implements INodeExecutor {
   private handleCondition(condition: ConditionValue): boolean {
     const handler = conditionHandlers[condition.leftType];
     if (!handler) {
-      throw new Error(`condition left type ${condition.leftType} is not supported`);
+      throw new Error(`Condition left type ${condition.leftType} is not supported`);
     }
     const isActive = handler(condition);
     return isActive;

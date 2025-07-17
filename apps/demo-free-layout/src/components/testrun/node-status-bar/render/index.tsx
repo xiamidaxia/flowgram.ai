@@ -57,7 +57,7 @@ export const NodeStatusRender: FC<NodeStatusRenderProps> = ({ report }) => {
     if (isNodeSucceed) {
       return <IconSuccessFill />;
     }
-    return <IconWarningFill className={tagColor} />;
+    return <IconWarningFill className={classnames(tagColor, styles.round)} />;
   };
   const renderDesc = () => {
     const getDesc = () => {

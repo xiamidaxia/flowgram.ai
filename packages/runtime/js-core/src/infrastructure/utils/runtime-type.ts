@@ -67,7 +67,7 @@ export namespace WorkflowRuntimeType {
     const expectedType = types[0];
     types.forEach((type) => {
       if (type !== expectedType) {
-        throw new Error(`array items type must be same, expect ${expectedType}, but got ${type}`);
+        throw new Error(`Array items type must be same, expect ${expectedType}, but got ${type}`);
       }
     });
     return expectedType;

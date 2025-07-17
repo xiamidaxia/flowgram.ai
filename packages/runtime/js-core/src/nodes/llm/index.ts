@@ -49,7 +49,17 @@ export class LLMExecutor implements INodeExecutor {
     }
     messages.push(new HumanMessage(prompt));
 
-    const apiMessage = await model.invoke(messages);
+    let apiMessage;
+    try {
+      apiMessage = await model.invoke(messages);
+    } catch (error) {
+      // 调用 LLM API 失败
+      const errorMessage = (error as Error)?.message;
+      if (errorMessage === 'Connection error.') {
+        throw new Error(`Network error: unreachable api "${apiHost}"`);
+      }
+      throw error;
+    }
 
     const result = apiMessage.content;
     return {
@@ -63,14 +73,14 @@ export class LLMExecutor implements INodeExecutor {
     const { modelName, temperature, apiKey, apiHost, prompt } = inputs;
     const missingInputs = [];
 
-    if (isNil(modelName)) missingInputs.push('modelName');
+    if (!modelName) missingInputs.push('modelName');
     if (isNil(temperature)) missingInputs.push('temperature');
-    if (isNil(apiKey)) missingInputs.push('apiKey');
-    if (isNil(apiHost)) missingInputs.push('apiHost');
-    if (isNil(prompt)) missingInputs.push('prompt');
+    if (!apiKey) missingInputs.push('apiKey');
+    if (!apiHost) missingInputs.push('apiHost');
+    if (!prompt) missingInputs.push('prompt');
 
     if (missingInputs.length > 0) {
-      throw new Error(`LLM node missing required inputs: ${missingInputs.join(', ')}`);
+      throw new Error(`LLM node missing required inputs: "${missingInputs.join('", "')}"`);
     }
 
     // Validate apiHost format before checking existence

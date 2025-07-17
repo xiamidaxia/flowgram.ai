@@ -40,7 +40,7 @@ export class LoopExecutor implements INodeExecutor {
     const blockStartNode = subNodes.find((node) => node.type === FlowGramNode.BlockStart);
 
     if (!blockStartNode) {
-      throw new Error('block start node not found');
+      throw new Error('Loop block start node not found');
     }
 
     const blockOutputs: LoopOutputs[] = [];
@@ -67,7 +67,7 @@ export class LoopExecutor implements INodeExecutor {
           node: blockStartNode,
         });
       } catch (e) {
-        throw new Error(`loop block execute error`);
+        throw new Error(`Loop block execute error`);
       }
       const blockOutput = this.getBlockOutput(context, subContext);
       blockOutputs.push(blockOutput);
@@ -99,15 +99,15 @@ export class LoopExecutor implements INodeExecutor {
   private checkLoopArray(LoopArrayVariable: IVariableParseResult<LoopArray> | null): void {
     const loopArray = LoopArrayVariable?.value;
     if (!loopArray || isNil(loopArray) || !Array.isArray(loopArray)) {
-      throw new Error('loopFor is required');
+      throw new Error('Loop "loopFor" is required');
     }
     const loopArrayType = LoopArrayVariable.type;
     if (loopArrayType !== WorkflowVariableType.Array) {
-      throw new Error('loopFor must be an array');
+      throw new Error('Loop "loopFor" must be an array');
     }
     const loopArrayItemType = LoopArrayVariable.itemsType;
     if (isNil(loopArrayItemType)) {
-      throw new Error('loopFor items must be array items');
+      throw new Error('Loop "loopFor.items" must be array items');
     }
   }
 

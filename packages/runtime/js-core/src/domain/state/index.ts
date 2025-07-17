@@ -89,7 +89,7 @@ export class WorkflowRuntimeState implements IState {
 
   public parseRef<T = unknown>(ref: IFlowRefValue): IVariableParseResult<T> | null {
     if (ref?.type !== 'ref') {
-      throw new Error(`invalid ref value: ${ref}`);
+      throw new Error(`Invalid ref value: ${ref}`);
     }
     if (!ref.content || ref.content.length < 2) {
       return null;
@@ -108,7 +108,7 @@ export class WorkflowRuntimeState implements IState {
 
   public parseTemplate(template: IFlowTemplateValue): IVariableParseResult<string> | null {
     if (template?.type !== 'template') {
-      throw new Error(`invalid template value: ${template}`);
+      throw new Error(`Invalid template value: ${template}`);
     }
     if (!template.content) {
       return null;
@@ -139,7 +139,7 @@ export class WorkflowRuntimeState implements IState {
 
   public parseValue<T = unknown>(flowValue: IFlowValue): IVariableParseResult<T> | null {
     if (!flowValue?.type) {
-      throw new Error(`invalid flow value type: ${(flowValue as any).type}`);
+      throw new Error(`Invalid flow value type: ${(flowValue as any).type}`);
     }
     // constant
     if (flowValue.type === 'constant') {
@@ -162,7 +162,7 @@ export class WorkflowRuntimeState implements IState {
       return this.parseTemplate(flowValue) as IVariableParseResult<T> | null;
     }
     // unknown type
-    throw new Error(`unknown flow value type: ${(flowValue as any).type}`);
+    throw new Error(`Unknown flow value type: ${(flowValue as any).type}`);
   }
 
   public isExecutedNode(node: INode): boolean {

@@ -141,7 +141,7 @@ export class WorkflowRuntimeEngine implements IEngine {
     }
     const targetPort = node.ports.outputs.find((port) => port.id === branch);
     if (!targetPort) {
-      throw new Error(`branch ${branch} not found`);
+      throw new Error(`Engine branch ${branch} not found`);
     }
     const nextNodeIDs: Set<string> = new Set(targetPort.edges.map((edge) => edge.to.id));
     const nextNodes = allNextNodes.filter((nextNode) => nextNodeIDs.has(nextNode.id));
@@ -157,12 +157,11 @@ export class WorkflowRuntimeEngine implements IEngine {
 
   private async executeNext(params: { context: IContext; node: INode; nextNodes: INode[] }) {
     const { context, node, nextNodes } = params;
-    if (node.type === FlowGramNode.End) {
+    if (node.type === FlowGramNode.End || node.type === FlowGramNode.BlockEnd) {
       return;
     }
     if (nextNodes.length === 0) {
-      // throw new Error(`node ${node.id} has no next nodes`); // inside loop node may have no next nodes
-      return;
+      throw new Error(`Node ${node.id} has no next nodes`); // inside loop node may have no next nodes
     }
     await Promise.all(
       nextNodes.map((nextNode) =>

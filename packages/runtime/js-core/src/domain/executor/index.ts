@@ -30,7 +30,7 @@ export class WorkflowRuntimeExecutor implements IExecutor {
     const nodeType = context.node.type;
     const nodeExecutor = this.nodeExecutors.get(nodeType);
     if (!nodeExecutor) {
-      throw new Error(`no executor found for node type ${nodeType}`);
+      throw new Error(`No executor found for node type ${nodeType}`);
     }
     const output = await nodeExecutor.execute(context);
     return output;
