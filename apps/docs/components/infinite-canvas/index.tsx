@@ -3,4 +3,4 @@
  * SPDX-License-Identifier: MIT
  */
 
-export { PlaygroundEditor } from './editor';
+export { InfiniteCanvasPreview } from './preview';

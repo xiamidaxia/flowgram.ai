@@ -22,6 +22,7 @@
     "@flowgram.ai/demo-free-layout-simple": "workspace:*",
     "@flowgram.ai/demo-fixed-layout-simple": "workspace:*",
     "@flowgram.ai/demo-node-form": "workspace:*",
+    "@flowgram.ai/demo-playground": "workspace:*",
     "@flowgram.ai/fixed-layout-editor": "workspace:*",
     "@flowgram.ai/fixed-semi-materials": "workspace:*",
     "@flowgram.ai/free-layout-editor": "workspace:*",

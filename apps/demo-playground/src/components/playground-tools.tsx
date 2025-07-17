@@ -14,8 +14,8 @@ export const PlaygroundTools: React.FC<{ minZoom?: number; maxZoom?: number }> =
       style={{
         position: 'absolute',
         zIndex: 100,
-        right: 100,
-        bottom: 100,
+        right: 40,
+        bottom: 40,
         padding: 13,
         border: '1px solid #ccc',
         backgroundColor: 'white',
@@ -24,9 +24,12 @@ export const PlaygroundTools: React.FC<{ minZoom?: number; maxZoom?: number }> =
         cursor: 'pointer',
       }}
     >
-      <button onClick={() => tools.toggleIneractiveType()}>{tools.interactiveType}</button>
+      <button onClick={() => tools.toggleIneractiveType()}>{tools.interactiveType} Mode</button>
+      &nbsp;
       <button onClick={() => tools.zoomout()}>Zoom Out</button>
+      &nbsp;
       <button onClick={() => tools.zoomin()}>Zoom In</button>
+      &nbsp;
       <span>{Math.floor(tools.zoom * 100)}%</span>
     </div>
   );
