@@ -4,7 +4,7 @@
     "name": "index",
     "label": "Experience Environment"
   },
-  "infinite-canvas",
+  "playground",
   {
     "type": "dir",
     "name": "fixed-layout",
