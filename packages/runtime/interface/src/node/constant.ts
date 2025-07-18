@@ -15,4 +15,5 @@ export enum FlowGramNode {
   Group = 'group',
   BlockStart = 'block-start',
   BlockEnd = 'block-end',
+  HTTP = 'http',
 }

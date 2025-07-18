@@ -72,6 +72,7 @@ export class WorkflowRuntimeEngine implements IEngine {
         inputs,
         runtime: context,
         container: WorkflowRuntimeContainer.instance,
+        snapshot,
       });
       if (context.statusCenter.workflow.terminated) {
         return;
