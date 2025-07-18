@@ -19,6 +19,7 @@
   {
     "type": "dir",
     "name": "runtime",
-    "label": "运行时 (WIP)"
+    "label": "运行时接入 (WIP)",
+    "collapsed": true
   }
 ]
