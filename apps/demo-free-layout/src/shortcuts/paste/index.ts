@@ -19,6 +19,7 @@ import {
   WorkflowNodeEntity,
   WorkflowNodeMeta,
   WorkflowSelectService,
+  Playground,
 } from '@flowgram.ai/free-layout-editor';
 import { Toast } from '@douyinfe/semi-ui';
 
@@ -43,6 +44,8 @@ export class PasteShortcut implements ShortcutsHandler {
 
   private dragService: WorkflowDragService;
 
+  private playground: Playground;
+
   /**
    * initialize paste shortcut handler - 初始化粘贴快捷键处理器
    */
@@ -53,6 +56,7 @@ export class PasteShortcut implements ShortcutsHandler {
     this.entityManager = context.get(EntityManager);
     this.hoverService = context.get(WorkflowHoverService);
     this.dragService = context.get(WorkflowDragService);
+    this.playground = context.playground;
     this.execute = this.execute.bind(this);
   }
 
@@ -100,6 +104,9 @@ export class PasteShortcut implements ShortcutsHandler {
       parent,
     });
     this.selectNodes(nodes);
+    // 这里需要 focus 画布才能继续使用快捷键
+    // The focus canvas is needed here to continue using the shortcuts
+    this.playground.node.focus();
     return nodes;
   }
 
