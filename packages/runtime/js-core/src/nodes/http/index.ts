@@ -26,7 +26,7 @@ export interface HTTPExecutorInputs {
 }
 
 export class HTTPExecutor implements INodeExecutor {
-  public type = FlowGramNode.HTTP;
+  public readonly type = FlowGramNode.HTTP;
 
   public async execute(context: ExecutionContext): Promise<ExecutionResult> {
     const inputs = this.parseInputs(context);

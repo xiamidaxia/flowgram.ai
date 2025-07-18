@@ -18,7 +18,7 @@ import { conditionRules } from './rules';
 import { conditionHandlers } from './handlers';
 
 export class ConditionExecutor implements INodeExecutor {
-  public type = FlowGramNode.Condition;
+  public readonly type = FlowGramNode.Condition;
 
   public async execute(context: ExecutionContext): Promise<ExecutionResult> {
     const conditions: Conditions = context.node.data?.conditions;

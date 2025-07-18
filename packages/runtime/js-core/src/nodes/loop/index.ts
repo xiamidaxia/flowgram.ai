@@ -29,7 +29,7 @@ export interface LoopExecutorInputs {
 }
 
 export class LoopExecutor implements INodeExecutor {
-  public type = FlowGramNode.Loop;
+  public readonly type = FlowGramNode.Loop;
 
   public async execute(context: ExecutionContext): Promise<ExecutionResult> {
     const loopNodeID = context.node.id;

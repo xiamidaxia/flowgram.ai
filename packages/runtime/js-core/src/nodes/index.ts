@@ -12,6 +12,7 @@ import { HTTPExecutor } from './http';
 import { EndExecutor } from './end';
 import { BlockEndExecutor, BlockStartExecutor } from './empty';
 import { ConditionExecutor } from './condition';
+import { CodeExecutor } from './code';
 
 export const WorkflowRuntimeNodeExecutors: INodeExecutorFactory[] = [
   StartExecutor,
@@ -22,4 +23,5 @@ export const WorkflowRuntimeNodeExecutors: INodeExecutorFactory[] = [
   BlockStartExecutor,
   BlockEndExecutor,
   HTTPExecutor,
+  CodeExecutor,
 ];

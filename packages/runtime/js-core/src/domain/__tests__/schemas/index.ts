@@ -8,6 +8,7 @@ import { twoLLMSchema } from './two-llm';
 import { loopSchema } from './loop';
 import { llmRealSchema } from './llm-real';
 import { httpSchema } from './http';
+import { codeSchema } from './code';
 import { branchTwoLayersSchema } from './branch-two-layers';
 import { branchSchema } from './branch';
 import { basicSchema } from './basic';
@@ -21,4 +22,5 @@ export const TestSchemas = {
   branchTwoLayersSchema,
   validateInputsSchema,
   httpSchema,
+  codeSchema,
 };
