@@ -5,6 +5,7 @@
 
 import {
   FreeLayoutPluginContext,
+  PlaygroundConfigEntity,
   Rectangle,
   ShortcutsHandler,
   TransformData,
@@ -33,11 +34,14 @@ export class CopyShortcut implements ShortcutsHandler {
 
   public shortcuts = ['meta c', 'ctrl c'];
 
+  private playgroundConfig: PlaygroundConfigEntity;
+
   private document: WorkflowDocument;
 
   private selectService: WorkflowSelectService;
 
   constructor(context: FreeLayoutPluginContext) {
+    this.playgroundConfig = context.playground.config;
     this.document = context.get(WorkflowDocument);
     this.selectService = context.get(WorkflowSelectService);
     this.execute = this.execute.bind(this);
@@ -47,7 +51,7 @@ export class CopyShortcut implements ShortcutsHandler {
    * execute copy operation - 执行复制操作
    */
   public async execute(): Promise<void> {
-    if (await this.hasSelectedText()) {
+    if (this.readonly || (await this.hasSelectedText())) {
       return;
     }
     if (!this.isValid(this.selectedNodes)) {
@@ -74,7 +78,14 @@ export class CopyShortcut implements ShortcutsHandler {
   }
 
   /**
-   *  has selected text - 是否有文字被选中
+   * readonly - 是否只读
+   */
+  private get readonly(): boolean {
+    return this.playgroundConfig.readonly;
+  }
+
+  /**
+   * has selected text - 是否有文字被选中
    */
   private async hasSelectedText(): Promise<boolean> {
     if (!window.getSelection()?.toString()) {

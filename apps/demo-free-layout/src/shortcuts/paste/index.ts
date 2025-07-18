@@ -9,6 +9,7 @@ import {
   FlowNodeTransformData,
   FreeLayoutPluginContext,
   IPoint,
+  PlaygroundConfigEntity,
   Rectangle,
   ShortcutsHandler,
   WorkflowDocument,
@@ -30,6 +31,8 @@ export class PasteShortcut implements ShortcutsHandler {
 
   public shortcuts = ['meta v', 'ctrl v'];
 
+  private playgroundConfig: PlaygroundConfigEntity;
+
   private document: WorkflowDocument;
 
   private selectService: WorkflowSelectService;
@@ -44,6 +47,7 @@ export class PasteShortcut implements ShortcutsHandler {
    * initialize paste shortcut handler - 初始化粘贴快捷键处理器
    */
   constructor(context: FreeLayoutPluginContext) {
+    this.playgroundConfig = context.playground.config;
     this.document = context.get(WorkflowDocument);
     this.selectService = context.get(WorkflowSelectService);
     this.entityManager = context.get(EntityManager);
@@ -56,6 +60,9 @@ export class PasteShortcut implements ShortcutsHandler {
    * execute paste action - 执行粘贴操作
    */
   public async execute(): Promise<WorkflowNodeEntity[] | undefined> {
+    if (this.readonly) {
+      return;
+    }
     const data = await this.tryReadClipboard();
     if (!data) {
       return;
@@ -94,6 +101,13 @@ export class PasteShortcut implements ShortcutsHandler {
     });
     this.selectNodes(nodes);
     return nodes;
+  }
+
+  /**
+   * readonly - 是否只读
+   */
+  private get readonly(): boolean {
+    return this.playgroundConfig.readonly;
   }
 
   private isValidData(data?: WorkflowClipboardData): boolean {
