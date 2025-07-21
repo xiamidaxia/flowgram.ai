@@ -68,7 +68,8 @@ export function ConstantInput(props: PropsType) {
   const { value, onChange, schema, strategies: extraStrategies, readonly, ...rest } = props;
 
   const strategies = useMemo(
-    () => [...defaultStrategies, ...(extraStrategies || [])],
+    // user's extraStrategies first
+    () => [...(extraStrategies || []), ...defaultStrategies],
     [extraStrategies]
   );
 
