@@ -14,7 +14,8 @@
   {
     "type": "dir",
     "name": "concepts",
-    "label": "概念"
+    "label": "概念",
+    "collapsed": true
   },
   {
     "type": "dir",
