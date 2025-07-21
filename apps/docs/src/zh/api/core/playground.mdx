@@ -115,3 +115,12 @@ ctx.playground.config.scroll({ scrollX: 100, scrollY: 100 }, true, 300)
 ctx.playground.config.isViewportVisible(node.bounds)
 ```
 
+### addScrollLimit
+```ts pure
+ctx.playground.config.addScrollLimit((scrollData) => {
+    return {
+     ...scrollData,
+     scrollX: ctx.playground.config.config.scrollX // disable scroll X
+   }
+})
+```

@@ -114,3 +114,13 @@ Determine whether the current node is within the viewport
 ```ts pure
 ctx.playground.config.isViewportVisible(node.bounds)
 ```
+
+### addScrollLimit
+```ts pure
+ctx.playground.config.addScrollLimit((scrollData) => {
+    return {
+     ...scrollData,
+     scrollX: ctx.playground.config.config.scrollX // disable scroll X
+   }
+})
+```
