@@ -226,8 +226,17 @@ export class CopyShortcut implements ShortcutsHandler {
    * show success notification - 显示成功通知
    */
   private notifySuccess(): void {
-    const nodeTypes = this.selectedNodes.map((node) => node.flowNodeType);
-    if (nodeTypes.includes('start') || nodeTypes.includes('end')) {
+    const startEndNodeTypes: WorkflowNodeType[] = [
+      WorkflowNodeType.Start,
+      WorkflowNodeType.End,
+      WorkflowNodeType.BlockStart,
+      WorkflowNodeType.BlockEnd,
+    ];
+    if (
+      this.selectedNodes.some((node) =>
+        startEndNodeTypes.includes(node.flowNodeType as WorkflowNodeType)
+      )
+    ) {
       Toast.warning({
         content:
           'The Start/End node cannot be duplicated, other nodes have been copied to the clipboard',

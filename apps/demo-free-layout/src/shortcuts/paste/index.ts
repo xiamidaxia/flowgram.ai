@@ -124,12 +124,27 @@ export class PasteShortcut implements ShortcutsHandler {
       });
       return false;
     }
-    // 跨域名表示不同环境，上架插件不同，不能复制
+    // Cross-domain means different environments, different plugins, cannot be copied - 跨域名表示不同环境，上架插件不同，不能复制
     if (data.source.host !== window.location.host) {
       Toast.error({
         content: 'Cannot paste nodes from different host',
       });
       return false;
+    }
+    // Check container - 检查容器
+    const parent = this.getSelectedContainer();
+    for (const nodeJSON of data.json.nodes) {
+      const res = this.dragService.canDropToNode({
+        dragNodeType: nodeJSON.type,
+        dropNodeType: parent?.flowNodeType,
+        dropNode: parent,
+      });
+      if (!res.allowDrop) {
+        Toast.error({
+          content: res.message ?? 'Cannot paste nodes to invalid container',
+        });
+        return false;
+      }
     }
     return true;
   }
