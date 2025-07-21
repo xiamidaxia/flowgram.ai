@@ -16,6 +16,7 @@
     "name": "variable",
     "label": "Variable"
   },
+  "zoom-scroll",
   "history",
   "shortcuts",
   "minimap",
