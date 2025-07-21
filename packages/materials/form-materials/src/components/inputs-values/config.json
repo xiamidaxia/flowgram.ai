@@ -1,9 +1,8 @@
 {
-  "name": "batch-outputs",
+  "name": "inputs-values",
   "depMaterials": [
     "flow-value",
-    "variable-selector",
-    "use-object-list"
+    "dynamic-value-input"
   ],
   "depPackages": [
     "@douyinfe/semi-ui",

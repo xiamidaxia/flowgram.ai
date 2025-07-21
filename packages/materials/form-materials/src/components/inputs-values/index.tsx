@@ -5,18 +5,20 @@
 
 import React from 'react';
 
-import { Button, Input } from '@douyinfe/semi-ui';
+import { Button, IconButton, Input } from '@douyinfe/semi-ui';
 import { IconDelete, IconPlus } from '@douyinfe/semi-icons';
 
 import { PropsType } from './types';
-import { VariableSelector } from '../variable-selector';
+import { DynamicValueInput } from '../dynamic-value-input';
+import { IFlowConstantRefValue, IFlowValue } from '../../typings';
 import { useObjectList } from '../../hooks';
 import { UIRow, UIRows } from './styles';
 
-export function BatchOutputs(props: PropsType) {
-  const { readonly, style } = props;
-
-  const { list, add, updateKey, updateValue, remove } = useObjectList(props);
+export function InputsValues({ value, onChange, style, readonly }: PropsType) {
+  const { list, updateKey, updateValue, remove, add } = useObjectList<IFlowValue | undefined>({
+    value,
+    onChange,
+  });
 
   return (
     <div>
@@ -24,21 +26,22 @@ export function BatchOutputs(props: PropsType) {
         {list.map((item) => (
           <UIRow key={item.id}>
             <Input
-              style={{ width: 100 }}
+              style={{ width: 100, minWidth: 100, maxWidth: 100 }}
               disabled={readonly}
               size="small"
               value={item.key}
               onChange={(v) => updateKey(item.id, v)}
             />
-            <VariableSelector
+            <DynamicValueInput
               style={{ flexGrow: 1 }}
               readonly={readonly}
-              value={item.value?.content}
-              onChange={(v) => updateValue(item.id, { type: 'ref', content: v })}
+              value={item.value as IFlowConstantRefValue}
+              onChange={(v) => updateValue(item.id, v)}
             />
-            <Button
+            <IconButton
               disabled={readonly}
-              icon={<IconDelete />}
+              theme="borderless"
+              icon={<IconDelete size="small" />}
               size="small"
               onClick={() => remove(item.id)}
             />

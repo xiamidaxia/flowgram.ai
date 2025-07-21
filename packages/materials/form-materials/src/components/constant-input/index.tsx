@@ -65,7 +65,15 @@ const defaultStrategies: Strategy[] = [
 ];
 
 export function ConstantInput(props: PropsType) {
-  const { value, onChange, schema, strategies: extraStrategies, readonly, ...rest } = props;
+  const {
+    value,
+    onChange,
+    schema,
+    strategies: extraStrategies,
+    fallbackRenderer,
+    readonly,
+    ...rest
+  } = props;
 
   const strategies = useMemo(
     // user's extraStrategies first
@@ -80,6 +88,14 @@ export function ConstantInput(props: PropsType) {
   }, [strategies, schema]);
 
   if (!Renderer) {
+    if (fallbackRenderer) {
+      return React.createElement(fallbackRenderer, {
+        value,
+        onChange,
+        readonly,
+        ...rest,
+      });
+    }
     return <Input size="small" disabled placeholder="Unsupported type" />;
   }
 

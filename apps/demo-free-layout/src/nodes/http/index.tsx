@@ -4,6 +4,7 @@
  */
 
 import { nanoid } from 'nanoid';
+import { createInferInputsPlugin } from '@flowgram.ai/form-materials';
 
 import { WorkflowNodeType } from '../constants';
 import { FlowNodeRegistry } from '../../typings';
@@ -52,5 +53,9 @@ export const HTTPNodeRegistry: FlowNodeRegistry = {
   formMeta: {
     render: (props) => <FormRender {...props} />,
     effect: defaultFormMeta.effect,
+    plugins: [
+      createInferInputsPlugin({ sourceKey: 'headersValues', targetKey: 'headers' }),
+      createInferInputsPlugin({ sourceKey: 'paramsValues', targetKey: 'params' }),
+    ],
   },
 };
