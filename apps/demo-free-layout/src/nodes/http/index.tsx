@@ -4,13 +4,12 @@
  */
 
 import { nanoid } from 'nanoid';
-import { createInferInputsPlugin } from '@flowgram.ai/form-materials';
 
 import { WorkflowNodeType } from '../constants';
 import { FlowNodeRegistry } from '../../typings';
 import iconHTTP from '../../assets/icon-http.svg';
-import { FormRender } from './form-render';
-import { defaultFormMeta } from '../default-form-meta';
+import { formMeta } from './form-meta';
+
 let index = 0;
 
 export const HTTPNodeRegistry: FlowNodeRegistry = {
@@ -50,12 +49,5 @@ export const HTTPNodeRegistry: FlowNodeRegistry = {
       },
     };
   },
-  formMeta: {
-    render: (props) => <FormRender {...props} />,
-    effect: defaultFormMeta.effect,
-    plugins: [
-      createInferInputsPlugin({ sourceKey: 'headersValues', targetKey: 'headers' }),
-      createInferInputsPlugin({ sourceKey: 'paramsValues', targetKey: 'params' }),
-    ],
-  },
+  formMeta: formMeta,
 };

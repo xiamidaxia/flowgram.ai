@@ -9,12 +9,10 @@ import {
   PositionSchema,
   FlowNodeTransformData,
 } from '@flowgram.ai/free-layout-editor';
-import { createBatchOutputsFormPlugin, provideBatchInputEffect } from '@flowgram.ai/form-materials';
 
-import { defaultFormMeta } from '../default-form-meta';
 import { FlowNodeRegistry } from '../../typings';
 import iconLoop from '../../assets/icon-loop.jpg';
-import { LoopFormRender } from './loop-form-render';
+import { formMeta } from './form-meta';
 import { WorkflowNodeType } from '../constants';
 
 let index = 0;
@@ -100,12 +98,5 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
       ],
     };
   },
-  formMeta: {
-    ...defaultFormMeta,
-    render: LoopFormRender,
-    effect: {
-      loopFor: provideBatchInputEffect,
-    },
-    plugins: [createBatchOutputsFormPlugin({ outputKey: 'loopOutputs' })],
-  },
+  formMeta,
 };

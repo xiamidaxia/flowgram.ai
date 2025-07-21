@@ -14,7 +14,7 @@ import { IFlowConstantRefValue, IFlowValue } from '../../typings';
 import { useObjectList } from '../../hooks';
 import { UIRow, UIRows } from './styles';
 
-export function InputsValues({ value, onChange, style, readonly }: PropsType) {
+export function InputsValues({ value, onChange, style, readonly, constantProps }: PropsType) {
   const { list, updateKey, updateValue, remove, add } = useObjectList<IFlowValue | undefined>({
     value,
     onChange,
@@ -37,6 +37,10 @@ export function InputsValues({ value, onChange, style, readonly }: PropsType) {
               readonly={readonly}
               value={item.value as IFlowConstantRefValue}
               onChange={(v) => updateValue(item.id, v)}
+              constantProps={{
+                ...constantProps,
+                strategies: [...(constantProps?.strategies || [])],
+              }}
             />
             <IconButton
               disabled={readonly}

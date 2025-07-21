@@ -4,7 +4,7 @@
  */
 
 import { Field } from '@flowgram.ai/free-layout-editor';
-import { IFlowConstantRefValue, InputsValues } from '@flowgram.ai/form-materials';
+import { IFlowValue, InputsValues } from '@flowgram.ai/form-materials';
 
 import { useNodeRenderContext } from '../../../hooks';
 import { FormItem } from '../../../form-components';
@@ -14,7 +14,7 @@ export function Headers() {
 
   return (
     <FormItem name="headers" type="object" vertical>
-      <Field<Record<string, IFlowConstantRefValue> | undefined> name="headersValues">
+      <Field<Record<string, IFlowValue | undefined> | undefined> name="headersValues">
         {({ field }) => (
           <InputsValues
             value={field.value}

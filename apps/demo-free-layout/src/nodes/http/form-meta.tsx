@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { FormRenderProps } from '@flowgram.ai/free-layout-editor';
+import { FormMeta, FormRenderProps } from '@flowgram.ai/free-layout-editor';
+import { createInferInputsPlugin } from '@flowgram.ai/form-materials';
 import { Divider } from '@douyinfe/semi-ui';
 
 import { FormHeader, FormContent, FormOutputs } from '../../form-components';
@@ -13,6 +14,7 @@ import { Params } from './components/params';
 import { Headers } from './components/headers';
 import { Body } from './components/body';
 import { Api } from './components/api';
+import { defaultFormMeta } from '../default-form-meta';
 
 export const FormRender = ({ form }: FormRenderProps<HTTPNodeJSON>) => (
   <>
@@ -31,3 +33,12 @@ export const FormRender = ({ form }: FormRenderProps<HTTPNodeJSON>) => (
     </FormContent>
   </>
 );
+
+export const formMeta: FormMeta = {
+  render: (props) => <FormRender {...props} />,
+  effect: defaultFormMeta.effect,
+  plugins: [
+    createInferInputsPlugin({ sourceKey: 'headersValues', targetKey: 'headers' }),
+    createInferInputsPlugin({ sourceKey: 'paramsValues', targetKey: 'params' }),
+  ],
+};

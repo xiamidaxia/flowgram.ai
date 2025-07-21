@@ -12,6 +12,7 @@ import { EndNodeRegistry } from './end';
 import { ContinueNodeRegistry } from './continue';
 import { ConditionNodeRegistry } from './condition';
 import { CommentNodeRegistry } from './comment';
+import { CodeNodeRegistry } from './code';
 import { BreakNodeRegistry } from './break';
 import { BlockStartNodeRegistry } from './block-start';
 import { BlockEndNodeRegistry } from './block-end';
@@ -27,6 +28,7 @@ export const nodeRegistries: FlowNodeRegistry[] = [
   BlockStartNodeRegistry,
   BlockEndNodeRegistry,
   HTTPNodeRegistry,
+  CodeNodeRegistry,
   ContinueNodeRegistry,
   BreakNodeRegistry,
 ];
