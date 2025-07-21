@@ -13,6 +13,7 @@ import {
   WorkflowVariableType,
 } from '@flowgram.ai/runtime-interface';
 
+import { WorkflowRuntimeType } from '@infra/index';
 import { ConditionValue, Conditions } from './type';
 import { conditionRules } from './rules';
 import { conditionHandlers } from './handlers';
@@ -70,7 +71,7 @@ export class ConditionExecutor implements INodeExecutor {
         `Condition left type "${condition.leftType}" has no operator "${condition.operator}"`
       );
     }
-    if (ruleType !== condition.rightType) {
+    if (!WorkflowRuntimeType.isTypeEqual(ruleType, condition.rightType)) {
       return false;
     }
     return true;

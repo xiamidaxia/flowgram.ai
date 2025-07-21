@@ -11,3 +11,5 @@ export { LoopNodeSchema } from './loop';
 export { ConditionNodeSchema, ConditionOperation, ConditionItem } from './condition';
 export { HTTPNodeSchema, HTTPMethod, HTTPBodyType } from './http';
 export { CodeNodeSchema } from './code';
+export { BreakNodeSchema } from './break';
+export { ContinueNodeSchema } from './continue';

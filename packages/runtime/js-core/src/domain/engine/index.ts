@@ -158,7 +158,13 @@ export class WorkflowRuntimeEngine implements IEngine {
 
   private async executeNext(params: { context: IContext; node: INode; nextNodes: INode[] }) {
     const { context, node, nextNodes } = params;
-    if (node.type === FlowGramNode.End || node.type === FlowGramNode.BlockEnd) {
+    const terminatingNodeTypes = [
+      FlowGramNode.End,
+      FlowGramNode.BlockEnd,
+      FlowGramNode.Break,
+      FlowGramNode.Continue,
+    ];
+    if (terminatingNodeTypes.includes(node.type)) {
       return;
     }
     if (nextNodes.length === 0) {
