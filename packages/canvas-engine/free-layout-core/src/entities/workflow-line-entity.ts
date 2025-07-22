@@ -239,6 +239,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     if (this.toPort === toPort) {
       return;
     }
+    const prePort = this.toPort;
     if (
       toPort &&
       toPort.portType === 'input' &&
@@ -254,6 +255,12 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
       this._to = undefined;
       this.info.to = undefined;
       this.info.toPort = '';
+    }
+    /**
+     * 移动到端口又快速移出，需要更新 prePort 的状态
+     */
+    if (prePort) {
+      prePort.validate();
     }
     this.fireChange();
   }
