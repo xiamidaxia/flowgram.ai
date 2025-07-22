@@ -60,6 +60,7 @@ export const BaseNode = ({ node }: { node: FlowNodeEntity }) => {
            */
           ...(nodeRender.isBlockOrderIcon || nodeRender.isBlockIcon ? {} : {}),
           ...nodeRender.node.getNodeRegistry().meta.style,
+          opacity: nodeRender.dragging ? 0.3 : 1,
           outline: form?.state.invalid ? '1px solid red' : 'none',
         }}
       >
