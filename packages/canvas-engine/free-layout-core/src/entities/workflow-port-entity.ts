@@ -107,8 +107,10 @@ export class WorkflowPortEntity extends Entity<WorkflowPortEntityOpts> {
 
   // 设置连线的错误态，外部应使用 validate 进行更新
   set hasError(hasError: boolean) {
-    this._hasError = hasError;
-    this._onErrorChangedEmitter.fire();
+    if (hasError !== this._hasError) {
+      this._hasError = hasError;
+      this._onErrorChangedEmitter.fire();
+    }
   }
 
   validate() {
@@ -118,9 +120,6 @@ export class WorkflowPortEntity extends Entity<WorkflowPortEntityOpts> {
       if (line.disposed || line.isHidden) {
         return false;
       }
-
-      // 保证 hasError 最新
-      line.validateSelf();
 
       return line.hasError;
     });

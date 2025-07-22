@@ -157,6 +157,14 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     if (opts.drawingTo) {
       this.isDrawing = true;
     }
+    this.onEntityChange(() => {
+      this.fromPort?.validate();
+      this.toPort?.validate();
+    });
+    this.onDispose(() => {
+      this.fromPort?.validate();
+      this.toPort?.validate();
+    });
     // this.onDispose(() => {
     // this._infoDispose.dispose();
     // });
@@ -231,6 +239,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     if (this.toPort === toPort) {
       return;
     }
+    const prePort = this.toPort;
     if (
       toPort &&
       toPort.portType === 'input' &&
@@ -246,6 +255,12 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
       this._to = undefined;
       this.info.to = undefined;
       this.info.toPort = '';
+    }
+    /**
+     * 移动到端口又快速移出，需要更新 prePort 的状态
+     */
+    if (prePort) {
+      prePort.validate();
     }
     this.fireChange();
   }
@@ -383,13 +398,14 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
 
   // 校验连线是否为错误态
   validate() {
-    const { fromPort, toPort } = this;
     this.validateSelf();
-    fromPort?.validate();
-    toPort?.validate();
   }
 
-  validateSelf() {
+  /**
+   * use `validate` instead
+   * @deprecated
+   */
+  protected validateSelf() {
     const { fromPort, toPort } = this;
 
     if (fromPort) {
