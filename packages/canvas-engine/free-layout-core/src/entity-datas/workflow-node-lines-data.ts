@@ -53,6 +53,10 @@ export class WorkflowNodeLinesData extends EntityData<WorkflowNodeLines> {
     return this.data.outputLines;
   }
 
+  get allLines(): WorkflowLineEntity[] {
+    return this.data.inputLines.concat(this.data.outputLines);
+  }
+
   /**
    * 输入节点
    */

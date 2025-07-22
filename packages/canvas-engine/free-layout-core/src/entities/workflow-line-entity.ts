@@ -157,6 +157,14 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     if (opts.drawingTo) {
       this.isDrawing = true;
     }
+    this.onEntityChange(() => {
+      this.fromPort?.validate();
+      this.toPort?.validate();
+    });
+    this.onDispose(() => {
+      this.fromPort?.validate();
+      this.toPort?.validate();
+    });
     // this.onDispose(() => {
     // this._infoDispose.dispose();
     // });
@@ -383,13 +391,14 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
 
   // 校验连线是否为错误态
   validate() {
-    const { fromPort, toPort } = this;
     this.validateSelf();
-    fromPort?.validate();
-    toPort?.validate();
   }
 
-  validateSelf() {
+  /**
+   * use `validate` instead
+   * @deprecated
+   */
+  protected validateSelf() {
     const { fromPort, toPort } = this;
 
     if (fromPort) {

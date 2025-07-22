@@ -201,8 +201,6 @@ export class WorkflowLinesManager {
       }
       fromNode.removeLine(line);
       toNode?.removeLine(line);
-      // 连线销毁时检验 连线错误态 & 端口错误态
-      line.validate();
     });
     line.onDispose(() => {
       if (available) {
