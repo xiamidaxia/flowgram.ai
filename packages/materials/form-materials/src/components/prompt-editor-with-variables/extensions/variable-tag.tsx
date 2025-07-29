@@ -67,10 +67,13 @@ class VariableTagWidget extends WidgetType {
       return;
     }
 
-    const rootField = last(v.parentFields);
+    const rootField = last(v.parentFields) || v;
+    const isRoot = v.parentFields.length === 0;
 
     const rootTitle = (
-      <UIRootTitle>{rootField?.meta.title ? `${rootField.meta.title} -` : ''}</UIRootTitle>
+      <UIRootTitle>
+        {rootField?.meta.title ? `${rootField.meta.title} ${isRoot ? '' : '-'} ` : ''}
+      </UIRootTitle>
     );
     const rootIcon = this.renderIcon(rootField?.meta.icon);
 
@@ -86,7 +89,7 @@ class VariableTagWidget extends WidgetType {
       >
         <UITag prefixIcon={rootIcon}>
           {rootTitle}
-          <UIVarName>{v?.key}</UIVarName>
+          {!isRoot && <UIVarName>{v?.key}</UIVarName>}
         </UITag>
       </Popover>
     );
