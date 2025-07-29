@@ -22,6 +22,7 @@ export function InputsValues({
   readonly,
   constantProps,
   schema,
+  hasError,
 }: PropsType) {
   const { list, updateKey, updateValue, remove, add } = useObjectList<IFlowValue | undefined>({
     value,
@@ -48,6 +49,7 @@ export function InputsValues({
               value={item.value as IFlowConstantRefValue}
               onChange={(v) => updateValue(item.id, v)}
               schema={schema}
+              hasError={hasError}
               constantProps={{
                 ...constantProps,
                 strategies: [...(constantProps?.strategies || [])],
