@@ -30,6 +30,7 @@ export function ConditionRow({ style, value, onChange, readonly }: PropTypes) {
     rule,
     op: operator,
     onChange: (v) => onChange({ ...value, operator: v }),
+    readonly,
   });
 
   const targetSchema = useMemo(() => {
