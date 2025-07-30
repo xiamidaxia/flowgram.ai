@@ -1,6 +1,9 @@
-
 {
   "name": "constant-input",
-  "depMaterials": ["typings/json-schema"],
-  "depPackages": ["@douyinfe/semi-ui"]
+  "depMaterials": [
+    "shared/json-schema-preset"
+  ],
+  "depPackages": [
+    "@douyinfe/semi-ui"
+  ]
 }

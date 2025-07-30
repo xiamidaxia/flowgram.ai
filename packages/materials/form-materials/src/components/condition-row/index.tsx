@@ -5,6 +5,7 @@
 
 import React, { useMemo } from 'react';
 
+import { JsonSchemaBasicType } from '@flowgram.ai/json-schema';
 import { Input } from '@douyinfe/semi-ui';
 
 import { ConditionRowValueType, Op } from './types';
@@ -13,7 +14,6 @@ import { useRule } from './hooks/useRule';
 import { useOp } from './hooks/useOp';
 import { VariableSelector } from '../variable-selector';
 import { DynamicValueInput } from '../dynamic-value-input';
-import { JsonSchemaBasicType } from '../../typings';
 
 interface PropTypes {
   value?: ConditionRowValueType;

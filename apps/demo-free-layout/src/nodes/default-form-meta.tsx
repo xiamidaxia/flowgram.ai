@@ -13,17 +13,20 @@ import {
   autoRenameRefEffect,
   provideJsonSchemaOutputs,
   syncVariableTitle,
+  DisplayOutputs,
 } from '@flowgram.ai/form-materials';
+import { Divider } from '@douyinfe/semi-ui';
 
 import { FlowNodeJSON } from '../typings';
-import { FormHeader, FormContent, FormInputs, FormOutputs } from '../form-components';
+import { FormHeader, FormContent, FormInputs } from '../form-components';
 
 export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => (
   <>
     <FormHeader />
     <FormContent>
       <FormInputs />
-      <FormOutputs />
+      <Divider />
+      <DisplayOutputs displayFromScope />
     </FormContent>
   </>
 );

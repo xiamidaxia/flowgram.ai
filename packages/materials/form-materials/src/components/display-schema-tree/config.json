@@ -1,0 +1,11 @@
+{
+  "name": "display-schema-tree",
+  "depMaterials": [
+    "shared/json-schema-preset"
+  ],
+  "depPackages": [
+    "@douyinfe/semi-ui",
+    "styled-components",
+    "@flowgram.ai/json-schema"
+  ]
+}

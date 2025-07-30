@@ -704,6 +704,9 @@ importers:
 
   ../../apps/demo-vite:
     dependencies:
+      '@flowgram.ai/form-materials':
+        specifier: workspace:*
+        version: link:../../packages/materials/form-materials
       '@flowgram.ai/free-layout-editor':
         specifier: workspace:*
         version: link:../../packages/client/free-layout-editor
@@ -2148,6 +2151,9 @@ importers:
       '@flowgram.ai/editor':
         specifier: workspace:*
         version: link:../../client/editor
+      '@flowgram.ai/json-schema':
+        specifier: workspace:*
+        version: link:../../variable-engine/json-schema
       chalk:
         specifier: ^5.3.0
         version: 5.4.1
@@ -4074,6 +4080,70 @@ importers:
       wait-port:
         specifier: ^1.0.1
         version: 1.1.0
+
+  ../../packages/variable-engine/json-schema:
+    dependencies:
+      '@flowgram.ai/core':
+        specifier: workspace:*
+        version: link:../../canvas-engine/core
+      '@flowgram.ai/utils':
+        specifier: workspace:*
+        version: link:../../common/utils
+      '@flowgram.ai/variable-core':
+        specifier: workspace:*
+        version: link:../variable-core
+      fast-equals:
+        specifier: ^2.0.0
+        version: 2.0.4
+      inversify:
+        specifier: ^6.0.1
+        version: 6.2.0(reflect-metadata@0.2.2)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      nanoid:
+        specifier: ^4.0.2
+        version: 4.0.2
+      react:
+        specifier: '>=16.8'
+        version: 18.3.1
+      react-dom:
+        specifier: '>=16.8'
+        version: 18.3.1(react@18.3.1)
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
+    devDependencies:
+      '@flowgram.ai/eslint-config':
+        specifier: workspace:*
+        version: link:../../../config/eslint-config
+      '@flowgram.ai/ts-config':
+        specifier: workspace:*
+        version: link:../../../config/ts-config
+      '@types/lodash':
+        specifier: ^4.14.137
+        version: 4.17.13
+      '@types/react':
+        specifier: ^18
+        version: 18.3.16
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.3.5(@types/react@18.3.16)
+      '@vitest/coverage-v8':
+        specifier: ^0.32.0
+        version: 0.32.4(vitest@0.34.6)
+      eslint:
+        specifier: ^8.54.0
+        version: 8.57.1
+      tsup:
+        specifier: ^8.0.1
+        version: 8.3.5(typescript@5.8.3)
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+      vitest:
+        specifier: ^0.34.6
+        version: 0.34.6(jsdom@22.1.0)
 
   ../../packages/variable-engine/variable-core:
     dependencies:
@@ -10404,7 +10474,7 @@ packages:
   /@vitest/snapshot@0.34.6:
     resolution: {integrity: sha512-B3OZqYn6k4VaN011D+ve+AA4whM4QkcwcrwaKwAbyyvS/NB1hCWjFIBQxAQQSQir9/RtyAAGuq+4RJmbn2dH4w==}
     dependencies:
-      magic-string: 0.30.15
+      magic-string: 0.30.17
       pathe: 1.1.2
       pretty-format: 29.7.0
     dev: true
@@ -14934,7 +15004,6 @@ packages:
     resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
-    dev: false
 
   /make-dir@1.3.0:
     resolution: {integrity: sha512-2w31R7SJtieJJnQtGc7RVL2StM2vGYVfqUOvUDxH6bC6aJTxPxTF0GnIgCyu7tjockiUWAYQRbxa7vKn34s5sQ==}
@@ -16163,12 +16232,6 @@ packages:
     resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
-    dev: false
-
-  /nanoid@3.3.8:
-    resolution: {integrity: sha512-WNLf5Sd8oZxOm+TzppcYk8gVOgP+l58xNy58D0nbUnOxOWRWvlcCV4kUF7ltmI6PsrLl/BgKEyS4mqsGChFN0w==}
-    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
-    hasBin: true
 
   /nanoid@4.0.2:
     resolution: {integrity: sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==}
@@ -16867,7 +16930,7 @@ packages:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
-      nanoid: 3.3.8
+      nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
@@ -16875,7 +16938,7 @@ packages:
     resolution: {integrity: sha512-6oz2beyjc5VMn/KV1pPw8fliQkhBXrVn1Z3TVyqZxU8kZpzEKhBdmCFqI6ZbmGtamQvQGuU1sgPTk8ZrXDD7jQ==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
-      nanoid: 3.3.8
+      nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.1
     dev: true
@@ -16884,7 +16947,7 @@ packages:
     resolution: {integrity: sha512-dle9A3yYxlBSrt8Fu+IpjGT8SY8hN0mlaA6GY8t0P5PjIOZemULz/E2Bnm/2dcUOena75OTNkHI76uZBNUUq3A==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
-      nanoid: 3.3.8
+      nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
@@ -20256,7 +20319,7 @@ packages:
       debug: 4.4.0(supports-color@5.5.0)
       jsdom: 22.1.0
       local-pkg: 0.4.3
-      magic-string: 0.30.15
+      magic-string: 0.30.17
       pathe: 1.1.2
       picocolors: 1.1.1
       std-env: 3.8.0

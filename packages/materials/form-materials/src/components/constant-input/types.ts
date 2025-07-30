@@ -3,22 +3,18 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { IJsonSchema } from '../../typings';
+import { IJsonSchema } from '@flowgram.ai/json-schema';
+
+import { ConstantRendererProps } from '../../shared';
 
 export interface Strategy<Value = any> {
   hit: (schema: IJsonSchema) => boolean;
-  Renderer: React.FC<RendererProps<Value>>;
+  Renderer: React.FC<ConstantRendererProps<Value>>;
 }
 
-export interface RendererProps<Value = any> {
-  value?: Value;
-  onChange?: (value: Value) => void;
-  readonly?: boolean;
-}
-
-export interface PropsType extends RendererProps {
+export interface PropsType extends ConstantRendererProps {
   schema: IJsonSchema;
   strategies?: Strategy[];
-  fallbackRenderer?: React.FC<RendererProps>;
+  fallbackRenderer?: React.FC<ConstantRendererProps>;
   [key: string]: any;
 }
