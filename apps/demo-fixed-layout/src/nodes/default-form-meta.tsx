@@ -45,7 +45,7 @@ export const defaultFormMeta: FormMeta<FlowNodeJSON['data']> = {
    * @param ctx
    */
   formatOnSubmit: (value, ctx) => value,
-  validate: {
+  validate: (values, ctx) => ({
     title: ({ value }) => (value ? undefined : 'Title is required'),
     'inputsValues.*': ({ value, context, formValues, name }) => {
       const valuePropetyKey = name.replace(/^inputsValues\./, '');
@@ -61,7 +61,7 @@ export const defaultFormMeta: FormMeta<FlowNodeJSON['data']> = {
       }
       return undefined;
     },
-  },
+  }),
   effect: {
     title: syncVariableTitle,
     outputs: provideJsonSchemaOutputs,
