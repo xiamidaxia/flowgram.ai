@@ -31,7 +31,12 @@ export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => (
 export const defaultFormMeta: FormMeta<FlowNodeJSON> = {
   render: renderForm,
   validateTrigger: ValidateTrigger.onChange,
-  validate: (values, ctx) => ({
+  /**
+   * Supported writing as:
+   * 1: validate as options: { title: () => {} , ... }
+   * 2: validate as dynamic function: (values,  ctx) => ({ title: () => {}, ... })
+   */
+  validate: {
     title: ({ value }) => (value ? undefined : 'Title is required'),
     'inputsValues.*': ({ value, context, formValues, name }) => {
       const valuePropetyKey = name.replace(/^inputsValues\./, '');
@@ -47,7 +52,7 @@ export const defaultFormMeta: FormMeta<FlowNodeJSON> = {
       }
       return undefined;
     },
-  }),
+  },
   /**
    * Initialize (fromJSON) data transformation
    * 初始化(fromJSON) 数据转换
