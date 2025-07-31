@@ -9,7 +9,7 @@ import { IJsonSchema } from '@flowgram.ai/json-schema';
 import { Popover } from '@douyinfe/semi-ui';
 
 import { DisplaySchemaTree } from '../display-schema-tree';
-import { useTypeManager } from '../../shared';
+import { useTypeManager } from '../../plugins';
 import { PopoverContent, StyledTag, TitleSpan } from './styles';
 
 interface PropsType {

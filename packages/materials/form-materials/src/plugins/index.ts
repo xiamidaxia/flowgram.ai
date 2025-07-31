@@ -3,4 +3,5 @@
  * SPDX-License-Identifier: MIT
  */
 
-export * from './format-legacy-refs';
+export * from './json-schema-preset';
+export * from './disable-declaration-plugin';

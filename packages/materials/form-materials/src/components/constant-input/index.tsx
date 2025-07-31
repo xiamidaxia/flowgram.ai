@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 
 import { Input } from '@douyinfe/semi-ui';
 
-import { useTypeManager } from '../../shared';
+import { useTypeManager } from '../../plugins';
 import { PropsType } from './types';
 
 export function ConstantInput(props: PropsType) {
