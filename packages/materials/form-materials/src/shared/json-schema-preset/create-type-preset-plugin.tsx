@@ -14,13 +14,15 @@ import { jsonSchemaTypePreset } from './type-definition';
 import { JsonSchemaTypeRegistry } from './manager';
 
 export const createTypePresetPlugin = definePluginCreator<{
-  types: JsonSchemaTypeRegistry[];
+  types?: JsonSchemaTypeRegistry[];
+  unregisterTypes?: string[];
 }>({
   onInit(ctx, opts) {
     const typeManager = ctx.get(BaseTypeManager) as JsonSchemaTypeManager;
     jsonSchemaTypePreset.forEach((_type) => typeManager.register(_type));
 
-    opts.types.forEach((_type) => typeManager.register(_type));
+    opts.types?.forEach((_type) => typeManager.register(_type));
+    opts.unregisterTypes?.forEach((_type) => typeManager.unregister(_type));
   },
   containerModules: [jsonSchemaContainerModule],
 });

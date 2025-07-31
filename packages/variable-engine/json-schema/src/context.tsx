@@ -26,7 +26,7 @@ export const useTypeManager = () => {
     return typeManagerFromContext;
   }
 
-  if (container?.isBound(BaseTypeManager)) {
+  if (container?.isBound?.(BaseTypeManager)) {
     return container.get(BaseTypeManager);
   }
 

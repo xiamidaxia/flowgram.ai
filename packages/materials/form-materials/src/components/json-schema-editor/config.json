@@ -2,7 +2,7 @@
   "name": "json-schema-editor",
   "depMaterials": [
     "type-selector",
-    "constant-inputs",
+    "constant-inputs"
   ],
   "depPackages": [
     "@douyinfe/semi-ui",
