@@ -861,6 +861,15 @@
             ]
         },
         {
+            "packageName": "@flowgram.ai/type-editor",
+            "projectFolder": "packages/materials/type-editor",
+            "versionPolicyName": "publishPolicy",
+            "tags": [
+                "level-1",
+                "team-flow"
+            ]
+        },
+        {
             "packageName": "@flowgram.ai/free-auto-layout-plugin",
             "projectFolder": "packages/plugins/free-auto-layout-plugin",
             "versionPolicyName": "publishPolicy",

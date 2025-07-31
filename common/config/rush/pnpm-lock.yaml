@@ -2219,6 +2219,85 @@ importers:
         specifier: ^0.34.6
         version: 0.34.6(jsdom@22.1.0)
 
+  ../../packages/materials/type-editor:
+    dependencies:
+      '@douyinfe/semi-icons':
+        specifier: ^2.80.0
+        version: 2.80.0(react@18.3.1)
+      '@douyinfe/semi-illustrations':
+        specifier: ^2.80.0
+        version: 2.80.0(react@18.3.1)
+      '@douyinfe/semi-ui':
+        specifier: ^2.80.0
+        version: 2.80.0(acorn@8.14.0)(react-dom@18.3.1)(react@18.3.1)
+      '@flowgram.ai/json-schema':
+        specifier: workspace:*
+        version: link:../../variable-engine/json-schema
+      '@flowgram.ai/utils':
+        specifier: workspace:*
+        version: link:../../common/utils
+      classnames:
+        specifier: ^2.5.1
+        version: 2.5.1
+      inversify:
+        specifier: ^6.0.1
+        version: 6.2.0(reflect-metadata@0.2.2)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      nanoid:
+        specifier: ^4.0.2
+        version: 4.0.2
+      react-dnd:
+        specifier: 16.0.1
+        version: 16.0.1(@types/react@18.3.16)(react@18.3.1)
+      react-dnd-html5-backend:
+        specifier: 16.0.1
+        version: 16.0.1
+      reflect-metadata:
+        specifier: ~0.2.2
+        version: 0.2.2
+    devDependencies:
+      '@flowgram.ai/eslint-config':
+        specifier: workspace:*
+        version: link:../../../config/eslint-config
+      '@flowgram.ai/ts-config':
+        specifier: workspace:*
+        version: link:../../../config/ts-config
+      '@types/lodash':
+        specifier: ^4.14.137
+        version: 4.17.13
+      '@types/react':
+        specifier: ^18
+        version: 18.3.16
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.3.5(@types/react@18.3.16)
+      '@types/styled-components':
+        specifier: ^5
+        version: 5.1.34
+      eslint:
+        specifier: ^8.54.0
+        version: 8.57.1
+      react:
+        specifier: ^18
+        version: 18.3.1
+      react-dom:
+        specifier: ^18
+        version: 18.3.1(react@18.3.1)
+      styled-components:
+        specifier: ^5
+        version: 5.3.11(@babel/core@7.26.10)(react-dom@18.3.1)(react-is@18.3.1)(react@18.3.1)
+      tsup:
+        specifier: ^8.0.1
+        version: 8.3.5(typescript@5.8.3)
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+      vitest:
+        specifier: ^0.34.6
+        version: 0.34.6(jsdom@22.1.0)
+
   ../../packages/node-engine/form:
     dependencies:
       '@flowgram.ai/reactive':
@@ -4555,7 +4634,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/traverse': 7.27.0(supports-color@5.5.0)
-      '@babel/types': 7.27.0
+      '@babel/types': 7.27.7
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -4600,7 +4679,7 @@ packages:
     resolution: {integrity: sha512-FIpuNaz5ow8VyrYcnXQTDRGvV6tTjkNtCK/RYNDXGSLlUD6cBuQTSw43CShGxjvfBTfcUA/r6UhUCbtYqkhcuQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.27.0
+      '@babel/types': 7.27.7
     dev: false
 
   /@babel/helper-plugin-utils@7.25.9:
@@ -4657,7 +4736,6 @@ packages:
   /@babel/helper-string-parser@7.27.1:
     resolution: {integrity: sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA==}
     engines: {node: '>=6.9.0'}
-    dev: false
 
   /@babel/helper-validator-identifier@7.25.9:
     resolution: {integrity: sha512-Ed61U6XJc3CVRfkERJWDz4dJwKe7iLmmJsbOGu9wSloNSFttHV0I8g6UAgb7qnK5ly5bGLPd4oXZlxCdANBOWQ==}
@@ -4666,7 +4744,6 @@ packages:
   /@babel/helper-validator-identifier@7.27.1:
     resolution: {integrity: sha512-D2hP9eA+Sqx1kBZgzxZh0y1trbuU+JoDkiEwqhQ36nodYqJwyEIhPSdMNd7lOm/4io72luTPWH20Yda0xOuUow==}
     engines: {node: '>=6.9.0'}
-    dev: false
 
   /@babel/helper-validator-option@7.25.9:
     resolution: {integrity: sha512-e/zv1co8pp55dNdEcCynfj9X7nyUKUXoUEwfXqaZt0omVOmDe9oOTdKStH4GmAw6zxMFs50ZayuMfHDKlO7Tfw==}
@@ -4678,7 +4755,7 @@ packages:
     dependencies:
       '@babel/template': 7.27.0
       '@babel/traverse': 7.27.0(supports-color@5.5.0)
-      '@babel/types': 7.27.0
+      '@babel/types': 7.27.7
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -4718,7 +4795,6 @@ packages:
     hasBin: true
     dependencies:
       '@babel/types': 7.27.7
-    dev: false
 
   /@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@7.25.9(@babel/core@7.26.0):
     resolution: {integrity: sha512-2qUwwfAFpJLZqxd02YW9btUCZHl+RFvdDkNfZwaIJrvB8Tesjsk8pEQkTvGwZXLqXUx/2oyY3ySRhm6HOXuCug==}
@@ -5705,9 +5781,9 @@ packages:
     dependencies:
       '@babel/code-frame': 7.26.2
       '@babel/generator': 7.27.0
-      '@babel/parser': 7.27.0
+      '@babel/parser': 7.27.7
       '@babel/template': 7.27.0
-      '@babel/types': 7.27.0
+      '@babel/types': 7.27.7
       debug: 4.4.0(supports-color@5.5.0)
       globals: 11.12.0
     transitivePeerDependencies:
@@ -5733,7 +5809,6 @@ packages:
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
-    dev: false
 
   /@bcoe/v8-coverage@0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
@@ -8458,6 +8533,18 @@ packages:
       rc-util: 5.44.4(react-dom@18.3.1)(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    dev: false
+
+  /@react-dnd/asap@5.0.2:
+    resolution: {integrity: sha512-WLyfoHvxhs0V9U+GTsGilGgf2QsPl6ZZ44fnv0/b8T3nQyvzxidxsg/ZltbWssbsRDlYW8UKSQMTGotuTotZ6A==}
+    dev: false
+
+  /@react-dnd/invariant@4.0.2:
+    resolution: {integrity: sha512-xKCTqAK/FFauOM9Ta2pswIyT3D8AQlfrYdOi/toTPEhqCuAs1v5tcJ3Y08Izh1cJ5Jchwy9SeAXmMg6zrKs2iw==}
+    dev: false
+
+  /@react-dnd/shallowequal@4.0.2:
+    resolution: {integrity: sha512-/RVXdLvJxLg4QKvMoM5WlwNR9ViO9z8B/qPcc+C0Sa/teJY7QG7kJ441DwzOjMYEY7GmU4dj5EcGHIkKZiQZCA==}
     dev: false
 
   /@react-hook/intersection-observer@3.1.2(react@18.3.1):
@@ -12016,6 +12103,14 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       path-type: 4.0.0
+
+  /dnd-core@16.0.1:
+    resolution: {integrity: sha512-HK294sl7tbw6F6IeuK16YSBUoorvHpY8RHO+9yFfaJyCDVb6n7PRcezrOEOa2SBCqiYpemh5Jx20ZcjKdFAVng==}
+    dependencies:
+      '@react-dnd/asap': 5.0.2
+      '@react-dnd/invariant': 4.0.2
+      redux: 4.2.1
+    dev: false
 
   /doctrine@2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
@@ -17662,6 +17757,36 @@ packages:
       es6-symbol: 3.1.4
     dev: false
 
+  /react-dnd-html5-backend@16.0.1:
+    resolution: {integrity: sha512-Wu3dw5aDJmOGw8WjH1I1/yTH+vlXEL4vmjk5p+MHxP8HuHJS1lAGeIdG/hze1AvNeXWo/JgULV87LyQOr+r5jw==}
+    dependencies:
+      dnd-core: 16.0.1
+    dev: false
+
+  /react-dnd@16.0.1(@types/react@18.3.16)(react@18.3.1):
+    resolution: {integrity: sha512-QeoM/i73HHu2XF9aKksIUuamHPDvRglEwdHL4jsp784BgUuWcg6mzfxT0QDdQz8Wj0qyRKx2eMg8iZtWvU4E2Q==}
+    peerDependencies:
+      '@types/hoist-non-react-statics': '>= 3.3.1'
+      '@types/node': '>= 12'
+      '@types/react': '>= 16'
+      react: '>= 16.14'
+    peerDependenciesMeta:
+      '@types/hoist-non-react-statics':
+        optional: true
+      '@types/node':
+        optional: true
+      '@types/react':
+        optional: true
+    dependencies:
+      '@react-dnd/invariant': 4.0.2
+      '@react-dnd/shallowequal': 4.0.2
+      '@types/react': 18.3.16
+      dnd-core: 16.0.1
+      fast-deep-equal: 3.1.3
+      hoist-non-react-statics: 3.3.2
+      react: 18.3.1
+    dev: false
+
   /react-dom@16.8.6(react@16.14.0):
     resolution: {integrity: sha512-1nL7PIq9LTL3fthPqwkvr2zY7phIPjYrT0jp4HjyEQrEROnw4dG41VVwi/wfoCneoleqrNX7iAD+pXebJZwrwA==}
     peerDependencies:
@@ -17917,6 +18042,12 @@ packages:
 
   /reduce-configs@1.1.0:
     resolution: {integrity: sha512-DQxy6liNadHfrLahZR7lMdc227NYVaQZhY5FMsxLEjX8X0SCuH+ESHSLCoz2yDZFq1/CLMDOAHdsEHwOEXKtvg==}
+
+  /redux@4.2.1:
+    resolution: {integrity: sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==}
+    dependencies:
+      '@babel/runtime': 7.26.0
+    dev: false
 
   /reflect-metadata@0.2.2:
     resolution: {integrity: sha512-urBwgfrvVP/eAyXx4hluJivBKzuEbSQs9rKWCrCkbSxNv8mxPcUZKeuoF3Uy4mJl3Lwprp6yy5/39VWigZ4K6Q==}
