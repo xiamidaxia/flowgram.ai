@@ -130,7 +130,7 @@ export const VariableSelector = ({
         showClear={false}
         arrowIcon={<IconChevronDownStroked size="small" />}
         triggerRender={triggerRender}
-        placeholder={config?.placeholder ?? 'Select Variable...'}
+        placeholder={config?.placeholder ?? 'Select Variable'}
       />
     </>
   );
