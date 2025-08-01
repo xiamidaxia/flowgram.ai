@@ -28,6 +28,7 @@ const _types: string[] = [
   'plugins',
   'shared',
   'typings',
+  'validate',
   'form-plugins',
   'hooks',
 ];
