@@ -27,7 +27,7 @@ export namespace JsonSchemaUtils {
    * @returns An AST node representing the JSON schema, or undefined if the schema type is not recognized.
    */
   export function schemaToAST(jsonSchema: IJsonSchema): ASTNodeJSON | undefined {
-    const { type, extra } = jsonSchema || {};
+    const { type, extra, required } = jsonSchema || {};
     const { weak = false } = extra || {};
 
     if (!type) {
@@ -52,7 +52,7 @@ export namespace JsonSchemaUtils {
               meta: {
                 title: _property.title,
                 description: _property.description,
-                required: _property.required,
+                required: !!required?.includes(key),
                 default: _property.default,
               },
             })),
@@ -138,6 +138,9 @@ export namespace JsonSchemaUtils {
     if (ASTMatch.isObject(typeAST)) {
       return {
         type: 'object',
+        required: typeAST.properties
+          .filter((property) => property.meta?.required)
+          .map((property) => property.key),
         properties: drilldownObject
           ? Object.fromEntries(
               typeAST.properties.map((property) => {
@@ -151,9 +154,6 @@ export namespace JsonSchemaUtils {
                 }
                 if (property.meta?.default && schema) {
                   schema.default = property.meta.default;
-                }
-                if (property.meta?.required && schema) {
-                  schema.required = property.meta.required;
                 }
 
                 return [property.key, schema!];

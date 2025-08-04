@@ -7,6 +7,7 @@ import { nanoid } from 'nanoid';
 import { Disposable } from '@flowgram.ai/utils';
 import { type NodeFormContext } from '@flowgram.ai/form-core';
 
+import { mergeEffectMap } from './utils';
 import { type FormMeta, type FormPluginCtx, type FormPluginSetupMetaCtx } from './types';
 import { FormModelV2 } from './form-model-v2';
 
@@ -73,10 +74,7 @@ export class FormPlugin<Opts = any> implements Disposable {
     this.config.onSetupFormMeta?.(
       {
         mergeEffect: (effect) => {
-          nextFormMeta.effect = {
-            ...(nextFormMeta.effect || {}),
-            ...effect,
-          };
+          nextFormMeta.effect = mergeEffectMap(nextFormMeta.effect || {}, effect);
         },
         mergeValidate: (validate) => {
           nextFormMeta.validate = {

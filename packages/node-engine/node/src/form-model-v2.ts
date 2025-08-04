@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { get, groupBy, isEmpty, mapKeys } from 'lodash';
+import { get, groupBy, isEmpty, isNil, mapKeys, uniq } from 'lodash';
 import { Disposable, DisposableCollection, Emitter } from '@flowgram.ai/utils';
 import {
   FlowNodeFormData,
@@ -261,46 +261,68 @@ export class FormModelV2 extends FormModel implements Disposable {
     }
 
     // Form 数据变更时触发对应的effect
-    nativeFormModel.onFormValuesChange(({ values, prevValues, name }) => {
-      // 找到所有路径匹配的副作用，包括父亲路径
-      const effectKeys = Object.keys(this.effectMap).filter((pattern) =>
-        Glob.isMatchOrParent(pattern, name)
-      );
+    nativeFormModel.onFormValuesChange(({ values, prevValues, name, options }) => {
+      Object.keys(this.effectMap).forEach((pattern) => {
+        // 找到匹配 pattern 的数据路径
+        const paths = uniq([
+          ...Glob.findMatchPaths(values, pattern),
+          ...Glob.findMatchPaths(prevValues, pattern),
+        ]).filter(
+          (path) =>
+            // trigger effect by compare if value changed
+            get(values, path) !== get(prevValues, path)
+        );
 
-      effectKeys.forEach((effectKey) => {
-        const effectOptionsArr = this.effectMap[effectKey];
-        // 对于冒泡的事件，需要获取 parent 的 name
-        const currentName = Glob.getParentPathByPattern(effectKey, name);
+        if (Glob.isMatchOrParent(pattern, name)) {
+          const currentName = Glob.getParentPathByPattern(pattern, name);
+          if (!paths.includes(currentName)) {
+            // trigger effect anyway
+            paths.push(currentName);
+          }
+        }
 
-        // run all effectReturns before effect
-        runAndDeleteEffectReturn(this.effectReturnMap, currentName, [
-          DataEvent.onValueChange,
-          DataEvent.onValueInitOrChange,
-        ]);
+        const effectOptionsArr = this.effectMap[pattern];
 
-        // 执行该事件配置下所有 onValueChange 事件的 effect
-        effectOptionsArr.forEach(({ effect, event }: EffectOptions) => {
-          if (event === DataEvent.onValueChange || event === DataEvent.onValueInitOrChange) {
-            // 执行 effect
-            const effectReturn = (effect as Effect)({
-              name: currentName,
-              value: get(values, currentName),
-              prevValue: get(prevValues, currentName),
-              formValues: values,
-              form: toForm(this.nativeFormModel!),
-              context: this.nodeContext,
-            });
+        paths.forEach((path) => {
+          let eventList = [DataEvent.onValueChange, DataEvent.onValueInitOrChange];
+          const isPrevNil = isNil(get(prevValues, path));
 
-            // 更新 effect return
-            if (
-              effectReturn &&
-              typeof effectReturn === 'function' &&
-              this.effectReturnMap.has(event)
-            ) {
-              const eventMap = this.effectReturnMap.get(event) as Record<string, EffectReturn>;
-              eventMap[currentName] = mergeEffectReturn(eventMap[currentName], effectReturn);
+          if (isPrevNil) {
+            // HACK: For array append, onFormValuesInit will auto triggered for array[index]
+            if (options?.action === 'array-append' && Glob.isMatch(`${name}.*`, path)) {
+              eventList = [];
+            } else {
+              eventList = [DataEvent.onValueInit, DataEvent.onValueInitOrChange];
             }
           }
+
+          // 对触发 init 事件的 name 或他的字 path 触发 effect
+          runAndDeleteEffectReturn(this.effectReturnMap, path, eventList);
+
+          // 执行该事件配置下所有 onValueChange 事件的 effect
+          effectOptionsArr.forEach(({ effect, event }: EffectOptions) => {
+            if (eventList.includes(event)) {
+              // 执行 effect
+              const effectReturn = (effect as Effect)({
+                name: path,
+                value: get(values, path),
+                prevValue: get(prevValues, path),
+                formValues: values,
+                form: toForm(this.nativeFormModel!),
+                context: this.nodeContext,
+              });
+
+              // 更新 effect return
+              if (
+                effectReturn &&
+                typeof effectReturn === 'function' &&
+                this.effectReturnMap.has(event)
+              ) {
+                const eventMap = this.effectReturnMap.get(event) as Record<string, EffectReturn>;
+                eventMap[path] = mergeEffectReturn(eventMap[path], effectReturn);
+              }
+            }
+          });
         });
       });
     });

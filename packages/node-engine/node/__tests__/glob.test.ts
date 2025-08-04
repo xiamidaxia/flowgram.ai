@@ -5,8 +5,7 @@
 
 // test src/glob.ts
 import { describe, expect, it } from 'vitest';
-
-import { Glob } from '../src/glob';
+import { Glob } from '@flowgram.ai/form';
 
 describe('glob', () => {
   it('return original path array if no *', () => {
