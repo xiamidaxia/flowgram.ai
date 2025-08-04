@@ -1,0 +1,10 @@
+{
+  "name": "listen-ref-schema-change",
+  "depMaterials": [
+    "flow-value"
+  ],
+  "depPackages": [
+    "lodash",
+    "@flowgram.ai/json-schema"
+  ]
+}

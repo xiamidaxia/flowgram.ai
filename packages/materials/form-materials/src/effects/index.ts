@@ -8,3 +8,5 @@ export * from './auto-rename-ref';
 export * from './provide-json-schema-outputs';
 export * from './sync-variable-title';
 export * from './validate-when-variable-sync';
+export * from './listen-ref-value-change';
+export * from './listen-ref-schema-change';

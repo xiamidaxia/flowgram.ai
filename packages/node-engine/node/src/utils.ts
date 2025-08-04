@@ -8,7 +8,7 @@ import { FormFeedback, FormPathService } from '@flowgram.ai/form-core';
 import { FormValidateReturn } from '@flowgram.ai/form/src/types';
 import { type FieldModel, FieldName } from '@flowgram.ai/form';
 
-import { EffectOptions } from './types';
+import { DataEvent, EffectOptions, EffectReturn } from './types';
 
 export function findMatchedInMap<T = any>(
   field: FieldModel<any>,
@@ -61,5 +61,26 @@ export function mergeEffectMap(
 ) {
   return mergeWith(origin, source, function (objValue: EffectOptions[], srcValue: EffectOptions[]) {
     return (objValue || []).concat(srcValue);
+  });
+}
+
+export function mergeEffectReturn(origin?: EffectReturn, source?: EffectReturn): EffectReturn {
+  return () => {
+    origin?.();
+    source?.();
+  };
+}
+
+export function runAndDeleteEffectReturn(
+  effectReturnMap: Map<DataEvent, Record<string, EffectReturn>>,
+  name: string,
+  events: DataEvent[]
+) {
+  events.forEach((event) => {
+    const eventMap = effectReturnMap.get(event);
+    if (eventMap?.[name]) {
+      eventMap[name]();
+      delete eventMap[name];
+    }
   });
 }

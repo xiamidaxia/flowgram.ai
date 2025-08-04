@@ -6,8 +6,9 @@
 import {
   Observable,
   Subject,
+  animationFrameScheduler,
+  debounceTime,
   distinctUntilChanged,
-  distinctUntilKeyChanged,
   map,
   merge,
   share,
@@ -25,7 +26,8 @@ import { IVariableTable } from '../types';
 import { type Scope } from '../scope';
 import { subsToDisposable } from '../../utils/toDisposable';
 import { createMemo } from '../../utils/memo';
-import { BaseVariableField, VariableDeclaration } from '../../ast';
+import { SubscribeConfig } from '../../ast/types';
+import { ASTNode, BaseVariableField, VariableDeclaration } from '../../ast';
 /**
  * 作用域可用变量
  */
@@ -167,14 +169,12 @@ export class ScopeAvailableData {
    * Track Variable Change (Includes type update and children update) By KeyPath
    * @returns
    */
-  trackByKeyPath(
+  trackByKeyPath<Data = BaseVariableField | undefined>(
     keyPath: string[] = [],
-    cb: (variable?: BaseVariableField | undefined) => void,
-    opts?: {
-      triggerOnInit?: boolean;
-    }
+    cb: (variable?: Data) => void,
+    opts?: SubscribeConfig<BaseVariableField | undefined, Data>
   ): Disposable {
-    const { triggerOnInit = true } = opts || {};
+    const { triggerOnInit = true, debounceAnimation, selector } = opts || {};
 
     return subsToDisposable(
       merge(this.anyVariableChange$, this.variables$)
@@ -182,10 +182,20 @@ export class ScopeAvailableData {
           triggerOnInit ? startWith() : tap(() => null),
           map(() => {
             const v = this.getByKeyPath(keyPath);
-            return { v, hash: v?.hash };
+            return selector ? selector(v) : (v as any);
           }),
-          distinctUntilKeyChanged('hash'),
-          map(({ v }) => v)
+          distinctUntilChanged(
+            (a, b) => shallowEqual(a, b),
+            (value) => {
+              if (value instanceof ASTNode) {
+                // 如果 value 是 ASTNode，则进行 hash 的比较
+                return value.hash;
+              }
+              return value;
+            }
+          ),
+          // 每个 animationFrame 内所有更新合并成一个
+          debounceAnimation ? debounceTime(0, animationFrameScheduler) : tap(() => null)
         )
         .subscribe(cb)
     );
