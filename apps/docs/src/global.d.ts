@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-declare module "!!raw-loader!*" {
+declare module "*?raw" {
   const content: string;
   export default content;
 }

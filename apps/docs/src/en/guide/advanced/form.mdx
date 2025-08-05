@@ -291,14 +291,14 @@ It's recommended to configure `validateTrigger` as `ValidateTrigger.onChange` i.
 
 1. Actively trigger validation for the entire form
 
-```pure tsx
+```tsx pure
 const form = useForm()
 form.validate()
 ```
 
 2. Actively trigger validation for a single form item
 
-```pure tsx
+```tsx pure
 const validate = useFieldValidate(name)
 validate()
 ```

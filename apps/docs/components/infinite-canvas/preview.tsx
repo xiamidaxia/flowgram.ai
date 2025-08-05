@@ -4,12 +4,13 @@
  */
 
 /* eslint-disable import/no-unresolved */
-import { PreviewEditor } from '../preview-editor';
-import { InfiniteCanvas } from './infinite-canvas.tsx';
 
-import editorCode from '!!raw-loader!@flowgram.ai/demo-playground/src/editor.tsx';
-import toolCode from '!!raw-loader!@flowgram.ai/demo-playground/src/components/playground-tools.tsx';
-import cardCode from '!!raw-loader!@flowgram.ai/demo-playground/src/components/card.tsx';
+import editorCode from '@flowgram.ai/demo-playground/src/editor.tsx?raw';
+import toolCode from '@flowgram.ai/demo-playground/src/components/playground-tools.tsx?raw';
+import cardCode from '@flowgram.ai/demo-playground/src/components/card.tsx?raw';
+
+import { InfiniteCanvas } from './infinite-canvas.tsx';
+import { PreviewEditor } from '../preview-editor';
 
 export const InfiniteCanvasPreview = () => {
   const files = {

@@ -4,15 +4,16 @@
  */
 
 /* eslint-disable import/no-unresolved */
-import { FixedLayoutSimple } from './fixed-layout-simple.tsx';
-import { PreviewEditor } from '../preview-editor.tsx';
 
-import tryCatch from '!!raw-loader!@flowgram.ai/demo-fixed-layout-simple/src/data/tryCatch.ts';
-import slot from '!!raw-loader!@flowgram.ai/demo-fixed-layout-simple/src/data/slot.ts';
-import multiOutputs from '!!raw-loader!@flowgram.ai/demo-fixed-layout-simple/src/data/multiOutputs.ts';
-import multiInputs from '!!raw-loader!@flowgram.ai/demo-fixed-layout-simple/src/data/multiInputs.ts';
-import loop from '!!raw-loader!@flowgram.ai/demo-fixed-layout-simple/src/data/loop.ts';
-import dynamicSplit from '!!raw-loader!@flowgram.ai/demo-fixed-layout-simple/src/data/dynamicSplit.ts';
+import tryCatch from '@flowgram.ai/demo-fixed-layout-simple/src/data/tryCatch.ts?raw';
+import slot from '@flowgram.ai/demo-fixed-layout-simple/src/data/slot.ts?raw';
+import multiOutputs from '@flowgram.ai/demo-fixed-layout-simple/src/data/multiOutputs.ts?raw';
+import multiInputs from '@flowgram.ai/demo-fixed-layout-simple/src/data/multiInputs.ts?raw';
+import loop from '@flowgram.ai/demo-fixed-layout-simple/src/data/loop.ts?raw';
+import dynamicSplit from '@flowgram.ai/demo-fixed-layout-simple/src/data/dynamicSplit.ts?raw';
+
+import { PreviewEditor } from '../preview-editor.tsx';
+import { FixedLayoutSimple } from './fixed-layout-simple.tsx';
 
 export function CompositeNodesPreview(props: { cellHeight?: number }) {
   const previewWidth = '50%';
