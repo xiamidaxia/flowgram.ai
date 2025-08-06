@@ -83,7 +83,8 @@ function TryCatchCollapse(props: CustomLabelProps): JSX.Element {
             cursor: 'pointer',
             justifyContent: 'center',
             alignItems: 'center',
-            background: hoverActivated ? baseActivatedColor : baseColor,
+            background:
+              hoverActivated || activateData.lineActivated ? baseActivatedColor : baseColor,
           }}
           aria-hidden="true"
         >
@@ -137,7 +138,7 @@ function TryCatchCollapse(props: CustomLabelProps): JSX.Element {
         data-label-id={props.labelId}
         style={{
           fontSize: 12,
-          color: hoverActivated ? baseActivatedColor : baseColor,
+          color: hoverActivated || activateData.lineActivated ? baseActivatedColor : baseColor,
           textAlign: 'center',
           whiteSpace: 'nowrap',
           backgroundColor: 'var(--g-editor-background)',
