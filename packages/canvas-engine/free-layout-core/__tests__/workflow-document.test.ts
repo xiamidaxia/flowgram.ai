@@ -547,4 +547,8 @@ describe('workflow-document with nestedJSON & subCanvas', () => {
     expect(canvasNode.collapsedChildren.length).toEqual(2);
     expect(document.toJSON()).toEqual(subCanvasInlinePortSchema);
   });
+  it('document is disposed and call toJSON should throw error', () => {
+    document.dispose();
+    expect(() => document.toJSON()).toThrowError(/disposed/);
+  });
 });

@@ -280,4 +280,8 @@ describe('flow-document', () => {
       document.getNode('block_0')!.getNodeMeta() === document.getNode('block_1')!.getNodeMeta()
     ).toBeTruthy();
   });
+  it('document is disposed and call toJSON should throw error', () => {
+    document.dispose();
+    expect(() => document.toJSON()).toThrowError(/disposed/);
+  });
 });

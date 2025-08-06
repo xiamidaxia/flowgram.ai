@@ -147,6 +147,7 @@ export function useEditorProps(
         enable: true,
         enableChangeNode: true, // Listen Node engine data change
         onApply: debounce((ctx, opt) => {
+          if (ctx.document.disposed) return;
           // Listen change to trigger auto save
           console.log('auto save: ', ctx.document.toJSON());
         }, 100),

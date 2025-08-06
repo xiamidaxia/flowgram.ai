@@ -645,6 +645,11 @@ export class WorkflowDocument extends FlowDocument {
    * 导出数据
    */
   toJSON(): WorkflowJSON {
+    if (this.disposed) {
+      throw new Error(
+        'The WorkflowDocument has been disposed and it is no longer possible to call toJSON.'
+      );
+    }
     const rootJSON = this.toNodeJSON(this.root);
     const json = {
       nodes: rootJSON.blocks ?? [],
