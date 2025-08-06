@@ -462,6 +462,11 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
    * 导出数据，可以重载
    */
   toJSON(): T | any {
+    if (this.disposed) {
+      throw new Error(
+        'The FlowDocument has been disposed and it is no longer possible to call toJSON.'
+      );
+    }
     return {
       nodes: this.root.toJSON().blocks,
     };

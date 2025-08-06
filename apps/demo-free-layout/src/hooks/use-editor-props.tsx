@@ -216,6 +216,7 @@ export function useEditorProps(
        * Content change
        */
       onContentChange: debounce((ctx, event) => {
+        if (ctx.document.disposed) return;
         console.log('Auto Save: ', event, ctx.document.toJSON());
       }, 1000),
       /**
