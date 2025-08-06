@@ -3,6 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
+// Import Table css
+import '@douyinfe/semi-ui/lib/es/table';
+
 export * from './types';
 export { TypeEditorContext } from './contexts';
 export { columnConfigs as typeEditorColumnConfigs } from './components/type-editor/columns';
