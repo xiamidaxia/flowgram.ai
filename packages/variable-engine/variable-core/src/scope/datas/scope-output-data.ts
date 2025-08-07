@@ -29,6 +29,10 @@ export class ScopeOutputData {
     return this.scope.variableEngine.globalVariableTable;
   }
 
+  get version() {
+    return this.variableTable.version;
+  }
+
   /**
    * @deprecated use onListOrAnyVarChange instead
    */
