@@ -146,11 +146,7 @@ export class WorkflowManhattanLineContribution implements WorkflowLineRenderCont
   /**
    * 基于节点矩形避让的正交路由
    */
-  private getRoutedPoints(params: {
-    source: IPoint;
-    target: IPoint;
-    vertical: boolean;
-  }): IPoint[] {
+  private getRoutedPoints(params: { source: IPoint; target: IPoint; vertical: boolean }): IPoint[] {
     const { source, target, vertical } = params;
 
     // 简单 L 型尝试（优先方向）
@@ -212,7 +208,8 @@ export class WorkflowManhattanLineContribution implements WorkflowLineRenderCont
     // 网格点集合（过滤掉落在障碍内部的点）
     const key = (x: number, y: number) => `${x},${y}`;
     const nodes = new Map<string, IPoint>();
-    const insideAny = (p: IPoint) => obstacles.some((r) => p.x > r.left && p.x < r.right && p.y > r.top && p.y < r.bottom);
+    const insideAny = (p: IPoint) =>
+      obstacles.some((r) => p.x > r.left && p.x < r.right && p.y > r.top && p.y < r.bottom);
     for (const x of xsArr) {
       for (const y of ysArr) {
         const p = { x, y };
@@ -237,18 +234,14 @@ export class WorkflowManhattanLineContribution implements WorkflowLineRenderCont
 
     // 行
     for (const y of ysArr) {
-      const rowPoints = xsArr
-        .map((x) => nodes.get(key(x, y)))
-        .filter(Boolean) as IPoint[];
+      const rowPoints = xsArr.map((x) => nodes.get(key(x, y))).filter(Boolean) as IPoint[];
       for (let i = 0; i < rowPoints.length - 1; i++) {
         addEdge(rowPoints[i], rowPoints[i + 1]);
       }
     }
     // 列
     for (const x of xsArr) {
-      const colPoints = ysArr
-        .map((y) => nodes.get(key(x, y)))
-        .filter(Boolean) as IPoint[];
+      const colPoints = ysArr.map((y) => nodes.get(key(x, y))).filter(Boolean) as IPoint[];
       for (let i = 0; i < colPoints.length - 1; i++) {
         addEdge(colPoints[i], colPoints[i + 1]);
       }
@@ -276,7 +269,8 @@ export class WorkflowManhattanLineContribution implements WorkflowLineRenderCont
       if (k === endK) break;
       const list = neighbors.get(k) || [];
       for (const e of list) {
-        const turnPenalty = prevDir.get(k) && prevDir.get(k) !== 'N' && prevDir.get(k) !== e.dir ? TURN_COST : 0;
+        const turnPenalty =
+          prevDir.get(k) && prevDir.get(k) !== 'N' && prevDir.get(k) !== e.dir ? TURN_COST : 0;
         const nd = d + e.cost + turnPenalty;
         if (dist.get(e.to) === undefined || nd < dist.get(e.to)!) {
           dist.set(e.to, nd);
@@ -331,16 +325,22 @@ export class WorkflowManhattanLineContribution implements WorkflowLineRenderCont
     const toNode = this.entity.to;
     if (!doc) return [];
     const rects: Rectangle[] = [];
-    doc
-      .getAllNodes()
-      .forEach((node: any) => {
-        if (!node || node === fromNode || node === toNode) return;
-        const transform = node.getData(FlowNodeTransformData);
-        const b = transform?.bounds as Rectangle | undefined;
-        if (!b || b.width === 0 || b.height === 0) return;
-        const r = new Rectangle(b.x, b.y, b.width, b.height).pad(AVOID_PADDING);
-        rects.push(r);
-      });
+    doc.getAllNodes().forEach((node: any) => {
+      // 忽略起终点与根节点
+      if (
+        !node ||
+        node === fromNode ||
+        node === toNode ||
+        node === doc.root ||
+        node.flowNodeType === 'root'
+      )
+        return;
+      const transform = node.getData(FlowNodeTransformData);
+      const b = transform?.bounds as Rectangle | undefined;
+      if (!b || b.width === 0 || b.height === 0) return;
+      const r = new Rectangle(b.x, b.y, b.width, b.height).pad(AVOID_PADDING);
+      rects.push(r);
+    });
     return rects;
   }
 
