@@ -9,6 +9,7 @@ import {
   WorkflowLineEntity,
   WorkflowLineRenderContribution,
 } from '@flowgram.ai/free-layout-core';
+import { FlowNodeTransformData } from '@flowgram.ai/document';
 
 import { LINE_PADDING } from '../../constants/lines';
 
@@ -17,6 +18,11 @@ export interface ManhattanData {
   path: string;
   bbox: Rectangle;
 }
+
+// 线条与节点的安全距离
+const AVOID_PADDING = 16;
+// 转折惩罚，用于在相同距离时优先更少拐点
+const TURN_COST = 10;
 
 export class WorkflowManhattanLineContribution implements WorkflowLineRenderContribution {
   public static type = 'WorkflowManhattanLineContribution';
@@ -91,8 +97,8 @@ export class WorkflowManhattanLineContribution implements WorkflowLineRenderCont
       y: vertical ? -POINT_RADIUS : 0,
     };
 
-    // 计算曼哈顿路径的点
-    const points = this.getManhattanPoints({
+    // 计算曼哈顿路径的点（带避让）
+    const points = this.getRoutedPoints({
       source: {
         x: fromPos.x + sourceOffset.x,
         y: fromPos.y + sourceOffset.y,
@@ -137,37 +143,205 @@ export class WorkflowManhattanLineContribution implements WorkflowLineRenderCont
     };
   }
 
-  private getManhattanPoints(params: {
+  /**
+   * 基于节点矩形避让的正交路由
+   */
+  private getRoutedPoints(params: {
     source: IPoint;
     target: IPoint;
     vertical: boolean;
   }): IPoint[] {
     const { source, target, vertical } = params;
-    const points: IPoint[] = [source];
 
-    if (vertical) {
-      // 垂直优先布局
-      if (source.y !== target.y) {
-        points.push({ x: source.x, y: target.y });
+    // 简单 L 型尝试（优先方向）
+    const l1: IPoint[] = [source, { x: source.x, y: target.y }, target];
+    const l2: IPoint[] = [source, { x: target.x, y: source.y }, target];
+
+    const obstacles = this.getObstacles();
+
+    const segmentBlocked = (a: IPoint, b: IPoint): boolean => {
+      // 只会有水平或垂直线段
+      const x1 = Math.min(a.x, b.x);
+      const x2 = Math.max(a.x, b.x);
+      const y1 = Math.min(a.y, b.y);
+      const y2 = Math.max(a.y, b.y);
+      for (const r of obstacles) {
+        // 开放边界（允许贴边滑走），因此使用开区间
+        const withinX = x1 < r.right && x2 > r.left;
+        const withinY = y1 < r.bottom && y2 > r.top;
+        if (withinX && withinY) {
+          // 需要同时为水平/垂直对齐
+          if (a.y === b.y) {
+            // 水平线段与矩形在 y 上有交集，且 x 范围穿过
+            if (r.top < a.y && r.bottom > a.y) {
+              if (!(x2 <= r.left || x1 >= r.right)) return true;
+            }
+          } else if (a.x === b.x) {
+            if (r.left < a.x && r.right > a.x) {
+              if (!(y2 <= r.top || y1 >= r.bottom)) return true;
+            }
+          }
+        }
       }
-      if (source.x !== target.x) {
-        points.push({ x: target.x, y: target.y });
+      return false;
+    };
+
+    const pathClear = (pts: IPoint[]) => {
+      for (let i = 0; i < pts.length - 1; i++) {
+        if (segmentBlocked(pts[i], pts[i + 1])) return false;
       }
-    } else {
-      // 水平优先布局
-      if (source.x !== target.x) {
-        points.push({ x: target.x, y: source.y });
-      }
-      if (source.y !== target.y) {
-        points.push({ x: target.x, y: target.y });
+      return true;
+    };
+
+    // 先尝试两拐点
+    if (pathClear(vertical ? l1 : l2)) return this.compressPoints(vertical ? l1 : l2);
+    if (pathClear(vertical ? l2 : l1)) return this.compressPoints(vertical ? l2 : l1);
+
+    // 构建正交可见网格（由所有矩形的左右上下边界 + 起终点组成）
+    const xs = new Set<number>([source.x, target.x]);
+    const ys = new Set<number>([source.y, target.y]);
+    for (const r of obstacles) {
+      xs.add(r.left);
+      xs.add(r.right);
+      ys.add(r.top);
+      ys.add(r.bottom);
+    }
+    const xsArr = Array.from(xs).sort((a, b) => a - b);
+    const ysArr = Array.from(ys).sort((a, b) => a - b);
+
+    // 网格点集合（过滤掉落在障碍内部的点）
+    const key = (x: number, y: number) => `${x},${y}`;
+    const nodes = new Map<string, IPoint>();
+    const insideAny = (p: IPoint) => obstacles.some((r) => p.x > r.left && p.x < r.right && p.y > r.top && p.y < r.bottom);
+    for (const x of xsArr) {
+      for (const y of ysArr) {
+        const p = { x, y };
+        if (!insideAny(p)) nodes.set(key(x, y), p);
       }
     }
 
-    if (points[points.length - 1] !== target) {
-      points.push(target);
+    // 构建相邻边（同一行、同一列的相邻可见点）
+    const neighbors = new Map<string, { to: string; cost: number; dir: 'H' | 'V' }[]>();
+    const addEdge = (a: IPoint, b: IPoint) => {
+      if (segmentBlocked(a, b)) return;
+      const ka = key(a.x, a.y);
+      const kb = key(b.x, b.y);
+      if (!nodes.has(ka) || !nodes.has(kb)) return;
+      const dir: 'H' | 'V' = a.y === b.y ? 'H' : 'V';
+      const cost = Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+      if (!neighbors.has(ka)) neighbors.set(ka, []);
+      if (!neighbors.has(kb)) neighbors.set(kb, []);
+      neighbors.get(ka)!.push({ to: kb, cost, dir });
+      neighbors.get(kb)!.push({ to: ka, cost, dir });
+    };
+
+    // 行
+    for (const y of ysArr) {
+      const rowPoints = xsArr
+        .map((x) => nodes.get(key(x, y)))
+        .filter(Boolean) as IPoint[];
+      for (let i = 0; i < rowPoints.length - 1; i++) {
+        addEdge(rowPoints[i], rowPoints[i + 1]);
+      }
+    }
+    // 列
+    for (const x of xsArr) {
+      const colPoints = ysArr
+        .map((y) => nodes.get(key(x, y)))
+        .filter(Boolean) as IPoint[];
+      for (let i = 0; i < colPoints.length - 1; i++) {
+        addEdge(colPoints[i], colPoints[i + 1]);
+      }
     }
 
-    return points;
+    // Dijkstra，状态包含进入方向以惩罚拐弯
+    const startK = key(source.x, source.y);
+    const endK = key(target.x, target.y);
+    const dist = new Map<string, number>();
+    const prev = new Map<string, string>();
+    const prevDir = new Map<string, 'H' | 'V' | 'N'>();
+
+    const pq: { k: string; d: number; dir: 'H' | 'V' | 'N' }[] = [];
+    const push = (item: { k: string; d: number; dir: 'H' | 'V' | 'N' }) => {
+      pq.push(item);
+      pq.sort((a, b) => a.d - b.d);
+    };
+
+    push({ k: startK, d: 0, dir: vertical ? 'V' : 'H' });
+    dist.set(startK, 0);
+    prevDir.set(startK, 'N');
+
+    while (pq.length) {
+      const { k, d } = pq.shift()!;
+      if (k === endK) break;
+      const list = neighbors.get(k) || [];
+      for (const e of list) {
+        const turnPenalty = prevDir.get(k) && prevDir.get(k) !== 'N' && prevDir.get(k) !== e.dir ? TURN_COST : 0;
+        const nd = d + e.cost + turnPenalty;
+        if (dist.get(e.to) === undefined || nd < dist.get(e.to)!) {
+          dist.set(e.to, nd);
+          prev.set(e.to, k);
+          prevDir.set(e.to, e.dir);
+          push({ k: e.to, d: nd, dir: e.dir });
+        }
+      }
+    }
+
+    // 回溯路径
+    const out: IPoint[] = [];
+    let cur = endK;
+    if (!dist.has(endK)) {
+      // 无法到达，退化为简单 L 型
+      return this.compressPoints(vertical ? l1 : l2);
+    }
+    while (cur) {
+      const p = nodes.get(cur)!;
+      out.push({ x: p.x, y: p.y });
+      cur = prev.get(cur)!;
+      if (cur === startK) {
+        out.push(nodes.get(startK)!);
+        break;
+      }
+    }
+    out.reverse();
+
+    return this.compressPoints(out);
+  }
+
+  private compressPoints(points: IPoint[]): IPoint[] {
+    if (points.length <= 2) return points;
+    const result: IPoint[] = [points[0]];
+    for (let i = 1; i < points.length - 1; i++) {
+      const a = result[result.length - 1];
+      const b = points[i];
+      const c = points[i + 1];
+      // 去掉共线点
+      if ((a.x === b.x && b.x === c.x) || (a.y === b.y && b.y === c.y)) {
+        continue;
+      }
+      result.push(b);
+    }
+    result.push(points[points.length - 1]);
+    return result;
+  }
+
+  private getObstacles(): Rectangle[] {
+    const doc = this.entity.linesManager['document'];
+    const fromNode = this.entity.from;
+    const toNode = this.entity.to;
+    if (!doc) return [];
+    const rects: Rectangle[] = [];
+    doc
+      .getAllNodes()
+      .forEach((node: any) => {
+        if (!node || node === fromNode || node === toNode) return;
+        const transform = node.getData(FlowNodeTransformData);
+        const b = transform?.bounds as Rectangle | undefined;
+        if (!b || b.width === 0 || b.height === 0) return;
+        const r = new Rectangle(b.x, b.y, b.width, b.height).pad(AVOID_PADDING);
+        rects.push(r);
+      });
+    return rects;
   }
 
   private getPathFromPoints(points: IPoint[]): string {

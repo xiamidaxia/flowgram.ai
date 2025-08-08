@@ -210,7 +210,11 @@ export function createFreeLayoutPreset(
       /**
        * 线条渲染插件
        */
-      createFreeLinesPlugin({}),
+      createFreeLinesPlugin({
+        contributions: [],
+        // 默认使用带避让的正交折线
+        defaultLineType: 'WorkflowManhattanLineContribution',
+      }),
       /**
        * 节点 hover 插件
        */

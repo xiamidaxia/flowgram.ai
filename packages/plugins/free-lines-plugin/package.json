@@ -31,6 +31,7 @@
     "@flowgram.ai/free-stack-plugin": "workspace:*",
     "@flowgram.ai/renderer": "workspace:*",
     "@flowgram.ai/utils": "workspace:*",
+    "@flowgram.ai/document": "workspace:*",
     "bezier-js": "^6.1.4",
     "clsx": "^1.1.1",
     "inversify": "^6.0.1",

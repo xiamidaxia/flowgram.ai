@@ -8,7 +8,7 @@ import { definePluginCreator, PluginContext } from '@flowgram.ai/core';
 
 import { FreeLinesPluginOptions } from './type';
 import { WorkflowLinesLayer } from './layer';
-import { WorkflowBezierLineContribution, WorkflowFoldLineContribution } from './contributions';
+import { WorkflowBezierLineContribution, WorkflowFoldLineContribution, WorkflowManhattanLineContribution } from './contributions';
 
 export const createFreeLinesPlugin = definePluginCreator({
   singleton: true,
@@ -21,7 +21,8 @@ export const createFreeLinesPlugin = definePluginCreator({
     const linesManager = ctx.container.get(WorkflowLinesManager);
     linesManager
       .registerContribution(WorkflowBezierLineContribution)
-      .registerContribution(WorkflowFoldLineContribution);
+      .registerContribution(WorkflowFoldLineContribution)
+      .registerContribution(WorkflowManhattanLineContribution);
 
     if (opts.contributions) {
       opts.contributions.forEach((contribution) => {

@@ -15,6 +15,7 @@ import { WorkflowJSON } from '@flowgram.ai/free-layout-editor';
 import { FreeLayoutProps } from '@flowgram.ai/free-layout-editor';
 import { createFreeGroupPlugin } from '@flowgram.ai/free-group-plugin';
 import { createContainerNodePlugin } from '@flowgram.ai/free-container-plugin';
+import { createFreeHoverPlugin } from '@flowgram.ai/free-hover-plugin';
 
 import { onDragLineEnd } from '@editor/utils';
 import { FlowNodeRegistry } from '@editor/typings';
@@ -125,12 +126,16 @@ export const useEditorProps = (initialData: WorkflowJSON, nodeRegistries: FlowNo
       },
       plugins: () => [
         /**
-         * Line render plugin
          * 连线渲染插件
          */
         createFreeLinesPlugin({
           renderInsideLine: LineAddButton,
+          defaultLineType: 'WorkflowManhattanLineContribution',
         }),
+        /**
+         * 节点 hover 插件
+         */
+        createFreeHoverPlugin({}),
         /**
          * Minimap plugin
          * 缩略图插件
