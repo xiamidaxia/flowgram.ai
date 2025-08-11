@@ -45,7 +45,9 @@ export interface WorkflowLineUIState {
   disabled: boolean; // 禁用
   reverse: boolean; // 箭头反转
   hideArrow: boolean; // 隐藏箭头
+  shrink: number; // 收缩, default 10
   highlightColor: string; // 高亮显示
+  curvature: number; // 曲率, default 0.25
   lockedColor: string; // 锁定颜色
 }
 
@@ -84,6 +86,8 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     disabled: false,
     hideArrow: false,
     reverse: false,
+    shrink: 10,
+    curvature: 0.25,
     highlightColor: '',
     lockedColor: '',
   };

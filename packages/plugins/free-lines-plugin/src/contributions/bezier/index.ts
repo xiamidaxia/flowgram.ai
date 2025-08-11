@@ -6,7 +6,6 @@
 import { Bezier } from 'bezier-js';
 import { IPoint, Point, Rectangle } from '@flowgram.ai/utils';
 import {
-  POINT_RADIUS,
   WorkflowLineEntity,
   WorkflowLineRenderContribution,
   LinePoint,
@@ -59,7 +58,7 @@ export class WorkflowBezierLineContribution implements WorkflowLineRenderContrib
   }
 
   private calcBezier(fromPos: LinePoint, toPos: LinePoint): BezierData {
-    const controls = getBezierControlPoints(fromPos, toPos);
+    const controls = getBezierControlPoints(fromPos, toPos, this.entity.uiState.curvature);
     const bezier = new Bezier([fromPos, ...controls, toPos]);
     const bbox = bezier.bbox();
     const bboxBounds = new Rectangle(
@@ -98,16 +97,17 @@ export class WorkflowBezierLineContribution implements WorkflowLineRenderContrib
     const toPos = toRelative(params.toPos);
 
     const controls = params.controls.map((c) => toRelative(c));
+    const shrink = this.entity.uiState.shrink;
 
     const renderFromPos: IPoint =
       params.fromPos.location === 'bottom'
-        ? { x: fromPos.x, y: fromPos.y + POINT_RADIUS }
-        : { x: fromPos.x + POINT_RADIUS, y: fromPos.y };
+        ? { x: fromPos.x, y: fromPos.y + shrink }
+        : { x: fromPos.x + shrink, y: fromPos.y };
 
     const renderToPos: IPoint =
       params.toPos.location === 'top'
-        ? { x: toPos.x, y: toPos.y - POINT_RADIUS }
-        : { x: toPos.x - POINT_RADIUS, y: toPos.y };
+        ? { x: toPos.x, y: toPos.y - shrink }
+        : { x: toPos.x - shrink, y: toPos.y };
 
     const controlPoints = controls.map((s) => `${s.x} ${s.y}`).join(',');
     return `M${renderFromPos.x} ${renderFromPos.y} C ${controlPoints}, ${renderToPos.x} ${renderToPos.y}`;
