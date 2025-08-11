@@ -19,10 +19,9 @@ import { ArrowRenderer } from './arrow';
 
 const PADDING = 12;
 
-// eslint-disable-next-line react/display-name
 export const LineSVG = (props: LineRenderProps) => {
   const { line, color, selected, children, strokePrefix, rendererRegistry } = props;
-  const { position, reverse, vertical, hideArrow } = line;
+  const { position, reverse, hideArrow, vertical } = line;
 
   const renderData = line.getData(WorkflowLineRenderData);
   const { bounds, path: bezierPath } = renderData;
@@ -37,12 +36,14 @@ export const LineSVG = (props: LineRenderProps) => {
   const toPos = toRelative(position.to);
 
   // 箭头位置计算
-  const arrowToPos: IPoint = vertical
-    ? { x: toPos.x, y: toPos.y - POINT_RADIUS }
-    : { x: toPos.x - POINT_RADIUS, y: toPos.y };
-  const arrowFromPos: IPoint = vertical
-    ? { x: fromPos.x, y: fromPos.y + POINT_RADIUS + LINE_OFFSET }
-    : { x: fromPos.x + POINT_RADIUS + LINE_OFFSET, y: fromPos.y };
+  const arrowToPos: IPoint =
+    position.to.location === 'top'
+      ? { x: toPos.x, y: toPos.y - POINT_RADIUS }
+      : { x: toPos.x - POINT_RADIUS, y: toPos.y };
+  const arrowFromPos: IPoint =
+    position.from.location === 'bottom'
+      ? { x: fromPos.x, y: fromPos.y + POINT_RADIUS + LINE_OFFSET }
+      : { x: fromPos.x + POINT_RADIUS + LINE_OFFSET, y: fromPos.y };
 
   const strokeWidth = selected ? STROKE_WIDTH_SLECTED : STROKE_WIDTH;
 

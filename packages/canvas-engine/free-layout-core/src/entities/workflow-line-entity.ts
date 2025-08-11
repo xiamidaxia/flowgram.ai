@@ -10,7 +10,7 @@ import { Entity, type EntityOpts } from '@flowgram.ai/core';
 import { type WorkflowLinesManager } from '../workflow-lines-manager';
 import { type WorkflowDocument } from '../workflow-document';
 import { WORKFLOW_LINE_ENTITY } from '../utils/statics';
-import { LineRenderType, type LinePosition } from '../typings/workflow-line';
+import { LineRenderType, type LinePosition, LinePoint } from '../typings/workflow-line';
 import { type WorkflowEdgeJSON } from '../typings';
 import { WorkflowNodePortsData } from '../entity-datas/workflow-node-ports-data';
 import { WorkflowLineRenderData } from '../entity-datas';
@@ -31,18 +31,18 @@ export interface WorkflowLinePortInfo {
 export interface WorkflowLineEntityOpts extends EntityOpts, WorkflowLinePortInfo {
   document: WorkflowDocument;
   linesManager: WorkflowLinesManager;
-  drawingTo?: IPoint;
+  drawingTo?: LinePoint;
 }
 
 export interface WorkflowLineInfo extends WorkflowLinePortInfo {
-  drawingTo?: IPoint; // 正在画中的元素
+  drawingTo?: LinePoint; // 正在画中的元素
+  isDefaultLine?: boolean; // 是否为默认的线
 }
 
 export interface WorkflowLineUIState {
   hasError: boolean; //是否出错
   flowing: boolean; // 流动
   disabled: boolean; // 禁用
-  vertical: boolean; // 垂直模式
   reverse: boolean; // 箭头反转
   hideArrow: boolean; // 隐藏箭头
   highlightColor: string; // 高亮显示
@@ -82,7 +82,6 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     hasError: false,
     flowing: false,
     disabled: false,
-    vertical: false,
     hideArrow: false,
     reverse: false,
     highlightColor: '',
@@ -277,7 +276,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
   /**
    * 设置线条画线时的目标位置
    */
-  set drawingTo(pos: IPoint | undefined) {
+  set drawingTo(pos: LinePoint | undefined) {
     const oldDrawingTo = this.info.drawingTo;
     if (!pos) {
       this.info.drawingTo = undefined;
@@ -294,7 +293,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
   /**
    * 获取线条正在画线的位置
    */
-  get drawingTo(): IPoint | undefined {
+  get drawingTo(): LinePoint | undefined {
     return this.info.drawingTo;
   }
 
@@ -374,7 +373,13 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
 
   /** 是否竖向 */
   get vertical(): boolean {
-    return this.linesManager.isVerticalLine(this, this.uiState.vertical);
+    const fromLocation = this.fromPort.location;
+    const toLocation = this.toPort?.location;
+    if (toLocation) {
+      return toLocation === 'top';
+    } else {
+      return fromLocation === 'bottom';
+    }
   }
 
   /** 获取线条渲染器类型 */

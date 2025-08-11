@@ -73,8 +73,8 @@ describe('workflow-lines-manager', () => {
       to: 'end_0',
     })!;
     const lineRenderData = line.getData(WorkflowLineRenderData);
-    expect(lineRenderData.position.from).toEqual({ x: 0, y: 0 });
-    expect(lineRenderData.position.to).toEqual({ x: 660, y: 30 });
+    expect(lineRenderData.position.from).toEqual({ x: 0, y: 0, location: 'right' });
+    expect(lineRenderData.position.to).toEqual({ x: 660, y: 30, location: 'left' });
     expect(lineRenderData.path).toEqual('M 12 12 L 652 42');
   });
 
@@ -125,7 +125,6 @@ describe('workflow-lines-manager', () => {
     documentOptions.isHideArrowLine = () => true;
     documentOptions.isFlowingLine = () => true;
     documentOptions.isDisabledLine = () => true;
-    documentOptions.isVerticalLine = () => false;
     documentOptions.setLineClassName = () => 'custom-line-class';
     documentOptions.setLineRenderType = () => WorkflowSimpleLineContribution.type;
     documentOptions.lineColor = {

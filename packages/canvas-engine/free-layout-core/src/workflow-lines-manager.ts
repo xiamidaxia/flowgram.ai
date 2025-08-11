@@ -14,6 +14,7 @@ import { type WorkflowDocument } from './workflow-document';
 import {
   LineColor,
   LineColors,
+  LinePoint,
   LineRenderType,
   LineType,
   type WorkflowLineRenderContributionFactory,
@@ -155,7 +156,7 @@ export class WorkflowLinesManager {
 
   createLine(
     options: {
-      drawingTo?: IPoint; // 无连接的线条
+      drawingTo?: LinePoint; // 无连接的线条
       key?: string; // 自定义 key
     } & WorkflowLinePortInfo
   ): WorkflowLineEntity | undefined {
@@ -309,14 +310,6 @@ export class WorkflowLinesManager {
     if (this.options.isDisabledLine) {
       return this.options.isDisabledLine(line);
     }
-    return defaultValue;
-  }
-
-  isVerticalLine(line: WorkflowLineEntity, defaultValue = false): boolean {
-    if (this.options.isVerticalLine) {
-      return this.options.isVerticalLine(line);
-    }
-
     return defaultValue;
   }
 

@@ -161,7 +161,6 @@ export function createFreeLayoutPreset(
             isHideArrowLine: opts.isHideArrowLine?.bind(null, ctx),
             isFlowingLine: opts.isFlowingLine?.bind(null, ctx),
             isDisabledLine: opts.isDisabledLine?.bind(null, ctx),
-            isVerticalLine: opts.isVerticalLine?.bind(null, ctx),
             onDragLineEnd: opts.onDragLineEnd?.bind(null, ctx),
             setLineRenderType: opts.setLineRenderType?.bind(null, ctx),
             setLineClassName: opts.setLineClassName?.bind(null, ctx),
