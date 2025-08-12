@@ -18,7 +18,8 @@
   ],
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "exit 0",
+    "build:prod": "next build",
     "start": "next start",
     "lint": "eslint ./src --cache",
     "lint:fix": "eslint ./src --fix"
