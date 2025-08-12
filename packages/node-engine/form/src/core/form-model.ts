@@ -239,11 +239,14 @@ export class FormModel<TValues = any> implements Disposable {
     }
   }
 
+  validateDisabled = false;
+
   clearValueIn(name: FieldName) {
     this.setValueIn(name, undefined);
   }
 
   async validateIn(name: FieldName) {
+    if (this.validateDisabled) return [];
     const validateOptions = this.getValidateOptions();
     if (!validateOptions) {
       return;
@@ -276,6 +279,7 @@ export class FormModel<TValues = any> implements Disposable {
   }
 
   async validate(): Promise<FormValidateReturn> {
+    if (this.validateDisabled) return [];
     const validateOptions = this.getValidateOptions();
     if (!validateOptions) {
       return [];
