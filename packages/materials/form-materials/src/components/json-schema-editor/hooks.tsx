@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { omit } from 'lodash';
-import { IJsonSchema } from '@flowgram.ai/json-schema';
+import { difference, omit } from 'lodash';
+import { produce } from 'immer';
+import { IJsonSchema, type JsonSchemaTypeManager, useTypeManager } from '@flowgram.ai/json-schema';
 
 import { PropertyValueType } from './types';
 
@@ -15,92 +16,46 @@ function genId() {
   return _id++;
 }
 
-function getDrilldownSchema(
-  value?: PropertyValueType,
-  path?: (keyof PropertyValueType)[]
-): { schema?: PropertyValueType | null; path?: (keyof PropertyValueType)[] } {
-  if (!value) {
-    return {};
-  }
-
-  if (value.type === 'array' && value.items) {
-    return getDrilldownSchema(value.items, [...(path || []), 'items']);
-  }
-
-  return { schema: value, path };
-}
-
 export function usePropertiesEdit(
   value?: PropertyValueType,
   onChange?: (value: PropertyValueType) => void
 ) {
-  // Get drilldown (array.items.items...)
-  const drilldown = useMemo(() => getDrilldownSchema(value), [value, value?.type, value?.items]);
+  const typeManager = useTypeManager() as JsonSchemaTypeManager;
 
-  const isDrilldownObject = drilldown.schema?.type === 'object';
+  // Get drilldown properties (array.items.items.properties...)
+  const drilldownSchema = typeManager.getPropertiesParent(value || {});
+  const canAddField = typeManager.canAddField(value || {});
 
-  // Generate Init Property List
-  const initPropertyList = useMemo(
-    () =>
-      isDrilldownObject
-        ? Object.entries(drilldown.schema?.properties || {})
-            .sort(([, a], [, b]) => (a.extra?.index ?? 0) - (b.extra?.index ?? 0))
-            .map(
-              ([name, _value], index) =>
-                ({
-                  key: genId(),
-                  name,
-                  isPropertyRequired: drilldown.schema?.required?.includes(name) || false,
-                  ..._value,
-                  extra: {
-                    ...(_value.extra || {}),
-                    index,
-                  },
-                } as PropertyValueType)
-            )
-        : [],
-    [isDrilldownObject]
-  );
-
-  const [propertyList, setPropertyList] = useState<PropertyValueType[]>(initPropertyList);
-
-  const mountRef = useRef(false);
+  const [propertyList, setPropertyList] = useState<PropertyValueType[]>([]);
 
   useEffect(() => {
-    // If initRef is true, it means the component has been mounted
-    if (mountRef.current) {
-      // If the value is changed, update the property list
-      setPropertyList((_list) => {
-        const nameMap = new Map<string, PropertyValueType>();
+    // If the value is changed, update the property list
+    setPropertyList((_list) => {
+      const newNames = Object.entries(drilldownSchema?.properties || {})
+        .sort(([, a], [, b]) => (a.extra?.index ?? 0) - (b.extra?.index ?? 0))
+        .map(([key]) => key);
 
-        for (const _property of _list) {
-          if (_property.name) {
-            nameMap.set(_property.name, _property);
-          }
-        }
-        return Object.entries(drilldown.schema?.properties || {})
-          .sort(([, a], [, b]) => (a.extra?.index ?? 0) - (b.extra?.index ?? 0))
-          .map(([name, _value]) => {
-            const _property = nameMap.get(name);
-            if (_property) {
-              return {
-                key: _property.key,
-                name,
-                isPropertyRequired: drilldown.schema?.required?.includes(name) || false,
-                ..._value,
-              };
-            }
-            return {
-              key: genId(),
-              name,
-              isPropertyRequired: drilldown.schema?.required?.includes(name) || false,
-              ..._value,
-            };
-          });
-      });
-    }
-    mountRef.current = true;
-  }, [drilldown.schema]);
+      const oldNames = _list.map((item) => item.name).filter(Boolean) as string[];
+      const addNames = difference(newNames, oldNames);
+
+      return _list
+        .filter((item) => !item.name || newNames.includes(item.name))
+        .map((item) => ({
+          key: item.key,
+          name: item.name,
+          isPropertyRequired: drilldownSchema?.required?.includes(item.name || '') || false,
+          ...item,
+        }))
+        .concat(
+          addNames.map((_name) => ({
+            key: genId(),
+            name: _name,
+            isPropertyRequired: drilldownSchema?.required?.includes(_name) || false,
+            ...(drilldownSchema?.properties?.[_name] || {}),
+          }))
+        );
+    });
+  }, [drilldownSchema]);
 
   const updatePropertyList = (updater: (list: PropertyValueType[]) => PropertyValueType[]) => {
     setPropertyList((_list) => {
@@ -122,21 +77,25 @@ export function usePropertiesEdit(
         }
       }
 
-      let drilldownSchema = value || {};
-      if (drilldown.path) {
-        drilldownSchema = drilldown.path.reduce((acc, key) => acc[key], value || {});
-      }
-      drilldownSchema.properties = nextProperties;
-      drilldownSchema.required = nextRequired;
+      onChange?.(
+        produce(value || {}, (draft) => {
+          const propertiesParent = typeManager.getPropertiesParent(draft);
 
-      onChange?.(value || {});
+          if (propertiesParent) {
+            propertiesParent.properties = nextProperties;
+            propertiesParent.required = nextRequired;
+            return;
+          }
+        })
+      );
 
       return next;
     });
   };
 
   const onAddProperty = () => {
-    updatePropertyList((_list) => [
+    // set property list only, not trigger updatePropertyList
+    setPropertyList((_list) => [
       ..._list,
       { key: genId(), name: '', type: 'string', extra: { index: _list.length + 1 } },
     ]);
@@ -153,14 +112,14 @@ export function usePropertiesEdit(
   };
 
   useEffect(() => {
-    if (!isDrilldownObject) {
+    if (!canAddField) {
       setPropertyList([]);
     }
-  }, [isDrilldownObject]);
+  }, [canAddField]);
 
   return {
     propertyList,
-    isDrilldownObject,
+    canAddField,
     onAddProperty,
     onRemoveProperty,
     onEditProperty,

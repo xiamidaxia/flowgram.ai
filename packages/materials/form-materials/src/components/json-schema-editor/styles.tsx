@@ -200,35 +200,6 @@ export const DefaultValueWrapper = styled.div`
   margin: 0;
 `;
 
-export const JSONViewerWrapper = styled.div`
-  padding: 0 0 24px;
-  &:first-child {
-    margin-top: 0px;
-  }
-`;
-
-export const JSONHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--semi-color-fill-0);
-  border-radius: 6px 6px 0 0;
-  height: 36px;
-  padding: 0 8px 0 12px;
-`;
-
-export const JSONHeaderLeft = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-
-export const JSONHeaderRight = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-
 export const ConstantInputWrapper = styled.div`
   flex-grow: 1;
 

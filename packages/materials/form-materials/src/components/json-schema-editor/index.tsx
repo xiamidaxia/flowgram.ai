@@ -80,7 +80,7 @@ export function JsonSchemaEditor(props: {
         icon={<IconPlus />}
         onClick={onAddProperty}
       >
-        {config?.addButtonText ?? 'Add'}
+        {config?.addButtonText ?? I18n.t('Add')}
       </Button>
     </UIContainer>
   );
@@ -122,7 +122,7 @@ function PropertyEdit(props: {
 
   const typeSelectorValue = useMemo(() => ({ type, items }), [type, items]);
 
-  const { propertyList, isDrilldownObject, onAddProperty, onRemoveProperty, onEditProperty } =
+  const { propertyList, canAddField, onAddProperty, onRemoveProperty, onEditProperty } =
     usePropertiesEdit(value, onChangeProps);
 
   const onChange = (key: string, _value: any) => {
@@ -132,7 +132,7 @@ function PropertyEdit(props: {
     });
   };
 
-  const showCollapse = isDrilldownObject && propertyList.length > 0;
+  const showCollapse = canAddField && propertyList.length > 0;
 
   return (
     <>
@@ -198,7 +198,7 @@ function PropertyEdit(props: {
                   setExpand((_expand) => !_expand);
                 }}
               />
-              {isDrilldownObject && (
+              {canAddField && (
                 <IconButton
                   disabled={readonly}
                   size="small"
@@ -231,7 +231,7 @@ function PropertyEdit(props: {
                   config?.descPlaceholder ?? I18n.t('Help LLM to understand the property')
                 }
               />
-              {$level === 0 && type && type !== 'array' && (
+              {$level === 0 && (
                 <>
                   <UILabel style={{ marginTop: 10 }}>
                     {config?.defaultValueTitle ?? I18n.t('Default Value')}

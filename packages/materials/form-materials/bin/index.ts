@@ -72,7 +72,6 @@ program
     let { packagesToInstall } = copyMaterial(material, projectInfo);
 
     // 4. Install the dependencies
-    packagesToInstall.push(`@flowgram.ai/editor`);
     packagesToInstall = packagesToInstall.map((_pkg) => {
       if (
         _pkg.startsWith(`@flowgram.ai/`) &&
