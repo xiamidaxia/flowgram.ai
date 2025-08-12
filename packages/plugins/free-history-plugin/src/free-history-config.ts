@@ -45,7 +45,17 @@ export class FreeHistoryConfig {
     if (options.getLineURI) {
       this.getLineURI = options.getLineURI(ctx);
     }
+    if (options.enableChangeNode !== undefined) {
+      this.enableChangeNode = options.enableChangeNode;
+    }
+    if (options.enableChangeLineData !== undefined) {
+      this.enableChangeLineData = options.enableChangeLineData;
+    }
   }
+
+  enableChangeNode = true;
+
+  enableChangeLineData = true;
 
   enable = false;
 

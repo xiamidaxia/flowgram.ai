@@ -138,6 +138,10 @@ export class WorkflowLinesManager {
     );
   }
 
+  getLineById(id: string): WorkflowLineEntity | undefined {
+    return this.entityManager.getEntityById<WorkflowLineEntity>(id);
+  }
+
   replaceLine(
     oldPortInfo: WorkflowLinePortInfo,
     newPortInfo: WorkflowLinePortInfo
@@ -213,10 +217,11 @@ export class WorkflowLinesManager {
         });
       }
     });
-    line.onLineDataChange(() => {
+    line.onLineDataChange(({ oldValue }) => {
       this.onAvailableLinesChangeEmitter.fire({
         type: WorkflowContentChangeType.LINE_DATA_CHANGE,
         toJSON: () => line.toJSON(),
+        oldValue,
         entity: line,
       });
     });

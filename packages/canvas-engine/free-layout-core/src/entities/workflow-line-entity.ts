@@ -64,7 +64,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     return `${from}_${fromPort || ''}-${to || ''}_${toPort || ''}`;
   }
 
-  private _onLineDataChangeEmitter = new Emitter<any>();
+  private _onLineDataChangeEmitter = new Emitter<{ oldValue: any; newValue: any }>();
 
   readonly document: WorkflowDocument;
 
@@ -125,10 +125,13 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
    * 更新线条扩展数据
    * @param data
    */
-  set lineData(data: any) {
-    this._lineData = data;
-    this._onLineDataChangeEmitter.fire(data);
-    this.fireChange();
+  set lineData(newValue: any) {
+    const oldValue = this._lineData;
+    if (!isEqual(oldValue, newValue)) {
+      this._lineData = newValue;
+      this._onLineDataChangeEmitter.fire({ oldValue, newValue });
+      this.fireChange();
+    }
   }
 
   public stackIndex = 0;
