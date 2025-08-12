@@ -197,6 +197,9 @@ export function createFreeLayoutPreset(
             // 控制条
             ctx.playground.registerLayer(FlowScrollBarLayer);
           }
+          if (opts.scroll?.disableScroll) {
+            ctx.playground.config.scrollDisable = true;
+          }
           if (opts.onContentChange) {
             ctx.document.onContentChange((event) => opts.onContentChange!(ctx, event));
           }

@@ -94,6 +94,7 @@ export interface EditorProps<
   scroll?: {
     enableScrollLimit?: boolean; // 开启滚动限制
     disableScrollBar?: boolean; //  关闭滚动条
+    disableScroll?: boolean; // 禁止滚动
   };
 
   /**

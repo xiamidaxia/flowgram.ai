@@ -237,7 +237,7 @@ export function useEditorProps(
       /**
        * Playground init
        */
-      onInit() {
+      onInit(ctx) {
         console.log('--- Playground init ---');
       },
       /**

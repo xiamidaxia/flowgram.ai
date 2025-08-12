@@ -37,7 +37,9 @@ export interface PlaygroundConfigEntityData {
   pageBounds?: { x: number; y: number; width: number; height: number } // 编辑的画布边框，用于处理外部对齐问题
   disabled: boolean // 禁用状态
   readonly: boolean // readonly 状态
+  scrollDisable: boolean
   grabDisable: boolean // 禁用抓取拖拽画布能力
+  zoomDisable: boolean
 }
 
 export interface PlaygroundConfigRevealOpts {
@@ -98,6 +100,22 @@ export class PlaygroundConfigEntity extends ConfigEntity<PlaygroundConfigEntityD
       grabDisable
     })
   }
+  get scrollDisable(): boolean {
+    return this.config.scrollDisable;
+  }
+  set scrollDisable(scrollDisable: boolean) {
+    this.updateConfig({
+      scrollDisable
+    })
+  }
+  get zoomDisable(): boolean {
+    return this.config.zoomDisable;
+  }
+  set zoomDisable(zoomDisable: boolean) {
+    this.updateConfig({
+      zoomDisable
+    })
+  }
   getDefaultConfig(): PlaygroundConfigEntityData {
     return {
       scrollX: 0,
@@ -117,6 +135,8 @@ export class PlaygroundConfigEntity extends ConfigEntity<PlaygroundConfigEntityD
       disabled: false,
       readonly: false,
       grabDisable: false,
+      scrollDisable: false,
+      zoomDisable: false,
       mouseScrollDelta: MOUSE_SCROLL_DELTA
     }
   }
@@ -158,7 +178,12 @@ export class PlaygroundConfigEntity extends ConfigEntity<PlaygroundConfigEntityD
     if (props.overflowY === 'hidden') {
       props.scrollY = this.config.originY
     }
+    const scrollDisable = props.scrollDisable || this.scrollDisable
     const { readonly, disabled, grabDisable } = this
+    if (scrollDisable) {
+      props.scrollX = this.config.scrollX
+      props.scrollY = this.config.scrollY
+    }
     super.updateConfig(
       this._scrollLimitFn
         ? { ...props, ...this._scrollLimitFn({ scrollX: props.scrollX!, scrollY: props.scrollY! }) }
@@ -196,6 +221,7 @@ export class PlaygroundConfigEntity extends ConfigEntity<PlaygroundConfigEntityD
 
   protected normalizeZoom(zoom: number): number {
     if (!this.zoomEnable) return 1
+    if (this.zoomDisable) return this.config.zoom;
     if (zoom < this.config.minZoom) {
       zoom = this.config.minZoom
     } else if (zoom > this.config.maxZoom) {
@@ -477,13 +503,16 @@ export class PlaygroundConfigEntity extends ConfigEntity<PlaygroundConfigEntityD
     }
   }
 
+  /**
+   * @deprecated use 'zoomDisable' instead
+   */
   get zoomEnable(): boolean {
     return this._zoomEnable
   }
 
   /**
    * 开启缩放
-   * @param zoomEnable
+   * @deprecated use 'zoomDisable' instead
    */
   set zoomEnable(zoomEnable: boolean) {
     if (this._zoomEnable !== zoomEnable) {

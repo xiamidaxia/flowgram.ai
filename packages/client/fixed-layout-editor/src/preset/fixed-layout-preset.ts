@@ -154,6 +154,9 @@ export function createFixedLayoutPreset(
             // 控制条
             ctx.playground.registerLayer(FlowScrollBarLayer);
           }
+          if (opts.scroll?.disableScroll) {
+            ctx.playground.config.scrollDisable = true;
+          }
           if (opts.nodeRegistries) {
             ctx.document.registerFlowNodes(...opts.nodeRegistries);
           }
