@@ -12,7 +12,7 @@ import {
   Scope,
 } from '@flowgram.ai/editor';
 
-import { IFlowConstantValue, IFlowRefValue, IFlowTemplateValue } from '../../typings';
+import { IFlowConstantValue, IFlowRefValue, IFlowTemplateValue } from '@/typings';
 
 interface InputConfig {
   sourceKey: string;

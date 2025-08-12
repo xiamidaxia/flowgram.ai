@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { IFlowValue } from '@/typings';
+import { PromptEditor, PromptEditorPropsType } from '@/components/prompt-editor';
+
 import { InputsTree } from './extensions/inputs-tree';
-import { PromptEditor, PromptEditorPropsType } from '../prompt-editor';
-import { IFlowValue } from '../../typings';
 
 interface PropsType extends PromptEditorPropsType {
   inputsValues: Record<string, IFlowValue>;

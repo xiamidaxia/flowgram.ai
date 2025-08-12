@@ -5,8 +5,9 @@
 
 import React from 'react';
 
-import { DisplayFlowValue } from '../display-flow-value';
-import { IFlowValue } from '../../typings';
+import { IFlowValue } from '@/typings';
+import { DisplayFlowValue } from '@/components/display-flow-value';
+
 import { DisplayInputsWrapper } from './styles';
 
 interface PropsType {

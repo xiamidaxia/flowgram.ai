@@ -8,8 +8,11 @@ import React, { useMemo } from 'react';
 
 import { Input } from '@douyinfe/semi-ui';
 
-import { useTypeManager } from '../../plugins';
-import { PropsType } from './types';
+import { useTypeManager } from '@/plugins';
+
+import { PropsType, Strategy as ConstantInputStrategy } from './types';
+
+export { ConstantInputStrategy };
 
 export function ConstantInput(props: PropsType) {
   const { value, onChange, schema, strategies, fallbackRenderer, readonly, ...rest } = props;

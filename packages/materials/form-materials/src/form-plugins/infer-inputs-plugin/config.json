@@ -1,9 +1,0 @@
-{
-  "name": "infer-inputs-plugin",
-  "depMaterials": [
-    "flow-value"
-  ],
-  "depPackages": [
-    "@flowgram.ai/json-schema"
-  ]
-}

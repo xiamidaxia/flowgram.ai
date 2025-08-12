@@ -7,7 +7,8 @@ import React from 'react';
 
 import { IJsonSchema, JsonSchemaTypeManager } from '@flowgram.ai/json-schema';
 
-import { useTypeManager } from '../../plugins';
+import { useTypeManager } from '@/plugins';
+
 import { HorizontalLine, TreeItem, TreeLevel, TreeRow, TreeTitle } from './styles';
 
 interface PropsType {

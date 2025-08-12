@@ -8,9 +8,10 @@ import React from 'react';
 import { transformerCreator } from '@coze-editor/editor/preset-code';
 import { Text } from '@coze-editor/editor/language-json';
 
+import { CodeEditor, type CodeEditorPropsType } from '@/components/code-editor';
+
 import { VariableTree } from './extensions/variable-tree';
 import { VariableTagInject } from './extensions/variable-tag';
-import { CodeEditor, type CodeEditorPropsType } from '../code-editor';
 
 type Match = { match: string; range: [number, number] };
 function findAllMatches(inputString: string, regex: RegExp): Match[] {

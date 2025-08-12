@@ -9,11 +9,11 @@ import { IconButton } from '@douyinfe/semi-ui';
 import { IconMinus } from '@douyinfe/semi-icons';
 
 import { IFlowConstantRefValue } from '@/typings';
+import { VariableSelector } from '@/components/variable-selector';
+import { DynamicValueInput } from '@/components/dynamic-value-input';
 
 import { AssignRowProps } from './types';
 import { BlurInput } from './components/blur-input';
-import { VariableSelector } from '../variable-selector';
-import { DynamicValueInput } from '../dynamic-value-input';
 
 export function AssignRow(props: AssignRowProps) {
   const {

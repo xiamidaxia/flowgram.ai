@@ -17,7 +17,8 @@ import {
   IconMinus,
 } from '@douyinfe/semi-icons';
 
-import { TypeSelector } from '../type-selector';
+import { TypeSelector } from '@/components/type-selector';
+
 import { ConfigType, PropertyValueType } from './types';
 import {
   IconAddChildren,

@@ -8,7 +8,8 @@ import React, { useEffect } from 'react';
 import { IJsonSchema, JsonSchemaTypeManager, JsonSchemaUtils } from '@flowgram.ai/json-schema';
 import { useCurrentScope, useRefresh } from '@flowgram.ai/editor';
 
-import { DisplaySchemaTag } from '../display-schema-tag';
+import { DisplaySchemaTag } from '@/components/display-schema-tag';
+
 import { DisplayOutputsWrapper } from './styles';
 
 interface PropsType {

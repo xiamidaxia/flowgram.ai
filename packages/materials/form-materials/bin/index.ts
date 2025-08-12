@@ -5,7 +5,7 @@ import { Command } from 'commander';
 import chalk from 'chalk';
 
 import { getProjectInfo, installDependencies, ProjectInfo } from './project.js';
-import { bfsMaterials, copyMaterial, listAllMaterials, Material } from './materials.js';
+import { copyMaterial, listAllMaterials, Material } from './materials.js';
 
 const program = new Command();
 
@@ -66,14 +66,14 @@ program
       process.exit(1);
     }
 
+    // 4. Copy the materials to the project
+    console.log(chalk.bold('The following materials will be added to your project'));
     console.log(material);
-
-    // 3. Get the component dependencies by BFS (include depMaterials and depPackages)
-    const { allMaterials, allPackages } = bfsMaterials(material!, materials);
+    let { packagesToInstall } = copyMaterial(material, projectInfo);
 
     // 4. Install the dependencies
-    allPackages.push(`@flowgram.ai/editor`);
-    const packagesToInstall: string[] = allPackages.map((_pkg) => {
+    packagesToInstall.push(`@flowgram.ai/editor`);
+    packagesToInstall = packagesToInstall.map((_pkg) => {
       if (
         _pkg.startsWith(`@flowgram.ai/`) &&
         projectInfo.flowgramVersion !== 'workspace:*' &&
@@ -87,19 +87,6 @@ program
     console.log(chalk.bold('These npm dependencies will be added to your project'));
     console.log(packagesToInstall);
     installDependencies(packagesToInstall, projectInfo);
-
-    // 5. Copy the materials to the project
-    console.log(chalk.bold('These Materials will be added to your project'));
-    console.log(allMaterials);
-    copyMaterial(material, projectInfo, { overwrite: true });
-
-    allMaterials.forEach((mat: Material) => {
-      if (mat === material) {
-        return;
-      }
-      // Add type for mat
-      copyMaterial(mat, projectInfo, { overwrite: false });
-    });
   });
 
 program.parse(process.argv);

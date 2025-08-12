@@ -11,7 +11,7 @@ import {
   getNodeForm,
 } from '@flowgram.ai/editor';
 
-import { IFlowRefValue } from '../../typings';
+import { IFlowRefValue } from '@/typings';
 
 export const provideBatchInputEffect: EffectOptions[] = createEffectFromVariableProvider({
   private: true,

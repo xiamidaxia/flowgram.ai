@@ -1,9 +1,0 @@
-{
-  "name": "listen-ref-value-change",
-  "depMaterials": [
-    "flow-value"
-  ],
-  "depPackages": [
-    "lodash"
-  ]
-}

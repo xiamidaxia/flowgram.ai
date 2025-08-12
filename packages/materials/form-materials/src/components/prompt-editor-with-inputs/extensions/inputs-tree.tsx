@@ -15,8 +15,9 @@ import {
 } from '@coze-editor/editor/react';
 import { EditorAPI } from '@coze-editor/editor/preset-prompt';
 
+import { IFlowValue } from '@/typings';
+
 import { InputsPicker } from '../inputs-picker';
-import { IFlowValue } from '../../../typings';
 
 export function InputsTree({ inputsValues }: { inputsValues: Record<string, IFlowValue> }) {
   const [posKey, setPosKey] = useState('');

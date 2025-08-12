@@ -9,7 +9,7 @@ import { FieldArray, FieldArrayRenderProps } from '@flowgram.ai/editor';
 import { Button } from '@douyinfe/semi-ui';
 import { IconPlus } from '@douyinfe/semi-icons';
 
-import { AssignRow, AssignValueType } from '../assign-row';
+import { AssignRow, AssignValueType } from '@/components/assign-row';
 
 interface AssignRowsProps {
   name: string;

@@ -17,7 +17,7 @@ import {
   FlowNodeScopeType,
 } from '@flowgram.ai/editor';
 
-import { IFlowRefValue } from '../../typings';
+import { IFlowRefValue } from '@/typings';
 
 export const provideBatchOutputsEffect: EffectOptions[] = createEffectFromVariableProvider({
   parse: (value: Record<string, IFlowRefValue>, ctx) => [

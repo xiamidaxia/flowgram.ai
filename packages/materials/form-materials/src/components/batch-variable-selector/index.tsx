@@ -8,7 +8,7 @@ import React from 'react';
 import { IJsonSchema } from '@flowgram.ai/json-schema';
 import { PrivateScopeProvider } from '@flowgram.ai/editor';
 
-import { VariableSelector, VariableSelectorProps } from '../variable-selector';
+import { VariableSelector, VariableSelectorProps } from '@/components/variable-selector';
 
 const batchVariableSchema: IJsonSchema = {
   type: 'array',

@@ -15,7 +15,7 @@ import {
 } from '@coze-editor/editor/react';
 import { EditorAPI } from '@coze-editor/editor/preset-prompt';
 
-import { useVariableTree } from '../../variable-selector';
+import { useVariableTree } from '@/components/variable-selector';
 
 export function VariableTree() {
   const [posKey, setPosKey] = useState('');

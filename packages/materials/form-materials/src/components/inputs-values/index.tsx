@@ -8,10 +8,11 @@ import React from 'react';
 import { Button, IconButton } from '@douyinfe/semi-ui';
 import { IconDelete, IconPlus } from '@douyinfe/semi-icons';
 
+import { IFlowConstantRefValue, IFlowValue } from '@/typings';
+import { useObjectList } from '@/hooks';
+import { DynamicValueInput } from '@/components/dynamic-value-input';
+
 import { PropsType } from './types';
-import { DynamicValueInput } from '../dynamic-value-input';
-import { IFlowConstantRefValue, IFlowValue } from '../../typings';
-import { useObjectList } from '../../hooks';
 import { UIRow, UIRows } from './styles';
 import { BlurInput } from './components/blur-input';
 

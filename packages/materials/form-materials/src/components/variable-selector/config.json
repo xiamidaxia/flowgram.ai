@@ -1,9 +1,0 @@
-{
-  "name": "variable-selector",
-  "depMaterials": [],
-  "depPackages": [
-    "@douyinfe/semi-ui",
-    "styled-components",
-    "@flowgram.ai/json-schema"
-  ]
-}

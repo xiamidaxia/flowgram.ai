@@ -5,7 +5,7 @@
 
 import { IJsonSchema } from '@flowgram.ai/json-schema';
 
-import { ConstantRendererProps } from '../../plugins';
+import { ConstantRendererProps } from '@/plugins';
 
 export interface Strategy<Value = any> {
   hit: (schema: IJsonSchema) => boolean;

@@ -10,7 +10,7 @@ import { ASTMatch, BaseVariableField, useAvailableVariables } from '@flowgram.ai
 import { TreeNodeData } from '@douyinfe/semi-ui/lib/es/tree';
 import { Icon } from '@douyinfe/semi-ui';
 
-import { useTypeManager } from '../../plugins';
+import { useTypeManager } from '@/plugins';
 
 type VariableField = BaseVariableField<{
   icon?: string | JSX.Element;

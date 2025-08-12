@@ -16,7 +16,7 @@ import {
 import { TreeNodeData } from '@douyinfe/semi-ui/lib/es/tree';
 import { Tree } from '@douyinfe/semi-ui';
 
-import { IFlowValue } from '../../typings';
+import { IFlowValue } from '@/typings';
 
 type VariableField = BaseVariableField<{ icon?: string | JSX.Element; title?: string }>;
 

@@ -8,12 +8,13 @@ import React, { useMemo } from 'react';
 import { I18n } from '@flowgram.ai/editor';
 import { Input } from '@douyinfe/semi-ui';
 
+import { VariableSelector } from '@/components/variable-selector';
+import { DynamicValueInput } from '@/components/dynamic-value-input';
+
 import { ConditionRowValueType, IRules, OpConfigs } from './types';
 import { UIContainer, UILeft, UIOperator, UIRight, UIValues } from './styles';
 import { useRule } from './hooks/useRule';
 import { useOp } from './hooks/useOp';
-import { VariableSelector } from '../variable-selector';
-import { DynamicValueInput } from '../dynamic-value-input';
 
 interface PropTypes {
   value?: ConditionRowValueType;

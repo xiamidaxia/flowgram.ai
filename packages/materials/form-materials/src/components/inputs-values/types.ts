@@ -5,8 +5,8 @@
 
 import { IJsonSchema } from '@flowgram.ai/json-schema';
 
-import { Strategy } from '../constant-input/types';
-import { IFlowValue } from '../../typings';
+import { IFlowValue } from '@/typings';
+import { ConstantInputStrategy } from '@/components/constant-input';
 
 export interface PropsType {
   value?: Record<string, IFlowValue | undefined>;
@@ -16,7 +16,7 @@ export interface PropsType {
   schema?: IJsonSchema;
   style?: React.CSSProperties;
   constantProps?: {
-    strategies?: Strategy[];
+    strategies?: ConstantInputStrategy[];
     [key: string]: any;
   };
 }

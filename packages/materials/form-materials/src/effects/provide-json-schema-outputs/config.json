@@ -1,7 +1,0 @@
-{
-  "name": "provide-json-schema-outputs",
-  "depMaterials": [],
-  "depPackages": [
-    "@flowgram.ai/json-schema"
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "name": "constant-input",
-  "depMaterials": [
-    "plugins/json-schema-preset"
-  ],
-  "depPackages": [
-    "@douyinfe/semi-ui"
-  ]
-}

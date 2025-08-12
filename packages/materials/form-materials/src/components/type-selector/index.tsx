@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 import { IJsonSchema } from '@flowgram.ai/json-schema';
 import { Cascader, Icon, IconButton } from '@douyinfe/semi-ui';
 
-import { useTypeManager } from '../../plugins';
+import { useTypeManager } from '@/plugins';
 
 interface PropTypes {
   value?: Partial<IJsonSchema>;

@@ -9,6 +9,8 @@ import { IJsonSchema } from '@flowgram.ai/json-schema';
 import { IconButton, JsonViewer, Tooltip } from '@douyinfe/semi-ui';
 import { IconBrackets } from '@douyinfe/semi-icons';
 
+import { ConstantInput } from '@/components/constant-input';
+
 import { getValueType } from './utils';
 import {
   ConstantInputWrapper,
@@ -17,7 +19,6 @@ import {
   JSONHeaderRight,
   JSONViewerWrapper,
 } from './styles';
-import { ConstantInput } from '../constant-input';
 
 /**
  * 根据不同的数据类型渲染对应的默认值输入组件。

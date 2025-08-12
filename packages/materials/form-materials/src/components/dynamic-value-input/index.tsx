@@ -9,11 +9,11 @@ import { JsonSchemaUtils, IJsonSchema } from '@flowgram.ai/json-schema';
 import { IconButton } from '@douyinfe/semi-ui';
 import { IconSetting } from '@douyinfe/semi-icons';
 
-import { VariableSelector } from '../variable-selector';
-import { TypeSelector } from '../type-selector';
-import { Strategy } from '../constant-input/types';
-import { ConstantInput } from '../constant-input';
-import { IFlowConstantRefValue } from '../../typings/flow-value';
+import { IFlowConstantRefValue } from '@/typings/flow-value';
+import { VariableSelector } from '@/components/variable-selector';
+import { TypeSelector } from '@/components/type-selector';
+import { ConstantInput, ConstantInputStrategy } from '@/components/constant-input';
+
 import { UIContainer, UIMain, UITrigger, UIType } from './styles';
 import { useIncludeSchema, useRefVariable, useSelectSchema } from './hooks';
 
@@ -25,7 +25,7 @@ interface PropsType {
   style?: React.CSSProperties;
   schema?: IJsonSchema;
   constantProps?: {
-    strategies?: Strategy[];
+    strategies?: ConstantInputStrategy[];
     schema?: IJsonSchema; // set schema of constant input only
     [key: string]: any;
   };

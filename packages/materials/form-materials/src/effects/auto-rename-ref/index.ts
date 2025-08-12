@@ -11,7 +11,7 @@ import {
   VariableFieldKeyRenameService,
 } from '@flowgram.ai/editor';
 
-import { IFlowRefValue, IFlowTemplateValue } from '../../typings';
+import { IFlowRefValue, IFlowTemplateValue } from '@/typings';
 
 /**
  * Auto rename ref when form item's key is renamed

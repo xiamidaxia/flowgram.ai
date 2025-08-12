@@ -8,9 +8,10 @@ import { useMemo } from 'react';
 import { JsonSchemaUtils, JsonSchemaBasicType } from '@flowgram.ai/json-schema';
 import { useScopeAvailable } from '@flowgram.ai/editor';
 
+import { IFlowRefValue } from '@/typings';
+
 import { IRules } from '../types';
 import { defaultRules } from '../constants';
-import { IFlowRefValue } from '../../../typings';
 
 export function useRule(left?: IFlowRefValue, userRules?: IRules) {
   const available = useScopeAvailable();

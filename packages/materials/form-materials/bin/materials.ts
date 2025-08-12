@@ -7,6 +7,8 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
 
+import { traverseRecursiveFiles } from './utils/traverse-file';
+import { replaceImport, traverseFileImports } from './utils/import';
 import { ProjectInfo } from './project'; // Import ProjectInfo
 
 const __filename = fileURLToPath(import.meta.url);
@@ -17,8 +19,6 @@ export interface Material {
   name: string;
   type: string;
   path: string;
-  depPackages?: string[];
-  depMaterials?: string[];
   [key: string]: any; // For other properties from config.json
 }
 
@@ -48,19 +48,7 @@ export function listAllMaterials(): Material[] {
             return null;
           }
 
-          const configPath = path.join(materialsPath, _path, 'config.json');
-          // Check if config.json exists before reading
-          if (!fs.existsSync(configPath)) {
-            console.warn(
-              `Warning: config.json not found for material at ${path.join(materialsPath, _path)}`
-            );
-            return null;
-          }
-          const configContent = fs.readFileSync(configPath, 'utf8');
-          const config = JSON.parse(configContent);
-
           return {
-            ...config,
             name: _path, // Assuming the folder name is the material name
             type: _type,
             path: path.join(materialsPath, _path),
@@ -73,66 +61,12 @@ export function listAllMaterials(): Material[] {
   return _materials;
 }
 
-interface BfsResult {
-  allMaterials: Material[];
-  allPackages: string[];
-}
-
-export function bfsMaterials(material: Material, _materials: Material[] = []): BfsResult {
-  function findConfigByName(name: string): Material | undefined {
-    return _materials.find(
-      (_config) => _config.name === name || `${_config.type}/${_config.name}` === name
-    );
-  }
-
-  const queue: (Material | undefined)[] = [material]; // Queue can hold undefined if findConfigByName returns undefined
-  const allMaterials = new Set<Material>();
-  const allPackages = new Set<string>();
-
-  while (queue.length > 0) {
-    const _material = queue.shift();
-    if (!_material || allMaterials.has(_material)) {
-      // Check if _material is defined
-      continue;
-    }
-    allMaterials.add(_material);
-
-    if (_material.depPackages) {
-      for (const _package of _material.depPackages) {
-        allPackages.add(_package);
-      }
-    }
-
-    if (_material.depMaterials) {
-      for (const _materialName of _material.depMaterials) {
-        const depMaterial = findConfigByName(_materialName);
-        if (depMaterial) {
-          // Ensure dependent material is found before adding to queue
-          queue.push(depMaterial);
-        } else {
-          console.warn(
-            `Warning: Dependent material "${_materialName}" not found for material "${_material.name}".`
-          );
-        }
-      }
-    }
-  }
-
-  return {
-    allMaterials: Array.from(allMaterials),
-    allPackages: Array.from(allPackages),
-  };
-}
-
 export const copyMaterial = (
   material: Material,
-  projectInfo: ProjectInfo,
-  {
-    overwrite,
-  }: {
-    overwrite?: boolean;
-  } = {}
-): void => {
+  projectInfo: ProjectInfo
+): {
+  packagesToInstall: string[];
+} => {
   const sourceDir: string = material.path;
   const materialRoot: string = path.join(
     projectInfo.projectPath,
@@ -141,25 +75,33 @@ export const copyMaterial = (
     `${material.type}`
   );
   const targetDir = path.join(materialRoot, material.name);
-
-  if (!overwrite && fs.readdirSync(targetDir)?.length > 0) {
-    console.log(`Material ${material.name} already exists in ${materialRoot}, skip copying.`);
-    return;
-  }
+  const packagesToInstall: Set<string> = new Set();
 
   fs.cpSync(sourceDir, targetDir, { recursive: true });
 
-  let materialRootIndexTs: string = '';
-  const indexTsPath = path.join(materialRoot, 'index.ts');
-  if (fs.existsSync(indexTsPath)) {
-    materialRootIndexTs = fs.readFileSync(indexTsPath, 'utf8');
+  for (const file of traverseRecursiveFiles(targetDir)) {
+    if (['.ts', '.tsx'].includes(file.suffix)) {
+      for (const importDeclaration of traverseFileImports(file.content)) {
+        const { source } = importDeclaration;
+
+        if (source.startsWith('@/')) {
+          // is inner import
+          console.log(`Replace Import from ${source} to @flowgram.ai/form-materials`);
+          file.replace((content) =>
+            replaceImport(content, importDeclaration, [
+              { ...importDeclaration, source: '@flowgram.ai/form-materials' },
+            ])
+          );
+          packagesToInstall.add('@flowgram.ai/form-materials');
+        } else if (!source.startsWith('.') && !source.startsWith('react')) {
+          // check if is third party npm packages
+          packagesToInstall.add(source);
+        }
+      }
+    }
   }
-  if (!materialRootIndexTs.includes(material.name)) {
-    fs.writeFileSync(
-      indexTsPath,
-      `${materialRootIndexTs}${materialRootIndexTs.endsWith('\n') ? '' : '\n'}export * from './${
-        material.name
-      }';\n`
-    );
-  }
+
+  return {
+    packagesToInstall: [...packagesToInstall],
+  };
 };
