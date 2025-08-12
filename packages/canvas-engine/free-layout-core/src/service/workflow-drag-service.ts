@@ -610,6 +610,7 @@ export class WorkflowDragService {
             from: fromPort.node.id,
             fromPort: fromPort.portID,
             drawingTo: config.getPosFromMouseEvent(event),
+            data: originLine?.lineData,
           });
           if (!line) {
             return;
@@ -708,6 +709,7 @@ export class WorkflowDragService {
                 fromPort: fromPort.portID,
                 to: toPort.node.id,
                 toPort: toPort.portID,
+                data: originLine?.lineData,
               }
             : undefined;
           // Step2: 检测 reset

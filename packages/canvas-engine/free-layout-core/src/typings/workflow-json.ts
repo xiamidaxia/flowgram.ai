@@ -38,6 +38,10 @@ export enum WorkflowContentChangeType {
    */
   DELETE_LINE = 'DELETE_LINE',
   /**
+   * 线条数据修改
+   */
+  LINE_DATA_CHANGE = 'LINE_DATA_CHANGE',
+  /**
    * 节点Meta信息变更
    */
   META_CHANGE = 'META_CHANGE',
@@ -49,6 +53,10 @@ export interface WorkflowContentChangeEvent {
    * 当前触发的元素的json数据，toJSON 需要主动触发
    */
   toJSON: () => any;
+  /**
+   * oldValue
+   */
+  oldValue?: any;
   /*
    * 当前的事件的 entity
    */

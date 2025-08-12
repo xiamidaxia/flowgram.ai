@@ -7,28 +7,25 @@ import { type WorkflowLineEntity } from '@flowgram.ai/free-layout-core';
 import { WorkflowContentChangeType } from '@flowgram.ai/free-layout-core';
 
 import {
-  type AddLineOperation,
-  type AddOrDeleteLineOperationValue,
+  type ChangeLineDataOperation,
+  type ChangeLineDataValue,
   type ContentChangeTypeToOperation,
   FreeOperationType,
 } from '../types';
 import { FreeHistoryConfig } from '../free-history-config';
 
-export const addLineChange: ContentChangeTypeToOperation<AddLineOperation> = {
-  type: WorkflowContentChangeType.ADD_LINE,
+export const changeLineData: ContentChangeTypeToOperation<ChangeLineDataOperation> = {
+  type: WorkflowContentChangeType.LINE_DATA_CHANGE,
   toOperation: (event, ctx) => {
     const config = ctx.get<FreeHistoryConfig>(FreeHistoryConfig);
     const line = event.entity as WorkflowLineEntity;
-    const value: AddOrDeleteLineOperationValue = {
-      from: line.info.from,
-      to: line.info.to || '',
-      fromPort: line.info.fromPort || '',
-      toPort: line.info.toPort || '',
-      data: line.info.data,
+    const value: ChangeLineDataValue = {
       id: line.id,
+      oldValue: event.oldValue,
+      newValue: line.lineData,
     };
     return {
-      type: FreeOperationType.addLine,
+      type: FreeOperationType.changeLineData,
       value,
       uri: config.getLineURI(line.id),
     };

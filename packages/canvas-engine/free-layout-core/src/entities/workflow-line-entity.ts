@@ -4,7 +4,7 @@
  */
 
 import { isEqual } from 'lodash-es';
-import { domUtils, type IPoint, Rectangle } from '@flowgram.ai/utils';
+import { domUtils, type IPoint, Rectangle, Emitter } from '@flowgram.ai/utils';
 import { Entity, type EntityOpts } from '@flowgram.ai/core';
 
 import { type WorkflowLinesManager } from '../workflow-lines-manager';
@@ -25,6 +25,7 @@ export interface WorkflowLinePortInfo {
   to?: string; // 后置节点 id
   fromPort?: string | number; // 连线的 port 位置
   toPort?: string | number; // 连线的 port 位置
+  data?: any;
 }
 
 export interface WorkflowLineEntityOpts extends EntityOpts, WorkflowLinePortInfo {
@@ -35,7 +36,6 @@ export interface WorkflowLineEntityOpts extends EntityOpts, WorkflowLinePortInfo
 
 export interface WorkflowLineInfo extends WorkflowLinePortInfo {
   drawingTo?: IPoint; // 正在画中的元素
-  isDefaultLine?: boolean; // 是否为默认的线
 }
 
 export interface WorkflowLineUIState {
@@ -64,9 +64,13 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     return `${from}_${fromPort || ''}-${to || ''}_${toPort || ''}`;
   }
 
+  private _onLineDataChangeEmitter = new Emitter<{ oldValue: any; newValue: any }>();
+
   readonly document: WorkflowDocument;
 
   readonly linesManager: WorkflowLinesManager;
+
+  readonly onLineDataChange = this._onLineDataChangeEmitter.event;
 
   private _from: WorkflowNodeEntity;
 
@@ -121,9 +125,13 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
    * 更新线条扩展数据
    * @param data
    */
-  set lineData(data: any) {
-    this._lineData = data;
-    this.fireChange();
+  set lineData(newValue: any) {
+    const oldValue = this._lineData;
+    if (!isEqual(oldValue, newValue)) {
+      this._lineData = newValue;
+      this._onLineDataChangeEmitter.fire({ oldValue, newValue });
+      this.fireChange();
+    }
   }
 
   public stackIndex = 0;
@@ -153,6 +161,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
       drawingTo: opts.drawingTo,
       fromPort: opts.fromPort,
       toPort: opts.toPort,
+      data: opts.data,
     });
     if (opts.drawingTo) {
       this.isDrawing = true;
@@ -165,6 +174,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
       this.fromPort?.validate();
       this.toPort?.validate();
     });
+    this.toDispose.push(this._onLineDataChangeEmitter);
     // this.onDispose(() => {
     // this._infoDispose.dispose();
     // });
@@ -248,7 +258,6 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
       const { node, portID } = toPort;
       this._to = node;
       this.info.drawingTo = undefined;
-      this.info.isDefaultLine = false;
       this.info.to = node.id;
       this.info.toPort = portID;
     } else {
@@ -277,7 +286,6 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     }
     if (!oldDrawingTo || pos.x !== oldDrawingTo.x || pos.y !== oldDrawingTo.y) {
       this.info.to = undefined;
-      this.info.isDefaultLine = false;
       this.info.drawingTo = pos;
       this.fireChange();
     }
@@ -392,6 +400,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
       this.info = info;
       this._from = this.document.getNode(info.from)!;
       this._to = info.to ? this.document.getNode(info.to) : undefined;
+      this._lineData = info.data;
       this.fireChange();
     }
   }

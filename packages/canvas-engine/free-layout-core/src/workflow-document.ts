@@ -775,6 +775,7 @@ export class WorkflowDocument extends FlowDocument {
       fromPort: json.sourcePortID,
       to: json.targetNodeID,
       toPort: json.targetPortID,
+      data: json.data,
     };
     if (!parentId) {
       return this.linesManager.createLine(lineInfo);

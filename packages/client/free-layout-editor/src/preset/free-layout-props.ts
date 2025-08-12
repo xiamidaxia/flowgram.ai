@@ -19,6 +19,7 @@ import {
   WorkflowNodeRegistry,
   WorkflowPortEntity,
 } from '@flowgram.ai/free-layout-core';
+import { FreeHistoryPluginOptions } from '@flowgram.ai/free-history-plugin';
 import {
   ClipboardService,
   EditorPluginContext,
@@ -67,6 +68,7 @@ export interface FreeLayoutProps extends EditorProps<FreeLayoutPluginContext, Wo
     grab?: string;
     grabbing?: string;
   };
+  history?: FreeHistoryPluginOptions<FreeLayoutPluginContext> & { disableShortcuts?: boolean };
   /**
    * 线条颜色
    */

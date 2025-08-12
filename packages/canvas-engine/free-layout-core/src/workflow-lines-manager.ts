@@ -138,6 +138,10 @@ export class WorkflowLinesManager {
     );
   }
 
+  getLineById(id: string): WorkflowLineEntity | undefined {
+    return this.entityManager.getEntityById<WorkflowLineEntity>(id);
+  }
+
   replaceLine(
     oldPortInfo: WorkflowLinePortInfo,
     newPortInfo: WorkflowLinePortInfo
@@ -155,7 +159,7 @@ export class WorkflowLinesManager {
       key?: string; // 自定义 key
     } & WorkflowLinePortInfo
   ): WorkflowLineEntity | undefined {
-    const { from, to, drawingTo, fromPort, toPort } = options;
+    const { from, to, drawingTo, fromPort, toPort, data } = options;
     const available = Boolean(from && to);
     const key = options.key || WorkflowLineEntity.portInfoToLineId(options);
     let line = this.entityManager.getEntityById<WorkflowLineEntity>(key)!;
@@ -190,6 +194,7 @@ export class WorkflowLinesManager {
       toPort,
       to,
       drawingTo,
+      data,
     });
 
     this.registerData(line);
@@ -211,6 +216,14 @@ export class WorkflowLinesManager {
           entity: line,
         });
       }
+    });
+    line.onLineDataChange(({ oldValue }) => {
+      this.onAvailableLinesChangeEmitter.fire({
+        type: WorkflowContentChangeType.LINE_DATA_CHANGE,
+        toJSON: () => line.toJSON(),
+        oldValue,
+        entity: line,
+      });
     });
     // 是否为有效的线条
     if (available) {

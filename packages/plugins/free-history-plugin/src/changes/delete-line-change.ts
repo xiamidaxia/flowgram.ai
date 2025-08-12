@@ -24,6 +24,7 @@ export const deleteLineChange: ContentChangeTypeToOperation<DeleteLineOperation>
       to: line.info.to || '',
       fromPort: line.info.fromPort || '',
       toPort: line.info.toPort || '',
+      data: line.info.data,
       id: line.id,
     };
     return {
