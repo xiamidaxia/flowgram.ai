@@ -4,3 +4,4 @@
  */
 
 export * from './format-legacy-refs';
+export * from './inject-material';

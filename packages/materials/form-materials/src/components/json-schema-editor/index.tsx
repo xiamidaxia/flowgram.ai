@@ -17,7 +17,7 @@ import {
   IconMinus,
 } from '@douyinfe/semi-icons';
 
-import { TypeSelector } from '@/components/type-selector';
+import { InjectTypeSelector } from '@/components/type-selector';
 
 import { ConfigType, PropertyValueType } from './types';
 import {
@@ -41,6 +41,8 @@ import { usePropertiesEdit } from './hooks';
 import { DefaultValue } from './default-value';
 import { BlurInput } from './components/blur-input';
 
+const DEFAULT = { type: 'object' };
+
 export function JsonSchemaEditor(props: {
   value?: IJsonSchema;
   onChange?: (value: IJsonSchema) => void;
@@ -48,7 +50,7 @@ export function JsonSchemaEditor(props: {
   className?: string;
   readonly?: boolean;
 }) {
-  const { value = { type: 'object' }, config = {}, onChange: onChangeProps, readonly } = props;
+  const { value = DEFAULT, config = {}, onChange: onChangeProps, readonly } = props;
   const { propertyList, onAddProperty, onRemoveProperty, onEditProperty } = usePropertiesEdit(
     value,
     onChangeProps
@@ -170,7 +172,7 @@ function PropertyEdit(props: {
               />
             </UIName>
             <UIType>
-              <TypeSelector
+              <InjectTypeSelector
                 value={typeSelectorValue}
                 readonly={readonly}
                 onChange={(_value) => {

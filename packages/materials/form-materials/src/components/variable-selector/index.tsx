@@ -12,10 +12,12 @@ import { TreeNodeData } from '@douyinfe/semi-ui/lib/es/tree';
 import { Popover } from '@douyinfe/semi-ui';
 import { IconChevronDownStroked, IconIssueStroked } from '@douyinfe/semi-icons';
 
+import { createInjectMaterial } from '@/shared';
+
 import { useVariableTree } from './use-variable-tree';
 import { UIPopoverContent, UIRootTitle, UITag, UITreeSelect, UIVarName } from './styles';
 
-interface PropTypes {
+export interface VariableSelectorProps {
   value?: string[];
   config?: {
     placeholder?: string;
@@ -30,8 +32,6 @@ interface PropTypes {
   triggerRender?: (props: TriggerRenderProps) => React.ReactNode;
 }
 
-export type VariableSelectorProps = PropTypes;
-
 export { useVariableTree };
 
 export const VariableSelector = ({
@@ -44,7 +44,7 @@ export const VariableSelector = ({
   excludeSchema,
   hasError,
   triggerRender,
-}: PropTypes) => {
+}: VariableSelectorProps) => {
   const treeData = useVariableTree({ includeSchema, excludeSchema });
 
   const treeValue = useMemo(() => {
@@ -136,3 +136,6 @@ export const VariableSelector = ({
     </>
   );
 };
+
+VariableSelector.renderKey = 'variable-selector-render-key';
+export const InjectVariableSelector = createInjectMaterial(VariableSelector);

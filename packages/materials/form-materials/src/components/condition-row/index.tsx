@@ -8,8 +8,8 @@ import React, { useMemo } from 'react';
 import { I18n } from '@flowgram.ai/editor';
 import { Input } from '@douyinfe/semi-ui';
 
-import { VariableSelector } from '@/components/variable-selector';
-import { DynamicValueInput } from '@/components/dynamic-value-input';
+import { InjectVariableSelector } from '@/components/variable-selector';
+import { InjectDynamicValueInput } from '@/components/dynamic-value-input';
 
 import { ConditionRowValueType, IRules, OpConfigs } from './types';
 import { UIContainer, UILeft, UIOperator, UIRight, UIValues } from './styles';
@@ -59,7 +59,7 @@ export function ConditionRow({
       <UIOperator>{renderOpSelect()}</UIOperator>
       <UIValues>
         <UILeft>
-          <VariableSelector
+          <InjectVariableSelector
             readonly={readonly}
             style={{ width: '100%' }}
             value={left?.content}
@@ -76,7 +76,7 @@ export function ConditionRow({
         </UILeft>
         <UIRight>
           {targetSchema ? (
-            <DynamicValueInput
+            <InjectDynamicValueInput
               readonly={readonly || !rule}
               value={right}
               schema={targetSchema}

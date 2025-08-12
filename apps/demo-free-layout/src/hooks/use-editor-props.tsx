@@ -192,6 +192,7 @@ export function useEditorProps(
         enableScrollLimit: false,
       },
       materials: {
+        components: {},
         /**
          * Render Node
          */

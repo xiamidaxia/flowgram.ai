@@ -10,7 +10,8 @@ import { IconButton } from '@douyinfe/semi-ui';
 import { IconSetting } from '@douyinfe/semi-icons';
 
 import { IFlowConstantRefValue } from '@/typings/flow-value';
-import { VariableSelector } from '@/components/variable-selector';
+import { createInjectMaterial } from '@/shared';
+import { InjectVariableSelector } from '@/components/variable-selector';
 import { TypeSelector } from '@/components/type-selector';
 import { ConstantInput, ConstantInputStrategy } from '@/components/constant-input';
 
@@ -88,7 +89,7 @@ export function DynamicValueInput({
     if (value?.type === 'ref') {
       // Display Variable Or Delete
       return (
-        <VariableSelector
+        <InjectVariableSelector
           style={{ width: '100%' }}
           value={value?.content}
           onChange={(_v) => onChange(_v ? { type: 'ref', content: _v } : undefined)}
@@ -108,7 +109,7 @@ export function DynamicValueInput({
         readonly={readonly}
         strategies={[...(constantProps?.strategies || [])]}
         fallbackRenderer={() => (
-          <VariableSelector
+          <InjectVariableSelector
             style={{ width: '100%' }}
             onChange={(_v) => onChange(_v ? { type: 'ref', content: _v } : undefined)}
             includeSchema={includeSchema}
@@ -121,7 +122,7 @@ export function DynamicValueInput({
   };
 
   const renderTrigger = () => (
-    <VariableSelector
+    <InjectVariableSelector
       style={{ width: '100%' }}
       value={value?.type === 'ref' ? value?.content : undefined}
       onChange={(_v) => onChange({ type: 'ref', content: _v })}
@@ -141,3 +142,6 @@ export function DynamicValueInput({
     </UIContainer>
   );
 }
+
+DynamicValueInput.renderKey = 'dynamic-value-input-render-key';
+export const InjectDynamicValueInput = createInjectMaterial(DynamicValueInput);

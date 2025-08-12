@@ -9,7 +9,7 @@ import { Button, Input } from '@douyinfe/semi-ui';
 import { IconDelete, IconPlus } from '@douyinfe/semi-icons';
 
 import { useObjectList } from '@/hooks';
-import { VariableSelector } from '@/components/variable-selector';
+import { InjectVariableSelector } from '@/components/variable-selector';
 
 import { PropsType } from './types';
 import { UIRow, UIRows } from './styles';
@@ -31,7 +31,7 @@ export function BatchOutputs(props: PropsType) {
               value={item.key}
               onChange={(v) => updateKey(item.id, v)}
             />
-            <VariableSelector
+            <InjectVariableSelector
               style={{ flexGrow: 1 }}
               readonly={readonly}
               value={item.value?.content}

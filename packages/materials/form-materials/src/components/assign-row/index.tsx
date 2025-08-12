@@ -9,8 +9,8 @@ import { IconButton } from '@douyinfe/semi-ui';
 import { IconMinus } from '@douyinfe/semi-icons';
 
 import { IFlowConstantRefValue } from '@/typings';
-import { VariableSelector } from '@/components/variable-selector';
-import { DynamicValueInput } from '@/components/dynamic-value-input';
+import { InjectVariableSelector } from '@/components/variable-selector';
+import { InjectDynamicValueInput } from '@/components/dynamic-value-input';
 
 import { AssignRowProps } from './types';
 import { BlurInput } from './components/blur-input';
@@ -29,7 +29,7 @@ export function AssignRow(props: AssignRowProps) {
     <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
       <div style={{ width: 150, minWidth: 150, maxWidth: 150 }}>
         {value?.operator === 'assign' ? (
-          <VariableSelector
+          <InjectVariableSelector
             style={{ width: '100%', height: 26 }}
             value={value?.left?.content}
             config={{ placeholder: 'Select Left' }}
@@ -56,7 +56,7 @@ export function AssignRow(props: AssignRowProps) {
         )}
       </div>
       <div style={{ flexGrow: 1 }}>
-        <DynamicValueInput
+        <InjectDynamicValueInput
           readonly={readonly}
           value={value?.right as IFlowConstantRefValue | undefined}
           onChange={(v) =>
