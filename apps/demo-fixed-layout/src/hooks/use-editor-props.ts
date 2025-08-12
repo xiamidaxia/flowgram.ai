@@ -39,6 +39,13 @@ export function useEditorProps(
        * Whether to enable the background
        */
       background: true,
+      playground: {
+        /**
+         * Prevent Mac browser gestures from turning pages
+         * 阻止 mac 浏览器手势翻页
+         */
+        preventGlobalGesture: true,
+      },
       /**
        * Whether it is read-only or not, the node cannot be dragged in read-only mode
        */
