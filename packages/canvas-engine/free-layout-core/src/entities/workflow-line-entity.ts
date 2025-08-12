@@ -36,7 +36,6 @@ export interface WorkflowLineEntityOpts extends EntityOpts, WorkflowLinePortInfo
 
 export interface WorkflowLineInfo extends WorkflowLinePortInfo {
   drawingTo?: IPoint; // 正在画中的元素
-  isDefaultLine?: boolean; // 是否为默认的线
 }
 
 export interface WorkflowLineUIState {
@@ -256,7 +255,6 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
       const { node, portID } = toPort;
       this._to = node;
       this.info.drawingTo = undefined;
-      this.info.isDefaultLine = false;
       this.info.to = node.id;
       this.info.toPort = portID;
     } else {
@@ -285,7 +283,6 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     }
     if (!oldDrawingTo || pos.x !== oldDrawingTo.x || pos.y !== oldDrawingTo.y) {
       this.info.to = undefined;
-      this.info.isDefaultLine = false;
       this.info.drawingTo = pos;
       this.fireChange();
     }
