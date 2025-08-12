@@ -10,7 +10,9 @@ import { WorkflowNodeEntity, WorkflowNodeJSON } from '@flowgram.ai/free-layout-c
 export interface WorkflowGroupPluginOptions {
   groupNodeRender: FC;
   disableGroupShortcuts?: boolean;
+  /** @deprecated */
   disableGroupNodeRegister?: boolean;
+  /** @deprecated use groupNodeRegistry.onAdd instead */
   initGroupJSON?: (json: WorkflowNodeJSON, nodes: WorkflowNodeEntity[]) => WorkflowNodeJSON;
 }
 

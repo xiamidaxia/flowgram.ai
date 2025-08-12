@@ -5,12 +5,13 @@
 
 import { injectable, inject } from 'inversify';
 import { DisposableCollection, Disposable } from '@flowgram.ai/utils';
+import { FreeLayoutPluginContext } from '@flowgram.ai/free-layout-editor';
 import {
   WorkflowDocument,
   WorkflowOperationBaseService,
   WorkflowNodeEntity,
-  nanoid,
   WorkflowNodeJSON,
+  WorkflowNodeRegistry,
 } from '@flowgram.ai/free-layout-core';
 import { HistoryService } from '@flowgram.ai/free-history-plugin';
 import {
@@ -36,6 +37,8 @@ export class WorkflowGroupService extends FlowGroupService {
 
   @inject(WorkflowGroupPluginOptions) private opts: WorkflowGroupPluginOptions;
 
+  @inject(FreeLayoutPluginContext) private context: FreeLayoutPluginContext;
+
   private toDispose = new DisposableCollection();
 
   public ready(): void {
@@ -52,17 +55,10 @@ export class WorkflowGroupService extends FlowGroupService {
       return;
     }
     const parent = nodes[0].parent ?? this.document.root;
-    let groupJSON: WorkflowNodeJSON = {
-      type: FlowNodeBaseType.GROUP,
-      id: `group_${nanoid(5)}`,
-      meta: {
-        position: {
-          x: 0,
-          y: 0,
-        },
-      },
-      data: {},
-    };
+    const nodeRegistry = this.document.getNodeRegistry<WorkflowNodeRegistry>(
+      FlowNodeBaseType.GROUP
+    );
+    let groupJSON: WorkflowNodeJSON = nodeRegistry?.onAdd?.(this.context);
     if (this.opts.initGroupJSON) {
       groupJSON = this.opts.initGroupJSON(groupJSON, nodes);
     }

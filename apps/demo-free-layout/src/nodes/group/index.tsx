@@ -2,11 +2,17 @@
  * Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
  * SPDX-License-Identifier: MIT
  */
+import {
+  FlowNodeBaseType,
+  WorkflowNodeEntity,
+  PositionSchema,
+  FlowNodeTransformData,
+  nanoid,
+} from '@flowgram.ai/free-layout-editor';
 
-import { PositionSchema } from '@flowgram.ai/utils';
-import { nanoid, WorkflowNodeEntity } from '@flowgram.ai/free-layout-core';
-import { FlowNodeRegistry, FlowNodeBaseType, FlowNodeTransformData } from '@flowgram.ai/document';
+import { FlowNodeRegistry } from '../../typings';
 
+let index = 0;
 export const GroupNodeRegistry: FlowNodeRegistry = {
   type: FlowNodeBaseType.GROUP,
   meta: {
@@ -46,7 +52,10 @@ export const GroupNodeRegistry: FlowNodeRegistry = {
           y: 0,
         },
       },
-      data: {},
+      data: {
+        color: 'Green',
+        title: `Group_${++index}`,
+      },
     };
   },
 };

@@ -21,10 +21,7 @@ export const createFreeGroupPlugin = definePluginCreator<WorkflowGroupPluginOpti
       bind(WorkflowGroupPluginOptions).toConstantValue(opts);
       rebind(FlowGroupService).toService(WorkflowGroupService);
     },
-    onInit(
-      ctx,
-      { groupNodeRender, disableGroupShortcuts = false, disableGroupNodeRegister = false }
-    ) {
+    onInit(ctx, { groupNodeRender, disableGroupShortcuts = false }) {
       // register node render
       if (groupNodeRender) {
         const renderRegistry = ctx.get<FlowRendererRegistry>(FlowRendererRegistry);
@@ -35,8 +32,8 @@ export const createFreeGroupPlugin = definePluginCreator<WorkflowGroupPluginOpti
         const shortcutsRegistry = ctx.get(ShortcutsRegistry);
         shortcutsRegistry.addHandlers(new GroupShortcut(ctx), new UngroupShortcut(ctx));
       }
-      if (!disableGroupNodeRegister) {
-        const document = ctx.get(WorkflowDocument);
+      const document = ctx.get(WorkflowDocument);
+      if (!document.getNodeRegistry(FlowNodeBaseType.GROUP)) {
         document.registerFlowNodes(GroupNodeRegistry);
       }
     },
