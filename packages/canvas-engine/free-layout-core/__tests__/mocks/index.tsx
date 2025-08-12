@@ -66,6 +66,7 @@ export const baseJSON: WorkflowJSON = {
     {
       sourceNodeID: 'start_0',
       targetNodeID: 'condition_0',
+      data: { a: 33 },
     },
     {
       sourceNodeID: 'condition_0',
@@ -112,6 +113,7 @@ export const nestJSON: WorkflowJSON = {
         {
           sourceNodeID: 'break_0',
           targetNodeID: 'variable_0',
+          data: { a: 33 },
         },
       ],
     },

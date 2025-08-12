@@ -4,7 +4,7 @@
  */
 
 import { isEqual } from 'lodash-es';
-import { domUtils, type IPoint, Rectangle } from '@flowgram.ai/utils';
+import { domUtils, type IPoint, Rectangle, Emitter } from '@flowgram.ai/utils';
 import { Entity, type EntityOpts } from '@flowgram.ai/core';
 
 import { type WorkflowLinesManager } from '../workflow-lines-manager';
@@ -25,6 +25,7 @@ export interface WorkflowLinePortInfo {
   to?: string; // 后置节点 id
   fromPort?: string | number; // 连线的 port 位置
   toPort?: string | number; // 连线的 port 位置
+  data?: any;
 }
 
 export interface WorkflowLineEntityOpts extends EntityOpts, WorkflowLinePortInfo {
@@ -64,9 +65,13 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     return `${from}_${fromPort || ''}-${to || ''}_${toPort || ''}`;
   }
 
+  private _onLineDataChangeEmitter = new Emitter<any>();
+
   readonly document: WorkflowDocument;
 
   readonly linesManager: WorkflowLinesManager;
+
+  readonly onLineDataChange = this._onLineDataChangeEmitter.event;
 
   private _from: WorkflowNodeEntity;
 
@@ -123,6 +128,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
    */
   set lineData(data: any) {
     this._lineData = data;
+    this._onLineDataChangeEmitter.fire(data);
     this.fireChange();
   }
 
@@ -153,6 +159,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
       drawingTo: opts.drawingTo,
       fromPort: opts.fromPort,
       toPort: opts.toPort,
+      data: opts.data,
     });
     if (opts.drawingTo) {
       this.isDrawing = true;
@@ -165,6 +172,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
       this.fromPort?.validate();
       this.toPort?.validate();
     });
+    this.toDispose.push(this._onLineDataChangeEmitter);
     // this.onDispose(() => {
     // this._infoDispose.dispose();
     // });
@@ -392,6 +400,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
       this.info = info;
       this._from = this.document.getNode(info.from)!;
       this._to = info.to ? this.document.getNode(info.to) : undefined;
+      this._lineData = info.data;
       this.fireChange();
     }
   }

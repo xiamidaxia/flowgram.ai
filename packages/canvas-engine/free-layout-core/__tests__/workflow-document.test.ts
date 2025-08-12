@@ -5,9 +5,7 @@
 
 import { vi } from 'vitest';
 import { interfaces } from 'inversify';
-import { FlowNodeTransformData } from '@flowgram.ai/document';
-import { FlowNodeRegistry } from '@flowgram.ai/document';
-import { FlowNodeBaseType } from '@flowgram.ai/document';
+import { FlowNodeBaseType, FlowNodeRegistry, FlowNodeTransformData } from '@flowgram.ai/document';
 import { PlaygroundConfigEntity } from '@flowgram.ai/core';
 
 import {
@@ -20,7 +18,7 @@ import {
   WorkflowNodeJSON,
   WorkflowSubCanvas,
 } from '../src';
-import { createWorkflowContainer, baseJSON, nestJSON, createSubCanvasNodes } from './mocks';
+import { baseJSON, createSubCanvasNodes, createWorkflowContainer, nestJSON } from './mocks';
 
 let container: interfaces.Container;
 let document: WorkflowDocument;
@@ -550,5 +548,24 @@ describe('workflow-document with nestedJSON & subCanvas', () => {
   it('document is disposed and call toJSON should throw error', () => {
     document.dispose();
     expect(() => document.toJSON()).toThrowError(/disposed/);
+  });
+  it('lineData change trigger onContentChange', () => {
+    document.fromJSON(baseJSON);
+    let contentChangeEvent: WorkflowContentChangeEvent;
+    document.onContentChange((e) => {
+      contentChangeEvent = e;
+    });
+    const line = document.linesManager.getLine({
+      from: 'start_0',
+      to: 'condition_0',
+    })!;
+    line.lineData = { b: 33 };
+    expect(document.toJSON().edges[0].data).toEqual({ b: 33 });
+    expect(contentChangeEvent!.type).toEqual(WorkflowContentChangeType.LINE_DATA_CHANGE);
+    expect(contentChangeEvent!.toJSON()).toEqual({
+      sourceNodeID: 'start_0',
+      targetNodeID: 'condition_0',
+      data: { b: 33 },
+    });
   });
 });

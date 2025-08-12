@@ -240,5 +240,23 @@ describe('workflow-lines-manager', () => {
       // 选中状态应该优先于流动状态
       expect(linesManager.getLineColor(line!)).toBe('#00ff00');
     });
+    it('line data change', () => {
+      const line = linesManager.createLine({
+        from: 'start_0',
+        to: 'end_0',
+        data: { a: 1 },
+      })!;
+      expect(line.toJSON()).toEqual({
+        sourceNodeID: 'start_0',
+        targetNodeID: 'end_0',
+        data: { a: 1 },
+      });
+      line.lineData = { a: 2 };
+      expect(line.toJSON()).toEqual({
+        sourceNodeID: 'start_0',
+        targetNodeID: 'end_0',
+        data: { a: 2 },
+      });
+    });
   });
 });

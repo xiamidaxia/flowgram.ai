@@ -38,6 +38,10 @@ export enum WorkflowContentChangeType {
    */
   DELETE_LINE = 'DELETE_LINE',
   /**
+   * 线条数据修改
+   */
+  LINE_DATA_CHANGE = 'LINE_DATA_CHANGE',
+  /**
    * 节点Meta信息变更
    */
   META_CHANGE = 'META_CHANGE',
