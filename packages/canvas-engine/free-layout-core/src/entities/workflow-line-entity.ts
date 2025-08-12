@@ -36,7 +36,6 @@ export interface WorkflowLineEntityOpts extends EntityOpts, WorkflowLinePortInfo
 
 export interface WorkflowLineInfo extends WorkflowLinePortInfo {
   drawingTo?: LinePoint; // 正在画中的元素
-  isDefaultLine?: boolean; // 是否为默认的线
 }
 
 export interface WorkflowLineUIState {
