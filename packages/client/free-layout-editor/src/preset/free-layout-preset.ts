@@ -141,7 +141,7 @@ export function createFreeLayoutPreset(
       );
     }
     if (opts.history?.enable) {
-      plugins.push(createFreeHistoryPlugin(opts.history));
+      plugins.push(createFreeHistoryPlugin(opts.history as any));
     }
 
     /**
