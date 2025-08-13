@@ -102,6 +102,12 @@ export class FlowNodeTransformData extends EntityData<FlowNodeTransformSchema> {
     };
   }
 
+  set position(position: PositionSchema) {
+    this.transform.update({
+      position,
+    });
+  }
+
   set size(size: SizeSchema) {
     const { width, height } = this.data.size;
     // Container size 由子节点决定

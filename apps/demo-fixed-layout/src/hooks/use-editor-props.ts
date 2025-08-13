@@ -39,6 +39,10 @@ export function useEditorProps(
        * Whether to enable the background
        */
       background: true,
+      /**
+       * 画布相关配置
+       * Canvas-related configurations
+       */
       playground: {
         /**
          * Prevent Mac browser gestures from turning pages

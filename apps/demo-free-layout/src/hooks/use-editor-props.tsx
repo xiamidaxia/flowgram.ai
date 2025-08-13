@@ -44,6 +44,10 @@ export function useEditorProps(
        * Whether to enable the background
        */
       background: true,
+      /**
+       * 画布相关配置
+       * Canvas-related configurations
+       */
       playground: {
         /**
          * Prevent Mac browser gestures from turning pages
@@ -143,6 +147,10 @@ export function useEditorProps(
       canDeleteNode(ctx, node) {
         return true;
       },
+      /**
+       * 判断是否可以将节点拖入子画布
+       * Check if you can drag a node into a subCanvas
+       */
       canDropToNode: (ctx, params) => {
         const { dragNodeType, dropNodeType } = params;
         /**
@@ -169,6 +177,13 @@ export function useEditorProps(
           ) &&
           dropNodeType !== WorkflowNodeType.Loop
         ) {
+          return false;
+        }
+        /**
+         * 循环节点无法嵌套循环节点
+         * Loop node cannot nest loop node
+         */
+        if (dragNodeType === WorkflowNodeType.Loop && dropNodeType === WorkflowNodeType.Loop) {
           return false;
         }
         return true;
@@ -231,7 +246,6 @@ export function useEditorProps(
        * Running line
        */
       isFlowingLine: (ctx, line) => ctx.get(WorkflowRuntimeService).isFlowingLine(line),
-
       /**
        * Shortcuts
        */
@@ -339,6 +353,9 @@ export function useEditorProps(
          * ContextMenu plugin
          */
         createContextMenuPlugin({}),
+        /**
+         * Runtime plugin
+         */
         createRuntimePlugin({
           mode: 'browser',
           // mode: 'server',
