@@ -148,8 +148,8 @@ export function useEditorProps(
         return true;
       },
       /**
-       * 判断是否可以将节点拖入子画布
-       * Check if you can drag a node into a subCanvas
+       * 是否允许拖入子画布 (loop or group)
+       * Whether to allow dragging into the sub-canvas (loop or group)
        */
       canDropToNode: (ctx, params) => {
         const { dragNodeType, dropNodeType } = params;
@@ -191,6 +191,7 @@ export function useEditorProps(
       /**
        * Drag the end of the line to create an add panel (feature optional)
        * 拖拽线条结束需要创建一个添加面板 （功能可选）
+       * 希望提供控制线条粗细的配置项
        */
       onDragLineEnd,
       /**
