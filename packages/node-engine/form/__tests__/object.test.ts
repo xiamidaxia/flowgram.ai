@@ -202,6 +202,13 @@ describe('object', () => {
       expect(obj).toEqual({ x: [{ y: true }] });
       expect(newObj).toEqual({ x: [{ y: { z: true } }] });
     });
+    it('set undefined value with unknown key', () => {
+      const obj = { a: '' };
+      let newObj = shallowSetIn(obj, 'a', undefined);
+      newObj = shallowSetIn(newObj, 'b', undefined);
+      expect(obj).toEqual({ a: '' });
+      expect(newObj).toEqual({ a: undefined, b: undefined });
+    });
   });
 
   describe('isPromise', () => {
