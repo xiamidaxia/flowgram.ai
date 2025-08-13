@@ -585,14 +585,16 @@ export class PlaygroundConfigEntity extends ConfigEntity<PlaygroundConfigEntityD
    * @param bounds 目标大小
    * @param easing 是否开启动画，默认开启
    * @param padding 边界空白
+   * @param easingDuration
    */
-  fitView(bounds: Rectangle, easing = true, padding = 0): Promise<void> {
+  fitView(bounds: Rectangle, easing = true, padding = 0, easingDuration = 300): Promise<void> {
     const viewport = this.getViewport(false);
-    const zoom = SizeSchema.fixSize(bounds.pad(padding, padding), viewport);
+    const zoom = SizeSchema.fixSize(bounds.clone().pad(padding, padding), viewport);
     return this.scrollToView({
       bounds,
       zoom,
       easing,
+      easingDuration,
       scrollToCenter: true,
     });
 
