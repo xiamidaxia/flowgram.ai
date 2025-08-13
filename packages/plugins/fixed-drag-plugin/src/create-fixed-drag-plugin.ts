@@ -11,10 +11,18 @@ import { definePluginCreator, PluginContext } from '@flowgram.ai/core';
 
 export interface FixDragPluginOptions<CTX extends PluginContext = PluginContext> {
   enable?: boolean;
+  /**
+   * Callback when drag drop
+   */
   onDrop?: (ctx: CTX, dropData: { dragNodes: FlowNodeEntity[]; dropNode: FlowNodeEntity }) => void;
+  /**
+   * Check can drop
+   * @param ctx
+   * @param dropData
+   */
   canDrop?: (
     ctx: CTX,
-    dropData: { dragNodes: FlowNodeEntity[]; dropNode: FlowNodeEntity; isBranch?: boolean },
+    dropData: { dragNodes: FlowNodeEntity[]; dropNode: FlowNodeEntity; isBranch?: boolean }
   ) => boolean;
 }
 

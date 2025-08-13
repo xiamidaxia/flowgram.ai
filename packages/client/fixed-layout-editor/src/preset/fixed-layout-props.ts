@@ -15,6 +15,9 @@ import {
   FlowLayoutDefault,
   SelectionService,
   PluginContext,
+  FlowNodeEntity,
+  FlowTransitionLine,
+  FlowTransitionLabel,
 } from '@flowgram.ai/editor';
 
 import { FlowOperationService } from '../types';
@@ -36,10 +39,32 @@ export interface FixedLayoutPluginContext extends EditorPluginContext {
  * 固定布局配置
  */
 export interface FixedLayoutProps extends EditorProps<FixedLayoutPluginContext, FlowDocumentJSON> {
+  /**
+   * SelectBox config
+   */
   selectBox?: SelectBoxPluginOptions;
+  /**
+   * Drag/Drop config
+   */
   dragdrop?: FixDragPluginOptions<FixedLayoutPluginContext>;
+  /**
+   * Redo/Undo enable
+   */
   history?: FixedHistoryPluginOptions<FixedLayoutPluginContext> & { disableShortcuts?: boolean };
+  /**
+   * vertical or horizontal layout
+   */
   defaultLayout?: FlowLayoutDefault | string; // 默认布局
+  /**
+   * Customize the node line
+   * 自定义节点线条
+   */
+  formatNodeLines?: (node: FlowNodeEntity, lines: FlowTransitionLine[]) => FlowTransitionLine[];
+  /**
+   * Custom node label
+   * 自定义节点 label
+   */
+  formatNodeLabels?: (node: FlowNodeEntity, lines: FlowTransitionLabel[]) => FlowTransitionLabel[];
 }
 
 export namespace FixedLayoutProps {

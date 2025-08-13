@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { FlowNodeEntity } from '@flowgram.ai/document';
+import { FlowNodeEntity } from '@flowgram.ai/editor';
 
 export type ComposeListItem<T> = (node: FlowNodeEntity, data: T[]) => T[];
 

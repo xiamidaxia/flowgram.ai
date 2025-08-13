@@ -27,6 +27,7 @@ import {
   createPlaygroundReactPreset,
 } from '@flowgram.ai/editor';
 
+import { compose } from '../utils/compose';
 import { FlowOperationService } from '../types';
 import { createOperationPlugin } from '../plugins/create-operation-plugin';
 import { fromNodeJSON, toNodeJSON } from './node-serialize';
@@ -146,6 +147,20 @@ export function createFixedLayoutPreset(
             FlowNodesContentLayer, // 节点内容渲染
             FlowNodesTransformLayer // 节点位置偏移计算
           );
+          // 劫持节点线条
+          if (opts.formatNodeLines) {
+            ctx.document.options.formatNodeLines = compose([
+              ctx.document.options.formatNodeLines,
+              opts.formatNodeLines,
+            ]);
+          }
+          // 劫持节点 label
+          if (opts.formatNodeLabels) {
+            ctx.document.options.formatNodeLabels = compose([
+              ctx.document.options.formatNodeLabels,
+              opts.formatNodeLabels,
+            ]);
+          }
           if (opts.scroll?.enableScrollLimit) {
             // 控制滚动范围
             ctx.playground.registerLayer(FlowScrollLimitLayer);
