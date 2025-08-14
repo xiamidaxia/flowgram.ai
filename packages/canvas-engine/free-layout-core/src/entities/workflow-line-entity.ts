@@ -10,7 +10,7 @@ import { Entity, type EntityOpts } from '@flowgram.ai/core';
 import { type WorkflowLinesManager } from '../workflow-lines-manager';
 import { type WorkflowDocument } from '../workflow-document';
 import { WORKFLOW_LINE_ENTITY } from '../utils/statics';
-import { LineRenderType, type LinePosition } from '../typings/workflow-line';
+import { LineRenderType, type LinePosition, LinePoint } from '../typings/workflow-line';
 import { type WorkflowEdgeJSON } from '../typings';
 import { WorkflowNodePortsData } from '../entity-datas/workflow-node-ports-data';
 import { WorkflowLineRenderData } from '../entity-datas';
@@ -31,22 +31,71 @@ export interface WorkflowLinePortInfo {
 export interface WorkflowLineEntityOpts extends EntityOpts, WorkflowLinePortInfo {
   document: WorkflowDocument;
   linesManager: WorkflowLinesManager;
-  drawingTo?: IPoint;
+  drawingTo?: LinePoint;
 }
 
 export interface WorkflowLineInfo extends WorkflowLinePortInfo {
-  drawingTo?: IPoint; // 正在画中的元素
+  drawingTo?: LinePoint; // 正在画中的元素
 }
 
 export interface WorkflowLineUIState {
-  hasError: boolean; //是否出错
-  flowing: boolean; // 流动
-  disabled: boolean; // 禁用
-  vertical: boolean; // 垂直模式
-  reverse: boolean; // 箭头反转
-  hideArrow: boolean; // 隐藏箭头
-  highlightColor: string; // 高亮显示
-  lockedColor: string; // 锁定颜色
+  /**
+   * 是否出错
+   */
+  hasError: boolean;
+  /**
+   * 流动
+   */
+  flowing: boolean;
+  /**
+   * 禁用
+   */
+  disabled: boolean;
+  /**
+   * 箭头反转
+   */
+  reverse: boolean;
+  /**
+   * 隐藏箭头
+   */
+  hideArrow: boolean;
+  /**
+   * 线条宽度
+   * @default 2
+   */
+  strokeWidth?: number;
+  /**
+   * 选中后的线条宽度
+   * @default 3
+   */
+  strokeWidthSelected?: number;
+  /**
+   * 收缩
+   * @default 10
+   */
+  shrink: number;
+  /**
+   * @deprecated use `lockedColor` instead
+   */
+  highlightColor: string;
+  /**
+   * 曲率
+   * only for Bezier,
+   * @default 0.25
+   */
+  curvature: number;
+  /**
+   * Line locked color
+   */
+  lockedColor: string;
+  /**
+   * React className
+   */
+  className?: string;
+  /**
+   * React style
+   */
+  style?: React.CSSProperties;
 }
 
 /**
@@ -82,9 +131,10 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     hasError: false,
     flowing: false,
     disabled: false,
-    vertical: false,
     hideArrow: false,
     reverse: false,
+    shrink: 10,
+    curvature: 0.25,
     highlightColor: '',
     lockedColor: '',
   };
@@ -206,7 +256,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
 
   /**
    * 获取是否 testrun processing
-   * @deprecated  use `uiState.flowing` instead
+   * @deprecated  use `flowing` instead
    */
   get processing(): boolean {
     return this._uiState.flowing;
@@ -214,13 +264,10 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
 
   /**
    * 设置 testrun processing 状态
-   * @deprecated  use `uiState.flowing` instead
+   * @deprecated  use `flowing` instead
    */
   set processing(status: boolean) {
-    if (this._uiState.flowing !== status) {
-      this._uiState.flowing = status;
-      this.fireChange();
-    }
+    this.flowing = status;
   }
 
   // 获取连线是否为错误态
@@ -277,7 +324,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
   /**
    * 设置线条画线时的目标位置
    */
-  set drawingTo(pos: IPoint | undefined) {
+  set drawingTo(pos: LinePoint | undefined) {
     const oldDrawingTo = this.info.drawingTo;
     if (!pos) {
       this.info.drawingTo = undefined;
@@ -294,7 +341,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
   /**
    * 获取线条正在画线的位置
    */
-  get drawingTo(): IPoint | undefined {
+  get drawingTo(): LinePoint | undefined {
     return this.info.drawingTo;
   }
 
@@ -367,6 +414,13 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     return this.linesManager.isFlowingLine(this, this.uiState.flowing);
   }
 
+  set flowing(flowing: boolean) {
+    if (this._uiState.flowing !== flowing) {
+      this._uiState.flowing = flowing;
+      this.fireChange();
+    }
+  }
+
   /** 是否禁用 */
   get disabled(): boolean {
     return this.linesManager.isDisabledLine(this, this.uiState.disabled);
@@ -374,7 +428,13 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
 
   /** 是否竖向 */
   get vertical(): boolean {
-    return this.linesManager.isVerticalLine(this, this.uiState.vertical);
+    const fromLocation = this.fromPort.location;
+    const toLocation = this.toPort?.location;
+    if (toLocation) {
+      return toLocation === 'top';
+    } else {
+      return fromLocation === 'bottom';
+    }
   }
 
   /** 获取线条渲染器类型 */
@@ -383,8 +443,10 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
   }
 
   /** 获取线条样式 */
-  get className(): string | undefined {
-    return this.linesManager.setLineClassName(this) ?? '';
+  get className(): string {
+    return [this.linesManager.setLineClassName(this), this._uiState.className]
+      .filter((s) => !!s)
+      .join(' ');
   }
 
   get color(): string | undefined {

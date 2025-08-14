@@ -20,14 +20,12 @@ import {
   WORKFLOW_LINE_ENTITY,
   domReactToBounds,
 } from '../utils/statics';
-import { type WorkflowNodeMeta } from '../typings';
+import { type WorkflowNodeMeta, LinePointLocation, LinePoint } from '../typings';
 import { type WorkflowNodeEntity } from './workflow-node-entity';
 import { type WorkflowLineEntity } from './workflow-line-entity';
 
 // port 的宽度
 export const PORT_SIZE = 24;
-
-export type WorkflowPortLocation = 'left' | 'top' | 'right' | 'bottom';
 
 export interface WorkflowPort {
   /**
@@ -41,7 +39,7 @@ export interface WorkflowPort {
   /**
    * 端口位置
    */
-  location?: WorkflowPortLocation;
+  location?: LinePointLocation;
   /**
    * 端口热区大小
    */
@@ -85,7 +83,7 @@ export class WorkflowPortEntity extends Entity<WorkflowPortEntityOpts> {
 
   private _hasError = false;
 
-  private _location?: WorkflowPortLocation;
+  private _location?: LinePointLocation;
 
   private _size?: { width: number; height: number };
 
@@ -105,7 +103,7 @@ export class WorkflowPortEntity extends Entity<WorkflowPortEntityOpts> {
     return getPortEntityId(node, portType, portID);
   }
 
-  get position(): WorkflowPortLocation | undefined {
+  get position(): LinePointLocation | undefined {
     return this._location;
   }
 
@@ -155,46 +153,54 @@ export class WorkflowPortEntity extends Entity<WorkflowPortEntityOpts> {
     return (this.node.document as WorkflowDocument).isErrorPort(this, this.hasError);
   }
 
-  get point(): IPoint {
+  get location(): LinePointLocation {
+    if (this._location) {
+      return this._location;
+    }
+    if (this.portType === 'input') {
+      return 'left';
+    }
+    return 'right';
+  }
+
+  get point(): LinePoint {
     const { targetElement } = this;
     const { bounds } = this.node.getData(FlowNodeTransformData)!;
+    const location = this.location;
     if (targetElement) {
       const pos = domReactToBounds(targetElement.getBoundingClientRect()).center;
-      return this.entityManager
+      const point = this.entityManager
         .getEntity<PlaygroundConfigEntity>(PlaygroundConfigEntity)!
         .getPosFromMouseEvent({
           clientX: pos.x,
           clientY: pos.y,
         });
+      return {
+        x: point.x,
+        y: point.y,
+        location,
+      };
     }
     let point = { x: 0, y: 0 };
     const offset = this._offset || { x: 0, y: 0 };
-    if (this._location) {
-      switch (this._location) {
-        case 'left':
-          point = bounds.leftCenter;
-          break;
-        case 'top':
-          point = bounds.topCenter;
-          break;
-        case 'right':
-          point = bounds.rightCenter;
-          break;
-        case 'bottom':
-          point = bounds.bottomCenter;
-          break;
-      }
-    } else {
-      if (this.portType === 'input') {
-        // 默认为左边重点
+    switch (location) {
+      case 'left':
         point = bounds.leftCenter;
-      } else {
+        break;
+      case 'top':
+        point = bounds.topCenter;
+        break;
+      case 'right':
         point = bounds.rightCenter;
-      }
+        break;
+      case 'bottom':
+        point = bounds.bottomCenter;
+        break;
     }
     return {
       x: point.x + offset.x,
       y: point.y + offset.y,
+      location,
     };
   }
 

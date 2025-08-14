@@ -30,6 +30,12 @@ function checkTargetDraggable(el: any): boolean {
     !el.closest('.flow-canvas-not-draggable')
   );
 }
+/**
+ * - 下面的 firefox 为了修复一个 bug
+ * - firefox 下 draggable 属性会影响节点 input 内容 focus：https://jsfiddle.net/Aydar/ztsvbyep/3/
+ * - 该 bug 在 firefox 浏览器上存在了很久，需要作兼容：https://bugzilla.mozilla.org/show_bug.cgi?id=739071
+ */
+const isFirefox = navigator?.userAgent?.includes?.('Firefox');
 
 export function useNodeRender(nodeFromProps?: WorkflowNodeEntity): NodeRenderReturnType {
   const node = nodeFromProps || useContext<WorkflowNodeEntity>(PlaygroundEntityContext);
@@ -106,12 +112,6 @@ export function useNodeRender(nodeFromProps?: WorkflowNodeEntity): NodeRenderRet
   // 监听端口变化
   useListenEvents(portsData.onDataChange);
 
-  /**
-   * - 下面的 firefox 为了修复一个 bug：https://meego.feishu.cn/bot_bot/issue/detail/3001017843
-   * - firefox 下 draggable 属性会影响节点 input 内容 focus：https://jsfiddle.net/Aydar/ztsvbyep/3/
-   * - 该 bug 在 firefox 浏览器上存在了很久，需要作兼容：https://bugzilla.mozilla.org/show_bug.cgi?id=739071
-   */
-  const isFirefox = navigator?.userAgent?.includes?.('Firefox');
   const onFocus = useCallback(() => {
     if (isFirefox) {
       nodeRef.current?.setAttribute('draggable', 'false');

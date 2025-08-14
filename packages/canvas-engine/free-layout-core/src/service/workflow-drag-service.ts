@@ -605,12 +605,17 @@ export class WorkflowDragService {
             originLine.highlightColor = this.linesManager.lineColor.hidden;
           }
           dragSuccess = true;
+          const pos = config.getPosFromMouseEvent(event);
           // 创建临时的线条
           line = this.linesManager.createLine({
             from: fromPort.node.id,
             fromPort: fromPort.portID,
-            drawingTo: config.getPosFromMouseEvent(event),
             data: originLine?.lineData,
+            drawingTo: {
+              x: pos.x,
+              y: pos.y,
+              location: fromPort.location === 'right' ? 'left' : 'top',
+            },
           });
           if (!line) {
             return;
@@ -655,9 +660,17 @@ export class WorkflowDragService {
         }
 
         if (line.toPort) {
-          line.drawingTo = { x: line.toPort.point.x, y: line.toPort.point.y };
+          line.drawingTo = {
+            x: line.toPort.point.x,
+            y: line.toPort.point.y,
+            location: line.toPort.location,
+          };
         } else {
-          line.drawingTo = { x: dragPos.x, y: dragPos.y };
+          line.drawingTo = {
+            x: dragPos.x,
+            y: dragPos.y,
+            location: line.fromPort.location === 'right' ? 'left' : 'top',
+          };
         }
 
         // 触发原 toPort 的校验

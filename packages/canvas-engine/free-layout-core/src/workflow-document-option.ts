@@ -53,8 +53,6 @@ export interface WorkflowDocumentOptions extends FlowDocumentOptions {
   isFlowingLine?: (line: WorkflowLineEntity) => boolean;
   /** 是否禁用线条 */
   isDisabledLine?: (line: WorkflowLineEntity) => boolean;
-  /** 是否竖向线条 */
-  isVerticalLine?: (line: WorkflowLineEntity) => boolean;
   /** 拖拽线条结束 */
   onDragLineEnd?: (params: onDragLineEndParams) => Promise<void>;
   /** 获取线条渲染器 */

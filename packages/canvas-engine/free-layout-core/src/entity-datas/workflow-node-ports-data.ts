@@ -4,12 +4,11 @@
  */
 
 import { isEqual } from 'lodash-es';
-import { type IPoint } from '@flowgram.ai/utils';
 import { FlowNodeRenderData } from '@flowgram.ai/document';
 import { EntityData, SizeData } from '@flowgram.ai/core';
 
 import { type WorkflowPortType, getPortEntityId } from '../utils/statics';
-import { type WorkflowNodeMeta } from '../typings';
+import { type LinePoint, type WorkflowNodeMeta } from '../typings';
 import { WorkflowPortEntity } from '../entities/workflow-port-entity';
 import { type WorkflowNodeEntity, type WorkflowPort, type WorkflowPorts } from '../entities';
 
@@ -171,28 +170,28 @@ export class WorkflowNodePortsData extends EntityData {
   /**
    * 获取输入点位置
    */
-  public get inputPoints(): IPoint[] {
+  public get inputPoints(): LinePoint[] {
     return this.inputPorts.map((port) => port.point);
   }
 
   /**
    * 获取输出点位置
    */
-  public get outputPoints(): IPoint[] {
+  public get outputPoints(): LinePoint[] {
     return this.inputPorts.map((port) => port.point);
   }
 
   /**
    * 根据 key 获取 输入点位置
    */
-  public getInputPoint(key?: string | number): IPoint {
+  public getInputPoint(key?: string | number): LinePoint {
     return this.getPortEntityByKey('input', key).point;
   }
 
   /**
    * 根据 key 获取输出点位置
    */
-  public getOutputPoint(key?: string | number): IPoint {
+  public getOutputPoint(key?: string | number): LinePoint {
     return this.getPortEntityByKey('output', key).point;
   }
 

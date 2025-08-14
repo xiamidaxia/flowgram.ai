@@ -148,13 +148,6 @@ export interface FreeLayoutProps extends EditorProps<FreeLayoutPluginContext, Wo
    */
   isDisabledLine?: (ctx: FreeLayoutPluginContext, line: WorkflowLineEntity) => boolean;
   /**
-   * Judge whether the line is vertical
-   * 判断线条是否竖向
-   * @param ctx
-   * @param line
-   */
-  isVerticalLine?: (ctx: FreeLayoutPluginContext, line: WorkflowLineEntity) => boolean;
-  /**
    * Listen for dragging the line to end
    * 拖拽线条结束
    * @param ctx
@@ -256,18 +249,5 @@ export namespace FreeLayoutProps {
    */
   export const DEFAULT: FreeLayoutProps = {
     ...EditorProps.DEFAULT,
-    isVerticalLine(ctx, line) {
-      const fromPosition = line.fromPort.position;
-      const toPosition = line.toPort?.position;
-      if (
-        fromPosition === 'top' ||
-        fromPosition === 'bottom' ||
-        toPosition === 'top' ||
-        toPosition === 'bottom'
-      ) {
-        return true;
-      }
-      return false;
-    },
   } as FreeLayoutProps;
 }
