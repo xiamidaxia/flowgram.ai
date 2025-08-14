@@ -46,7 +46,7 @@ export class WorkflowLinesManager {
   protected toDispose = new DisposableCollection();
   // 线条类型
 
-  protected _lineType: LineRenderType = LineType.LINE_CHART;
+  protected _lineType: LineRenderType = LineType.BEZIER;
 
   protected onAvailableLinesChangeEmitter = new Emitter<WorkflowContentChangeEvent>();
 
