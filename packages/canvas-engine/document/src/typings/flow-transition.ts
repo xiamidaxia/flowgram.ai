@@ -24,6 +24,10 @@ export interface Vertex extends IPoint {
   // 圆弧出入点位置移动
   moveX?: number;
   moveY?: number;
+  /**
+   * Strategy for handling arc curvature when space is insufficient, defaults to compress
+   */
+  radiusOverflow?: 'compress' | 'truncate';
 }
 
 export interface FlowTransitionLine {
@@ -58,6 +62,14 @@ export interface FlowTransitionLabel {
   offset: IPoint; // 位置
   width?: number; // 宽度
   rotate?: string; // 循环, 如 '60deg'
+  /**
+   * Anchor point for positioning, relative to the label's bounding box
+   * 重心偏移量，相对于标签边界框
+   *
+   * Format: [x, y] / 格式：[x, y]
+   * Default Value: [0.5, 0.5] indicates center / 默认值：[0.5, 0.5] 表示居中
+   */
+  origin?: [number, number];
   props?: Record<string, any>;
   labelId?: string;
 }

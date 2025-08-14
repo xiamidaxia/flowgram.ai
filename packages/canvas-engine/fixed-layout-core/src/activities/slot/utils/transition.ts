@@ -11,9 +11,10 @@ import {
   type FlowNodeTransformData,
   type FlowTransitionLine,
   type FlowTransitionLabel,
+  getDefaultSpacing,
 } from '@flowgram.ai/document';
 
-import { SLOT_COLLAPSE_MARGIN, RENDER_SLOT_COLLAPSE_KEY } from '../constants';
+import { RENDER_SLOT_COLLAPSE_KEY, SlotSpacingKey, SLOT_START_DISTANCE } from '../constants';
 import { getDisplayFirstChildTransform } from './node';
 
 /**
@@ -26,14 +27,20 @@ export const getSlotChildLineStartPoint = (iconTransform?: FlowNodeTransformData
     return { x: 0, y: 0 };
   }
 
+  const startDistance = getDefaultSpacing(
+    iconTransform.entity,
+    SlotSpacingKey.SLOT_START_DISTANCE,
+    SLOT_START_DISTANCE
+  );
+
   if (!iconTransform.entity.isVertical) {
     return {
       x: iconTransform?.bounds.center.x,
-      y: iconTransform?.bounds.bottom + SLOT_COLLAPSE_MARGIN,
+      y: iconTransform?.bounds.bottom + startDistance,
     };
   }
   return {
-    x: iconTransform?.bounds.right + SLOT_COLLAPSE_MARGIN,
+    x: iconTransform?.bounds.right + startDistance,
     y: iconTransform?.bounds.center.y,
   };
 };
@@ -149,21 +156,27 @@ export const drawCollapseLabel = (transition: FlowNodeTransitionData): FlowTrans
   ];
 };
 
-export const drawCollapseLine = (transition: FlowNodeTransitionData): FlowTransitionLine[] => [
-  {
-    type: FlowTransitionLineEnum.STRAIGHT_LINE,
-    from: getSlotChildLineStartPoint(transition.transform),
-    to: Point.move(
-      getSlotChildLineStartPoint(transition.transform),
-      transition.entity.isVertical
-        ? { x: -SLOT_COLLAPSE_MARGIN, y: 0 }
-        : { x: 0, y: -SLOT_COLLAPSE_MARGIN }
-    ),
-    style: {
-      strokeDasharray: '5 5',
+export const drawCollapseLine = (transition: FlowNodeTransitionData): FlowTransitionLine[] => {
+  const startDistance = getDefaultSpacing(
+    transition.transform.entity,
+    SlotSpacingKey.SLOT_START_DISTANCE,
+    SLOT_START_DISTANCE
+  );
+
+  return [
+    {
+      type: FlowTransitionLineEnum.STRAIGHT_LINE,
+      from: getSlotChildLineStartPoint(transition.transform),
+      to: Point.move(
+        getSlotChildLineStartPoint(transition.transform),
+        transition.entity.isVertical ? { x: -startDistance, y: 0 } : { x: 0, y: -startDistance }
+      ),
+      style: {
+        strokeDasharray: '5 5',
+      },
     },
-  },
-];
+  ];
+};
 
 /**
  * 画实线上的叫号

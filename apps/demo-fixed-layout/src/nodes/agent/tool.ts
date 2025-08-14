@@ -17,7 +17,7 @@ export const ToolNodeRegistry: FlowNodeRegistry = {
     description: 'Tool.',
   },
   meta: {
-    addDisable: true,
+    // addDisable: true,
     copyDisable: true,
     draggable: false,
     selectable: false,

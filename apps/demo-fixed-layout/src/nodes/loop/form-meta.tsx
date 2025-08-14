@@ -3,15 +3,19 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { BatchVariableSelector, IFlowRefValue } from '@flowgram.ai/form-materials';
-import { FormRenderProps, FlowNodeJSON, Field } from '@flowgram.ai/fixed-layout-editor';
+import {
+  BatchVariableSelector,
+  IFlowRefValue,
+  provideBatchInputEffect,
+} from '@flowgram.ai/form-materials';
+import { FormRenderProps, FlowNodeJSON, Field, FormMeta } from '@flowgram.ai/fixed-layout-editor';
 
 import { useIsSidebar, useNodeRenderContext } from '../../hooks';
 import { FormHeader, FormContent, FormOutputs, FormItem, Feedback } from '../../form-components';
 
 interface LoopNodeJSON extends FlowNodeJSON {
   data: {
-    batchFor: IFlowRefValue;
+    loopFor: IFlowRefValue;
   };
 }
 
@@ -19,10 +23,10 @@ export const LoopFormRender = ({ form }: FormRenderProps<LoopNodeJSON>) => {
   const isSidebar = useIsSidebar();
   const { readonly } = useNodeRenderContext();
 
-  const batchFor = (
-    <Field<IFlowRefValue> name={`batchFor`}>
+  const loopFor = (
+    <Field<IFlowRefValue> name={`loopFor`}>
       {({ field, fieldState }) => (
-        <FormItem name={'batchFor'} type={'array'} required>
+        <FormItem name={'loopFor'} type={'array'} required>
           <BatchVariableSelector
             style={{ width: '100%' }}
             value={field.value?.content}
@@ -41,7 +45,7 @@ export const LoopFormRender = ({ form }: FormRenderProps<LoopNodeJSON>) => {
       <>
         <FormHeader />
         <FormContent>
-          {batchFor}
+          {loopFor}
           <FormOutputs />
         </FormContent>
       </>
@@ -51,9 +55,16 @@ export const LoopFormRender = ({ form }: FormRenderProps<LoopNodeJSON>) => {
     <>
       <FormHeader />
       <FormContent>
-        {batchFor}
+        {loopFor}
         <FormOutputs />
       </FormContent>
     </>
   );
+};
+
+export const formMeta: FormMeta<LoopNodeJSON['data']> = {
+  render: LoopFormRender,
+  effect: {
+    loopFor: provideBatchInputEffect,
+  },
 };

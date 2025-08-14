@@ -106,6 +106,12 @@ function RoundedTurningLine(props: PropsType): JSX.Element | null {
             outPoint.y += to.y < point.y ? -moveY : +moveY;
           }
 
+          // radius overflow 策略为截断，则回复 rx, ry 为原始 radius
+          if (point.radiusOverflow === 'truncate') {
+            rx = radiusX;
+            ry = radiusY;
+          }
+
           // 是否是顺时针？
           // - 基于 AB 和 AC 的向量叉积
           // - A 点：inPoint, B 点：point, C 点：outPoint

@@ -36,10 +36,16 @@ export function SlotCollapse({ node }: { node: FlowNodeEntity }) {
     >
       {isChildVisible && (
         <Collapse
+          style={
+            !node.collapsed
+              ? {
+                  transform: node.isVertical ? 'rotate(-90deg)' : 'rotate(90deg)',
+                }
+              : {}
+          }
           node={node}
           activateNode={icon}
           collapseNode={node}
-          arrowDirection="left"
           hoverActivated={hoverActivated}
         />
       )}

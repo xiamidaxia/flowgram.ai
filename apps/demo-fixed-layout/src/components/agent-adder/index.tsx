@@ -10,11 +10,9 @@ import {
   useService,
   useClientContext,
 } from '@flowgram.ai/fixed-layout-editor';
-import { Button, Typography } from '@douyinfe/semi-ui';
 import { IconPlus } from '@douyinfe/semi-icons';
 
 import { ToolNodeRegistry } from '../../nodes/agent/tool';
-const { Text } = Typography;
 
 interface PropsType {
   node: FlowNodeEntity;
@@ -33,50 +31,44 @@ export function AgentAdder(props: PropsType) {
       parent: node,
     });
   }
-  let label = <span>{node.flowNodeType}</span>;
-  switch (node.flowNodeType) {
-    case 'agentMemory':
-      label = (
-        <Button style={{ paddingLeft: 6, paddingRight: 6 }} disabled size="small">
-          <Text ellipsis={{ showTooltip: true }} style={{ color: 'inherit', maxWidth: 65 }}>
-            Memory
-          </Text>
-        </Button>
-      );
-      break;
-    case 'agentLLM':
-      label = (
-        <Button style={{ paddingLeft: 6, paddingRight: 6 }} disabled size="small">
-          <Text ellipsis={{ showTooltip: true }} style={{ color: 'inherit', maxWidth: 65 }}>
-            LLM
-          </Text>
-        </Button>
-      );
-      break;
-    case 'agentTools':
-      label = (
-        <Button
-          onClick={() => {
-            addPort();
-          }}
-          size="small"
-          icon={<IconPlus />}
-        >
-          Tool
-        </Button>
-      );
+
+  /**
+   * 1. Tools can always be added
+   * 2. LLM/Memory can only be added when there is no block
+   */
+  const canAdd = node.flowNodeType === 'agentTools' || node.blocks.length === 0;
+
+  if (!canAdd) {
+    return null;
   }
 
   return (
     <div
       style={{
         display: 'flex',
-        background: 'var(--semi-color-bg-0)',
+        color: '#fff',
+        background: 'rgb(187, 191, 196)',
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        overflow: 'hidden',
       }}
       onMouseEnter={() => nodeData?.toggleMouseEnter()}
       onMouseLeave={() => nodeData?.toggleMouseLeave()}
     >
-      {label}
+      <div
+        style={{
+          width: 20,
+          height: 20,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+        }}
+        onClick={() => addPort()}
+      >
+        <IconPlus size="small" />
+      </div>
     </div>
   );
 }

@@ -35,3 +35,6 @@ export const FixedLayoutRegistries = {
   EndRegistry,
   SlotRegistry,
 };
+
+// Export constant
+export { SlotSpacingKey } from './activities/slot/constants';

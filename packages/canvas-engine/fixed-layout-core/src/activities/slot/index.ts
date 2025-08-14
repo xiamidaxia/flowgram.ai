@@ -5,3 +5,4 @@
 
 export { SlotRegistry } from './slot';
 export { SlotBlockRegistry } from './extends';
+export { SlotSpacingKey } from './constants';

@@ -25,6 +25,6 @@ export const defaultFixedSemiMaterials = {
   [FlowRendererKey.DRAGGABLE_ADDER]: DraggingAdder,
   [FlowRendererKey.DRAG_HIGHLIGHT_ADDER]: DragHighlightAdder,
   [FlowRendererKey.DRAG_BRANCH_HIGHLIGHT_ADDER]: Ellipse,
-  [FlowRendererKey.SLOT_COLLPASE]: SlotCollapse,
+  [FlowRendererKey.SLOT_COLLAPSE]: SlotCollapse,
   [FlowRendererKey.SLOT_ADDER]: SlotAdder,
 };

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { FlowNodeRegistry, FlowNodeBaseType } from '@flowgram.ai/document';
+import { FlowNodeRegistry, FlowNodeBaseType, getDefaultSpacing } from '@flowgram.ai/document';
 
 import {
   drawStraightAdder,
@@ -15,7 +15,12 @@ import { insideSlot } from './utils/node';
 import { getAllPortsMiddle } from './utils/layout';
 import { createSlotFromJSON } from './utils/create';
 import { SlotInlineBlocksRegistry, SlotIconRegistry } from './extends';
-import { SLOT_COLLAPSE_MARGIN, SLOT_NODE_LAST_SPACING, SLOT_SPACING } from './constants';
+import {
+  SLOT_NODE_LAST_SPACING,
+  SLOT_SPACING,
+  SLOT_START_DISTANCE,
+  SlotSpacingKey,
+} from './constants';
 
 export const SlotRegistry: FlowNodeRegistry = {
   type: FlowNodeBaseType.SLOT,
@@ -24,10 +29,12 @@ export const SlotRegistry: FlowNodeRegistry = {
     // Slot 节点内部暂时不允许拖拽
     draggable: (node) => !insideSlot(node),
     hidden: true,
-    spacing: SLOT_SPACING,
+    spacing: (node) => getDefaultSpacing(node.entity, SlotSpacingKey.SLOT_SPACING, SLOT_SPACING),
     padding: (node) => ({
       left: 0,
-      right: node.collapsed ? SLOT_COLLAPSE_MARGIN : 0,
+      right: node.collapsed
+        ? getDefaultSpacing(node.entity, SlotSpacingKey.SLOT_START_DISTANCE, SLOT_START_DISTANCE)
+        : 0,
       bottom: !insideSlot(node.entity) && node.isLast ? SLOT_NODE_LAST_SPACING : 0,
       top: 0,
     }),

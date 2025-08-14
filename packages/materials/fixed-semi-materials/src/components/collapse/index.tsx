@@ -16,7 +16,7 @@ import { Arrow } from '../../assets';
 import { Container } from './styles';
 
 function Collapse(props: CollapseProps): JSX.Element {
-  const { collapseNode, activateNode, hoverActivated } = props;
+  const { collapseNode, activateNode, hoverActivated, style } = props;
 
   const activateData = activateNode?.getData(FlowNodeRenderData);
   const transform = collapseNode.getData(FlowNodeTransformData)!;
@@ -54,7 +54,12 @@ function Collapse(props: CollapseProps): JSX.Element {
     ).length;
 
     return (
-      <Container onClick={openBlock} hoverActivated={hoverActivated} aria-hidden="true">
+      <Container
+        onClick={openBlock}
+        hoverActivated={hoverActivated}
+        aria-hidden="true"
+        style={style}
+      >
         {childCount}
       </Container>
     );
@@ -72,6 +77,7 @@ function Collapse(props: CollapseProps): JSX.Element {
       hoverActivated={hoverActivated}
       isVertical={activateNode?.isVertical}
       isCollapse={true}
+      style={style}
       aria-hidden="true"
     >
       <Arrow color={color} circleColor={circleColor} />

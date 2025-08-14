@@ -5,13 +5,52 @@
 
 import { FlowRendererKey } from '@flowgram.ai/renderer';
 
-export const RENDER_SLOT_ADDER_KEY = FlowRendererKey.SLOT_ADDER;
-export const RENDER_SLOT_COLLAPSE_KEY = FlowRendererKey.SLOT_COLLPASE;
+export const RENDER_SLOT_ADDER_KEY: string = FlowRendererKey.SLOT_ADDER;
+export const RENDER_SLOT_LABEL_KEY: string = FlowRendererKey.SLOT_LABEL;
+export const RENDER_SLOT_COLLAPSE_KEY: string = FlowRendererKey.SLOT_COLLAPSE;
 
-export const SLOT_BLOCK_DISTANCE = 60;
-export const SLOT_COLLAPSE_MARGIN = 20;
+export const SlotSpacingKey = {
+  /**
+   * = Next Node - Slot END
+   */
+  SLOT_SPACING: 'SLOT_SPACING',
+
+  /**
+   * = Slot Start Line - Slot Icon Right
+   */
+  SLOT_START_DISTANCE: 'SLOT_START_DISTANCE',
+
+  /**
+   * = Slot Radius
+   */
+  SLOT_RADIUS: 'SLOT_RADIUS',
+
+  /**
+   * = Slot Port - Slot Start
+   */
+  SLOT_PORT_DISTANCE: 'SLOT_PORT_DISTANCE',
+
+  /**
+   * = Slot Label - Slot Start
+   */
+  SLOT_LABEL_DISTANCE: 'SLOT_LABEL_DISTANCE',
+
+  /**
+   * = Slot Block - Slot Port
+   */
+  SLOT_BLOCK_PORT_DISTANCE: 'SLOT_BLOCK_PORT_DISTANCE',
+
+  /**
+   * Vertical Layout: Slot Block - Slot Block
+   */
+  SLOT_BLOCK_VERTICAL_SPACING: 'SLOT_BLOCK_VERTICAL_SPACING',
+};
+
+export const SLOT_START_DISTANCE = 16;
+export const SLOT_PORT_DISTANCE = 100;
+export const SLOT_LABEL_DISTANCE = 32;
+export const SLOT_BLOCK_PORT_DISTANCE = 32.5;
+export const SLOT_RADIUS = 16;
 export const SLOT_SPACING = 32;
-
+export const SLOT_BLOCK_VERTICAL_SPACING = 32.5;
 export const SLOT_NODE_LAST_SPACING = 10;
-
-export const SLOT_INLINE_BLOCKS_DELTA = SLOT_COLLAPSE_MARGIN + SLOT_BLOCK_DISTANCE * 2;

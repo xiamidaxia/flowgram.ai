@@ -101,7 +101,8 @@ export const DEFAULT_SPACING = {
   MARGIN_RIGHT: 20, // 分支节点右边间距
   INLINE_BLOCK_PADDING_BOTTOM: 16, // block 底部留白
   INLINE_BLOCKS_PADDING_TOP: 30, // block list 上部留白间距
-  [DefaultSpacingKey.INLINE_BLOCKS_PADDING_BOTTOM]: 40, // block lit 下部留白间距，因为有两个拐弯，所以翻一倍
+  // JS 浮点数有误差，1046.6 -1006.6 = 39.9999999，会导致 间距/20 < 2 导致布局计算问题，因此需要额外增加 0.1 像素
+  [DefaultSpacingKey.INLINE_BLOCKS_PADDING_BOTTOM]: 40.1, // block lit 下部留白间距，因为有两个拐弯，所以翻一倍
   MIN_INLINE_BLOCK_SPACING: 200, // 分支间最小边距 (垂直布局)
   MIN_INLINE_BLOCK_SPACING_HORIZONTAL: 80, // 分支间最小边距 (水平布局)
   [DefaultSpacingKey.COLLAPSED_SPACING]: 12, // 复合节点距离上个节点的距离

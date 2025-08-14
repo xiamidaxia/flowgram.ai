@@ -3,11 +3,16 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { FlowNodeRegistry, FlowNodeBaseType } from '@flowgram.ai/document';
+import { FlowNodeRegistry, FlowNodeBaseType, getDefaultSpacing } from '@flowgram.ai/document';
 import { FlowNodeTransformData } from '@flowgram.ai/document';
 
 import { SlotNodeType } from '../typings';
-import { SLOT_COLLAPSE_MARGIN, SLOT_INLINE_BLOCKS_DELTA, SLOT_BLOCK_DISTANCE } from '../constants';
+import {
+  SlotSpacingKey,
+  SLOT_START_DISTANCE,
+  SLOT_PORT_DISTANCE,
+  SLOT_BLOCK_PORT_DISTANCE,
+} from '../constants';
 
 export const SlotInlineBlocksRegistry: FlowNodeRegistry = {
   type: SlotNodeType.SlotInlineBlocks,
@@ -53,6 +58,24 @@ export const SlotInlineBlocksRegistry: FlowNodeRegistry = {
       return { x: 0, y: 0 };
     }
 
+    const startDistance = getDefaultSpacing(
+      transform.entity,
+      SlotSpacingKey.SLOT_START_DISTANCE,
+      SLOT_START_DISTANCE
+    );
+
+    const portDistance = getDefaultSpacing(
+      transform.entity,
+      SlotSpacingKey.SLOT_PORT_DISTANCE,
+      SLOT_PORT_DISTANCE
+    );
+
+    const portBlockDistance = getDefaultSpacing(
+      transform.entity,
+      SlotSpacingKey.SLOT_BLOCK_PORT_DISTANCE,
+      SLOT_BLOCK_PORT_DISTANCE
+    );
+
     if (!transform.entity.isVertical) {
       const noChildren = transform?.children?.every?.((_port) => !_port.children.length);
       /**
@@ -60,18 +83,19 @@ export const SlotInlineBlocksRegistry: FlowNodeRegistry = {
        */
       if (noChildren) {
         return {
-          x: SLOT_BLOCK_DISTANCE - icon.localBounds.width / 2,
-          y: icon.localBounds.bottom + SLOT_COLLAPSE_MARGIN,
+          x: portDistance - icon.localBounds.width / 2,
+          y: icon.localBounds.bottom + startDistance,
         };
       }
       return {
-        x: 2 * SLOT_BLOCK_DISTANCE - icon.localBounds.width / 2,
-        y: icon.localBounds.bottom + SLOT_COLLAPSE_MARGIN,
+        x: portDistance + portBlockDistance - icon.localBounds.width / 2,
+        y: icon.localBounds.bottom + startDistance,
       };
     }
 
+    const slotInlineBlockDelta = startDistance + portDistance + portBlockDistance;
     return {
-      x: icon.localBounds.right + SLOT_INLINE_BLOCKS_DELTA,
+      x: icon.localBounds.right + slotInlineBlockDelta,
       y: -icon.localBounds.height,
     };
   },

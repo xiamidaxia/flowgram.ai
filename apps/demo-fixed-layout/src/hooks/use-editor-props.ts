@@ -27,6 +27,7 @@ import { SelectorBoxPopover } from '../components/selector-box-popover';
 import NodeAdder from '../components/node-adder';
 import BranchAdder from '../components/branch-adder';
 import { BaseNode } from '../components/base-node';
+import { AgentLabel } from '../components/agent-label';
 import { DragNode, AgentAdder } from '../components';
 
 export function useEditorProps(
@@ -124,6 +125,7 @@ export function useEditorProps(
       selectBox: {
         SelectorBoxPopover,
       },
+
       // Config shortcuts
       shortcuts: (registry: ShortcutsRegistry, ctx) => {
         registry.addHandlers(...shortcutGetter.map((getter) => getter(ctx)));
@@ -187,6 +189,7 @@ export function useEditorProps(
           [FlowRendererKey.BRANCH_ADDER]: BranchAdder, // Branch Add Button
           [FlowRendererKey.DRAG_NODE]: DragNode, // Component in node dragging
           [FlowRendererKey.SLOT_ADDER]: AgentAdder, // Agent adder
+          [FlowRendererKey.SLOT_LABEL]: AgentLabel, // Agent label
         },
         renderDefaultNode: BaseNode, // node render
         renderTexts: {
