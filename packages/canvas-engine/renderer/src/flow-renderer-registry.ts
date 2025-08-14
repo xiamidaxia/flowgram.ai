@@ -26,7 +26,6 @@ export enum FlowRendererKey {
   DRAG_HIGHLIGHT_ADDER = 'drag-highlight-adder', // 拖拽高亮
   DRAG_BRANCH_HIGHLIGHT_ADDER = 'drag-branch-highlight-adder', // 分支拖拽添加高亮
   SELECTOR_BOX_POPOVER = 'selector-box-popover', // 选择框右上角菜单
-  CONTEXT_MENU_POPOVER = 'context-menu-popover', // 右键菜单
   SUB_CANVAS = 'sub-canvas', // 子画布渲染
 
   SLOT_ADDER = 'slot-adder', // 插槽添加按钮
