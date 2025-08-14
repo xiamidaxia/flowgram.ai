@@ -39,15 +39,63 @@ export interface WorkflowLineInfo extends WorkflowLinePortInfo {
 }
 
 export interface WorkflowLineUIState {
-  hasError: boolean; //是否出错
-  flowing: boolean; // 流动
-  disabled: boolean; // 禁用
-  reverse: boolean; // 箭头反转
-  hideArrow: boolean; // 隐藏箭头
-  shrink: number; // 收缩, default 10
-  highlightColor: string; // 高亮显示
-  curvature: number; // 曲率, default 0.25
-  lockedColor: string; // 锁定颜色
+  /**
+   * 是否出错
+   */
+  hasError: boolean;
+  /**
+   * 流动
+   */
+  flowing: boolean;
+  /**
+   * 禁用
+   */
+  disabled: boolean;
+  /**
+   * 箭头反转
+   */
+  reverse: boolean;
+  /**
+   * 隐藏箭头
+   */
+  hideArrow: boolean;
+  /**
+   * 线条宽度
+   * @default 2
+   */
+  strokeWidth?: number;
+  /**
+   * 选中后的线条宽度
+   * @default 3
+   */
+  strokeWidthSelected?: number;
+  /**
+   * 收缩
+   * @default 10
+   */
+  shrink: number;
+  /**
+   * @deprecated use `lockedColor` instead
+   */
+  highlightColor: string;
+  /**
+   * 曲率
+   * only for Bezier,
+   * @default 0.25
+   */
+  curvature: number;
+  /**
+   * Line locked color
+   */
+  lockedColor: string;
+  /**
+   * React className
+   */
+  className?: string;
+  /**
+   * React style
+   */
+  style?: React.CSSProperties;
 }
 
 /**
@@ -208,7 +256,7 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
 
   /**
    * 获取是否 testrun processing
-   * @deprecated  use `uiState.flowing` instead
+   * @deprecated  use `flowing` instead
    */
   get processing(): boolean {
     return this._uiState.flowing;
@@ -216,13 +264,10 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
 
   /**
    * 设置 testrun processing 状态
-   * @deprecated  use `uiState.flowing` instead
+   * @deprecated  use `flowing` instead
    */
   set processing(status: boolean) {
-    if (this._uiState.flowing !== status) {
-      this._uiState.flowing = status;
-      this.fireChange();
-    }
+    this.flowing = status;
   }
 
   // 获取连线是否为错误态
@@ -369,6 +414,13 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     return this.linesManager.isFlowingLine(this, this.uiState.flowing);
   }
 
+  set flowing(flowing: boolean) {
+    if (this._uiState.flowing !== flowing) {
+      this._uiState.flowing = flowing;
+      this.fireChange();
+    }
+  }
+
   /** 是否禁用 */
   get disabled(): boolean {
     return this.linesManager.isDisabledLine(this, this.uiState.disabled);
@@ -391,8 +443,10 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
   }
 
   /** 获取线条样式 */
-  get className(): string | undefined {
-    return this.linesManager.setLineClassName(this) ?? '';
+  get className(): string {
+    return [this.linesManager.setLineClassName(this), this._uiState.className]
+      .filter((s) => !!s)
+      .join(' ');
   }
 
   get color(): string | undefined {

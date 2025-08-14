@@ -45,7 +45,9 @@ export const LineSVG = (props: LineRenderProps) => {
       ? { x: fromPos.x, y: fromPos.y + POINT_RADIUS + LINE_OFFSET }
       : { x: fromPos.x + POINT_RADIUS + LINE_OFFSET, y: fromPos.y };
 
-  const strokeWidth = selected ? STROKE_WIDTH_SLECTED : STROKE_WIDTH;
+  const strokeWidth = selected
+    ? line.uiState.strokeWidthSelected ?? STROKE_WIDTH_SLECTED
+    : line.uiState.strokeWidth ?? STROKE_WIDTH;
 
   const strokeID = strokePrefix ? `${strokePrefix}-${line.id}` : line.id;
 
@@ -60,10 +62,10 @@ export const LineSVG = (props: LineRenderProps) => {
       fill="none"
       stroke={`url(#${strokeID})`}
       strokeWidth={strokeWidth}
+      style={line.uiState.style}
       className={clsx(
         line.className,
-        // 显示流动线条的条件：没有自定义线条class，并且线条处于流动或处理中
-        !line.className && (line.processing || line.flowing ? 'dashed-line flowing-line' : '')
+        line.processing || line.flowing ? 'dashed-line flowing-line' : ''
       )}
     />
   );
