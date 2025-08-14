@@ -35,6 +35,7 @@ export const FreeLayoutPluginContext = PluginContext;
 
 export interface FreeLayoutPluginTools {
   autoLayout: (options?: AutoLayoutToolOptions) => Promise<AutoLayoutResetFn>;
+  fitView: (easing?: boolean) => Promise<void>;
 }
 
 export interface FreeLayoutPluginContext extends EditorPluginContext {

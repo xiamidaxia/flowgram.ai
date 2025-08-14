@@ -6,13 +6,14 @@
 import React, { useMemo, useCallback, forwardRef } from 'react';
 
 import { interfaces } from 'inversify';
-import { WorkflowDocument } from '@flowgram.ai/free-layout-core';
+import { WorkflowDocument, fitView } from '@flowgram.ai/free-layout-core';
 import { HistoryService } from '@flowgram.ai/free-history-plugin';
 import {
   PlaygroundReactProvider,
   createPluginContextDefault,
   ClipboardService,
   SelectionService,
+  Playground,
 } from '@flowgram.ai/editor';
 
 import { WorkflowAutoLayoutTool } from '../tools';
@@ -47,6 +48,12 @@ export const FreeLayoutEditorProvider = forwardRef<FreeLayoutPluginContext, Free
             const autoLayoutTool = container.get<WorkflowAutoLayoutTool>(WorkflowAutoLayoutTool);
             return {
               autoLayout: autoLayoutTool.handle.bind(autoLayoutTool),
+              fitView: (easing?: boolean) =>
+                fitView(
+                  container.get<WorkflowDocument>(WorkflowDocument),
+                  container.get<Playground>(Playground).config,
+                  easing
+                ),
             };
           },
         } as FreeLayoutPluginContext),
