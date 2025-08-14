@@ -24,6 +24,9 @@ import { FlowOperationService } from '../types';
 
 export const FixedLayoutPluginContext = PluginContext;
 
+export interface FixedLayoutPluginTools {
+  fitView: (easing?: boolean) => Promise<void>;
+}
 export interface FixedLayoutPluginContext extends EditorPluginContext {
   document: FlowDocument;
   /**
@@ -33,6 +36,7 @@ export interface FixedLayoutPluginContext extends EditorPluginContext {
   clipboard: ClipboardService;
   selection: SelectionService;
   history: HistoryService;
+  tools: FixedLayoutPluginTools;
 }
 
 /**

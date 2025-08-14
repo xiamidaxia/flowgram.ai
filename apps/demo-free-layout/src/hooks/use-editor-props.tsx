@@ -268,7 +268,7 @@ export function useEditorProps(
        */
       onAllLayersRendered(ctx) {
         // ctx.tools.autoLayout(); // init auto layout
-        ctx.document.fitView(false); // init fit view
+        ctx.tools.fitView(false);
         console.log('--- Playground rendered ---');
       },
       /**

@@ -10,8 +10,6 @@ import { HistoryService } from '@flowgram.ai/history';
 import { FlowDocument, FlowLayoutDefault, FlowNodeRenderData } from '@flowgram.ai/editor';
 import { usePlayground, usePlaygroundContainer, useService } from '@flowgram.ai/editor';
 
-import { fitView } from '../utils/fit-view';
-
 export interface PlaygroundToolsPropsType {
   /**
    * 最大缩放比，默认 2
@@ -21,10 +19,6 @@ export interface PlaygroundToolsPropsType {
    * 最小缩放比，默认 0.25
    */
   minZoom?: number;
-  /**
-   * fitView padding 边距，默认 30
-   */
-  padding?: number;
 }
 
 export interface PlaygroundTools {
@@ -48,7 +42,7 @@ export interface PlaygroundTools {
   /**
    * 自适应视区
    */
-  fitView: (easing?: boolean) => void;
+  fitView: (easing?: boolean, easingDuration?: number, padding?: number) => Promise<void>;
   /**
    * 是否垂直布局
    */
@@ -77,7 +71,7 @@ export interface PlaygroundTools {
 }
 
 export function usePlaygroundTools(props?: PlaygroundToolsPropsType): PlaygroundTools {
-  const { maxZoom, minZoom, padding = 30 } = props || {};
+  const { maxZoom, minZoom } = props || {};
   const playground = usePlayground();
   const container = usePlaygroundContainer();
   const historyService = container.isBound(HistoryService)
@@ -89,7 +83,14 @@ export function usePlaygroundTools(props?: PlaygroundToolsPropsType): Playground
   const [currentLayout, updateLayout] = useState(doc.layout);
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
-
+  // 获取合适视角
+  const handleFitView = useCallback(
+    (easing?: boolean, easingDuration?: number, padding?: number) => {
+      padding = padding || 30;
+      return playground.config.fitView(doc.root.bounds, easing, padding, easingDuration);
+    },
+    [doc, playground]
+  );
   const changeLayout = useCallback(
     (newLayout?: FlowLayoutDefault) => {
       const allNodes = doc.getAllNodes();
@@ -103,12 +104,7 @@ export function usePlaygroundTools(props?: PlaygroundToolsPropsType): Playground
         renderData.node.classList.add('gedit-transition-ease');
       });
       setTimeout(() => {
-        fitView(doc, playground.config, {
-          easingDuration: 300,
-          padding,
-          maxZoom: playground.config.config.maxZoom,
-          minZoom: playground.config.config.minZoom,
-        });
+        handleFitView();
       }, 10);
       setTimeout(() => {
         allNodes.map((node) => {
@@ -119,7 +115,7 @@ export function usePlaygroundTools(props?: PlaygroundToolsPropsType): Playground
       doc.setLayout(newLayout);
       updateLayout(doc.layout);
     },
-    [doc, playground, padding]
+    [doc, playground]
   );
 
   const handleZoomOut = useCallback(
@@ -134,20 +130,6 @@ export function usePlaygroundTools(props?: PlaygroundToolsPropsType): Playground
       playground?.config.zoomin(easing);
     },
     [zoom, playground]
-  );
-
-  // 获取合适视角
-  const handleFitView = useCallback(
-    (easing?: boolean, easingDuration?: number) => {
-      fitView(doc, playground.config, {
-        easing,
-        easingDuration,
-        padding,
-        maxZoom: playground.config.config.maxZoom,
-        minZoom: playground.config.config.minZoom,
-      });
-    },
-    [doc, playground, padding]
   );
 
   const handleUpdateZoom = useCallback(
