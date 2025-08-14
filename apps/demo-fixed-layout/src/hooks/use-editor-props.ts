@@ -222,7 +222,8 @@ export function useEditorProps(
        */
       onAllLayersRendered: (ctx) => {
         setTimeout(() => {
-          ctx.playground.config.fitView(ctx.document.root.bounds.pad(30));
+          // fitView all nodes
+          ctx.tools.fitView();
         }, 10);
         console.log(ctx.document.toString(true)); // Get the document tree
       },

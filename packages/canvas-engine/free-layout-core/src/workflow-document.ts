@@ -89,6 +89,11 @@ export class WorkflowDocument extends FlowDocument {
     return this._loading;
   }
 
+  /**
+   * use `ctx.tools.fitView()` instead
+   * @deprecated
+   * @param easing
+   */
   async fitView(easing?: boolean): Promise<void> {
     return fitView(this, this.playgroundConfig, easing).then(() => {
       this.linesManager.forceUpdate();

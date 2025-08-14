@@ -42,7 +42,7 @@ export interface PlaygroundTools {
   /**
    * 自适应视区
    */
-  fitView: (easing?: boolean, easingDuration?: number, padding?: number) => void;
+  fitView: (easing?: boolean, easingDuration?: number, padding?: number) => Promise<void>;
   /**
    * 是否垂直布局
    */
@@ -87,7 +87,7 @@ export function usePlaygroundTools(props?: PlaygroundToolsPropsType): Playground
   const handleFitView = useCallback(
     (easing?: boolean, easingDuration?: number, padding?: number) => {
       padding = padding || 30;
-      playground.config.fitView(doc.root.bounds, easing, padding, easingDuration);
+      return playground.config.fitView(doc.root.bounds, easing, padding, easingDuration);
     },
     [doc, playground]
   );
