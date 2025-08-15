@@ -20,10 +20,7 @@ import { ConstantInputWrapper } from './styles';
 export function DefaultValue(props: {
   value: any;
   schema?: IJsonSchema;
-  name?: string;
-  type?: string;
   placeholder?: string;
-  jsonFormatText?: string;
   onChange: (value: any) => void;
 }) {
   const { value, schema, onChange, placeholder } = props;
@@ -35,6 +32,7 @@ export function DefaultValue(props: {
         onChange={(_v) => onChange(_v)}
         schema={schema || { type: 'string' }}
         placeholder={placeholder ?? I18n.t('Default value if parameter is not provided')}
+        enableMultiLineStr
       />
     </ConstantInputWrapper>
   );

@@ -9,6 +9,7 @@ export interface ConstantRendererProps<Value = any> {
   value?: Value;
   onChange?: (value: Value) => void;
   readonly?: boolean;
+  [key: string]: any;
 }
 export interface JsonSchemaTypeRegistry<Value = any> extends OriginJsonSchemaTypeRegistry {
   /**

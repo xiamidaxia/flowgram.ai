@@ -22,5 +22,4 @@ export interface ConfigType {
   defaultValueTitle?: string;
   defaultValuePlaceholder?: string;
   addButtonText?: string;
-  jsonFormatText?: string;
 }

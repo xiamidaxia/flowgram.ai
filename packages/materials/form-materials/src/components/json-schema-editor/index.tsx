@@ -18,6 +18,7 @@ import {
 } from '@douyinfe/semi-icons';
 
 import { InjectTypeSelector } from '@/components/type-selector';
+import { BlurInput } from '@/components/blur-input';
 
 import { ConfigType, PropertyValueType } from './types';
 import {
@@ -28,10 +29,10 @@ import {
   UIContainer,
   UIExpandDetail,
   UILabel,
-  UIProperties,
-  UIPropertyLeft,
-  UIPropertyMain,
-  UIPropertyRight,
+  UITreeItems,
+  UITreeItemLeft,
+  UITreeItemMain,
+  UITreeItemRight,
   UIRequired,
   UIType,
 } from './styles';
@@ -39,7 +40,6 @@ import { UIName } from './styles';
 import { DefaultValueWrapper, UIRow } from './styles';
 import { usePropertiesEdit } from './hooks';
 import { DefaultValue } from './default-value';
-import { BlurInput } from './components/blur-input';
 
 const DEFAULT = { type: 'object' };
 
@@ -58,14 +58,13 @@ export function JsonSchemaEditor(props: {
 
   return (
     <UIContainer className={props.className}>
-      <UIProperties>
-        {propertyList.map((_property, index) => (
+      <UITreeItems>
+        {propertyList.map((_property) => (
           <PropertyEdit
             readonly={readonly}
             key={_property.key}
             value={_property}
             config={config}
-            $index={index}
             onChange={(_v) => {
               onEditProperty(_property.key!, _v);
             }}
@@ -74,7 +73,7 @@ export function JsonSchemaEditor(props: {
             }}
           />
         ))}
-      </UIProperties>
+      </UITreeItems>
       <Button
         disabled={readonly}
         size="small"
@@ -95,27 +94,9 @@ function PropertyEdit(props: {
   onRemove?: () => void;
   readonly?: boolean;
   $isLast?: boolean;
-  $index?: number;
-  $isFirst?: boolean;
-  $parentExpand?: boolean;
-  $parentType?: string;
-  $showLine?: boolean;
   $level?: number; // 添加层级属性
 }) {
-  const {
-    value,
-    config,
-    readonly,
-    $level = 0,
-    onChange: onChangeProps,
-    onRemove,
-    $index,
-    $isFirst,
-    $isLast,
-    $parentExpand = false,
-    $parentType = '',
-    $showLine,
-  } = props;
+  const { value, config, readonly, $level = 0, onChange: onChangeProps, onRemove, $isLast } = props;
 
   const [expand, setExpand] = useState(false);
   const [collapse, setCollapse] = useState(false);
@@ -138,29 +119,15 @@ function PropertyEdit(props: {
 
   return (
     <>
-      <UIPropertyLeft
-        type={type}
-        $index={$index}
-        $isFirst={$isFirst}
-        $isLast={$isLast}
-        $showLine={$showLine}
-        $isExpand={expand}
-        $parentExpand={$parentExpand}
-        $parentType={$parentType}
-      >
+      <UITreeItemLeft $isLast={$isLast} $showLine={$level > 0} $showCollapse={showCollapse}>
         {showCollapse && (
           <UICollapseTrigger onClick={() => setCollapse((_collapse) => !_collapse)}>
             {collapse ? <IconChevronDown size="small" /> : <IconChevronRight size="small" />}
           </UICollapseTrigger>
         )}
-      </UIPropertyLeft>
-      <UIPropertyRight>
-        <UIPropertyMain
-          $showCollapse={showCollapse}
-          $collapse={collapse}
-          $expand={expand}
-          type={type}
-        >
+      </UITreeItemLeft>
+      <UITreeItemRight>
+        <UITreeItemMain>
           <UIRow>
             <UIName>
               <BlurInput
@@ -242,9 +209,7 @@ function PropertyEdit(props: {
                     <DefaultValue
                       value={defaultValue}
                       schema={value}
-                      type={type}
                       placeholder={config?.defaultValuePlaceholder ?? I18n.t('Default Value')}
-                      jsonFormatText={config?.jsonFormatText}
                       onChange={(value) => onChange('default', value)}
                     />
                   </DefaultValueWrapper>
@@ -252,10 +217,10 @@ function PropertyEdit(props: {
               )}
             </UIExpandDetail>
           )}
-        </UIPropertyMain>
+        </UITreeItemMain>
         {showCollapse && (
           <UICollapsible $collapse={collapse}>
-            <UIProperties $shrink={true}>
+            <UITreeItems $shrink={true}>
               {propertyList.map((_property, index) => (
                 <PropertyEdit
                   readonly={readonly}
@@ -263,8 +228,6 @@ function PropertyEdit(props: {
                   value={_property}
                   config={config}
                   $level={$level + 1} // 传递递增的层级
-                  $parentExpand={expand}
-                  $parentType={type}
                   onChange={(_v) => {
                     onEditProperty(_property.key!, _v);
                   }}
@@ -272,15 +235,12 @@ function PropertyEdit(props: {
                     onRemoveProperty(_property.key!);
                   }}
                   $isLast={index === propertyList.length - 1}
-                  $isFirst={index === 0}
-                  $index={index}
-                  $showLine={true}
                 />
               ))}
-            </UIProperties>
+            </UITreeItems>
           </UICollapsible>
         )}
-      </UIPropertyRight>
+      </UITreeItemRight>
     </>
   );
 }

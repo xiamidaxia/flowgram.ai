@@ -20,6 +20,8 @@ export const UIMain = styled.div`
   flex-grow: 1;
   overflow: hidden;
   min-width: 0;
+  border-left: 1px solid var(--semi-color-border);
+  border-right: 1px solid var(--semi-color-border);
 
   & .semi-tree-select,
   & .semi-input-number,
@@ -33,19 +35,27 @@ export const UIMain = styled.div`
     border: none;
     border-radius: 0;
   }
+
+  & .semi-input-textarea-wrapper {
+    border: none;
+    border-radius: 0;
+  }
+
+  & .semi-input-textarea {
+    padding: 2px 6px;
+    border: none;
+    border-radius: 0;
+    word-break: break-all;
+  }
 `;
 
 export const UIType = styled.div`
-  border-right: 1px solid #e5e5e5;
-
   & .semi-button {
     border-radius: 0;
   }
 `;
 
 export const UITrigger = styled.div`
-  border-left: 1px solid #e5e5e5;
-
   & .semi-button {
     border-radius: 0;
   }

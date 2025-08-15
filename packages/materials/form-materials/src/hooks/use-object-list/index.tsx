@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { nanoid } from 'nanoid';
 import { difference, get, isObject, set } from 'lodash';
@@ -31,7 +31,16 @@ export function useObjectList<ValueType>({
 }) {
   const [list, setList] = useState<ListItem<ValueType>[]>([]);
 
+  const effectVersion = useRef(0);
+  const changeVersion = useRef(0);
+
   useEffect(() => {
+    effectVersion.current = effectVersion.current + 1;
+    if (effectVersion.current === changeVersion.current) {
+      return;
+    }
+    effectVersion.current = changeVersion.current;
+
     setList((_prevList) => {
       const newKeys = Object.entries(value || {})
         .sort((a, b) => get(a[1], sortIndexKey || 0) - get(b[1], sortIndexKey || 0))
@@ -67,6 +76,8 @@ export function useObjectList<ValueType>({
   };
 
   const updateValue = (itemId: string, value: ValueType) => {
+    changeVersion.current = changeVersion.current + 1;
+
     setList((prevList) => {
       const nextList = prevList.map((_item) => {
         if (_item.id === itemId) {
@@ -97,6 +108,8 @@ export function useObjectList<ValueType>({
   };
 
   const updateKey = (itemId: string, key: string) => {
+    changeVersion.current = changeVersion.current + 1;
+
     setList((prevList) => {
       const nextList = prevList.map((_item) => {
         if (_item.id === itemId) {
@@ -119,6 +132,8 @@ export function useObjectList<ValueType>({
   };
 
   const remove = (itemId: string) => {
+    changeVersion.current = changeVersion.current + 1;
+
     setList((prevList) => {
       const nextList = prevList.filter((_item) => _item.id !== itemId);
 

@@ -7,18 +7,27 @@
 import React from 'react';
 
 import { I18n } from '@flowgram.ai/editor';
-import { Input } from '@douyinfe/semi-ui';
+import { Input, TextArea } from '@douyinfe/semi-ui';
 
 import { type JsonSchemaTypeRegistry } from '../manager';
 
 export const stringRegistry: Partial<JsonSchemaTypeRegistry> = {
   type: 'string',
-  ConstantRenderer: (props) => (
-    <Input
-      placeholder={I18n.t('Please Input String')}
-      size="small"
-      disabled={props.readonly}
-      {...props}
-    />
-  ),
+  ConstantRenderer: (props) =>
+    props?.enableMultiLineStr ? (
+      <TextArea
+        autosize
+        rows={1}
+        placeholder={I18n.t('Please Input String')}
+        disabled={props.readonly}
+        {...props}
+      />
+    ) : (
+      <Input
+        size="small"
+        placeholder={I18n.t('Please Input String')}
+        disabled={props.readonly}
+        {...props}
+      />
+    ),
 };

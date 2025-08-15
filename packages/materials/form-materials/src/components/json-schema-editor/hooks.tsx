@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { difference, omit } from 'lodash';
 import { produce } from 'immer';
@@ -28,7 +28,16 @@ export function usePropertiesEdit(
 
   const [propertyList, setPropertyList] = useState<PropertyValueType[]>([]);
 
+  const effectVersion = useRef(0);
+  const changeVersion = useRef(0);
+
   useEffect(() => {
+    effectVersion.current = effectVersion.current + 1;
+    if (effectVersion.current === changeVersion.current) {
+      return;
+    }
+    effectVersion.current = changeVersion.current;
+
     // If the value is changed, update the property list
     setPropertyList((_list) => {
       const newNames = Object.entries(drilldownSchema?.properties || {})
@@ -44,7 +53,7 @@ export function usePropertiesEdit(
           key: item.key,
           name: item.name,
           isPropertyRequired: drilldownSchema?.required?.includes(item.name || '') || false,
-          ...item,
+          ...(drilldownSchema?.properties?.[item.name || ''] || item || {}),
         }))
         .concat(
           addNames.map((_name) => ({
@@ -58,6 +67,8 @@ export function usePropertiesEdit(
   }, [drilldownSchema]);
 
   const updatePropertyList = (updater: (list: PropertyValueType[]) => PropertyValueType[]) => {
+    changeVersion.current = changeVersion.current + 1;
+
     setPropertyList((_list) => {
       const next = updater(_list);
 

@@ -12,10 +12,10 @@ import { IconDelete, IconPlus } from '@douyinfe/semi-icons';
 import { IFlowConstantRefValue, IFlowValue } from '@/typings';
 import { useObjectList } from '@/hooks';
 import { InjectDynamicValueInput } from '@/components/dynamic-value-input';
+import { BlurInput } from '@/components/blur-input';
 
 import { PropsType } from './types';
 import { UIRow, UIRows } from './styles';
-import { BlurInput } from './components/blur-input';
 
 export function InputsValues({
   value,

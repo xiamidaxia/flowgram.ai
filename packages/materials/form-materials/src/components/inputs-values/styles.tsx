@@ -14,6 +14,6 @@ export const UIRows = styled.div`
 
 export const UIRow = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 5px;
 `;
