@@ -27,12 +27,19 @@ export function useObjectList<ValueType>({
 }: {
   value?: ObjectType<ValueType>;
   onChange: (value?: ObjectType<ValueType>) => void;
-  sortIndexKey?: string;
+  sortIndexKey?: string | ((item: ValueType | undefined) => string);
 }) {
   const [list, setList] = useState<ListItem<ValueType>[]>([]);
 
   const effectVersion = useRef(0);
   const changeVersion = useRef(0);
+
+  const getSortIndex = (value?: ValueType) => {
+    if (typeof sortIndexKey === 'function') {
+      return get(value, sortIndexKey(value)) || 0;
+    }
+    return get(value, sortIndexKey || '') || 0;
+  };
 
   useEffect(() => {
     effectVersion.current = effectVersion.current + 1;
@@ -43,7 +50,7 @@ export function useObjectList<ValueType>({
 
     setList((_prevList) => {
       const newKeys = Object.entries(value || {})
-        .sort((a, b) => get(a[1], sortIndexKey || 0) - get(b[1], sortIndexKey || 0))
+        .sort((a, b) => getSortIndex(a[1]) - getSortIndex(b[1]))
         .map(([key]) => key);
 
       const oldKeys = _prevList.map((item) => item.key).filter(Boolean) as string[];
@@ -66,11 +73,12 @@ export function useObjectList<ValueType>({
     });
   }, [value]);
 
-  const add = () => {
+  const add = (defaultValue?: ValueType) => {
     setList((prevList) => [
       ...prevList,
       {
         id: genId(),
+        value: defaultValue,
       },
     ]);
   };
@@ -95,8 +103,13 @@ export function useObjectList<ValueType>({
             .filter((item) => item.key)
             .map((item) => [item.key!, item.value])
             .map((_res, idx) => {
-              if (isObject(_res[1]) && sortIndexKey) {
-                set(_res[1], sortIndexKey, idx);
+              const indexKey =
+                typeof sortIndexKey === 'function'
+                  ? sortIndexKey(_res[1] as ValueType | undefined)
+                  : sortIndexKey;
+
+              if (isObject(_res[1]) && indexKey) {
+                set(_res[1], indexKey, idx);
               }
               return _res;
             })

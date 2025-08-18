@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { isArray, isObject, uniq } from 'lodash';
+import { isArray, isObject, isPlainObject, uniq } from 'lodash';
 import { IJsonSchema, JsonSchemaUtils } from '@flowgram.ai/json-schema';
 import { Scope } from '@flowgram.ai/editor';
 
@@ -77,7 +77,7 @@ export namespace FlowValueUtils {
   ): Generator<{ value: IFlowValue; path: string }> {
     const { includeTypes = ['ref', 'template'], path = '' } = options;
 
-    if (isObject(value)) {
+    if (isPlainObject(value)) {
       if (isRef(value) && includeTypes.includes('ref')) {
         yield { value, path };
         return;
@@ -170,7 +170,7 @@ export namespace FlowValueUtils {
    * @returns
    */
   export function inferJsonSchema(values: any, scope: Scope): IJsonSchema | undefined {
-    if (isObject(values)) {
+    if (isPlainObject(values)) {
       if (isConstant(values)) {
         return inferConstantJsonSchema(values);
       }

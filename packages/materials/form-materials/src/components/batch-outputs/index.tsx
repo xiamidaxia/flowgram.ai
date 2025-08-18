@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { I18n } from '@flowgram.ai/editor';
 import { Button, Input } from '@douyinfe/semi-ui';
 import { IconDelete, IconPlus } from '@douyinfe/semi-icons';
 
@@ -46,8 +47,8 @@ export function BatchOutputs(props: PropsType) {
           </UIRow>
         ))}
       </UIRows>
-      <Button disabled={readonly} icon={<IconPlus />} size="small" onClick={add}>
-        Add
+      <Button disabled={readonly} icon={<IconPlus />} size="small" onClick={() => add()}>
+        {I18n.t('Add')}
       </Button>
     </div>
   );
