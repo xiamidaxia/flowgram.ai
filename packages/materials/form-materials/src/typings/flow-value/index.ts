@@ -9,6 +9,8 @@ export interface IFlowValueExtra {
   index?: number;
 }
 
+export type FlowValueType = 'constant' | 'ref' | 'expression' | 'template';
+
 export interface IFlowConstantValue {
   type: 'constant';
   content?: string | number | boolean;

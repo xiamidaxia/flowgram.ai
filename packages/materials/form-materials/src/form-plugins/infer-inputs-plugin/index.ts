@@ -4,15 +4,9 @@
  */
 
 import { get, set } from 'lodash';
-import { JsonSchemaUtils, IJsonSchema } from '@flowgram.ai/json-schema';
-import {
-  defineFormPluginCreator,
-  getNodePrivateScope,
-  getNodeScope,
-  Scope,
-} from '@flowgram.ai/editor';
+import { defineFormPluginCreator, getNodePrivateScope, getNodeScope } from '@flowgram.ai/editor';
 
-import { IFlowConstantValue, IFlowRefValue, IFlowTemplateValue } from '@/typings';
+import { FlowValueUtils } from '@/shared';
 
 interface InputConfig {
   sourceKey: string;
@@ -30,7 +24,7 @@ export const createInferInputsPlugin = defineFormPluginCreator<InputConfig>({
       set(
         formData,
         targetKey,
-        infer(
+        FlowValueUtils.inferJsonSchema(
           get(formData, sourceKey),
           scope === 'private' ? getNodePrivateScope(ctx.node) : getNodeScope(ctx.node)
         )
@@ -40,69 +34,3 @@ export const createInferInputsPlugin = defineFormPluginCreator<InputConfig>({
     });
   },
 });
-
-function isRef(value: any): value is IFlowRefValue {
-  return (
-    value?.type === 'ref' && Array.isArray(value?.content) && typeof value?.content[0] === 'string'
-  );
-}
-
-function isTemplate(value: any): value is IFlowTemplateValue {
-  return value?.type === 'template' && typeof value?.content === 'string';
-}
-
-function isConstant(value: any): value is IFlowConstantValue {
-  return value?.type === 'constant' && typeof value?.content !== 'undefined';
-}
-
-const infer = (values: any, scope: Scope): IJsonSchema | undefined => {
-  if (typeof values === 'object') {
-    if (isConstant(values)) {
-      if (values?.schema) {
-        return values.schema;
-      }
-
-      if (typeof values.content === 'string') {
-        return {
-          type: 'string',
-        };
-      }
-
-      if (typeof values.content === 'number') {
-        return {
-          type: 'number',
-        };
-      }
-
-      if (typeof values.content === 'boolean') {
-        return {
-          type: 'boolean',
-        };
-      }
-    }
-
-    if (isRef(values)) {
-      const variable = scope.available.getByKeyPath(values?.content);
-      const schema = variable?.type ? JsonSchemaUtils.astToSchema(variable?.type) : undefined;
-
-      return schema;
-    }
-
-    if (isTemplate(values)) {
-      return {
-        type: 'string',
-      };
-    }
-
-    return {
-      type: 'object',
-      properties: Object.keys(values).reduce((acc, key) => {
-        const schema = infer(values[key], scope);
-        if (schema) {
-          acc[key] = schema;
-        }
-        return acc;
-      }, {} as Record<string, IJsonSchema>),
-    };
-  }
-};

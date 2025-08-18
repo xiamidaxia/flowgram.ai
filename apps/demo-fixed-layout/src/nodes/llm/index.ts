@@ -41,11 +41,11 @@ export const LLMNodeRegistry: FlowNodeRegistry = {
             content: 0.5,
           },
           systemPrompt: {
-            type: 'constant',
+            type: 'template',
             content: '# Role\nYou are an AI assistant.\n',
           },
           prompt: {
-            type: 'constant',
+            type: 'template',
             content: '',
           },
         },

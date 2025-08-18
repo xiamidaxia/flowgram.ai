@@ -9,7 +9,7 @@ import { JsonSchemaUtils, IJsonSchema } from '@flowgram.ai/json-schema';
 import { IconButton } from '@douyinfe/semi-ui';
 import { IconSetting } from '@douyinfe/semi-icons';
 
-import { IFlowConstantRefValue } from '@/typings/flow-value';
+import { IFlowConstantRefValue } from '@/typings';
 import { createInjectMaterial } from '@/shared';
 import { InjectVariableSelector } from '@/components/variable-selector';
 import { TypeSelector } from '@/components/type-selector';

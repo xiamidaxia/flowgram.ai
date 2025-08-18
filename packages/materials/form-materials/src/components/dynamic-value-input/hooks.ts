@@ -8,7 +8,7 @@ import { useMemo, useState } from 'react';
 import { IJsonSchema } from '@flowgram.ai/json-schema';
 import { useScopeAvailable } from '@flowgram.ai/editor';
 
-import { IFlowConstantRefValue } from '@/typings/flow-value';
+import { IFlowConstantRefValue } from '@/typings';
 
 export function useRefVariable(value?: IFlowConstantRefValue) {
   const available = useScopeAvailable();

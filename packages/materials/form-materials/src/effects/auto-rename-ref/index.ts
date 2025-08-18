@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { isArray, isObject, uniq } from 'lodash';
 import {
   DataEvent,
   Effect,
@@ -12,6 +11,7 @@ import {
 } from '@flowgram.ai/editor';
 
 import { IFlowRefValue, IFlowTemplateValue } from '@/typings';
+import { FlowValueUtils } from '@/shared';
 
 /**
  * Auto rename ref when form item's key is renamed
@@ -52,7 +52,7 @@ export const autoRenameRefEffect: EffectOptions[] = [
             }
           } else if (_v.type === 'template') {
             // template auto rename
-            const templateKeyPaths = getTemplateKeyPaths(_v);
+            const templateKeyPaths = FlowValueUtils.getTemplateKeyPaths(_v);
             let hasMatch = false;
 
             templateKeyPaths.forEach((_keyPath) => {
@@ -94,34 +94,6 @@ function isKeyPathMatch(keyPath: string[] = [], targetKeyPath: string[]) {
 }
 
 /**
- * get template key paths
- * @param value
- * @returns
- */
-function getTemplateKeyPaths(value: IFlowTemplateValue) {
-  // find all keyPath wrapped in {{}}
-  const keyPathReg = /{{(.*?)}}/g;
-  return uniq(value.content?.match(keyPathReg) || []).map((_keyPath) =>
-    _keyPath.slice(2, -2).split('.')
-  );
-}
-
-/**
- * If value is ref
- * @param value
- * @returns
- */
-function isRef(value: any): value is IFlowRefValue {
-  return (
-    value?.type === 'ref' && Array.isArray(value?.content) && typeof value?.content[0] === 'string'
-  );
-}
-
-function isTemplate(value: any): value is IFlowTemplateValue {
-  return value?.type === 'template' && typeof value?.content === 'string';
-}
-
-/**
  * Traverse value to find ref
  * @param value
  * @param options
@@ -132,29 +104,10 @@ function traverseRef(
   value: any,
   cb: (name: string, _v: IFlowRefValue | IFlowTemplateValue) => void
 ) {
-  if (isObject(value)) {
-    if (isRef(value)) {
-      cb(name, value);
-      return;
-    }
-
-    if (isTemplate(value)) {
-      cb(name, value);
-      return;
-    }
-
-    Object.entries(value).forEach(([_key, _value]) => {
-      traverseRef(`${name}.${_key}`, _value, cb);
-    });
-    return;
+  for (const { value: _v, path } of FlowValueUtils.traverse(value, {
+    includeTypes: ['ref', 'template'],
+    path: name,
+  })) {
+    cb(path, _v as IFlowRefValue | IFlowTemplateValue);
   }
-
-  if (isArray(value)) {
-    value.forEach((_value, idx) => {
-      traverseRef(`${name}[${idx}]`, _value, cb);
-    });
-    return;
-  }
-
-  return;
 }

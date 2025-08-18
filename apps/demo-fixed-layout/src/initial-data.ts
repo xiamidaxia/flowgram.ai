@@ -71,11 +71,11 @@ export const initialData: FlowDocumentJSON = {
                     content: 0.5,
                   },
                   systemPrompt: {
-                    type: 'constant',
+                    type: 'template',
                     content: '# Role\nYou are an AI assistant.\n',
                   },
                   prompt: {
-                    type: 'constant',
+                    type: 'template',
                     content: '',
                   },
                 },
@@ -163,11 +163,11 @@ export const initialData: FlowDocumentJSON = {
             content: 0.5,
           },
           systemPrompt: {
-            type: 'constant',
+            type: 'template',
             content: '# Role\nYou are an AI assistant.\n',
           },
           prompt: {
-            type: 'constant',
+            type: 'template',
             content: '',
           },
         },
