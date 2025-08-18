@@ -56,13 +56,27 @@ export class FreeLayoutScopeChain extends ScopeChain {
     ]);
   }
 
-  // 获取同一层级所有输入节点
-  protected getAllInputLayerNodes(curr: FlowNodeEntity): FlowNodeEntity[] {
-    const currParent = this.getNodeParent(curr);
+  // 获取同一层级所有输入节点, 按照由近到远的顺序
+  protected getAllInputLayerNodes(node: FlowNodeEntity): FlowNodeEntity[] {
+    const currParent = this.getNodeParent(node);
 
-    return (curr.getData(WorkflowNodeLinesData)?.allInputNodes || []).filter(
-      (_node) => this.getNodeParent(_node) === currParent
-    );
+    const result = new Set<FlowNodeEntity>();
+
+    // add by bfs
+    const queue: FlowNodeEntity[] = [node];
+
+    while (queue.length) {
+      const curr = queue.shift()!;
+
+      (curr.getData(WorkflowNodeLinesData)?.inputNodes || []).forEach((inputNode) => {
+        if (this.getNodeParent(inputNode) === currParent) {
+          result.add(inputNode);
+          queue.push(inputNode);
+        }
+      });
+    }
+
+    return Array.from(result).reverse();
   }
 
   // 获取同一层级所有输出节点
@@ -86,21 +100,24 @@ export class FreeLayoutScopeChain extends ScopeChain {
     let curr: FlowNodeEntity | undefined = node;
 
     while (curr) {
-      const allInputNodes: FlowNodeEntity[] = this.getAllInputLayerNodes(curr);
-
-      // 2. all public scopes of inputNodes
-      deps.push(
-        ...allInputNodes.map((_node) => _node.getData(FlowNodeVariableData).public).filter(Boolean)
-      );
-
-      // 3. all public children of inputNodes
-      deps.push(...allInputNodes.map((_node) => this.getAllPublicChildScopes(_node)).flat());
-
-      // 4. private scope of parent node can be access
+      // 2. private scope of parent node can be access
       const currVarData: FlowNodeVariableData = curr.getData(FlowNodeVariableData);
       if (currVarData?.private && scope !== currVarData.private) {
-        deps.push(currVarData.private);
+        deps.unshift(currVarData.private);
       }
+
+      // 3. all public scopes of inputNodes
+      const allInputNodes: FlowNodeEntity[] = this.getAllInputLayerNodes(curr);
+      deps.unshift(
+        ...allInputNodes
+          .map((_node) => [
+            _node.getData(FlowNodeVariableData).public,
+            // 4. all public children of inputNodes
+            ...this.getAllPublicChildScopes(_node),
+          ])
+          .flat()
+          .filter(Boolean)
+      );
 
       curr = this.getNodeParent(curr);
     }
