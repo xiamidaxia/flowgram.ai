@@ -21,6 +21,7 @@ export function useChildList(
   onChange?: (value: any) => void
 ): {
   canAddField: boolean;
+  hasChildren: boolean;
   list: ListItem[];
   add: (key?: string) => void;
   updateKey: (id: string, key: string) => void;
@@ -50,8 +51,6 @@ export function useChildList(
     return undefined;
   }, [value]);
 
-  console.log('debugger objectListValue', objectListValue);
-
   const { list, add, updateKey, updateValue, remove } = useObjectList<any>({
     value: objectListValue,
     onChange: (value) => {
@@ -60,8 +59,14 @@ export function useChildList(
     sortIndexKey: (value) => (FlowValueUtils.isFlowValue(value) ? 'extra.index' : ''),
   });
 
+  const hasChildren = useMemo(
+    () => canAddField && (list.length > 0 || Object.keys(objectListValue || {}).length > 0),
+    [canAddField, list.length, Object.keys(objectListValue || {}).length]
+  );
+
   return {
     canAddField,
+    hasChildren,
     list,
     add,
     updateKey,

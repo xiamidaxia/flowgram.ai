@@ -3,12 +3,13 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { I18n } from '@flowgram.ai/editor';
 import { IconButton, Input } from '@douyinfe/semi-ui';
 import { IconChevronDown, IconChevronRight, IconDelete } from '@douyinfe/semi-icons';
 
+import { IFlowConstantValue } from '@/typings';
 import { ConstantInputStrategy } from '@/components/constant-input';
 
 import { PropsType } from './types';
@@ -64,14 +65,26 @@ export function InputValueRow(
   } = props;
   const [collapse, setCollapse] = useState(false);
 
-  const { canAddField, list, add, updateKey, updateValue, remove } = useChildList(
+  const { canAddField, hasChildren, list, add, updateKey, updateValue, remove } = useChildList(
     value,
     onUpdateValue
   );
 
-  const hasChildren = canAddField && list.length > 0;
+  const strategies = useMemo(
+    () => [...(hasChildren ? [AddObjectChildStrategy] : []), ...(constantProps?.strategies || [])],
+    [hasChildren, constantProps?.strategies]
+  );
 
-  const flowDisplayValue = hasChildren ? { type: 'constant', schema: { type: ' object' } } : value;
+  const flowDisplayValue = useMemo(
+    () =>
+      hasChildren
+        ? ({
+            type: 'constant',
+            schema: { type: 'object' },
+          } as IFlowConstantValue)
+        : value,
+    [hasChildren, value]
+  );
 
   return (
     <>
@@ -101,10 +114,7 @@ export function InputValueRow(
               hasError={hasError}
               constantProps={{
                 ...constantProps,
-                strategies: [
-                  ...(hasChildren ? [AddObjectChildStrategy] : []),
-                  ...(constantProps?.strategies || []),
-                ],
+                strategies,
               }}
             />
             <UIActions>

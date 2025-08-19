@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { IJsonSchema } from '@flowgram.ai/json-schema';
 import { useScopeAvailable } from '@flowgram.ai/editor';
@@ -33,9 +33,30 @@ export function useSelectSchema(
     defaultSelectSchema = value?.schema || defaultSelectSchema;
   }
 
+  const changeVersion = useRef(0);
+  const effectVersion = useRef(0);
+
   const [selectSchema, setSelectSchema] = useState(defaultSelectSchema);
 
-  return [selectSchema, setSelectSchema] as const;
+  useEffect(() => {
+    effectVersion.current += 1;
+    if (changeVersion.current === effectVersion.current) {
+      return;
+    }
+    effectVersion.current = changeVersion.current;
+
+    if (value?.type === 'constant' && value?.schema) {
+      setSelectSchema(value?.schema);
+      return;
+    }
+  }, [value]);
+
+  const setSelectSchemaWithVersionUpdate = (schema: IJsonSchema) => {
+    setSelectSchema(schema);
+    changeVersion.current += 1;
+  };
+
+  return [selectSchema, setSelectSchemaWithVersionUpdate] as const;
 }
 
 export function useIncludeSchema(schemaFromProps?: IJsonSchema) {

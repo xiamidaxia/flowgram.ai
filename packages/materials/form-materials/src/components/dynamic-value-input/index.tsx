@@ -107,7 +107,6 @@ export function DynamicValueInput({
         onChange={(_v) => onChange({ type: 'constant', content: _v, schema: constantSchema })}
         schema={constantSchema || { type: 'string' }}
         readonly={readonly}
-        strategies={[...(constantProps?.strategies || [])]}
         fallbackRenderer={() => (
           <InjectVariableSelector
             style={{ width: '100%' }}
@@ -117,6 +116,7 @@ export function DynamicValueInput({
           />
         )}
         {...constantProps}
+        strategies={[...(constantProps?.strategies || [])]}
       />
     );
   };

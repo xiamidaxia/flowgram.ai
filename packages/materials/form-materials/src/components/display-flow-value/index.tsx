@@ -9,6 +9,7 @@ import { JsonSchemaTypeManager, JsonSchemaUtils } from '@flowgram.ai/json-schema
 import { useScopeAvailable } from '@flowgram.ai/editor';
 
 import { IFlowValue } from '@/typings';
+import { FlowValueUtils } from '@/shared';
 import { DisplaySchemaTag } from '@/components/display-schema-tag';
 
 interface PropsType {
@@ -31,18 +32,7 @@ export function DisplayFlowValue({ value, title, showIconInTree }: PropsType) {
       return { type: 'string' };
     }
     if (value?.type === 'constant') {
-      if (value?.schema) {
-        return value?.schema;
-      }
-      if (typeof value?.content === 'string') {
-        return { type: 'string' };
-      }
-      if (typeof value?.content === 'number') {
-        return { type: 'number' };
-      }
-      if (typeof value?.content === 'boolean') {
-        return { type: 'boolean' };
-      }
+      return FlowValueUtils.inferConstantJsonSchema(value);
     }
 
     return { type: 'unknown' };

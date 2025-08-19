@@ -14,7 +14,7 @@ export const extraSchema = z
 
 export const constantSchema = z.object({
   type: z.literal('constant'),
-  content: z.union([z.string(), z.number(), z.boolean()]).optional(),
+  content: z.any().optional(),
   schema: z.any().optional(),
   extra: extraSchema,
 });
