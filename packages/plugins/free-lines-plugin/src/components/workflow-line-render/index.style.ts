@@ -7,9 +7,7 @@ import styled from 'styled-components';
 
 // 添加一个固定类名，用于选中该节点
 
-export const LineStyle = styled.div.attrs({
-  className: 'gedit-flow-activity-edge',
-})`
+export const LineStyle = styled.div`
   position: absolute;
 
   @keyframes flowingDash {

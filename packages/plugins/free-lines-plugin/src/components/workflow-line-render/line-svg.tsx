@@ -62,17 +62,15 @@ export const LineSVG = (props: LineRenderProps) => {
       fill="none"
       stroke={`url(#${strokeID})`}
       strokeWidth={strokeWidth}
-      style={line.uiState.style}
-      className={clsx(
-        line.className,
-        line.processing || line.flowing ? 'dashed-line flowing-line' : ''
-      )}
+      className={line.processing || line.flowing ? 'dashed-line flowing-line' : ''}
     />
   );
 
   return (
     <LineStyle
+      className={clsx('gedit-flow-activity-edge', line.className)}
       style={{
+        ...line.uiState.style,
         left: bounds.x - PADDING,
         top: bounds.y - PADDING,
         position: 'absolute',
