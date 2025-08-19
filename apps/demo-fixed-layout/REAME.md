@@ -1,23 +1,12 @@
----
-outline: false
----
+# FlowGram.AI - Demo Fixed Layout
 
-
-# Best Practices
-
-import { FixedFeatureOverview } from '../../../../components';
-
-<FixedFeatureOverview />
+Best practices demo for fixed layout
 
 ## Installation
 
-```bash
+```shell
 npx @flowgram.ai/create-app@latest fixed-layout
 ```
-
-## Source Code
-
-https://github.com/bytedance/flowgram.ai/tree/main/apps/demo-fixed-layout
 
 ## Project Overview
 
@@ -223,17 +212,17 @@ src/
 This project adopts a layered architecture combined with modular design:
 
 1. Presentation Layer
- - Component layer: responsible for UI rendering and user interactions
- - Tools layer: provides editor tool features
+    - Component layer: responsible for UI rendering and user interactions
+    - Tools layer: provides editor tool features
 
 2. Business Logic Layer
- - Node system: defines the behavior and properties of various flow nodes
- - Plugin system: provides extensible functional modules
- - Services layer: handles business logic and data operations
+    - Node system: defines the behavior and properties of various flow nodes
+    - Plugin system: provides extensible functional modules
+    - Services layer: handles business logic and data operations
 
 3. Data Layer
- - Context state management: manages global application state
- - Type system: ensures consistency of data structures
+    - Context state management: manages global application state
+    - Type system: ensures consistency of data structures
 
 ### Key Design Patterns
 
@@ -349,16 +338,16 @@ export const SidebarContext = React.createContext<{
 
 #### Component Layering
 1. Base components
- - `BaseNode`: base rendering component for all nodes
- - `DragNode`: node component in drag state
+    - `BaseNode`: base rendering component for all nodes
+    - `DragNode`: node component in drag state
 
 2. Functional components
- - Adders: `NodeAdder`, `BranchAdder`, `AgentAdder`
- - Tools: zoom, save, run, and other utilities
+    - Adders: `NodeAdder`, `BranchAdder`, `AgentAdder`
+    - Tools: zoom, save, run, and other utilities
 
 3. Container components
- - `Sidebar`: sidebar container and its subcomponents
- - `Tools`: toolbar container
+    - `Sidebar`: sidebar container and its subcomponents
+    - `Tools`: toolbar container
 
 ### Data Flow Architecture
 

@@ -1,25 +1,12 @@
----
-outline: false
----
+# FlowGram.AI - Demo Fixed Layout
 
-
-# 最佳实践
-
-import { FixedFeatureOverview } from '../../../../components';
-
-<FixedFeatureOverview />
-
+固定布局最佳实践 demo
 
 ## 安装
 
 ```shell
 npx @flowgram.ai/create-app@latest fixed-layout
 ```
-
-## 源码
-
-https://github.com/bytedance/flowgram.ai/tree/main/apps/demo-fixed-layout
-
 
 ## 项目概览
 
@@ -204,11 +191,11 @@ src/
 │           └── variable-panel.tsx
 │
 ├── services/                  # 服务层
-│   ├── index.ts
+│   ├── index.ts               
 │   └── custom-service.ts      # 自定义服务
 │
 ├── shortcuts/                 # 快捷键系统
-│   ├── index.ts
+│   ├── index.ts               
 │   ├── constants.ts           # 快捷键常量
 │   └── utils.ts               # 快捷键工具函数
 │
@@ -225,17 +212,17 @@ src/
 该项目采用了**分层架构**和**模块化设计**相结合的架构模式：
 
 1. **表现层 (Presentation Layer)**
-- 组件层：负责 UI 渲染和用户交互
-- 工具层：提供编辑器工具功能
+   - 组件层：负责 UI 渲染和用户交互
+   - 工具层：提供编辑器工具功能
 
 2. **业务逻辑层 (Business Logic Layer)**
-- 节点系统：定义各种流程节点的行为和属性
-- 插件系统：提供可扩展的功能模块
-- 服务层：处理业务逻辑和数据操作
+   - 节点系统：定义各种流程节点的行为和属性
+   - 插件系统：提供可扩展的功能模块
+   - 服务层：处理业务逻辑和数据操作
 
 3. **数据层 (Data Layer)**
-- Context 状态管理：管理应用全局状态
-- 类型系统：确保数据结构的一致性
+   - Context 状态管理：管理应用全局状态
+   - 类型系统：确保数据结构的一致性
 
 ### 核心设计模式
 
@@ -251,7 +238,7 @@ src/
 </FixedLayoutEditorProvider>
 ```
 
-**应用场景**:
+**应用场景**: 
 - `FixedLayoutEditorProvider`: 提供编辑器核心功能和状态
 - `SidebarProvider`: 管理侧边栏的显示状态和选中节点
 
@@ -351,16 +338,16 @@ export const SidebarContext = React.createContext<{
 
 #### 组件分层结构
 1. **基础组件层**
-- `BaseNode`: 所有节点的基础渲染组件
-- `DragNode`: 拖拽状态下的节点组件
+   - `BaseNode`: 所有节点的基础渲染组件
+   - `DragNode`: 拖拽状态下的节点组件
 
 2. **功能组件层**
-- 添加器组件: `NodeAdder`, `BranchAdder`, `AgentAdder`
-- 工具组件: 缩放、保存、运行等功能组件
+   - 添加器组件: `NodeAdder`, `BranchAdder`, `AgentAdder`
+   - 工具组件: 缩放、保存、运行等功能组件
 
 3. **容器组件层**
-- `Sidebar`: 侧边栏容器及其子组件
-- `Tools`: 工具栏容器
+   - `Sidebar`: 侧边栏容器及其子组件
+   - `Tools`: 工具栏容器
 
 ### 数据流架构
 
