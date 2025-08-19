@@ -13,8 +13,8 @@
     "package.json",
     "rsbuild.config.ts",
     "tsconfig.json",
-    "REAME.md",
-    "REAME.zh_CN.md"
+    "README.md",
+    "README.zh_CN.md"
   ],
   "scripts": {
     "build": "exit 0",
