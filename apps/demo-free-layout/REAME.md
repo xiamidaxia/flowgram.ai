@@ -1,23 +1,12 @@
----
-outline: false
----
+# FlowGram.AI - Demo Free Layout
 
-
-# Best Practices
-
-import { FreeFeatureOverview } from '../../../../components';
-
-<FreeFeatureOverview />
+Best-practice demo for free layout
 
 ## Installation
 
-```bash
+```shell
 npx @flowgram.ai/create-app@latest free-layout
 ```
-
-## Source Code
-
-https://github.com/bytedance/flowgram.ai/tree/main/apps/demo-free-layout
 
 ## Project Overview
 

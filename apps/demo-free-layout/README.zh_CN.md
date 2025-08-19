@@ -1,23 +1,12 @@
----
-outline: false
----
+# FlowGram.AI - Demo Free Layout
 
+自由布局最佳实践 demo
 
-# 最佳实践
-
-import { FreeFeatureOverview } from '../../../../components';
-
-<FreeFeatureOverview />
-
-## 安装
+## 安装 
 
 ```shell
 npx @flowgram.ai/create-app@latest free-layout
 ```
-
-## 源码
-
-https://github.com/bytedance/flowgram.ai/tree/main/apps/demo-free-layout
 
 ## 项目概览
 
@@ -79,7 +68,7 @@ src/
 │   ├── form-inputs/         # 表单输入
 │   └── form-item/           # 表单项
 │   └── feedback.tsx         # 表单校验错误渲染
-├── hooks/
+├── hooks/                   
 │   ├── index.ts
 │   ├── use-editor-props.tsx # 编辑器属性钩子
 │   ├── use-is-sidebar.ts    # 侧边栏状态钩子
@@ -227,22 +216,22 @@ export function useEditorProps(
     readonly: false,                     // 是否只读
     initialData,                         // 初始数据
     nodeRegistries,                      // 节点注册表
-
+    
     // 核心功能配置
     playground: { preventGlobalGesture: true /* 阻止 mac 浏览器手势翻页 */ },
     nodeEngine: { enable: true },
     variableEngine: { enable: true },
     history: { enable: true, enableChangeNode: true },
-
+    
     // 业务逻辑配置
     canAddLine: (ctx, fromPort, toPort) => { /* 连线规则 */ },
     canDeleteLine: (ctx, line) => { /* 删除连线规则 */ },
     canDeleteNode: (ctx, node) => { /* 删除节点规则 */ },
     canDropToNode: (ctx, params) => { /* 拖拽规则 */ },
-
+    
     // 插件配置
     plugins: () => [/* 插件列表 */],
-
+    
     // 事件处理
     onContentChange: debounce((ctx, event) => { /* 自动保存 */ }, 1000),
     onInit: (ctx) => { /* 初始化 */ },
