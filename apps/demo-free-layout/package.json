@@ -12,7 +12,8 @@
     "index.html",
     "package.json",
     "rsbuild.config.ts",
-    "tsconfig.json"
+    "tsconfig.json",
+    "README.md"
   ],
   "scripts": {
     "build": "exit 0",
