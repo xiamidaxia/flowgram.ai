@@ -70,8 +70,11 @@ export class FreeLayoutScopeChain extends ScopeChain {
 
       (curr.getData(WorkflowNodeLinesData)?.inputNodes || []).forEach((inputNode) => {
         if (this.getNodeParent(inputNode) === currParent) {
-          result.add(inputNode);
+          if (result.has(inputNode)) {
+            return;
+          }
           queue.push(inputNode);
+          result.add(inputNode);
         }
       });
     }
