@@ -10,3 +10,4 @@ export * from './typings';
 export * from './form-plugins';
 export * from './plugins';
 export * from './validate';
+export * from './hooks';
