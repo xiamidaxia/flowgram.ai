@@ -12,6 +12,7 @@ our name.
 [![License](https://img.shields.io/github/license/bytedance/flowgram.ai)](https://github.com/bytedance/flowgram.ai/blob/main/LICENSE)
 [![@flowgram.ai/editor](https://img.shields.io/npm/dm/%40flowgram.ai%2Fcore
 )](https://www.npmjs.com/package/@flowgram.ai/editor)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/bytedance/flowgram.ai)
 
 [![](https://trendshift.io/api/badge/repositories/13877)](https://trendshift.io/repositories/13877)
 
