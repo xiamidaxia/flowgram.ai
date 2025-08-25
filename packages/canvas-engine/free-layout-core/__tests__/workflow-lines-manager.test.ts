@@ -11,9 +11,9 @@ import {
   WorkflowNodeLinesData,
   WorkflowDocumentOptions,
   WorkflowLineRenderData,
-  WorkflowSimpleLineContribution,
   LineColors,
 } from '../src';
+import { WorkflowSimpleLineContribution } from './simple-line';
 import { createWorkflowContainer } from './mocks';
 describe('workflow-lines-manager', () => {
   let linesManager: WorkflowLinesManager;
