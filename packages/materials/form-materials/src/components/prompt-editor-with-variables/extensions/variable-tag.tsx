@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-import ReactDOM from 'react-dom';
 import React, { useLayoutEffect } from 'react';
 
 import { isEqual, last } from 'lodash';
@@ -26,6 +25,8 @@ import {
   WidgetType,
 } from '@codemirror/view';
 
+import { IPolyfillRoot, polyfillCreateRoot } from '@/shared';
+
 import { UIPopoverContent, UIRootTitle, UITag, UIVarName } from '../styles';
 
 class VariableTagWidget extends WidgetType {
@@ -35,7 +36,7 @@ class VariableTagWidget extends WidgetType {
 
   scope: Scope;
 
-  rootDOM?: HTMLSpanElement;
+  root: IPolyfillRoot;
 
   constructor({ keyPath, scope }: { keyPath?: string[]; scope: Scope }) {
     super();
@@ -52,14 +53,9 @@ class VariableTagWidget extends WidgetType {
     return icon;
   };
 
-  renderReact(jsx: React.ReactElement) {
-    // NOTICE: For React 19, upgrade to 'react-dom/client'
-    ReactDOM.render(jsx, this.rootDOM!);
-  }
-
   renderVariable(v?: BaseVariableField) {
     if (!v) {
-      this.renderReact(
+      this.root.render(
         <UITag prefixIcon={<IconIssueStroked />} color="amber">
           Unknown
         </UITag>
@@ -67,17 +63,14 @@ class VariableTagWidget extends WidgetType {
       return;
     }
 
-    const rootField = last(v.parentFields) || v;
-    const isRoot = v.parentFields.length === 0;
+    const rootField = last(v.parentFields);
 
     const rootTitle = (
-      <UIRootTitle>
-        {rootField?.meta.title ? `${rootField.meta.title} ${isRoot ? '' : '-'} ` : ''}
-      </UIRootTitle>
+      <UIRootTitle>{rootField?.meta.title ? `${rootField.meta.title} -` : ''}</UIRootTitle>
     );
     const rootIcon = this.renderIcon(rootField?.meta.icon);
 
-    this.renderReact(
+    this.root.render(
       <Popover
         content={
           <UIPopoverContent>
@@ -89,7 +82,7 @@ class VariableTagWidget extends WidgetType {
       >
         <UITag prefixIcon={rootIcon}>
           {rootTitle}
-          {!isRoot && <UIVarName>{v?.key}</UIVarName>}
+          <UIVarName>{v?.key}</UIVarName>
         </UITag>
       </Popover>
     );
@@ -98,12 +91,11 @@ class VariableTagWidget extends WidgetType {
   toDOM(view: EditorView): HTMLElement {
     const dom = document.createElement('span');
 
-    this.rootDOM = dom;
+    this.root = polyfillCreateRoot(dom);
 
     this.toDispose.push(
       Disposable.create(() => {
-        // NOTICE: For React 19, upgrade to 'react-dom/client'
-        ReactDOM.unmountComponentAtNode(this.rootDOM!);
+        this.root.unmount();
       })
     );
 

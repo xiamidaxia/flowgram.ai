@@ -5,7 +5,6 @@
 
 import React, { useLayoutEffect } from 'react';
 
-import { createRoot, Root } from 'react-dom/client';
 import { isEqual, last } from 'lodash';
 import {
   BaseVariableField,
@@ -26,6 +25,8 @@ import {
   WidgetType,
 } from '@codemirror/view';
 
+import { IPolyfillRoot, polyfillCreateRoot } from '@/shared';
+
 import { UIPopoverContent, UIRootTitle, UITag, UIVarName } from '../styles';
 
 class VariableTagWidget extends WidgetType {
@@ -35,7 +36,7 @@ class VariableTagWidget extends WidgetType {
 
   scope: Scope;
 
-  root: Root;
+  root: IPolyfillRoot;
 
   constructor({ keyPath, scope }: { keyPath?: string[]; scope: Scope }) {
     super();
@@ -90,7 +91,7 @@ class VariableTagWidget extends WidgetType {
   toDOM(view: EditorView): HTMLElement {
     const dom = document.createElement('span');
 
-    this.root = createRoot(dom);
+    this.root = polyfillCreateRoot(dom);
 
     this.toDispose.push(
       Disposable.create(() => {

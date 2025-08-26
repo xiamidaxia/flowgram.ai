@@ -20,7 +20,7 @@ export function createEffectFromVariableProvider(
   const getScope = (node: FlowNodeEntity): Scope => {
     const variableData: FlowNodeVariableData = node.getData(FlowNodeVariableData);
 
-    if (options.private) {
+    if (options.private || options.scope === 'private') {
       return variableData.initPrivate();
     }
     return variableData.public;
@@ -39,7 +39,6 @@ export function createEffectFromVariableProvider(
         node,
         scope,
         options,
-        formItem: undefined,
       }),
     });
   };
@@ -55,7 +54,6 @@ export function createEffectFromVariableProvider(
           node: context.node,
           scope,
           options,
-          formItem: undefined,
         });
 
         if (disposable) {
