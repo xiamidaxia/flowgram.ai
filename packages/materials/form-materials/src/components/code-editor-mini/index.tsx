@@ -11,7 +11,6 @@ import { CodeEditor, CodeEditorPropsType } from '@/components/code-editor';
 
 const UIMini = styled.div`
   .ͼ1 .cm-content {
-    padding: 0;
   }
 `;
 
@@ -23,6 +22,7 @@ export function CodeEditorMini(props: CodeEditorPropsType) {
         options={{
           lineNumbersGutter: false,
           foldGutter: false,
+          minHeight: 24,
           ...(props.options || {}),
         }}
       />

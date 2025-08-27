@@ -71,7 +71,7 @@ export function CodeEditor({
   return (
     <EditorProvider>
       <OriginCodeEditor
-        defaultValue={value}
+        defaultValue={String(value || '')}
         options={{
           uri: `file:///untitled${getSuffixByLanguageId(languageId)}`,
           languageId,
