@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 
 import { useClientContext, CommandService } from '@flowgram.ai/free-layout-editor';
 import { Button } from '@douyinfe/semi-ui';
@@ -26,10 +26,6 @@ export function FormHeader() {
   const isSidebar = useIsSidebar();
   const handleExpand = (e: React.MouseEvent) => {
     toggleExpand();
-    // 折叠 loop 子节点
-    if (node.flowNodeType === 'loop') {
-      toggleLoopExpanded(node);
-    }
     e.stopPropagation(); // Disable clicking prevents the sidebar from opening
   };
   const handleDelete = () => {
@@ -38,6 +34,12 @@ export function FormHeader() {
   const handleClose = () => {
     setNodeId(undefined);
   };
+  useEffect(() => {
+    // 折叠 loop 子节点
+    if (node.flowNodeType === 'loop') {
+      toggleLoopExpanded(node, expanded);
+    }
+  }, [expanded]);
 
   return (
     <Header>

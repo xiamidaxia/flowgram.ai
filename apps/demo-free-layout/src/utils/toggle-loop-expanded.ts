@@ -10,6 +10,9 @@ export function toggleLoopExpanded(
   expanded: boolean = node.transform.collapsed,
   heightCollapsed = 54
 ) {
+  if (!node.getNodeMeta().isContainer || node.transform.collapsed === !expanded) {
+    return;
+  }
   const bounds = node.bounds.clone();
   const prePosition = {
     x: node.transform.position.x,
