@@ -8,19 +8,18 @@ import React, { useMemo } from 'react';
 import { I18n } from '@flowgram.ai/editor';
 import { Input } from '@douyinfe/semi-ui';
 
-import { InjectVariableSelector } from '@/components/variable-selector';
 import { InjectDynamicValueInput } from '@/components/dynamic-value-input';
 
-import { ConditionRowValueType, IRules, OpConfigs } from './types';
+import { DBConditionOptionType, DBConditionRowValueType, IRules, OpConfigs } from './types';
 import { UIContainer, UILeft, UIOperator, UIRight, UIValues } from './styles';
-import { useRule } from './hooks/useRule';
-import { useOp } from './hooks/useOp';
-import { defaultOpConfigs, defaultRules } from './constants';
+import { useOp } from './hooks/use-op';
+import { useLeft } from './hooks/use-left';
 
 interface PropTypes {
-  value?: ConditionRowValueType;
-  onChange: (value?: ConditionRowValueType) => void;
+  value?: DBConditionRowValueType;
+  onChange: (value?: DBConditionRowValueType) => void;
   style?: React.CSSProperties;
+  options?: DBConditionOptionType[];
   readonly?: boolean;
   ruleConfig?: {
     ops?: OpConfigs;
@@ -33,15 +32,24 @@ const defaultRuleConfig = {
   rules: {},
 };
 
-export function ConditionRow({
+export function DBConditionRow({
   style,
   value,
   onChange,
   readonly,
+  options,
   ruleConfig = defaultRuleConfig,
 }: PropTypes) {
   const { left, operator, right } = value || {};
-  const { rule } = useRule(left, ruleConfig.rules);
+
+  const { rule, renderDBOptionSelect } = useLeft({
+    left,
+    options,
+    onChange: (leftKey) => onChange({ ...value, left: leftKey }),
+    readonly,
+    userRules: ruleConfig.rules,
+  });
+
   const { renderOpSelect, opConfig } = useOp({
     rule,
     op: operator,
@@ -59,22 +67,7 @@ export function ConditionRow({
     <UIContainer style={style}>
       <UIOperator>{renderOpSelect()}</UIOperator>
       <UIValues>
-        <UILeft>
-          <InjectVariableSelector
-            readonly={readonly}
-            style={{ width: '100%' }}
-            value={left?.content}
-            onChange={(v) =>
-              onChange({
-                ...value,
-                left: {
-                  type: 'ref',
-                  content: v,
-                },
-              })
-            }
-          />
-        </UILeft>
+        <UILeft>{renderDBOptionSelect()}</UILeft>
         <UIRight>
           {targetSchema ? (
             <InjectDynamicValueInput
@@ -97,7 +90,4 @@ export function ConditionRow({
   );
 }
 
-ConditionRow.defaultRules = defaultRules;
-ConditionRow.defaultOpConfigs = defaultOpConfigs;
-
-export { type ConditionRowValueType };
+export { type DBConditionRowValueType, type DBConditionOptionType };
