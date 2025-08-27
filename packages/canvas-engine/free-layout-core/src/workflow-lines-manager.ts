@@ -127,13 +127,13 @@ export class WorkflowLinesManager {
     return this.entityManager.getEntities(WorkflowLineEntity);
   }
 
-  hasLine(portInfo: WorkflowLinePortInfo): boolean {
+  hasLine(portInfo: Omit<WorkflowLinePortInfo, 'data'>): boolean {
     return !!this.entityManager.getEntityById<WorkflowLineEntity>(
       WorkflowLineEntity.portInfoToLineId(portInfo)
     );
   }
 
-  getLine(portInfo: WorkflowLinePortInfo): WorkflowLineEntity | undefined {
+  getLine(portInfo: Omit<WorkflowLinePortInfo, 'data'>): WorkflowLineEntity | undefined {
     return this.entityManager.getEntityById<WorkflowLineEntity>(
       WorkflowLineEntity.portInfoToLineId(portInfo)
     );
@@ -144,8 +144,8 @@ export class WorkflowLinesManager {
   }
 
   replaceLine(
-    oldPortInfo: WorkflowLinePortInfo,
-    newPortInfo: WorkflowLinePortInfo
+    oldPortInfo: Omit<WorkflowLinePortInfo, 'data'>,
+    newPortInfo: Omit<WorkflowLinePortInfo, 'data'>
   ): WorkflowLineEntity {
     const oldLine = this.getLine(oldPortInfo);
     if (oldLine) {
@@ -395,7 +395,7 @@ export class WorkflowLinesManager {
 
   canRemove(
     line: WorkflowLineEntity,
-    newLineInfo?: Required<WorkflowLinePortInfo>,
+    newLineInfo?: Required<Omit<WorkflowLinePortInfo, 'data'>>,
     silent?: boolean
   ): boolean {
     if (

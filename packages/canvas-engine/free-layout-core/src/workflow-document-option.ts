@@ -71,7 +71,7 @@ export interface WorkflowDocumentOptions extends FlowDocumentOptions {
   /** 能否删除线条 */
   canDeleteLine?: (
     line: WorkflowLineEntity,
-    newLineInfo?: Required<WorkflowLinePortInfo>,
+    newLineInfo?: Required<Omit<WorkflowLinePortInfo, 'data'>>,
     silent?: boolean
   ) => boolean;
   /**
