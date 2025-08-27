@@ -7,55 +7,56 @@ import { createTheme, tags as t } from '@coze-editor/editor/preset-code';
 import { type Extension } from '@codemirror/state';
 
 const colors = {
-  background: '#F7F7FC',
-  // syntax
-  comment: '#000A298A',
-  key: '#00818C',
-  string: '#D1009D',
-  number: '#C74200',
-  boolean: '#2B57D9',
-  null: '#2B57D9',
-  separator: '#0F1529D1',
+  background: '#FFFFFF',
+  comment: '#6B7280',
+  key: '#2563EB',
+  variable: '#DC2626',
+  string: '#059669',
+  number: '#EA580C',
+  boolean: '#7C3AED',
+  null: '#7C3AED',
+  separator: '#374151',
 };
 
 export const lightTheme: Extension = createTheme({
   variant: 'light',
   settings: {
-    background: '#fff',
-    foreground: '#000',
-    caret: '#000',
-    selection: '#d9d9d9',
-    gutterBackground: '#f0f0f0',
-    gutterForeground: '#666',
+    background: '#FFFFFF',
+    foreground: '#1F2937',
+    caret: '#2563EB',
+    selection: '#E5E7EB',
+    gutterBackground: '#F9FAFB',
+    gutterForeground: '#6B7280',
     gutterBorderColor: 'transparent',
     gutterBorderWidth: 0,
-    lineHighlight: '#e1e1e180',
-    bracketColors: ['#FFD700', '#DD99FF', '#78B0FF'],
+    lineHighlight: '#F3F4F680',
+    bracketColors: ['#F59E0B', '#8B5CF6', '#06B6D4'],
     tooltip: {
-      backgroundColor: '#f0f0f0',
-      color: '#000',
-      border: '1px solid #ccc',
+      backgroundColor: '#FFFFFF',
+      color: '#1F2937',
+      border: '1px solid #E5E7EB',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
     },
     link: {
-      color: '#007bff',
+      color: '#2563EB',
     },
     completionItemHover: {
-      backgroundColor: '#f0f0f0',
+      backgroundColor: '#F3F4F6',
     },
     completionItemSelected: {
-      backgroundColor: '#e0e0e0',
+      backgroundColor: '#E5E7EB',
     },
     completionItemIcon: {
-      color: '#333',
+      color: '#4B5563',
     },
     completionItemLabel: {
-      color: '#333',
+      color: '#1F2937',
     },
     completionItemInfo: {
-      color: '#333',
+      color: '#4B5563',
     },
     completionItemDetail: {
-      color: '#666',
+      color: '#6B7280',
     },
   },
   styles: [
@@ -68,6 +69,11 @@ export const lightTheme: Extension = createTheme({
       tag: [t.propertyName],
       color: colors.key,
     },
+    {
+      tag: [t.variableName],
+      color: colors.variable,
+    },
+
     {
       tag: [t.string],
       color: colors.string,
@@ -92,28 +98,46 @@ export const lightTheme: Extension = createTheme({
     // markdown
     {
       tag: [t.heading],
-      color: '#3e76ef',
+      color: '#2563EB',
     },
     {
       tag: [t.processingInstruction],
-      color: '#3e76ef',
+      color: '#2563EB',
+    },
+
+    // js
+    {
+      tag: [t.definitionKeyword],
+      color: '#9333EA',
+    },
+    {
+      tag: [t.modifier],
+      color: '#9333EA',
+    },
+    {
+      tag: [t.controlKeyword],
+      color: '#9333EA',
+    },
+    {
+      tag: [t.operatorKeyword],
+      color: '#9333EA',
     },
 
     // shell
     // curl
     {
       tag: [t.standard(t.variableName)],
-      color: '#00804A',
+      color: '#059669',
     },
     // -X
     {
       tag: [t.attributeName],
-      color: '#C74200',
+      color: '#EA580C',
     },
     // url in string (includes quotes), e.g. "https://..."
     {
       tag: [t.special(t.string)],
-      color: '#2B57D9',
+      color: '#2563EB',
     },
   ],
 });
