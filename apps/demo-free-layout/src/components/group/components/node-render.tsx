@@ -68,6 +68,7 @@ export const GroupNodeRender = () => {
           <UngroupButton node={node} />
           <GroupBackground
             node={node}
+            selected={selected}
             style={{
               top: HEADER_HEIGHT + HEADER_PADDING,
               height: nodeHeight - HEADER_HEIGHT - HEADER_PADDING,
