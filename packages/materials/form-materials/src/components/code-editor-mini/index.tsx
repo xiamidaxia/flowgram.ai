@@ -7,7 +7,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { CodeEditor, CodeEditorPropsType } from '@/components/code-editor';
+import { CodeEditor, type CodeEditorPropsType } from '@/components/code-editor';
 
 const UIMini = styled.div`
   .ͼ1 .cm-content {

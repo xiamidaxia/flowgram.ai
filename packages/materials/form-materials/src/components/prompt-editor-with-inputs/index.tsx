@@ -3,20 +3,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React from 'react';
+import { lazy } from 'react';
 
-import { PromptEditor, PromptEditorPropsType } from '@/components/prompt-editor';
+export const PromptEditorWithInputs = lazy(() =>
+  import('./editor').then((module) => ({ default: module.PromptEditorWithInputs }))
+);
 
-import { InputsTree } from './extensions/inputs-tree';
-
-interface PropsType extends PromptEditorPropsType {
-  inputsValues: any;
-}
-
-export function PromptEditorWithInputs({ inputsValues, ...restProps }: PropsType) {
-  return (
-    <PromptEditor {...restProps}>
-      <InputsTree inputsValues={inputsValues} />
-    </PromptEditor>
-  );
-}
+export type { PromptEditorWithInputsProps } from './editor';
