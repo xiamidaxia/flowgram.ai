@@ -21,6 +21,7 @@
     "build:fast": "exit 0",
     "build:watch": "exit 0",
     "build:prod": "cross-env MODE=app NODE_ENV=production rsbuild build",
+    "build:analyze": "BUNDLE_ANALYZE=true rsbuild build",
     "clean": "rimraf dist",
     "dev": "cross-env MODE=app NODE_ENV=development rsbuild dev --open",
     "lint": "eslint ./src --cache",

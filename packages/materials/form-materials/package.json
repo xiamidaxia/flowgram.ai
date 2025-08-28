@@ -43,7 +43,7 @@
     "chalk": "^5.3.0",
     "inquirer": "^9.2.7",
     "immer": "~10.1.1",
-    "@coze-editor/editor": "0.1.0-alpha.879fbb",
+    "@coze-editor/editor": "0.1.0-alpha.5a549c",
     "@codemirror/view": "~6.38.0",
     "@codemirror/state": "~6.5.2",
     "typescript": "^5.8.3",
