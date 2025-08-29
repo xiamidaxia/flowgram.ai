@@ -18,6 +18,7 @@ import {
   WorkflowNodeLinesData,
   WorkflowNodeMeta,
   WorkflowSelectService,
+  FlowNodeBaseType,
 } from '@flowgram.ai/free-layout-editor';
 import { Toast } from '@douyinfe/semi-ui';
 
@@ -158,12 +159,23 @@ export class CopyShortcut implements ShortcutsHandler {
     };
   }
 
+  private getGroupNodeJSON(node: WorkflowNodeEntity): WorkflowNodeJSON {
+    const rawJSON = this.document.toNodeJSON(node);
+    return {
+      ...rawJSON,
+      blocks: node.blocks.map((block) => this.document.toNodeJSON(block)),
+    };
+  }
+
   /**
    * get JSON representation of nodes - 获取节点的JSON表示
    */
   private getNodeJSONs(nodes: WorkflowNodeEntity[]): WorkflowNodeJSON[] {
     const nodeJSONs = nodes.map((node) => {
-      const nodeJSON = this.document.toNodeJSON(node);
+      const nodeJSON =
+        node.flowNodeType === FlowNodeBaseType.GROUP
+          ? this.getGroupNodeJSON(node)
+          : this.document.toNodeJSON(node);
       if (!nodeJSON.meta?.position) {
         return nodeJSON;
       }
