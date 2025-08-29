@@ -7,3 +7,4 @@ export * from './format-legacy-refs';
 export * from './inject-material';
 export * from './flow-value';
 export * from './polyfill-create-root';
+export * from './lazy-suspense';

@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { lazy } from 'react';
+import { lazySuspense } from '@/shared';
 
-export const PromptEditor = lazy(() =>
+export const PromptEditor = lazySuspense(() =>
   import('./editor').then((module) => ({ default: module.PromptEditor }))
 );
 
