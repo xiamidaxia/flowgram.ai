@@ -67,7 +67,7 @@ export function useIncludeSchema(schemaFromProps?: IJsonSchema) {
     if (schemaFromProps?.type === 'number') {
       return [schemaFromProps, { type: 'integer' }];
     }
-    return { ...schemaFromProps, extra: { ...schemaFromProps?.extra, weak: true } };
+    return { ...schemaFromProps, extra: { weak: true, ...schemaFromProps?.extra } };
   }, [schemaFromProps]);
 
   return includeSchema;
