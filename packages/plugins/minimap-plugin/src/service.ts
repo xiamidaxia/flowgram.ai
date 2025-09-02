@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { debounce } from 'lodash-es';
+import { throttle } from 'lodash-es';
 import { inject, injectable } from 'inversify';
 import { Disposable, DisposableCollection, IPoint, Rectangle } from '@flowgram.ai/utils';
 import { FlowNodeEntity, FlowNodeTransformData } from '@flowgram.ai/document';
 import { FlowNodeBaseType } from '@flowgram.ai/document';
 import { FlowDocument } from '@flowgram.ai/document';
-import { EntityManager, MouseTouchEvent, PlaygroundConfigEntity } from '@flowgram.ai/core';
+import { MouseTouchEvent, PlaygroundConfigEntity } from '@flowgram.ai/core';
 
 import type { MinimapRenderContext, MinimapServiceOptions, MinimapCanvasStyle } from './type';
 import { MinimapDraw } from './draw';
@@ -18,8 +18,6 @@ import { MinimapDefaultCanvasStyle, MinimapDefaultOptions } from './constant';
 @injectable()
 export class FlowMinimapService {
   @inject(FlowDocument) private readonly document: FlowDocument;
-
-  @inject(EntityManager) private readonly entityManager: EntityManager;
 
   @inject(PlaygroundConfigEntity)
   private readonly playgroundConfig: PlaygroundConfigEntity;
@@ -37,6 +35,7 @@ export class FlowMinimapService {
   private toDispose: DisposableCollection;
 
   private initialized;
+  private visible: boolean = false;
 
   private isDragging;
 
@@ -58,12 +57,8 @@ export class FlowMinimapService {
   public init(options?: Partial<MinimapServiceOptions>) {
     this.options = MinimapDefaultOptions;
     Object.assign(this.options, options);
-    this.setDebounce({
-      enableDebounce: this.options.enableInactiveDebounce,
-      debounceTime: this.options.inactiveDebounceTime,
-    });
+    this.setThrottle(this.options.inactiveThrottleTime);
     this.initStyle();
-    this.mountListener();
   }
 
   public dispose(): void {
@@ -71,6 +66,9 @@ export class FlowMinimapService {
     this.initialized = false;
     this.activated = false;
     this.removeEventListeners();
+  }
+  setVisible(visible: boolean) {
+    this.visible = visible
   }
 
   public setActivate(activate: boolean): void {
@@ -83,16 +81,10 @@ export class FlowMinimapService {
     }
     this.activated = activate;
     if (activate) {
-      this.setDebounce({
-        enableDebounce: this.options.enableActiveDebounce,
-        debounceTime: this.options.activeDebounceTime,
-      });
+      this.setThrottle(this.options.activeThrottleTime);
       this.addEventListeners();
     } else {
-      this.setDebounce({
-        enableDebounce: this.options.enableInactiveDebounce,
-        debounceTime: this.options.inactiveDebounceTime,
-      });
+      this.setThrottle(this.options.inactiveThrottleTime);
       this.removeEventListeners();
     }
     this.render();
@@ -125,22 +117,17 @@ export class FlowMinimapService {
       : 'unset';
   }
 
-  private setDebounce(params: { enableDebounce: boolean; debounceTime: number }) {
-    const { enableDebounce, debounceTime } = params;
-    if (enableDebounce) {
-      this.render = debounce(this._render, debounceTime);
-    } else {
-      this.render = this._render;
-    }
+  private setThrottle(throttleTime: number) {
+    this.render = throttle(this._render, throttleTime);
   }
 
   /**
    * 触发渲染
    */
-  private render: () => void = this._render;
+  public render: () => void = this._render;
 
   private _render(): void {
-    if (!this.initialized) {
+    if (!this.initialized || !this.visible) {
       return;
     }
     const renderContext = this.createRenderContext();
@@ -286,11 +273,6 @@ export class FlowMinimapService {
   private viewRect(): Rectangle {
     const { width, height, scrollX, scrollY, zoom } = this.playgroundConfig.config;
     return new Rectangle(scrollX / zoom, scrollY / zoom, width / zoom, height / zoom);
-  }
-
-  private mountListener(): void {
-    const entityManagerDisposer = this.entityManager.onEntityChange(() => this.render());
-    this.toDispose.push(entityManagerDisposer);
   }
 
   /** 计算画布坐标系下的矩形 */

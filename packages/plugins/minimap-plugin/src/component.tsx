@@ -38,8 +38,11 @@ export const MinimapRender: React.FC<MinimapProps> = (props) => {
     const disposer = service.onActive((activate: boolean) => {
       setActivated(activate);
     });
+    service.setVisible(true)
+    service.render();
     return () => {
       disposer.dispose();
+      service.setVisible(false)
     };
   }, []);
 

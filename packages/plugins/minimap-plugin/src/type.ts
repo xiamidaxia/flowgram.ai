@@ -38,8 +38,8 @@ export interface MinimapServiceOptions {
   enableInactiveDebounce: boolean;
   enableActiveDebounce: boolean;
   enableDisplayAllNodes: boolean;
-  activeDebounceTime: number;
-  inactiveDebounceTime: number;
+  activeThrottleTime: number;
+  inactiveThrottleTime: number;
 }
 
 export interface MinimapLayerOptions {
