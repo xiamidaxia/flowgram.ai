@@ -6,7 +6,7 @@
 import { throttle } from 'lodash-es';
 import { inject, injectable } from 'inversify';
 import { Disposable, DisposableCollection, IPoint, Rectangle } from '@flowgram.ai/utils';
-import { FlowNodeEntity, FlowNodeTransformData } from '@flowgram.ai/document';
+import { FlowNodeTransformData } from '@flowgram.ai/document';
 import { FlowNodeBaseType } from '@flowgram.ai/document';
 import { FlowDocument } from '@flowgram.ai/document';
 import { MouseTouchEvent, PlaygroundConfigEntity } from '@flowgram.ai/core';
@@ -35,6 +35,7 @@ export class FlowMinimapService {
   private toDispose: DisposableCollection;
 
   private initialized;
+
   private visible: boolean = false;
 
   private isDragging;
@@ -67,8 +68,9 @@ export class FlowMinimapService {
     this.activated = false;
     this.removeEventListeners();
   }
+
   setVisible(visible: boolean) {
-    this.visible = visible
+    this.visible = visible;
   }
 
   public setActivate(activate: boolean): void {
@@ -135,8 +137,8 @@ export class FlowMinimapService {
   }
 
   private createRenderContext(): MinimapRenderContext {
-    const { canvas, context2D, nodes } = this;
-    const nodeTransforms: FlowNodeTransformData[] = this.nodeTransforms(nodes);
+    const { canvas, context2D } = this;
+    const nodeTransforms: FlowNodeTransformData[] = this.transformVisibles;
     const nodeRects: Rectangle[] = nodeTransforms.map((transform) => transform.bounds);
     const viewRect: Rectangle = this.viewRect();
     const renderRect: Rectangle = this.renderRect(nodeRects).withPadding({
@@ -245,8 +247,13 @@ export class FlowMinimapService {
     return { scale, offset };
   }
 
-  private get nodes(): FlowNodeEntity[] {
-    return this.document.getAllNodes().filter((node) => {
+  private get transformVisibles(): FlowNodeTransformData[] {
+    const transformVisible = this.document.getRenderDatas<FlowNodeTransformData>(
+      FlowNodeTransformData,
+      false
+    );
+    return transformVisible.filter((transform) => {
+      const node = transform.entity;
       // 去除不可见节点
       if (node.hidden) return false;
       // 去除根节点
@@ -260,10 +267,6 @@ export class FlowMinimapService {
         return;
       return true;
     });
-  }
-
-  private nodeTransforms(nodes: FlowNodeEntity[]): FlowNodeTransformData[] {
-    return nodes.map((node) => node.getData(FlowNodeTransformData)).filter(Boolean);
   }
 
   private renderRect(rects: Rectangle[]): Rectangle {
