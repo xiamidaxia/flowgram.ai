@@ -38,7 +38,6 @@ import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin'
         nodeBorderColor: 'rgba(6, 7, 9, 0.10)',
         overlayColor: 'rgba(255, 255, 255, 0)',
       },
-      inactiveDebounceTime: 1,
     }),
   ]
 }
@@ -47,12 +46,10 @@ import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin'
 ## 缩略图组件
 
 ```tsx pure
-import { FlowMinimapService, MinimapRender } from '@flowgram.ai/minimap-plugin';
-import { useService } from '@flowgram.ai/editor'; // 或 free-layout-editor
+import { MinimapRender } from '@flowgram.ai/minimap-plugin';
 
 
 export const Minimap = () => {
-  const minimapService = useService(FlowMinimapService);
   return (
     <div
       style={{
@@ -64,7 +61,6 @@ export const Minimap = () => {
       }}
     >
       <MinimapRender
-        service={minimapService}
         containerStyles={{
           pointerEvents: 'auto',
           position: 'relative',
