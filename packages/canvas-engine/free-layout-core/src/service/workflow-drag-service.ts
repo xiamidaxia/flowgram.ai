@@ -38,7 +38,7 @@ import { WorkflowLinesManager } from '../workflow-lines-manager';
 import { WorkflowDocumentOptions } from '../workflow-document-option';
 import { WorkflowDocument } from '../workflow-document';
 import { LineEventProps, NodesDragEvent, OnDragLineEnd } from '../typings/workflow-drag';
-import { type WorkflowNodeJSON, type WorkflowNodeMeta } from '../typings';
+import { LinePointLocation, type WorkflowNodeJSON, type WorkflowNodeMeta } from '../typings';
 import { WorkflowNodePortsData } from '../entity-datas';
 import {
   type WorkflowLineEntity,
@@ -65,6 +65,19 @@ function checkDragSuccess(
     return true;
   }
   return false;
+}
+
+function reverseLocation(sourceLocation: LinePointLocation): LinePointLocation {
+  switch (sourceLocation) {
+    case 'bottom':
+      return 'top';
+    case 'left':
+      return 'right';
+    case 'top':
+      return 'bottom';
+    case 'right':
+      return 'left';
+  }
 }
 
 @injectable()
@@ -669,7 +682,7 @@ export class WorkflowDragService {
           line.drawingTo = {
             x: dragPos.x,
             y: dragPos.y,
-            location: line.fromPort.location === 'right' ? 'left' : 'top',
+            location: reverseLocation(line.fromPort.location),
           };
         }
 

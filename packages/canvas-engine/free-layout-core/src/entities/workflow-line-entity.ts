@@ -435,7 +435,9 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
     return this.linesManager.isDisabledLine(this, this.uiState.disabled);
   }
 
-  /** 是否竖向 */
+  /**
+   * @deprecated
+   */
   get vertical(): boolean {
     const fromLocation = this.fromPort.location;
     const toLocation = this.toPort?.location;
