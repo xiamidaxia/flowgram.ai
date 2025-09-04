@@ -10,8 +10,8 @@ import {
   EditorProvider,
   ActiveLinePlaceholder,
   InferValues,
-} from '@coze-editor/editor/react';
-import preset, { EditorAPI } from '@coze-editor/editor/preset-prompt';
+} from '@flowgram.ai/coze-editor/react';
+import preset, { EditorAPI } from '@flowgram.ai/coze-editor/preset-prompt';
 
 import { PropsType } from './types';
 import { UIContainer } from './styles';

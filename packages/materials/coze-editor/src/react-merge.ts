@@ -3,4 +3,4 @@
  * SPDX-License-Identifier: MIT
  */
 
-export * from './flow-value';
+export * from '@coze-editor/editor/react-merge';

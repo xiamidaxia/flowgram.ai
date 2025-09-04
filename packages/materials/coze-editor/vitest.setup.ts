@@ -3,4 +3,4 @@
  * SPDX-License-Identifier: MIT
  */
 
-export * from './validate-flow-value';
+import 'reflect-metadata';

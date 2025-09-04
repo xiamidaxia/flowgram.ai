@@ -5,17 +5,17 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Popover } from '@douyinfe/semi-ui';
 import {
   Mention,
   MentionOpenChangeEvent,
   getCurrentMentionReplaceRange,
   useEditor,
   PositionMirror,
-} from '@coze-editor/editor/react';
-import { EditorAPI } from '@coze-editor/editor/preset-prompt';
+} from '@flowgram.ai/coze-editor/react';
+import { EditorAPI } from '@flowgram.ai/coze-editor/preset-prompt';
+import { Popover } from '@douyinfe/semi-ui';
 
-import { IFlowValue } from '@/typings';
+import { IFlowValue } from '@/shared';
 
 import { InputsPicker } from '../inputs-picker';
 

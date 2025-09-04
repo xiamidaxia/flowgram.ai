@@ -10,12 +10,11 @@ import {
   createRenderer,
   EditorProvider,
   InferValues,
-} from '@coze-editor/editor/react';
-import preset, { type EditorAPI } from '@coze-editor/editor/preset-code';
+} from '@flowgram.ai/coze-editor/react';
+import preset, { type EditorAPI } from '@flowgram.ai/coze-editor/preset-code';
 import { EditorView } from '@codemirror/view';
 
 import { getSuffixByLanguageId } from './utils';
-import { initTsWorker } from './language-features';
 
 import './theme';
 import './language-features';
@@ -56,17 +55,19 @@ export function CodeEditor({
   const editorRef = useRef<EditorAPI | null>(null);
 
   useEffect(() => {
-    if (languageId === 'typescript') {
-      initTsWorker();
-    }
-  }, [languageId]);
-
-  useEffect(() => {
     // listen to value change
     if (editorRef.current?.getValue() !== value) {
       editorRef.current?.setValue(String(value || ''));
     }
   }, [value]);
+
+  useEffect(() => {
+    if (languageId === 'typescript') {
+      import('./init-worker').then((module) => {
+        module.initTsWorker();
+      });
+    }
+  }, [languageId]);
 
   return (
     <EditorProvider>

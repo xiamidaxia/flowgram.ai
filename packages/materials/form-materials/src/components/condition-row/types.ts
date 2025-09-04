@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { IFlowConstantRefValue, IFlowRefValue } from '@/typings';
+import { IFlowConstantRefValue, IFlowRefValue } from '@/shared';
 
 export enum Op {
   EQ = 'eq',

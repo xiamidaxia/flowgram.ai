@@ -13,9 +13,9 @@ import {
   Scope,
   useCurrentScope,
 } from '@flowgram.ai/editor';
+import { useInjector } from '@flowgram.ai/coze-editor/react';
 import { Popover } from '@douyinfe/semi-ui';
 import { IconIssueStroked } from '@douyinfe/semi-icons';
-import { useInjector } from '@coze-editor/editor/react';
 import {
   Decoration,
   DecorationSet,

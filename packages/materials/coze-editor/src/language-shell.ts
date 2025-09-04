@@ -3,4 +3,4 @@
  * SPDX-License-Identifier: MIT
  */
 
-export * from './use-object-list';
+export * from '@coze-editor/editor/language-shell';

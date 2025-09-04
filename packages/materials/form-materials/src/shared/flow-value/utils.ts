@@ -15,8 +15,7 @@ import {
   IFlowValue,
   IFlowConstantRefValue,
   FlowValueType,
-} from '@/typings';
-
+} from './types';
 import { constantSchema, refSchema, expressionSchema, templateSchema } from './schema';
 
 export namespace FlowValueUtils {

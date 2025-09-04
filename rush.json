@@ -878,6 +878,15 @@
             ]
         },
         {
+            "packageName": "@flowgram.ai/coze-editor",
+            "projectFolder": "packages/materials/coze-editor",
+            "versionPolicyName": "publishPolicy",
+            "tags": [
+                "level-1",
+                "team-flow"
+            ]
+        },
+        {
             "packageName": "@flowgram.ai/free-auto-layout-plugin",
             "projectFolder": "packages/plugins/free-auto-layout-plugin",
             "versionPolicyName": "publishPolicy",

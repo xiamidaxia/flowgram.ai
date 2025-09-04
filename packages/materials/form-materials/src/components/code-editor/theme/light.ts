@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { createTheme, tags as t } from '@coze-editor/editor/preset-code';
+import { createTheme, tags as t } from '@flowgram.ai/coze-editor/preset-code';
 import { type Extension } from '@codemirror/state';
 
 const colors = {

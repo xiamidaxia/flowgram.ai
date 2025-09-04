@@ -33,9 +33,9 @@ export {
   createTypePresetPlugin,
   useTypeManager,
   JsonSchemaTypePresetProvider,
-  IJsonSchema,
   JsonSchemaUtils,
-  JsonSchemaTypeRegistry,
-  ConstantRendererProps,
-  JsonSchemaBasicType,
+  type IJsonSchema,
+  type JsonSchemaTypeRegistry,
+  type ConstantRendererProps,
+  type JsonSchemaBasicType,
 };

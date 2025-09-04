@@ -5,13 +5,13 @@
   "repository": "https://github.com/bytedance/flowgram.ai",
   "license": "MIT",
   "exports": {
-    "types": "./dist/index.d.ts",
-    "import": "./dist/esm/index.js",
-    "require": "./dist/index.js"
+    "types": "./dist/types/index.d.ts",
+    "import": "./dist/esm/index.mjs",
+    "require": "./dist/cjs/index.js"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.mjs",
+  "types": "./dist/types/index.d.ts",
   "bin": {
     "flowgram-form-materials": "./bin/run.sh"
   },
@@ -21,9 +21,10 @@
     "src"
   ],
   "scripts": {
-    "build": "npm run build:fast -- --dts-resolve",
-    "build:fast": "tsup src/index.ts --format cjs,esm --sourcemap --legacy-output",
-    "build:watch": "npm run build:fast -- --dts-resolve",
+    "build": "rslib build",
+    "build:fast": "rslib build",
+    "build:watch": "rslib build",
+    "name-export": "node scripts/name-export.js",
     "clean": "rimraf dist",
     "test": "exit 0",
     "test:cov": "exit 0",
@@ -37,13 +38,12 @@
     "@douyinfe/semi-ui": "^2.80.0",
     "@flowgram.ai/editor": "workspace:*",
     "@flowgram.ai/json-schema": "workspace:*",
+    "@flowgram.ai/coze-editor": "workspace:*",
     "lodash-es": "^4.17.21",
     "nanoid": "^4.0.2",
     "immer": "~10.1.1",
-    "@coze-editor/editor": "0.1.0-alpha.5a549c",
     "@codemirror/view": "~6.38.0",
     "@codemirror/state": "~6.5.2",
-    "typescript": "^5.8.3",
     "zod": "^3.24.4"
   },
   "devDependencies": {
@@ -59,9 +59,10 @@
     "react": "^18",
     "react-dom": "^18",
     "styled-components": "^5",
-    "tsup": "^8.0.1",
     "typescript": "^5.8.3",
-    "vitest": "^0.34.6"
+    "vitest": "^0.34.6",
+    "@rslib/core": "~0.12.4",
+    "@rsbuild/plugin-react": "^1.1.1"
   },
   "peerDependencies": {
     "react": ">=16.8",

@@ -6,8 +6,8 @@
 import React from 'react';
 
 import { I18n } from '@flowgram.ai/editor';
-import { transformerCreator } from '@coze-editor/editor/preset-code';
-import { Text } from '@coze-editor/editor/language-json';
+import { transformerCreator } from '@flowgram.ai/coze-editor/preset-code';
+import { Text } from '@flowgram.ai/coze-editor/language-json';
 
 import { CodeEditor, type CodeEditorPropsType } from '@/components/code-editor';
 

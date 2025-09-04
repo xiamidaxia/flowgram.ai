@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { languages } from '@coze-editor/editor/preset-code';
-import { typescript } from '@coze-editor/editor/language-typescript';
-import { shell } from '@coze-editor/editor/language-shell';
-import { python } from '@coze-editor/editor/language-python';
-import { json } from '@coze-editor/editor/language-json';
-import { mixLanguages } from '@coze-editor/editor';
+import { languages } from '@flowgram.ai/coze-editor/preset-code';
+import { typescript } from '@flowgram.ai/coze-editor/language-typescript';
+import { shell } from '@flowgram.ai/coze-editor/language-shell';
+import { python } from '@flowgram.ai/coze-editor/language-python';
+import { json } from '@flowgram.ai/coze-editor/language-json';
+import { mixLanguages } from '@flowgram.ai/coze-editor';
 
 languages.register('python', python);
 languages.register('shell', shell);
@@ -21,24 +21,3 @@ languages.register('json', {
   }),
   languageService: json.languageService,
 });
-
-let tsWorkerInit = false;
-
-export const initTsWorker = () => {
-  if (tsWorkerInit) {
-    return;
-  }
-  tsWorkerInit = true;
-
-  const tsWorker = new Worker(
-    new URL(`@coze-editor/editor/language-typescript/worker`, import.meta.url),
-    { type: 'module' }
-  );
-  typescript.languageService.initialize(tsWorker, {
-    compilerOptions: {
-      // eliminate Promise error
-      lib: ['es2015', 'dom'],
-      noImplicitAny: false,
-    },
-  });
-};

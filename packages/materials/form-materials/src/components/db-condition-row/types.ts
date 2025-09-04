@@ -5,7 +5,7 @@
 
 import { IJsonSchema } from '@flowgram.ai/json-schema';
 
-import { IFlowConstantRefValue } from '@/typings';
+import { IFlowConstantRefValue } from '@/shared';
 
 export interface OpConfig {
   label: string;

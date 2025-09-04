@@ -14,7 +14,7 @@ import {
   getNodeScope,
 } from '@flowgram.ai/editor';
 
-import { IFlowRefValue, IFlowValue } from '@/typings';
+import { IFlowRefValue, IFlowValue } from '@/shared';
 
 type AssignValueType =
   | {

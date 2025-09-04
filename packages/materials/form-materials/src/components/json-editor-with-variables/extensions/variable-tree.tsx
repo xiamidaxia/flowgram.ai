@@ -5,15 +5,15 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Popover, Tree } from '@douyinfe/semi-ui';
 import {
   Mention,
   MentionOpenChangeEvent,
   getCurrentMentionReplaceRange,
   useEditor,
   PositionMirror,
-} from '@coze-editor/editor/react';
-import { EditorAPI } from '@coze-editor/editor/preset-prompt';
+} from '@flowgram.ai/coze-editor/react';
+import { EditorAPI } from '@flowgram.ai/coze-editor/preset-prompt';
+import { Popover, Tree } from '@douyinfe/semi-ui';
 
 import { useVariableTree } from '@/components/variable-selector';
 

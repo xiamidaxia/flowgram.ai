@@ -6,7 +6,7 @@
 import { isNil } from 'lodash-es';
 import { FeedbackLevel, FlowNodeEntity, getNodeScope } from '@flowgram.ai/editor';
 
-import { IFlowValue } from '@/typings';
+import { IFlowValue } from '@/shared';
 import { FlowValueUtils } from '@/shared';
 
 interface Context {
