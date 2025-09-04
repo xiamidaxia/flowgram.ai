@@ -445,6 +445,14 @@
                 "cli"
             ]
         },
+        {
+            "packageName": "@flowgram.ai/cli",
+            "projectFolder": "apps/cli",
+            "versionPolicyName": "publishPolicy",
+            "tags": [
+                "cli"
+            ]
+        },
         // 官网
         {
             "packageName": "@flowgram.ai/docs",
