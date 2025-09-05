@@ -5,7 +5,7 @@
 
 import path from "path";
 import fs from "fs";
-import { File } from "./file";
+import { File, traverseRecursiveFilePaths } from "./file";
 import { extractNamedExports } from "./export";
 import {
   assembleImport,
@@ -109,15 +109,9 @@ class TsFile extends File {
 }
 
 export function* traverseRecursiveTsFiles(folder: string): Generator<TsFile> {
-  const files = fs.readdirSync(folder);
-  for (const file of files) {
-    const filePath = path.join(folder, file);
-    if (fs.statSync(filePath).isDirectory()) {
-      yield* traverseRecursiveTsFiles(filePath);
-    } else {
-      if (file.endsWith(".ts") || file.endsWith(".tsx")) {
-        yield new TsFile(filePath);
-      }
+  for (const filePath of traverseRecursiveFilePaths(folder)) {
+    if (filePath.endsWith(".ts") || filePath.endsWith(".tsx")) {
+      yield new TsFile(filePath);
     }
   }
 }

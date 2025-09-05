@@ -56,7 +56,7 @@ export default defineConfig({
   lib: formats,
   output: {
     target: 'web',
-    cleanDistPath: true,
+    cleanDistPath: process.env.NODE_ENV === 'production',
   },
   plugins: [pluginReact({ swcReactOptions: {} })],
 });

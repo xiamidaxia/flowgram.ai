@@ -89,6 +89,13 @@ export class Project {
     }
   }
 
+  writeToPackageJsonFile() {
+    writeFileSync(
+      this.packageJsonPath,
+      JSON.stringify(this.packageJson, null, 2),
+    );
+  }
+
   printInfo() {
     console.log(chalk.bold("Project Info:"));
     console.log(chalk.black(`  - Flowgram Version: ${this.flowgramVersion}`));

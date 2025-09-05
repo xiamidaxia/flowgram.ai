@@ -53,4 +53,7 @@ const formats: Partial<RsbuildConfig>[] = [
 
 export default defineConfig({
   lib: formats,
+  output: {
+    cleanDistPath: process.env.NODE_ENV === 'production',
+  },
 });

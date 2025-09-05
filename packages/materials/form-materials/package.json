@@ -21,9 +21,9 @@
     "src"
   ],
   "scripts": {
-    "build": "rslib build",
-    "build:fast": "rslib build",
-    "build:watch": "rslib build",
+    "build": "cross-env NODE_ENV=production rslib build",
+    "build:fast": "cross-env NODE_ENV=development rslib build",
+    "build:watch": "npm run build:fast",
     "name-export": "node scripts/name-export.js",
     "clean": "rimraf dist",
     "test": "exit 0",
@@ -62,6 +62,7 @@
     "typescript": "^5.8.3",
     "vitest": "^0.34.6",
     "@rslib/core": "~0.12.4",
+    "cross-env": "~7.0.3",
     "@rsbuild/plugin-react": "^1.1.1"
   },
   "peerDependencies": {

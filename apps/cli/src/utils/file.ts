@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-import path from 'path';
-import fs from 'fs';
+import path from "path";
+import fs from "fs";
+import ignore, { Ignore } from "ignore";
 
 export class File {
   content: string;
@@ -17,7 +18,7 @@ export class File {
 
   suffix: string;
 
-  constructor(filePath: string, public root: string = '/') {
+  constructor(filePath: string, public root: string = "/") {
     this.path = filePath;
     this.relativePath = path.relative(this.root, this.path);
     this.suffix = path.extname(this.path);
@@ -29,7 +30,7 @@ export class File {
 
     // If no utf-8, skip
     try {
-      this.content = fs.readFileSync(this.path, 'utf-8');
+      this.content = fs.readFileSync(this.path, "utf-8");
       this.isUtf8 = true;
     } catch (e) {
       this.isUtf8 = false;
@@ -39,22 +40,48 @@ export class File {
 
   replace(updater: (content: string) => string) {
     if (!this.isUtf8) {
-      console.warn('Not UTF-8 file skipped: ', this.path);
+      console.warn("Not UTF-8 file skipped: ", this.path);
       return;
     }
     this.content = updater(this.content);
-    fs.writeFileSync(this.path, this.content, 'utf-8');
+    fs.writeFileSync(this.path, this.content, "utf-8");
+  }
+
+  write(nextContent: string) {
+    this.content = nextContent;
+    fs.writeFileSync(this.path, this.content, "utf-8");
+  }
+}
+
+export function* traverseRecursiveFilePaths(
+  folder: string,
+  ig: Ignore = ignore().add(".git"),
+  root: string = folder,
+): Generator<string> {
+  const files = fs.readdirSync(folder);
+
+  // add .gitignore to ignore if exists
+  if (fs.existsSync(path.join(folder, ".gitignore"))) {
+    ig.add(fs.readFileSync(path.join(folder, ".gitignore"), "utf-8"));
+  }
+
+  for (const file of files) {
+    const filePath = path.join(folder, file);
+
+    if (ig.ignores(path.relative(root, filePath))) {
+      continue;
+    }
+
+    if (fs.statSync(filePath).isDirectory()) {
+      yield* traverseRecursiveFilePaths(filePath, ig, root);
+    } else {
+      yield filePath;
+    }
   }
 }
 
 export function* traverseRecursiveFiles(folder: string): Generator<File> {
-  const files = fs.readdirSync(folder);
-  for (const file of files) {
-    const filePath = path.join(folder, file);
-    if (fs.statSync(filePath).isDirectory()) {
-      yield* traverseRecursiveFiles(filePath);
-    } else {
-      yield new File(filePath);
-    }
+  for (const filePath of traverseRecursiveFilePaths(folder)) {
+    yield new File(filePath);
   }
 }

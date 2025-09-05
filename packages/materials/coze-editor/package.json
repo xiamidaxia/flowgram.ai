@@ -88,9 +88,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "rslib build",
-    "build:fast": "rslib build",
-    "build:watch": "rslib build",
+    "build": "cross-env NODE_ENV=production rslib build",
+    "build:fast": "cross-env NODE_ENV=development rslib build",
+    "build:watch": "npm run build:fast",
     "clean": "rimraf dist",
     "gen": "node scripts/gen.js",
     "test": "exit 0",
@@ -111,9 +111,9 @@
     "eslint": "^8.54.0",
     "react": "^18",
     "react-dom": "^18",
-    "tsup": "^8.0.1",
     "typescript": "^5.8.3",
     "vitest": "^0.34.6",
+    "cross-env": "~7.0.3",
     "@rslib/core": "~0.12.4"
   },
   "peerDependencies": {
