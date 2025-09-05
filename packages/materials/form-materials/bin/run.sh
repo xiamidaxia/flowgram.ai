@@ -3,4 +3,4 @@
 #  SPDX-License-Identifier: MIT
 
 
-npx @flowgram.ai/cli@latest materials $1
+npx @flowgram.ai/cli@latest materials "$@"

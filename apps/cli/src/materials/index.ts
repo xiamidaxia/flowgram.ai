@@ -10,17 +10,25 @@ import { copyMaterial, listAllMaterials, Material } from "./materials";
 import { loadNpm } from "../utils/npm";
 import path from "path";
 import { Project } from "../utils/project";
+import { executeRefreshProjectImport } from "./refresh-project-import";
 
-export async function syncMaterial(materialName?: string) {
+export async function syncMaterial(opts: {
+  materialName?: string;
+  refreshProjectImports?: boolean;
+}) {
+  const { materialName, refreshProjectImports } = opts;
+
   // materialName can be undefined
-  console.log(chalk.bgGreenBright("Welcome to @flowgram.ai form-materials!"));
+  console.log(chalk.bold("🚀 Welcome to @flowgram.ai form-materials!"));
 
   const project = await Project.getSingleton();
   project.printInfo();
 
   if (!project.flowgramVersion) {
     throw new Error(
-      "Please install @flowgram.ai/fixed-layout-editor or @flowgram.ai/free-layout-editor",
+      chalk.red(
+        "❌ Please install @flowgram.ai/fixed-layout-editor or @flowgram.ai/free-layout-editor",
+      ),
     );
   }
 
@@ -31,7 +39,7 @@ export async function syncMaterial(materialName?: string) {
 
   let material: Material | undefined; // material can be undefined
 
-  // Check if materialName is provided and exists in materials
+  // 1. Check if materialName is provided and exists in materials
   if (materialName) {
     const selectedMaterial = materials.find(
       (m) => `${m.type}/${m.name}` === materialName,
@@ -48,7 +56,7 @@ export async function syncMaterial(materialName?: string) {
     }
   }
 
-  // If material not found or materialName not provided, prompt user to select
+  // 2. If material not found or materialName not provided, prompt user to select
   if (!material) {
     // User select one component
     const result = await inquirer.prompt<{
@@ -74,9 +82,15 @@ export async function syncMaterial(materialName?: string) {
     process.exit(1);
   }
 
+  // 3. Refresh project imports
+  if (refreshProjectImports) {
+    console.log(chalk.bold("🚀 Refresh imports in your project"));
+    executeRefreshProjectImport(project, material);
+  }
+
   // 4. Copy the materials to the project
   console.log(
-    chalk.bold("The following materials will be added to your project"),
+    chalk.bold("🚀 The following materials will be added to your project"),
   );
   console.log(material);
   let { packagesToInstall } = copyMaterial(material, project, formMaterialPath);
@@ -84,10 +98,10 @@ export async function syncMaterial(materialName?: string) {
   // 4. Install the dependencies
   await project.addDependencies(packagesToInstall);
   console.log(
-    chalk.bold("These npm dependencies is added to your package.json"),
+    chalk.bold("✅ These npm dependencies is added to your package.json"),
   );
   packagesToInstall.forEach((_package) => {
     console.log(`- ${_package}`);
-  })
-  console.log(chalk.bold("\nPlease run npm install to install dependencies"));
+  });
+  console.log(chalk.bold("\n➡️ Please run npm install to install dependencies\n"));
 }

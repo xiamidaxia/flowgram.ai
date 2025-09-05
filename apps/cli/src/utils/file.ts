@@ -6,7 +6,7 @@
 import path from 'path';
 import fs from 'fs';
 
-class File {
+export class File {
   content: string;
 
   isUtf8: boolean;

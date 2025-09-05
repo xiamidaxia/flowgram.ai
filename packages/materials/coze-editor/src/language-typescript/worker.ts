@@ -3,7 +3,12 @@
  * SPDX-License-Identifier: MIT
  */
 
-/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-extraneous-dependencies */
+/**
+ * Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+ * SPDX-License-Identifier: MIT
+ */
+
 //  Copyright (c) 2025 coze-dev
 //  SPDX-License-Identifier: MIT
 

@@ -3,16 +3,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { fileURLToPath } from "url";
 import path from "path";
 import fs from "fs";
 
-import { traverseRecursiveFiles } from "../utils/traverse-file";
-import { replaceImport, traverseFileImports } from "../utils/import";
 import { Project } from "../utils/project"; // Import ProjectInfo
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { traverseRecursiveTsFiles } from "../utils/ts-file";
 
 // Added type definitions
 export interface Material {
@@ -77,7 +72,8 @@ export const copyMaterial = (
 ): {
   packagesToInstall: string[];
 } => {
-  const formMaterialDependencies = getFormMaterialDependencies(formMaterialPath);
+  const formMaterialDependencies =
+    getFormMaterialDependencies(formMaterialPath);
 
   const sourceDir: string = material.path;
   const materialRoot: string = path.join(
@@ -91,38 +87,35 @@ export const copyMaterial = (
 
   fs.cpSync(sourceDir, targetDir, { recursive: true });
 
-  for (const file of traverseRecursiveFiles(targetDir)) {
-    if ([".ts", ".tsx"].includes(file.suffix)) {
-      for (const importDeclaration of traverseFileImports(file.content)) {
-        const { source } = importDeclaration;
+  for (const file of traverseRecursiveTsFiles(targetDir)) {
+    for (const importDeclaration of file.imports) {
+      const { source } = importDeclaration;
 
-        if (source.startsWith("@/")) {
-          // is inner import
-          console.log(
-            `Replace Import from ${source} to @flowgram.ai/form-materials`,
-          );
-          file.replace((content) =>
-            replaceImport(content, importDeclaration, [
-              { ...importDeclaration, source: "@flowgram.ai/form-materials" },
-            ]),
-          );
-          packagesToInstall.add(
-            `@flowgram.ai/form-materials@${project.flowgramVersion}`,
-          );
-        } else if (!source.startsWith(".") && !source.startsWith("react")) {
-          // check if is in form material dependencies
-          const [dep, version] =
-            Object.entries(formMaterialDependencies).find(([_key]) =>
-              source.startsWith(_key),
-            ) || [];
-          if (!dep) {
-            continue;
-          }
-          if (dep.startsWith("@flowgram.ai/")) {
-            packagesToInstall.add(`${dep}@${project.flowgramVersion}`);
-          } else {
-            packagesToInstall.add(`${dep}@${version}`);
-          }
+      if (source.startsWith("@/")) {
+        // is inner import
+        console.log(
+          `Replace Import from ${source} to @flowgram.ai/form-materials`,
+        );
+        file.replaceImport(
+          [importDeclaration],
+          [{ ...importDeclaration, source: "@flowgram.ai/form-materials" }],
+        );
+        packagesToInstall.add(
+          `@flowgram.ai/form-materials@${project.flowgramVersion}`,
+        );
+      } else if (!source.startsWith(".") && !source.startsWith("react")) {
+        // check if is in form material dependencies
+        const [dep, version] =
+          Object.entries(formMaterialDependencies).find(([_key]) =>
+            source.startsWith(_key),
+          ) || [];
+        if (!dep) {
+          continue;
+        }
+        if (dep.startsWith("@flowgram.ai/")) {
+          packagesToInstall.add(`${dep}@${project.flowgramVersion}`);
+        } else {
+          packagesToInstall.add(`${dep}@${version}`);
         }
       }
     }

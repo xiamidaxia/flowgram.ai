@@ -24,6 +24,8 @@ export class Project {
 
   packageJson: PackageJson;
 
+  srcPath: string;
+
   protected constructor() {}
 
   async init() {
@@ -42,6 +44,7 @@ export class Project {
 
     this.projectPath = projectPath;
 
+    this.srcPath = path.join(projectPath, "src");
     this.packageJsonPath = path.join(projectPath, "package.json");
     this.packageJson = JSON.parse(readFileSync(this.packageJsonPath, "utf8"));
 

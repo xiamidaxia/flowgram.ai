@@ -24,8 +24,9 @@ program
   .command("materials")
   .description("Sync materials to the project")
   .argument('[string]', 'Material name')
-  .action(async (materialName) => {
-    await syncMaterial(materialName);
+  .option('--refresh-project-imports', 'Refresh project imports to copied materials', false)
+  .action(async (materialName, options) => {
+    await syncMaterial({ materialName, refreshProjectImports: options.refreshProjectImports });
   });
 
 program.parse(process.argv);

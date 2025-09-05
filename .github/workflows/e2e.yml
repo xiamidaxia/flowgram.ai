@@ -24,7 +24,7 @@ jobs:
         run: node common/scripts/install-run-rush.js build
 
       - name: Install Playwright Browsers
-        run: pushd e2e/fixed-layout && npx playwright install --with-deps && popd
+        run: pushd e2e/fixed-layout && npx playwright install --with-deps --only-shell chromium && popd
 
       - name: Run E2E tests
         run: node common/scripts/install-run-rush.js e2e:test --verbose

@@ -11,7 +11,7 @@
  * import D, { type E, F } from 'module';
  * import A, { B as B1 } from 'module';
  */
-interface ImportDeclaration {
+export interface ImportDeclaration {
   // origin statement
   statement: string;
 
@@ -50,7 +50,7 @@ export function assembleImport(declaration: ImportDeclaration): string {
   if (namespaceImport) {
     importClauses.push(`* as ${namespaceImport}`);
   }
-  return `import ${importClauses.join(', ')} from '${source}'`;
+  return `import ${importClauses.join(', ')} from '${source}';`;
 }
 
 export function replaceImport(
@@ -66,7 +66,7 @@ export function replaceImport(
 export function* traverseFileImports(fileContent: string): Generator<ImportDeclaration> {
   // 匹配所有 import 语句的正则表达式
   const importRegex =
-    /import\s+([^{}*,]*?)?(?:\s*\*\s*as\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*,?)?(?:\s*\{([^}]*)\}\s*,?)?(?:\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*,?)?\s*from\s*['"`]([^'"`]+)['"`]/g;
+    /import\s+([^{}*,]*?)?(?:\s*\*\s*as\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*,?)?(?:\s*\{([^}]*)\}\s*,?)?(?:\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*,?)?\s*from\s*['"`]([^'"`]+)['"`]\;?/g;
 
   let match;
   while ((match = importRegex.exec(fileContent)) !== null) {
