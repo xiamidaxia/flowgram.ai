@@ -13,6 +13,11 @@ export { CodeEditorMini } from './code-editor-mini';
 export { ConditionRow, type ConditionRowValueType } from './condition-row';
 export { ConstantInput, type ConstantInputStrategy } from './constant-input';
 export {
+  EditorVariableTagInject,
+  EditorVariableTree,
+  EditorInputsTree,
+} from './coze-editor-extensions';
+export {
   DBConditionRow,
   type DBConditionOptionType,
   type DBConditionRowValueType,

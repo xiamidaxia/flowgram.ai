@@ -6,8 +6,7 @@
 import React from 'react';
 
 import { PromptEditor, PromptEditorPropsType } from '@/components/prompt-editor';
-
-import { InputsTree } from './extensions/inputs-tree';
+import { EditorInputsTree } from '@/components/coze-editor-extensions';
 
 export interface PromptEditorWithInputsProps extends PromptEditorPropsType {
   inputsValues: any;
@@ -19,7 +18,7 @@ export function PromptEditorWithInputs({
 }: PromptEditorWithInputsProps) {
   return (
     <PromptEditor {...restProps}>
-      <InputsTree inputsValues={inputsValues} />
+      <EditorInputsTree inputsValues={inputsValues} />
     </PromptEditor>
   );
 }

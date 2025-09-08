@@ -6,17 +6,15 @@
 import React from 'react';
 
 import { PromptEditor, PromptEditorPropsType } from '@/components/prompt-editor';
-
-import { VariableTree } from './extensions/variable-tree';
-import { VariableTagInject } from './extensions/variable-tag';
+import { EditorVariableTree, EditorVariableTagInject } from '@/components/coze-editor-extensions';
 
 export interface PromptEditorWithVariablesProps extends PromptEditorPropsType {}
 
 export function PromptEditorWithVariables(props: PromptEditorWithVariablesProps) {
   return (
     <PromptEditor {...props}>
-      <VariableTree />
-      <VariableTagInject />
+      <EditorVariableTree />
+      <EditorVariableTagInject />
     </PromptEditor>
   );
 }

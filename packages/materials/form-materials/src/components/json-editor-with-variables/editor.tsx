@@ -9,10 +9,10 @@ import { I18n } from '@flowgram.ai/editor';
 import { transformerCreator } from '@flowgram.ai/coze-editor/preset-code';
 import { Text } from '@flowgram.ai/coze-editor/language-json';
 
+import { EditorVariableTree, EditorVariableTagInject } from '@/components/coze-editor-extensions';
 import { CodeEditor, type CodeEditorPropsType } from '@/components/code-editor';
 
-import { VariableTree } from './extensions/variable-tree';
-import { VariableTagInject } from './extensions/variable-tag';
+const TRIGGER_CHARACTERS = ['@'];
 
 type Match = { match: string; range: [number, number] };
 function findAllMatches(inputString: string, regex: RegExp): Match[] {
@@ -62,8 +62,8 @@ export function JsonEditorWithVariables(props: JsonEditorWithVariablesProps) {
         ...(props.options || {}),
       }}
     >
-      <VariableTree />
-      <VariableTagInject />
+      <EditorVariableTree triggerCharacters={TRIGGER_CHARACTERS} />
+      <EditorVariableTagInject />
     </CodeEditor>
   );
 }

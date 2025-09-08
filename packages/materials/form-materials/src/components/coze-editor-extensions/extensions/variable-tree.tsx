@@ -17,7 +17,13 @@ import { Popover, Tree } from '@douyinfe/semi-ui';
 
 import { useVariableTree } from '@/components/variable-selector';
 
-export function VariableTree() {
+const DEFAULT_TRIGGER_CHARACTER = ['{', '{}', '@'];
+
+export function VariableTree({
+  triggerCharacters = DEFAULT_TRIGGER_CHARACTER,
+}: {
+  triggerCharacters?: string[];
+}) {
   const [posKey, setPosKey] = useState('');
   const [visible, setVisible] = useState(false);
   const [position, setPosition] = useState(-1);
@@ -30,8 +36,20 @@ export function VariableTree() {
       return;
     }
 
+    /**
+     * When user input {{xxxx}}, {{{xxx}}}(more brackets if possible), replace all brackets with {{xxxx}}
+     */
+    let { from, to } = range;
+    while (editor.$view.state.doc.sliceString(from - 1, from) === '{') {
+      from--;
+    }
+    while (editor.$view.state.doc.sliceString(to, to + 1) === '}') {
+      to++;
+    }
+
     editor.replaceText({
-      ...range,
+      from,
+      to,
       text: '{{' + variablePath + '}}',
     });
 
@@ -53,7 +71,7 @@ export function VariableTree() {
 
   return (
     <>
-      <Mention triggerCharacters={['@']} onOpenChange={handleOpenChange} />
+      <Mention triggerCharacters={triggerCharacters} onOpenChange={handleOpenChange} />
 
       <Popover
         visible={visible}
@@ -61,7 +79,7 @@ export function VariableTree() {
         position="topLeft"
         rePosKey={posKey}
         content={
-          <div style={{ width: 300 }}>
+          <div style={{ width: 300, maxHeight: 300, overflowY: 'auto' }}>
             <Tree
               treeData={treeData}
               onSelect={(v) => {
