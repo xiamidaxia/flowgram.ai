@@ -65,6 +65,10 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
 
   readonly onScroll: Event<{ scrollX: number; scrollY: number }>;
 
+  get onResize() {
+    return this.pipelineRegistry.onResizeEmitter.event;
+  }
+
   // 唯一 className，适配画布多实例场景
   private playgroundClassName = nanoid();
 
