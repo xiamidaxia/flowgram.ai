@@ -5,13 +5,51 @@
   "repository": "https://github.com/bytedance/flowgram.ai",
   "license": "MIT",
   "exports": {
-    "types": "./dist/types/index.d.ts",
-    "import": "./dist/esm/index.mjs",
-    "require": "./dist/cjs/index.js"
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.js"
+    },
+    "./components/*": {
+      "types": "./dist/types/components/*/index.d.ts",
+      "import": "./dist/esm/components/*/index.mjs",
+      "require": "./dist/cjs/components/*/index.js"
+    },
+    "./effects/*": {
+      "types": "./dist/types/effects/*/index.d.ts",
+      "import": "./dist/esm/effects/*/index.mjs",
+      "require": "./dist/cjs/effects/*/index.js"
+    },
+    "./hooks/*": {
+      "types": "./dist/types/hooks/*/index.d.ts",
+      "import": "./dist/esm/hooks/*/index.mjs",
+      "require": "./dist/cjs/hooks/*/index.js"
+    },
+    "./shared/*": {
+      "types": "./dist/types/shared/*/index.d.ts",
+      "import": "./dist/esm/shared/*/index.mjs",
+      "require": "./dist/cjs/shared/*/index.js"
+    },
+    "./form-plugins/*": {
+      "types": "./dist/types/form-plugins/*/index.d.ts",
+      "import": "./dist/esm/form-plugins/*/index.mjs",
+      "require": "./dist/cjs/form-plugins/*/index.js"
+    },
+    "./plugins/*": {
+      "types": "./dist/types/plugins/*/index.d.ts",
+      "import": "./dist/esm/plugins/*/index.mjs",
+      "require": "./dist/cjs/plugins/*/index.js"
+    },
+    "./validate/*": {
+      "types": "./dist/types/validate/*/index.d.ts",
+      "import": "./dist/esm/validate/*/index.mjs",
+      "require": "./dist/cjs/validate/*/index.js"
+    }
   },
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
   "types": "./dist/types/index.d.ts",
+  "sideEffects": false,
   "bin": {
     "flowgram-form-materials": "./bin/run.sh"
   },

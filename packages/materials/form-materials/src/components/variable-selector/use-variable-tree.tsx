@@ -5,12 +5,15 @@
 
 import React, { useCallback } from 'react';
 
-import { IJsonSchema, JsonSchemaUtils } from '@flowgram.ai/json-schema';
+import {
+  IJsonSchema,
+  JsonSchemaTypeManager,
+  JsonSchemaUtils,
+  useTypeManager,
+} from '@flowgram.ai/json-schema';
 import { ASTMatch, BaseVariableField, useAvailableVariables } from '@flowgram.ai/editor';
 import { TreeNodeData } from '@douyinfe/semi-ui/lib/es/tree';
 import { Icon } from '@douyinfe/semi-ui';
-
-import { useTypeManager } from '@/plugins';
 
 type VariableField = BaseVariableField<{
   icon?: string | JSX.Element;
@@ -25,7 +28,7 @@ export function useVariableTree(params: {
 }): TreeNodeData[] {
   const { includeSchema, excludeSchema, skipVariable } = params;
 
-  const typeManager = useTypeManager();
+  const typeManager = useTypeManager() as JsonSchemaTypeManager;
   const variables = useAvailableVariables();
 
   const getVariableTypeIcon = useCallback((variable: VariableField) => {

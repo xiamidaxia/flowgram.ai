@@ -47,7 +47,8 @@
     "cross-env": "~7.0.3",
     "globals": "^15.11.0",
     "less": "^4.1.2",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vite-bundle-analyzer": "~1.2.3"
   },
   "publishConfig": {
     "access": "public",

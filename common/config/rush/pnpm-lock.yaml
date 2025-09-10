@@ -808,6 +808,9 @@ importers:
       vite:
         specifier: ^6.3.5
         version: 6.3.5(@types/node@18.19.68)(less@4.3.0)
+      vite-bundle-analyzer:
+        specifier: ~1.2.3
+        version: 1.2.3
 
   ../../apps/docs:
     dependencies:
@@ -19729,6 +19732,11 @@ packages:
       '@types/unist': 3.0.3
       vfile-message: 4.0.2
     dev: false
+
+  /vite-bundle-analyzer@1.2.3:
+    resolution: {integrity: sha512-8nhwDGHWMKKgg6oegAOpDgTT7/yzTVzeYzLF4y8WBJoYu9gO7h29UpHiQnXD2rAvfQzDy5Wqe/Za5cgqhnxi5g==}
+    hasBin: true
+    dev: true
 
   /vite-node@0.34.6(@types/node@18.19.68):
     resolution: {integrity: sha512-nlBMJ9x6n7/Amaz6F3zJ97EBwR2FkzhBRxF5e+jE6LA3yi6Wtc2lyTij1OnDMIr34v5g/tVQtsVAzhT0jc5ygA==}

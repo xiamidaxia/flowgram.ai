@@ -7,8 +7,8 @@ import React, { useMemo } from 'react';
 
 import { IJsonSchema } from '@flowgram.ai/json-schema';
 import { I18n } from '@flowgram.ai/editor';
-import { TriggerRenderProps } from '@douyinfe/semi-ui/lib/es/treeSelect';
-import { TreeNodeData } from '@douyinfe/semi-ui/lib/es/tree';
+import { type TriggerRenderProps } from '@douyinfe/semi-ui/lib/es/treeSelect';
+import { type TreeNodeData } from '@douyinfe/semi-ui/lib/es/tree';
 import { Popover } from '@douyinfe/semi-ui';
 import { IconChevronDownStroked, IconIssueStroked } from '@douyinfe/semi-icons';
 
