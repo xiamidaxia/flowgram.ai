@@ -3,17 +3,37 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { execSync } from 'child_process';
-import { existsSync } from 'fs';
-import fs from 'fs-extra';
 import path from 'path';
 import https from 'https';
-import * as tar from 'tar';
+import { existsSync, readFileSync } from 'fs';
+import { execSync } from 'child_process';
 
-export async function getLatestVersion(packageName: string): Promise<string> {
-  return execSync(`npm view ${packageName} version --tag=latest`)
-    .toString()
-    .trim();
+import * as tar from 'tar';
+import fs from 'fs-extra';
+
+export class LoadedNpmPkg {
+  constructor(public name: string, public version: string, public path: string) {}
+
+  get srcPath() {
+    return path.join(this.path, 'src');
+  }
+
+  get distPath() {
+    return path.join(this.path, 'dist');
+  }
+
+  protected _packageJson: Record<string, any>;
+
+  get packageJson() {
+    if (!this._packageJson) {
+      this._packageJson = JSON.parse(readFileSync(path.join(this.path, 'package.json'), 'utf8'));
+    }
+    return this._packageJson;
+  }
+
+  get dependencies(): Record<string, string> {
+    return this.packageJson.dependencies;
+  }
 }
 
 // 使用 https 下载文件
@@ -45,30 +65,29 @@ function downloadFile(url: string, dest: string): Promise<void> {
   });
 }
 
-export async function loadNpm(packageName: string): Promise<string> {
+export async function getLatestVersion(packageName: string): Promise<string> {
+  return execSync(`npm view ${packageName} version --tag=latest`).toString().trim();
+}
+
+export async function loadNpm(packageName: string): Promise<LoadedNpmPkg> {
   const packageLatestVersion = await getLatestVersion(packageName);
 
-  const packagePath = path.join(
-    __dirname,
-    `./.download/${packageName}-${packageLatestVersion}`,
-  );
+  const packagePath = path.join(__dirname, `./.download/${packageName}-${packageLatestVersion}`);
 
   if (existsSync(packagePath)) {
-    return packagePath;
+    return new LoadedNpmPkg(packageName, packageLatestVersion, packagePath);
   }
 
   try {
     // 获取 tarball 地址
-    const tarballUrl = execSync(
-      `npm view ${packageName}@${packageLatestVersion} dist.tarball`,
-    )
+    const tarballUrl = execSync(`npm view ${packageName}@${packageLatestVersion} dist.tarball`)
       .toString()
       .trim();
 
     // 临时 tarball 路径
     const tempTarballPath = path.join(
       __dirname,
-      `./.download/${packageName}-${packageLatestVersion}.tgz`,
+      `./.download/${packageName}-${packageLatestVersion}.tgz`
     );
 
     // 确保目录存在
@@ -89,7 +108,7 @@ export async function loadNpm(packageName: string): Promise<string> {
     // 删除临时文件
     fs.unlinkSync(tempTarballPath);
 
-    return packagePath;
+    return new LoadedNpmPkg(packageName, packageLatestVersion, packagePath);
   } catch (error) {
     console.error(`Error downloading or extracting package: ${error}`);
     throw error;

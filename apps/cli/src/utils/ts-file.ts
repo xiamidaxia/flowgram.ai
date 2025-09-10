@@ -3,15 +3,12 @@
  * SPDX-License-Identifier: MIT
  */
 
-import path from "path";
-import fs from "fs";
-import { File, traverseRecursiveFilePaths } from "./file";
-import { extractNamedExports } from "./export";
-import {
-  assembleImport,
-  ImportDeclaration,
-  traverseFileImports,
-} from "./import";
+import path, { join } from 'path';
+import fs from 'fs';
+
+import { assembleImport, ImportDeclaration, traverseFileImports } from './import';
+import { File, traverseRecursiveFilePaths } from './file';
+import { extractNamedExports } from './export';
 
 class TsFile extends File {
   exports: {
@@ -28,13 +25,11 @@ class TsFile extends File {
     return [...this.exports.values, ...this.exports.types];
   }
 
-  constructor(filePath: string) {
-    super(filePath);
+  constructor(filePath: string, root?: string) {
+    super(filePath, root);
 
-    this.exports = extractNamedExports(fs.readFileSync(filePath, "utf-8"));
-    this.imports = Array.from(
-      traverseFileImports(fs.readFileSync(filePath, "utf-8")),
-    );
+    this.exports = extractNamedExports(fs.readFileSync(filePath, 'utf-8'));
+    this.imports = Array.from(traverseFileImports(fs.readFileSync(filePath, 'utf-8')));
   }
 
   addImport(importDeclarations: ImportDeclaration[]) {
@@ -46,9 +41,7 @@ class TsFile extends File {
       const lastImportStatement = this.imports[this.imports.length - 1];
       return content.replace(
         lastImportStatement.statement,
-        `${lastImportStatement?.statement}\n${importDeclarations.map(
-          (item) => item.statement,
-        )}\n`,
+        `${lastImportStatement?.statement}\n${importDeclarations.map((item) => item.statement)}\n`
       );
     });
     this.imports.push(...importDeclarations);
@@ -56,20 +49,12 @@ class TsFile extends File {
 
   removeImport(importDeclarations: ImportDeclaration[]) {
     this.replace((content) =>
-      importDeclarations.reduce(
-        (prev, cur) => prev.replace(cur.statement, ""),
-        content,
-      ),
+      importDeclarations.reduce((prev, cur) => prev.replace(cur.statement, ''), content)
     );
-    this.imports = this.imports.filter(
-      (item) => !importDeclarations.includes(item),
-    );
+    this.imports = this.imports.filter((item) => !importDeclarations.includes(item));
   }
 
-  replaceImport(
-    oldImports: ImportDeclaration[],
-    newImports: ImportDeclaration[],
-  ) {
+  replaceImport(oldImports: ImportDeclaration[], newImports: ImportDeclaration[]) {
     newImports.forEach((importDeclaration) => {
       importDeclaration.statement = assembleImport(importDeclaration);
     });
@@ -84,9 +69,9 @@ class TsFile extends File {
             }
           });
         } else {
-          content = content.replace(oldImport.statement, "");
+          content = content.replace(oldImport.statement, '');
           this.imports = this.imports.filter(
-            (_import) => _import.statement !== oldImport.statement,
+            (_import) => _import.statement !== oldImport.statement
           );
         }
       });
@@ -96,9 +81,9 @@ class TsFile extends File {
         const lastImportStatement = newImports[oldImports.length - 1].statement;
         content = content.replace(
           lastImportStatement,
-          `${lastImportStatement}\n${restNewImports.map(
-            (item) => item.statement,
-          )}\n`,
+          `${lastImportStatement}
+${restNewImports.map((item) => item.statement).join('\n')}
+`
         );
       }
       this.imports.push(...restNewImports);
@@ -110,8 +95,8 @@ class TsFile extends File {
 
 export function* traverseRecursiveTsFiles(folder: string): Generator<TsFile> {
   for (const filePath of traverseRecursiveFilePaths(folder)) {
-    if (filePath.endsWith(".ts") || filePath.endsWith(".tsx")) {
-      yield new TsFile(filePath);
+    if (filePath.endsWith('.ts') || filePath.endsWith('.tsx')) {
+      yield new TsFile(filePath, folder);
     }
   }
 }
@@ -120,8 +105,8 @@ export function getIndexTsFile(folder: string): TsFile | undefined {
   // ts or tsx
   const files = fs.readdirSync(folder);
   for (const file of files) {
-    if (file === "index.ts" || file === "index.tsx") {
-      return new TsFile(path.join(folder, file));
+    if (file === 'index.ts' || file === 'index.tsx') {
+      return new TsFile(path.join(folder, file), folder);
     }
   }
   return undefined;

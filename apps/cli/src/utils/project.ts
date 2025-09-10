@@ -3,10 +3,12 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { existsSync, readFileSync, writeFileSync } from "fs";
-import path from "path";
-import { getLatestVersion } from "./npm";
-import chalk from "chalk";
+import path from 'path';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
+
+import chalk from 'chalk';
+
+import { getLatestVersion } from './npm';
 
 interface PackageJson {
   dependencies: { [key: string]: string };
@@ -32,26 +34,23 @@ export class Project {
     // get nearest package.json
     let projectPath: string = process.cwd();
 
-    while (
-      projectPath !== "/" &&
-      !existsSync(path.join(projectPath, "package.json"))
-    ) {
-      projectPath = path.join(projectPath, "..");
+    while (projectPath !== '/' && !existsSync(path.join(projectPath, 'package.json'))) {
+      projectPath = path.join(projectPath, '..');
     }
-    if (projectPath === "/") {
-      throw new Error("Please run this command in a valid project");
+    if (projectPath === '/') {
+      throw new Error('Please run this command in a valid project');
     }
 
     this.projectPath = projectPath;
 
-    this.srcPath = path.join(projectPath, "src");
-    this.packageJsonPath = path.join(projectPath, "package.json");
-    this.packageJson = JSON.parse(readFileSync(this.packageJsonPath, "utf8"));
+    this.srcPath = path.join(projectPath, 'src');
+    this.packageJsonPath = path.join(projectPath, 'package.json');
+    this.packageJson = JSON.parse(readFileSync(this.packageJsonPath, 'utf8'));
 
     this.flowgramVersion =
-      this.packageJson.dependencies["@flowgram.ai/fixed-layout-editor"] ||
-      this.packageJson.dependencies["@flowgram.ai/free-layout-editor"] ||
-      this.packageJson.dependencies["@flowgram.ai/editor"];
+      this.packageJson.dependencies['@flowgram.ai/fixed-layout-editor'] ||
+      this.packageJson.dependencies['@flowgram.ai/free-layout-editor'] ||
+      this.packageJson.dependencies['@flowgram.ai/editor'];
   }
 
   async addDependency(dependency: string) {
@@ -59,7 +58,7 @@ export class Project {
     let version: string;
 
     // 处理作用域包（如 @types/react@1.0.0）
-    const lastAtIndex = dependency.lastIndexOf("@");
+    const lastAtIndex = dependency.lastIndexOf('@');
 
     if (lastAtIndex <= 0) {
       // 没有@符号 或者@在开头（如 @types/react）
@@ -77,10 +76,7 @@ export class Project {
     }
 
     this.packageJson.dependencies[name] = version;
-    writeFileSync(
-      this.packageJsonPath,
-      JSON.stringify(this.packageJson, null, 2),
-    );
+    writeFileSync(this.packageJsonPath, JSON.stringify(this.packageJson, null, 2));
   }
 
   async addDependencies(dependencies: string[]) {
@@ -90,14 +86,11 @@ export class Project {
   }
 
   writeToPackageJsonFile() {
-    writeFileSync(
-      this.packageJsonPath,
-      JSON.stringify(this.packageJson, null, 2),
-    );
+    writeFileSync(this.packageJsonPath, JSON.stringify(this.packageJson, null, 2));
   }
 
   printInfo() {
-    console.log(chalk.bold("Project Info:"));
+    console.log(chalk.bold('Project Info:'));
     console.log(chalk.black(`  - Flowgram Version: ${this.flowgramVersion}`));
     console.log(chalk.black(`  - Project Path: ${this.projectPath}`));
   }

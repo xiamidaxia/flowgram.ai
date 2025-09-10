@@ -4,12 +4,13 @@
  */
 
 import path from 'path';
+import https from 'https';
 import { execSync } from 'child_process';
+
+import * as tar from 'tar';
 import inquirer from 'inquirer';
 import fs from 'fs-extra';
 import chalk from 'chalk';
-import * as tar from 'tar';
-import https from 'https';
 
 const updateFlowGramVersions = (dependencies: any[], latestVersion: string) => {
   for (const packageName in dependencies) {
@@ -50,9 +51,7 @@ function downloadFile(url: string, dest: string): Promise<void> {
 
 export const createApp = async (projectName?: string) => {
   console.log(chalk.green('Welcome to @flowgram.ai/create-app CLI!'));
-  const latest = execSync(
-    'npm view @flowgram.ai/demo-fixed-layout version --tag=latest latest'
-  )
+  const latest = execSync('npm view @flowgram.ai/demo-fixed-layout version --tag=latest latest')
     .toString()
     .trim();
 
@@ -115,10 +114,7 @@ export const createApp = async (projectName?: string) => {
           C: targetDir,
         });
 
-        fs.renameSync(
-          path.join(targetDir, 'package'),
-          path.join(targetDir, folderName)
-        );
+        fs.renameSync(path.join(targetDir, 'package'), path.join(targetDir, folderName));
 
         fs.unlinkSync(tempTarballPath);
         return true;
@@ -134,9 +130,7 @@ export const createApp = async (projectName?: string) => {
     const pkgJsonPath = path.join(targetDir, folderName, 'package.json');
     const data = fs.readFileSync(pkgJsonPath, 'utf-8');
 
-    const packageLatestVersion = execSync(
-      'npm view @flowgram.ai/core version --tag=latest latest'
-    )
+    const packageLatestVersion = execSync('npm view @flowgram.ai/core version --tag=latest latest')
       .toString()
       .trim();
 

@@ -3,54 +3,73 @@
  * SPDX-License-Identifier: MIT
  */
 
-import chalk from "chalk";
-import { ImportDeclaration } from "../utils/import";
-import { Project } from "../utils/project";
-import { getIndexTsFile, traverseRecursiveTsFiles } from "../utils/ts-file";
-import { Material } from "./materials";
+import path from 'path';
 
-export function executeRefreshProjectImport(
-  project: Project,
-  material: Material,
-) {
-  const materialFile = getIndexTsFile(material.path);
+import chalk from 'chalk';
 
-  if (!materialFile) {
-    console.warn(`Material ${material.name} not found`);
-    return;
+import { traverseRecursiveTsFiles } from '../utils/ts-file';
+import { ImportDeclaration, NamedImport } from '../utils/import';
+import { SyncMaterialContext } from './types';
+import { Material } from './material';
+
+export function executeRefreshProjectImport(context: SyncMaterialContext) {
+  const { selectedMaterials, project, targetFormMaterialRoot } = context;
+
+  const exportName2Material = new Map<string, Material>();
+
+  const targetModule = `@/${path.relative(project.srcPath, targetFormMaterialRoot)}`;
+
+  for (const material of selectedMaterials) {
+    if (!material.indexFile) {
+      console.warn(`Material ${material.name} not found`);
+      return;
+    }
+
+    console.log(`👀 The exports of ${material.name} is ${material.allExportNames.join(',')}`);
+
+    material.allExportNames.forEach((exportName) => {
+      exportName2Material.set(exportName, material);
+    });
   }
-
-  const targetDir = `@/form-materials/${material.type}/${material.name}`;
-
-  const exportNames = materialFile.allExportNames;
-
-  console.log(`👀 The exports of ${material.name} is ${exportNames.join(",")}`);
 
   for (const tsFile of traverseRecursiveTsFiles(project.srcPath)) {
     for (const importDeclaration of tsFile.imports) {
-      if (importDeclaration.source === "@flowgram.ai/form-materials") {
-        const currentMaterialImports = importDeclaration.namedImports?.filter(
-          (item) => exportNames.includes(item.imported),
-        );
-        if (!currentMaterialImports?.length) {
+      if (importDeclaration.source.startsWith('@flowgram.ai/form-materials')) {
+        // Import Module and its related named Imported
+        const restImports: NamedImport[] = [];
+        const importMap: Record<string, NamedImport[]> = {};
+
+        if (!importDeclaration.namedImports) {
           continue;
         }
-        const nextImports: ImportDeclaration[] = [
-          {
-            ...importDeclaration,
-            namedImports: currentMaterialImports,
-            source: targetDir,
-          },
-        ];
 
-        const keepImportNames = importDeclaration.namedImports?.filter(
-          (item) => !exportNames.includes(item.imported),
+        for (const nameImport of importDeclaration.namedImports) {
+          const material = exportName2Material.get(nameImport.imported);
+          if (material) {
+            const importModule = `${targetModule}/${material.fullName}`;
+            importMap[importModule] = importMap[importModule] || [];
+            importMap[importModule].push(nameImport);
+          } else {
+            restImports.push(nameImport);
+          }
+        }
+
+        if (Object.keys(importMap).length === 0) {
+          continue;
+        }
+
+        const nextImports: ImportDeclaration[] = Object.entries(importMap).map(
+          ([importModule, namedImports]) => ({
+            ...importDeclaration,
+            namedImports,
+            source: importModule,
+          })
         );
 
-        if (keepImportNames?.length) {
+        if (restImports?.length) {
           nextImports.unshift({
             ...importDeclaration,
-            namedImports: keepImportNames,
+            namedImports: restImports,
           });
         }
 
@@ -60,7 +79,7 @@ export function executeRefreshProjectImport(
         console.log(
           `From:\n${importDeclaration.statement}\nTo:\n${nextImports
             .map((item) => item.statement)
-            .join("\n")}`,
+            .join('\n')}`
         );
       }
     }

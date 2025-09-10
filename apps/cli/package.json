@@ -13,7 +13,10 @@
   ],
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts --out-dir dist",
-    "start": "node bin/index.js"
+    "watch": "tsup src/index.ts --format esm,cjs --out-dir dist --watch",
+    "start": "node bin/index.js",
+    "lint": "eslint ./src --cache",
+    "lint:fix": "eslint ./src --fix"
   },
   "dependencies": {
     "fs-extra": "^9.1.0",
@@ -24,6 +27,8 @@
     "ignore": "~7.0.5"
   },
   "devDependencies": {
+    "@flowgram.ai/eslint-config": "workspace:*",
+    "@types/download": "8.0.5",
     "@types/fs-extra": "11.0.4",
     "@types/node": "^18",
     "@types/inquirer": "9.0.7",

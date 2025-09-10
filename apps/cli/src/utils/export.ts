@@ -9,10 +9,7 @@ export function extractNamedExports(content: string) {
 
   // Collect all type definition names
   const typeDefinitions = new Set();
-  const typePatterns = [
-    /\b(?:type|interface)\s+(\w+)/g,
-    /\bexport\s+(?:type|interface)\s+(\w+)/g,
-  ];
+  const typePatterns = [/\b(?:type|interface)\s+(\w+)/g, /\bexport\s+(?:type|interface)\s+(\w+)/g];
 
   let match;
   for (const pattern of typePatterns) {
@@ -41,7 +38,7 @@ export function extractNamedExports(content: string) {
   exportPatterns[0].lastIndex = 0;
   while ((match = exportPatterns[0].exec(content)) !== null) {
     const [, kind, name] = match;
-    if (kind === "type" || kind === "interface" || typeDefinitions.has(name)) {
+    if (kind === 'type' || kind === 'interface' || typeDefinitions.has(name)) {
       typeExports.push(name);
     } else {
       valueExports.push(name);
@@ -52,13 +49,13 @@ export function extractNamedExports(content: string) {
   exportPatterns[1].lastIndex = 0;
   while ((match = exportPatterns[1].exec(content)) !== null) {
     const exportsList = match[1]
-      .split(",")
+      .split(',')
       .map((item) => item.trim())
-      .filter((item) => item && !item.includes(" as "));
+      .filter((item) => item && !item.includes(' as '));
 
     for (const name of exportsList) {
-      if (name.startsWith("type ")) {
-        typeExports.push(name.replace("type ", "").trim());
+      if (name.startsWith('type ')) {
+        typeExports.push(name.replace('type ', '').trim());
       } else if (typeDefinitions.has(name)) {
         typeExports.push(name);
       } else {
@@ -93,9 +90,9 @@ export function extractNamedExports(content: string) {
   exportPatterns[4].lastIndex = 0;
   while ((match = exportPatterns[4].exec(content)) !== null) {
     const exportsList = match[1]
-      .split(",")
+      .split(',')
       .map((item) => item.trim())
-      .filter((item) => item && !item.includes(" as "));
+      .filter((item) => item && !item.includes(' as '));
 
     for (const name of exportsList) {
       typeExports.push(name);

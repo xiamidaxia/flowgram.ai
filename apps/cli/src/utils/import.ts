@@ -3,6 +3,12 @@
  * SPDX-License-Identifier: MIT
  */
 
+export interface NamedImport {
+  local?: string;
+  imported: string;
+  typeOnly?: boolean;
+}
+
 /**
  * Cases
  * import { A, B } from 'module';
@@ -16,11 +22,7 @@ export interface ImportDeclaration {
   statement: string;
 
   // import { A, B } from 'module';
-  namedImports?: {
-    local?: string;
-    imported: string;
-    typeOnly?: boolean;
-  }[];
+  namedImports?: NamedImport[];
 
   // import A from 'module';
   defaultImport?: string;
