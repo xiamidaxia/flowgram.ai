@@ -10,7 +10,7 @@ import { NodePanelRenderProps } from '@flowgram.ai/free-node-panel-plugin';
 import { useClientContext, WorkflowNodeEntity } from '@flowgram.ai/free-layout-editor';
 
 import { FlowNodeRegistry } from '../../typings';
-import { nodeRegistries } from '../../nodes';
+import { nodeRegistries, WorkflowNodeType } from '../../nodes';
 
 const NodeWrap = styled.div`
   width: 100%;
@@ -83,6 +83,17 @@ export const NodeList: FC<NodeListProps> = (props) => {
         .filter((register) => {
           if (register.meta.onlyInContainer) {
             return register.meta.onlyInContainer === containerNode?.flowNodeType;
+          }
+          /**
+           * 循环节点无法嵌套循环节点
+           * Loop node cannot nest loop node
+           */
+          if (
+            containerNode &&
+            containerNode.flowNodeType === WorkflowNodeType.Loop &&
+            register.type === WorkflowNodeType.Loop
+          ) {
+            return false;
           }
           return true;
         })
