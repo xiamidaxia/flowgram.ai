@@ -6,7 +6,6 @@
 import React from 'react';
 
 import { nanoid } from 'nanoid';
-import { debounce } from 'lodash-es';
 import { inject, injectable, optional, named } from 'inversify';
 import {
   Disposable,
@@ -20,6 +19,7 @@ import { CommandService } from '@flowgram.ai/command';
 import { SelectionService } from './services';
 import { PlaygroundContribution, PlaygroundRegistry } from './playground-contribution';
 import { PlaygroundConfig } from './playground-config';
+import { ResizePolling } from './core/utils/resize-polling';
 import {
   type PipelineDimension,
   // PipelineDispatcher,
@@ -65,8 +65,14 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
 
   readonly onScroll: Event<{ scrollX: number; scrollY: number }>;
 
+  get onResize() {
+    return this.pipelineRegistry.onResizeEmitter.event;
+  }
+
   // 唯一 className，适配画布多实例场景
   private playgroundClassName = nanoid();
+
+  private _resizePolling = new ResizePolling();
 
   static getLatest(): Playground | undefined {
     const instances = Playground.getAllInstances();
@@ -133,6 +139,7 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
       // this.ableManager,
       this.commandService,
       this.selectionService,
+      this._resizePolling,
       Disposable.create(() => {
         playgroundInstances.delete(this);
         this.node.remove();
@@ -273,12 +280,17 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
     if (this.isReady) return;
     this.isReady = true;
     if (this.playgroundConfig.autoResize) {
-      const resize = debounce(() => {
+      const resize = () => {
         if (this.disposed) return;
         this.resize();
-      }, 0);
+      };
+      const resizeWithPolling = () => {
+        if (this.disposed) return;
+        this.resize();
+        this._resizePolling.start(() => this.resize());
+      };
       if (typeof ResizeObserver !== 'undefined') {
-        const resizeObserver = new ResizeObserver(resize);
+        const resizeObserver = new ResizeObserver(resizeWithPolling);
         resizeObserver.observe(this.node);
         this.toDispose.push(
           Disposable.create(() => {
@@ -287,9 +299,14 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
         );
       } else {
         this.toDispose.push(
-          domUtils.addStandardDisposableListener(window.document.body, 'resize', resize, {
-            passive: true,
-          })
+          domUtils.addStandardDisposableListener(
+            window.document.body,
+            'resize',
+            resizeWithPolling,
+            {
+              passive: true,
+            }
+          )
         );
       }
       this.toDispose.push(
@@ -323,7 +340,7 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
    * 这里会由 widget 透传进来
    * @param msg
    */
-  resize(msg?: PipelineDimension, scrollToCenter = true): void {
+  resize(msg?: PipelineDimension, scrollToCenter = true): boolean {
     if (!msg) {
       const boundingRect = this.node.getBoundingClientRect();
       msg = {
@@ -336,8 +353,9 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
     // 页面宽度变更 触发滚动偏移
     const { width, height } = this.config.config;
     if (msg.width === 0 || msg.height === 0) {
-      return;
+      return false;
     }
+    const oldConfig = this.config.config;
     let { scrollX, scrollY } = this.config.config;
     // 这个在处理滚动
     if (scrollToCenter && width && Math.round(msg.width) !== width) {
@@ -346,8 +364,18 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
     if (scrollToCenter && height && Math.round(msg.height) !== height) {
       scrollY += (height - msg.height) / 2;
     }
-    this.config.updateConfig({ ...msg, scrollX, scrollY });
-    this.pipelineRegistry.onResizeEmitter.fire(msg);
+    if (
+      oldConfig.clientY !== msg.clientY ||
+      oldConfig.clientX !== msg.clientX ||
+      Math.round(msg.width) !== width ||
+      Math.round(msg.height) !== height ||
+      oldConfig.scrollX !== scrollX ||
+      oldConfig.scrollY !== scrollY
+    ) {
+      this.config.updateConfig({ ...msg, scrollX, scrollY });
+      this.pipelineRegistry.onResizeEmitter.fire(msg);
+    }
+    return true;
   }
 
   /**
