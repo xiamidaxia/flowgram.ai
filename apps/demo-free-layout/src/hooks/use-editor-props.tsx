@@ -13,6 +13,7 @@ import { createFreeNodePanelPlugin } from '@flowgram.ai/free-node-panel-plugin';
 import { createFreeLinesPlugin } from '@flowgram.ai/free-lines-plugin';
 import {
   FlowNodeBaseType,
+  FreeLayoutPluginContext,
   FreeLayoutProps,
   WorkflowNodeLinesData,
 } from '@flowgram.ai/free-layout-editor';
@@ -23,6 +24,7 @@ import { onDragLineEnd } from '../utils';
 import { FlowNodeRegistry, FlowDocumentJSON } from '../typings';
 import { shortcuts } from '../shortcuts';
 import { CustomService } from '../services';
+import { GetGlobalVariableSchema } from '../plugins/variable-panel-plugin';
 import { WorkflowRuntimeService } from '../plugins/runtime-plugin/runtime-service';
 import {
   createRuntimePlugin,
@@ -239,9 +241,13 @@ export function useEditorProps(
       /**
        * Content change
        */
-      onContentChange: debounce((ctx, event) => {
+      onContentChange: debounce((ctx: FreeLayoutPluginContext, event) => {
         if (ctx.document.disposed) return;
-        console.log('Auto Save: ', event, ctx.document.toJSON());
+
+        console.log('Auto Save: ', event, {
+          ...ctx.document.toJSON(),
+          globalVariable: ctx.get<GetGlobalVariableSchema>(GetGlobalVariableSchema)(),
+        });
       }, 1000),
       /**
        * Running line
@@ -370,7 +376,9 @@ export function useEditorProps(
          * Variable panel plugin
          * 变量面板插件
          */
-        createVariablePanelPlugin({}),
+        createVariablePanelPlugin({
+          initialData: initialData.globalVariable,
+        }),
       ],
     }),
     []
