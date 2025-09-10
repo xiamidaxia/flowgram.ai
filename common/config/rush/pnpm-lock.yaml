@@ -1444,6 +1444,9 @@ importers:
       '@flowgram.ai/playground-react':
         specifier: workspace:*
         version: link:../playground-react
+      '@flowgram.ai/reactive':
+        specifier: workspace:*
+        version: link:../../common/reactive
       '@flowgram.ai/redux-devtool-plugin':
         specifier: workspace:*
         version: link:../../plugins/redux-devtool-plugin

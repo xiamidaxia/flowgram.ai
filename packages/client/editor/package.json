@@ -45,6 +45,7 @@
     "@flowgram.ai/shortcuts-plugin": "workspace:*",
     "@flowgram.ai/utils": "workspace:*",
     "@flowgram.ai/variable-plugin": "workspace:*",
+    "@flowgram.ai/reactive": "workspace:*",
     "inversify": "^6.0.1",
     "reflect-metadata": "~0.2.2"
   },
