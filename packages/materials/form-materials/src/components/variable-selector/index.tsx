@@ -73,8 +73,6 @@ export const VariableSelector = ({
     return icon;
   };
 
-  console.log('debugger treeValue', treeValue);
-
   return (
     <>
       <UITreeSelect
