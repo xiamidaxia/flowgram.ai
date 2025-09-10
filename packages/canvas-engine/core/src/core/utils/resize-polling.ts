@@ -14,11 +14,16 @@ const POLLING_INTERVAL = 100;
 export class ResizePolling implements Disposable {
   private _intervalKey?: number;
 
+  private _disposed = false;
+
   private _startTime = 0;
 
   start(fn: () => boolean) {
     if (this._intervalKey !== undefined) {
       clearInterval(this._intervalKey);
+    }
+    if (this._disposed) {
+      return;
     }
     this._startTime = Date.now();
     this._intervalKey = window.setInterval(() => {
@@ -33,6 +38,7 @@ export class ResizePolling implements Disposable {
     if (this._intervalKey !== undefined) {
       clearInterval(this._intervalKey);
     }
+    this._disposed = true;
     this._intervalKey = undefined;
   }
 }
