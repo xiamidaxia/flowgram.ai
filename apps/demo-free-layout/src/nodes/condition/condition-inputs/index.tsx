@@ -63,7 +63,7 @@ export function ConditionInputs() {
             </Field>
           ))}
           <FormItem name="else" type="boolean" required={true} labelWidth={100}>
-            <ConditionPort data-port-id="default" data-port-type="output" />
+            <ConditionPort data-port-id="else" data-port-type="output" />
           </FormItem>
           {!readonly && (
             <div>

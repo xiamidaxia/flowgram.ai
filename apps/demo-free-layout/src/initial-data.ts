@@ -572,7 +572,7 @@ export const initialData: FlowDocumentJSON = {
     {
       sourceNodeID: 'condition_0',
       targetNodeID: 'llm_8--A3',
-      sourcePortID: 'default',
+      sourcePortID: 'else',
     },
     {
       sourceNodeID: 'llm_vTyMa',
