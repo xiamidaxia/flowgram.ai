@@ -92,5 +92,5 @@ export const formMeta: FormMeta = {
   effect: {
     loopFor: provideBatchInputEffect,
   },
-  plugins: [createBatchOutputsFormPlugin({ outputKey: 'loopOutputs' })],
+  plugins: [createBatchOutputsFormPlugin({ outputKey: 'loopOutputs', inferTargetKey: 'outputs' })],
 };
