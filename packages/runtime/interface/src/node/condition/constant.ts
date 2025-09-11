@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-export enum ConditionOperation {
+export enum ConditionOperator {
   EQ = 'eq',
   NEQ = 'neq',
   GT = 'gt',
