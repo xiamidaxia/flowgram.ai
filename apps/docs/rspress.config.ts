@@ -172,11 +172,6 @@ export default defineConfig({
         mode: 'link',
         content: 'https://x.com/FlowGramAI',
       },
-      {
-        icon: 'juejin',
-        mode: 'link',
-        content: 'https://juejin.cn/column/7479814468601315362',
-      },
     ],
   },
 });
