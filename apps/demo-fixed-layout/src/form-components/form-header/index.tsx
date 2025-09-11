@@ -82,7 +82,7 @@ export function FormHeader() {
       onMouseDown={(e) => {
         // trigger drag node
         startDrag(e);
-        // e.stopPropagation();
+        e.stopPropagation();
       }}
     >
       {getIcon(node)}

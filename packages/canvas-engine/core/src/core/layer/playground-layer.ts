@@ -19,7 +19,6 @@ import {
   EditorStateConfigEntity,
   PlaygroundConfigEntity,
   type PlaygroundConfigEntityData,
-  MOUSE_SCROLL_DELTA,
 } from './config';
 
 /**
@@ -437,7 +436,7 @@ export class PlaygroundLayer extends Layer<PlaygroundLayerOptions> {
     if (typeof mouseScrollDelta === 'function') {
       return mouseScrollDelta(zoom);
     }
-    return mouseScrollDelta ?? MOUSE_SCROLL_DELTA;
+    return mouseScrollDelta!;
   }
 
   /**

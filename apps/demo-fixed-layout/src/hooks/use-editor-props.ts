@@ -45,6 +45,7 @@ export function useEditorProps(
        * Canvas-related configurations
        */
       playground: {
+        ineractiveType: 'MOUSE',
         /**
          * Prevent Mac browser gestures from turning pages
          * 阻止 mac 浏览器手势翻页

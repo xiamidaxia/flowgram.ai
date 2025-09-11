@@ -5,10 +5,7 @@
 
 import { useEffect, useState } from 'react';
 
-import {
-  usePlaygroundTools,
-  type InteractiveType as IdeInteractiveType,
-} from '@flowgram.ai/free-layout-editor';
+import { usePlaygroundTools, PlaygroundInteractiveType } from '@flowgram.ai/fixed-layout-editor';
 import { Tooltip, Popover } from '@douyinfe/semi-ui';
 
 import { MousePadSelector } from './mouse-pad-selector';
@@ -49,7 +46,7 @@ export const Interactive = () => {
   useEffect(() => {
     // read from localStorage
     const preferInteractiveType = getPreferInteractiveType();
-    tools.setInteractiveType(preferInteractiveType as IdeInteractiveType);
+    tools.setInteractiveType(preferInteractiveType as PlaygroundInteractiveType);
   }, []);
 
   const handleClose = () => {
@@ -68,7 +65,7 @@ export const Interactive = () => {
             onChange={(value) => {
               setInteractiveType(value);
               setPreferInteractiveType(value);
-              tools.setInteractiveType(value as unknown as IdeInteractiveType);
+              tools.setInteractiveType(value);
             }}
             onPopupVisibleChange={setShowInteractivePanel}
             containerStyle={{

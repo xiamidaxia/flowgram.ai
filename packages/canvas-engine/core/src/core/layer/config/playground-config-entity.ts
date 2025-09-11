@@ -56,7 +56,7 @@ export interface PlaygroundConfigRevealOpts {
 export const SCALE_WIDTH = 0
 
 /** 鼠标缩放 delta */
-export const MOUSE_SCROLL_DELTA = 0.05;
+export const MOUSE_SCROLL_DELTA = (zoom: number) => zoom / 20;
 export type PlaygroundScrollLimitFn = (scroll: { scrollX: number; scrollY: number }) => {
   scrollX: number
   scrollY: number
