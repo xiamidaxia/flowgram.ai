@@ -67,6 +67,8 @@ export const defaultRules: IRules = {
     [Op.GTE]: 'date-time',
     [Op.LT]: 'date-time',
     [Op.LTE]: 'date-time',
+    [Op.IS_EMPTY]: null,
+    [Op.IS_NOT_EMPTY]: null,
   },
 };
 

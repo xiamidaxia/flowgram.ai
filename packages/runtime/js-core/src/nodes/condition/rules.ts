@@ -56,6 +56,20 @@ export const conditionRules: ConditionRules = {
     [ConditionOperator.IS_EMPTY]: WorkflowVariableType.Null,
     [ConditionOperator.IS_NOT_EMPTY]: WorkflowVariableType.Null,
   },
+  [WorkflowVariableType.Map]: {
+    [ConditionOperator.IS_EMPTY]: WorkflowVariableType.Null,
+    [ConditionOperator.IS_NOT_EMPTY]: WorkflowVariableType.Null,
+  },
+  [WorkflowVariableType.DateTime]: {
+    [ConditionOperator.EQ]: WorkflowVariableType.DateTime,
+    [ConditionOperator.NEQ]: WorkflowVariableType.DateTime,
+    [ConditionOperator.GT]: WorkflowVariableType.DateTime,
+    [ConditionOperator.GTE]: WorkflowVariableType.DateTime,
+    [ConditionOperator.LT]: WorkflowVariableType.DateTime,
+    [ConditionOperator.LTE]: WorkflowVariableType.DateTime,
+    [ConditionOperator.IS_EMPTY]: WorkflowVariableType.Null,
+    [ConditionOperator.IS_NOT_EMPTY]: WorkflowVariableType.Null,
+  },
   [WorkflowVariableType.Array]: {
     [ConditionOperator.IS_EMPTY]: WorkflowVariableType.Null,
     [ConditionOperator.IS_NOT_EMPTY]: WorkflowVariableType.Null,
