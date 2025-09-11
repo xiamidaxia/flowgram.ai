@@ -15,7 +15,11 @@
     "activeMatch": "/api/"
   },
   {
-    "text": "API Documentation",
+    "text": "Blogs",
+    "link": "https://juejin.cn/column/7479814468601315362"
+  },
+  {
+    "text": "TypeDocs",
     "link": "/auto-docs/",
     "activeMatch": "/auto-docs/"
   }
