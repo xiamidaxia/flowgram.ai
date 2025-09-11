@@ -24,10 +24,10 @@ export interface IState {
   parseInputs(params: { values: Record<string, IFlowValue>; declare: IJsonSchema }): WorkflowInputs;
   parseRef<T = unknown>(ref: IFlowRefValue): IVariableParseResult<T> | null;
   parseTemplate(template: IFlowTemplateValue): IVariableParseResult<string> | null;
-  parseValue<T = unknown>(
-    flowValue: IFlowValue,
-    type?: WorkflowVariableType
-  ): IVariableParseResult<T> | null;
+  parseFlowValue<T = unknown>(params: {
+    flowValue: IFlowValue;
+    declareType: WorkflowVariableType;
+  }): IVariableParseResult<T> | null;
   isExecutedNode(node: INode): boolean;
   addExecutedNode(node: INode): void;
 }

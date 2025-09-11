@@ -9,6 +9,7 @@ import { loopBreakContinueSchema } from './loop-break-continue';
 import { loopSchema } from './loop';
 import { llmRealSchema } from './llm-real';
 import { httpSchema } from './http';
+import { endConstantSchema } from './end-constant';
 import { codeSchema } from './code';
 import { branchTwoLayersSchema } from './branch-two-layers';
 import { branchSchema } from './branch';
@@ -25,4 +26,5 @@ export const TestSchemas = {
   validateInputsSchema,
   httpSchema,
   codeSchema,
+  endConstantSchema,
 };

@@ -16,6 +16,7 @@ import {
   WorkflowVariableType,
   IFlowTemplateValue,
   IJsonSchema,
+  IFlowConstantValue,
 } from '@flowgram.ai/runtime-interface';
 
 import { uuid, WorkflowRuntimeType } from '@infra/utils';
@@ -79,19 +80,19 @@ export class WorkflowRuntimeState implements IState {
     if (!declare || !values) {
       return {};
     }
-    return Object.entries(values).reduce((prev, [key, inputValue]) => {
+    return Object.entries(values).reduce((prev, [key, flowValue]) => {
       const typeInfo = declare.properties?.[key];
       if (!typeInfo) {
         return prev;
       }
-      const expectType = typeInfo.type as WorkflowVariableType;
+      const declareType = typeInfo.type as WorkflowVariableType;
       // get value
-      const result = this.parseValue(inputValue);
+      const result = this.parseFlowValue({ flowValue, declareType });
       if (!result) {
         return prev;
       }
       const { value, type } = result;
-      if (!WorkflowRuntimeType.isTypeEqual(type, expectType)) {
+      if (!WorkflowRuntimeType.isTypeEqual(type, declareType)) {
         return prev;
       }
       prev[key] = value;
@@ -149,14 +150,18 @@ export class WorkflowRuntimeState implements IState {
     };
   }
 
-  public parseValue<T = unknown>(flowValue: IFlowValue): IVariableParseResult<T> | null {
+  public parseFlowValue<T = unknown>(params: {
+    flowValue: IFlowValue;
+    declareType?: WorkflowVariableType;
+  }): IVariableParseResult<T> | null {
+    const { flowValue, declareType } = params;
     if (!flowValue?.type) {
       throw new Error(`Invalid flow value type: ${(flowValue as any).type}`);
     }
     // constant
     if (flowValue.type === 'constant') {
-      const value = flowValue.content as T;
-      const type = WorkflowRuntimeType.getWorkflowType(value);
+      const value = this.parseContentValue<T>(flowValue, declareType);
+      const type = declareType ?? WorkflowRuntimeType.getWorkflowType(value);
       if (isNil(value) || !type) {
         return null;
       }
@@ -183,5 +188,24 @@ export class WorkflowRuntimeState implements IState {
 
   public addExecutedNode(node: INode): void {
     this.executedNodes.add(node.id);
+  }
+
+  private parseContentValue<T = unknown>(
+    flowValue: IFlowConstantValue,
+    declareType?: WorkflowVariableType
+  ): T {
+    const JSONTypes = [
+      WorkflowVariableType.Object,
+      WorkflowVariableType.Array,
+      WorkflowVariableType.Map,
+    ];
+    if (declareType && JSONTypes.includes(declareType) && typeof flowValue.content === 'string') {
+      try {
+        return JSON.parse(flowValue.content) as T;
+      } catch (e) {
+        return flowValue.content as T;
+      }
+    }
+    return flowValue.content as T;
   }
 }
