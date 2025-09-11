@@ -51,8 +51,8 @@ export class JsonSchemaTypeManager<
     const registries = [
       defaultTypeDefinitionRegistry,
       stringRegistryCreator,
-      numberRegistryCreator,
       integerRegistryCreator,
+      numberRegistryCreator,
       booleanRegistryCreator,
       objectRegistryCreator,
       arrayRegistryCreator,
@@ -121,7 +121,7 @@ export class JsonSchemaTypeManager<
 
   public getDisplayIcon = (type: Schema) => {
     const registry = this.getTypeBySchema(type);
-    return registry?.getDisplayIcon(type) || registry?.icon || <></>;
+    return registry?.getDisplayIcon?.(type) || registry?.icon || <></>;
   };
 
   public getTypeSchemaProperties = (type: Schema) => {
