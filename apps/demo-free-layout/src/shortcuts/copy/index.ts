@@ -162,19 +162,7 @@ export class CopyShortcut implements ShortcutsHandler {
    * get JSON representation of nodes - 获取节点的JSON表示
    */
   private getNodeJSONs(nodes: WorkflowNodeEntity[]): WorkflowNodeJSON[] {
-    const nodeJSONs = nodes.map((node) => {
-      const nodeJSON = this.document.toNodeJSON(node);
-      if (!nodeJSON.meta?.position) {
-        return nodeJSON;
-      }
-      const { bounds } = node.getData(TransformData);
-      // Use absolute positioning as coordinates - 使用绝对定位作为坐标
-      nodeJSON.meta.position = {
-        x: bounds.x,
-        y: bounds.y,
-      };
-      return nodeJSON;
-    });
+    const nodeJSONs = nodes.map((node) => this.document.toNodeJSON(node));
     return nodeJSONs.filter(Boolean);
   }
 
