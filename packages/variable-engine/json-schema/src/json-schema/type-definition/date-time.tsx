@@ -48,6 +48,8 @@ export const dateTimeRegistryCreator: JsonSchemaTypeRegistryCreator = () => ({
     </svg>
   ),
 
+  // TODO date-time compat format
+  // https://json-schema.org/understanding-json-schema/reference/type#built-in-formats
   getDefaultSchema: () => ({
     type: 'date-time',
   }),

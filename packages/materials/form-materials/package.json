@@ -101,7 +101,8 @@
     "vitest": "^0.34.6",
     "@rslib/core": "~0.12.4",
     "cross-env": "~7.0.3",
-    "@rsbuild/plugin-react": "^1.1.1"
+    "@rsbuild/plugin-react": "^1.1.1",
+    "date-fns": "~4.1.0"
   },
   "peerDependencies": {
     "react": ">=16.8",

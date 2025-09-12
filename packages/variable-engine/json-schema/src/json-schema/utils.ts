@@ -184,6 +184,8 @@ export namespace JsonSchemaUtils {
       };
     }
 
+    console.warn('JsonSchemaUtils.astToSchema: AST must extends BaseType', typeAST);
+
     return undefined;
   }
 
