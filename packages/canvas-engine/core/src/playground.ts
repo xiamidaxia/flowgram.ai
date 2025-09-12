@@ -154,6 +154,7 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
       this.entityManager.createEntity<EditorStateConfigEntity>(EditorStateConfigEntity);
     this.entityManager.createEntity(PlaygroundConfigEntity);
     this.node = playgroundConfig.node || document.createElement('div');
+    this.config.playgroundDomNode = this.node;
     this.toDispose.pushAll([
       // 浏览器原生的 scrollIntoView 会导致页面的滚动
       // 需要禁用这种操作，否则会引发画布 viewport 计算问题
@@ -280,10 +281,6 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
     if (this.isReady) return;
     this.isReady = true;
     if (this.playgroundConfig.autoResize) {
-      const resize = () => {
-        if (this.disposed) return;
-        this.resize();
-      };
       const resizeWithPolling = () => {
         if (this.disposed) return;
         this.resize();
@@ -309,11 +306,6 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
           )
         );
       }
-      this.toDispose.push(
-        domUtils.addStandardDisposableListener(window.document, 'scroll', resize, {
-          passive: true,
-        })
-      );
       this.resize();
     }
     this.pipelineRegistry.ready();
@@ -344,8 +336,6 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
     if (!msg) {
       const boundingRect = this.node.getBoundingClientRect();
       msg = {
-        clientX: boundingRect.left,
-        clientY: boundingRect.top,
         width: boundingRect.width,
         height: boundingRect.height,
       };
@@ -365,8 +355,6 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
       scrollY += (height - msg.height) / 2;
     }
     if (
-      oldConfig.clientY !== msg.clientY ||
-      oldConfig.clientX !== msg.clientX ||
       Math.round(msg.width) !== width ||
       Math.round(msg.height) !== height ||
       oldConfig.scrollX !== scrollX ||
