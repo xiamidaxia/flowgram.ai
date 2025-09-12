@@ -10,6 +10,7 @@ import { loopBreakContinueSchema } from './loop-break-continue';
 import { loopSchema } from './loop';
 import { llmRealSchema } from './llm-real';
 import { httpSchema } from './http';
+import { globalVariableSchema } from './global-variable';
 import { endConstantSchema } from './end-constant';
 import { codeSchema } from './code';
 import { branchTwoLayersSchema } from './branch-two-layers';
@@ -29,4 +30,5 @@ export const TestSchemas = {
   codeSchema,
   endConstantSchema,
   startDefaultSchema,
+  globalVariableSchema,
 };

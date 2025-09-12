@@ -16,6 +16,7 @@ import {
   WorkflowVariableType,
   IFlowTemplateValue,
   IJsonSchema,
+  WorkflowSchema,
 } from '@flowgram.ai/runtime-interface';
 
 import { uuid, WorkflowRuntimeType } from '@infra/utils';
@@ -29,7 +30,8 @@ export class WorkflowRuntimeState implements IState {
     this.id = uuid();
   }
 
-  public init(): void {
+  public init(schema?: WorkflowSchema): void {
+    this.setGlobalVariable(schema?.globalVariable);
     this.executedNodes = new Set();
   }
 
@@ -206,5 +208,27 @@ export class WorkflowRuntimeState implements IState {
       }
     }
     return jsonContent as T;
+  }
+
+  private setGlobalVariable(globalVariableDeclare: IJsonSchema | undefined): void {
+    if (globalVariableDeclare?.type !== 'object' || !globalVariableDeclare.properties) {
+      return;
+    }
+    Object.entries(globalVariableDeclare.properties).forEach(([key, typeInfo]) => {
+      if (!key || !typeInfo) {
+        return;
+      }
+      const type = typeInfo.type as WorkflowVariableType;
+      const itemsType = typeInfo.items?.type as WorkflowVariableType;
+      const defaultValue = this.parseJSONContent(typeInfo.default, type);
+      // create variable
+      this.variableStore.setVariable({
+        nodeID: 'global',
+        key,
+        value: defaultValue,
+        type,
+        itemsType,
+      });
+    });
   }
 }
