@@ -5,6 +5,7 @@
 
 import { validateInputsSchema } from './validate-inputs';
 import { twoLLMSchema } from './two-llm';
+import { startDefaultSchema } from './start-default';
 import { loopBreakContinueSchema } from './loop-break-continue';
 import { loopSchema } from './loop';
 import { llmRealSchema } from './llm-real';
@@ -27,4 +28,5 @@ export const TestSchemas = {
   httpSchema,
   codeSchema,
   endConstantSchema,
+  startDefaultSchema,
 };
