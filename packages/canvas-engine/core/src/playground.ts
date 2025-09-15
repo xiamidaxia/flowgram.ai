@@ -13,7 +13,6 @@ import { CommandService } from '@flowgram.ai/command';
 import { SelectionService } from './services';
 import { PlaygroundContribution, PlaygroundRegistry } from './playground-contribution';
 import { PlaygroundConfig } from './playground-config';
-import { ResizePolling } from './core/utils/resize-polling';
 import {
   type PipelineDimension,
   // PipelineDispatcher,
@@ -61,8 +60,6 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
   // 唯一 className，适配画布多实例场景
   private playgroundClassName = nanoid();
 
-  private _resizePolling = new ResizePolling();
-
   constructor(
     // @inject(PlaygroundId) readonly id: PlaygroundId,
     @inject(EntityManager) readonly entityManager: EntityManager,
@@ -99,7 +96,6 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
       // this.ableManager,
       this.commandService,
       this.selectionService,
-      this._resizePolling,
       Disposable.create(() => {
         this.node.remove();
       }),
@@ -237,13 +233,12 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
     if (this.isReady) return;
     this.isReady = true;
     if (this.playgroundConfig.autoResize) {
-      const resizeWithPolling = () => {
+      const resize = () => {
         if (this.disposed) return;
         this.resize();
-        this._resizePolling.start(() => this.resize());
       };
       if (typeof ResizeObserver !== 'undefined') {
-        const resizeObserver = new ResizeObserver(resizeWithPolling);
+        const resizeObserver = new ResizeObserver(resize);
         resizeObserver.observe(this.node);
         this.toDispose.push(
           Disposable.create(() => {
@@ -252,14 +247,9 @@ export class Playground<CONTEXT = PlaygroundContext> implements Disposable {
         );
       } else {
         this.toDispose.push(
-          domUtils.addStandardDisposableListener(
-            window.document.body,
-            'resize',
-            resizeWithPolling,
-            {
-              passive: true,
-            }
-          )
+          domUtils.addStandardDisposableListener(window.document.body, 'resize', resize, {
+            passive: true,
+          })
         );
       }
       this.resize();
