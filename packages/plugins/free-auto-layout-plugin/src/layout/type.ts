@@ -5,7 +5,34 @@
 
 import type { WorkflowLineEntity, WorkflowNodeEntity } from '@flowgram.ai/free-layout-core';
 
-import { LayoutStore } from './store';
+export interface LayoutStoreData {
+  nodes: Map<string, LayoutNode>;
+  edges: Map<string, LayoutEdge>;
+}
+
+export interface ILayoutStore {
+  container: LayoutNode;
+  options: LayoutOptions;
+  get initialized(): boolean;
+  getNode(id?: string): LayoutNode | undefined;
+  getNodeByIndex(index: string): LayoutNode | undefined;
+  getEdge(id: string): LayoutEdge | undefined;
+  nodes: LayoutNode[];
+  edges: LayoutEdge[];
+  create(params: LayoutParams, options: LayoutOptions): void;
+}
+
+export interface ILayout {
+  init(params: LayoutParams, options: LayoutOptions): void;
+  layout(): void;
+  position(): Promise<void>;
+  get size(): LayoutSize;
+}
+
+export interface LayoutSize {
+  width: number;
+  height: number;
+}
 
 export interface LayoutNode {
   id: string;
@@ -28,12 +55,11 @@ export interface LayoutNode {
     y: number;
   };
   /** 宽高 */
-  size: {
-    width: number;
-    height: number;
-  };
-  /** 是否存在子节点 */
-  hasChildren: boolean;
+  size: LayoutSize;
+  /** 子节点 */
+  layoutNodes: LayoutNode[];
+  /** 子线条 */
+  layoutEdges: LayoutEdge[];
   /** 被跟随节点 */
   followedBy?: string[];
   /** 跟随节点 */
@@ -64,14 +90,15 @@ export interface DagreNode {
 }
 
 export interface LayoutParams {
-  nodes: WorkflowNodeEntity[];
-  edges: WorkflowLineEntity[];
-  container: WorkflowNodeEntity;
+  container: LayoutNode;
+  layoutNodes: LayoutNode[];
+  layoutEdges: LayoutEdge[];
 }
 
 export interface LayoutOptions {
   getFollowNode?: GetFollowNode;
   enableAnimation?: boolean;
+  animationDuration?: number;
 }
 
 export interface LayoutConfig {
@@ -98,7 +125,7 @@ export interface LayoutConfig {
 export type GetFollowNode = (
   node: LayoutNode,
   context: {
-    store: LayoutStore;
+    store: ILayoutStore;
     /** 业务自定义参数 */
     [key: string]: any;
   }

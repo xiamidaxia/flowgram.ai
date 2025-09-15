@@ -14,7 +14,9 @@ export const AutoLayout = () => {
   const tools = usePlaygroundTools();
   const playground = usePlayground();
   const autoLayout = useCallback(async () => {
-    await tools.autoLayout();
+    await tools.autoLayout({
+      enableAnimation: true,
+    });
   }, [tools]);
 
   return (
