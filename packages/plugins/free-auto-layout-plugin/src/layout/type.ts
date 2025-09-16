@@ -102,6 +102,7 @@ export interface LayoutParams {
 }
 
 export interface LayoutOptions {
+  containerNode?: WorkflowNodeEntity;
   getFollowNode?: GetFollowNode;
   enableAnimation?: boolean;
   animationDuration?: number;

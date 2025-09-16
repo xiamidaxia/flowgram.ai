@@ -39,9 +39,10 @@ export class AutoLayoutService {
       ...DefaultLayoutOptions,
       ...options,
     };
-    const root = this.createLayoutNode(this.document.root, options);
-    const layouts = await this.layoutNode(root, layoutOptions);
-    const rect = this.getLayoutNodeRect(root);
+    const containerNode = layoutOptions.containerNode ?? this.document.root;
+    const container = this.createLayoutNode(containerNode, options);
+    const layouts = await this.layoutNode(container, layoutOptions);
+    const rect = this.getLayoutNodeRect(container);
     const positionPromise = layouts.map((layout) => layout.position());
     const fitViewPromise = this.fitView(layoutOptions, rect);
     await Promise.all([...positionPromise, fitViewPromise]);
