@@ -26,7 +26,6 @@ export interface ILayout {
   init(params: LayoutParams, options: LayoutOptions): void;
   layout(): void;
   position(): Promise<void>;
-  get size(): LayoutSize;
 }
 
 export interface LayoutSize {
@@ -99,6 +98,7 @@ export interface LayoutOptions {
   getFollowNode?: GetFollowNode;
   enableAnimation?: boolean;
   animationDuration?: number;
+  disableFitView?: boolean;
 }
 
 export interface LayoutConfig {
