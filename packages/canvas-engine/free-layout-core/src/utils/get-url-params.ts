@@ -4,21 +4,47 @@
  */
 
 export function getUrlParams(): Record<string, string> {
-  return location.search
+  const paramsMap = new Map<string, string>();
+
+  location.search
     .replace(/^\?/, '')
     .split('&')
-    .reduce((res: Record<string, string>, key) => {
-      if (!key) return res;
+    .forEach((key) => {
+      if (!key) return;
 
       const [k, v] = key.split('=');
 
       if (k) {
-        // Prevent prototype pollution attack, filter dangerous attribute names
-        if (k === '__proto__' || k === 'constructor' || k === 'prototype') {
-          return res;
+        // Decode URL-encoded parameter names and values
+        const decodedKey = decodeURIComponent(k.trim());
+        const decodedValue = v ? decodeURIComponent(v.trim()) : '';
+
+        // Prevent prototype pollution by filtering dangerous property names
+        const dangerousProps = [
+          '__proto__',
+          'constructor',
+          'prototype',
+          '__defineGetter__',
+          '__defineSetter__',
+          '__lookupGetter__',
+          '__lookupSetter__',
+          'hasOwnProperty',
+          'isPrototypeOf',
+          'propertyIsEnumerable',
+          'toString',
+          'valueOf',
+          'toLocaleString',
+        ];
+
+        if (dangerousProps.includes(decodedKey.toLowerCase())) {
+          return;
         }
-        res[k] = v || '';
+
+        // Use Map to prevent prototype pollution
+        paramsMap.set(decodedKey, decodedValue);
       }
-      return res;
-    }, Object.create(null));
+    });
+
+  // Convert Map to plain object while maintaining API compatibility
+  return Object.fromEntries(paramsMap);
 }

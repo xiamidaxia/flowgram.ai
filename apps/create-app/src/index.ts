@@ -125,7 +125,8 @@ const main = async () => {
 
         return true;
       } catch (error) {
-        console.error(`Error downloading or extracting package: ${error}`);
+        console.error(`Error downloading or extracting package`);
+        console.error(error);
         return false;
       }
     };

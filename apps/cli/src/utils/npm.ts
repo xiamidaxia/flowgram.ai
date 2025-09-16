@@ -110,7 +110,8 @@ export async function loadNpm(packageName: string): Promise<LoadedNpmPkg> {
 
     return new LoadedNpmPkg(packageName, packageLatestVersion, packagePath);
   } catch (error) {
-    console.error(`Error downloading or extracting package: ${error}`);
+    console.error(`Error downloading or extracting package`);
+    console.error(error);
     throw error;
   }
 }
