@@ -16,6 +16,7 @@ export const AutoLayout = () => {
   const autoLayout = useCallback(async () => {
     await tools.autoLayout({
       enableAnimation: true,
+      animationDuration: 1000,
     });
   }, [tools]);
 
