@@ -53,6 +53,13 @@ export interface LayoutNode {
     x: number;
     y: number;
   };
+  /** 边距 */
+  padding: {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+  };
   /** 宽高 */
   size: LayoutSize;
   /** 子节点 */

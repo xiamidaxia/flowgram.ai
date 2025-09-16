@@ -88,7 +88,7 @@ export class AutoLayoutService {
     const layoutNodes = this.createLayoutNodes(blocks, options);
     const layoutEdges = this.createLayoutEdges(edges);
 
-    const { bounds } = node.transform;
+    const { bounds, padding } = node.transform;
     const { width, height, center } = bounds;
     const { x, y } = center;
     const layoutNode: LayoutNode = {
@@ -99,6 +99,7 @@ export class AutoLayoutService {
       order: -1, // 初始化时，节点还未布局，顺序为-1
       position: { x, y },
       offset: { x: 0, y: 0 },
+      padding,
       size: { width, height },
       layoutNodes,
       layoutEdges,
@@ -147,7 +148,7 @@ export class AutoLayoutService {
   private getLayoutNodeRect(layoutNode: LayoutNode): Rectangle {
     const rects = layoutNode.layoutNodes.map((node) => this.layoutNodeRect(node));
     const rect = Rectangle.enlarge(rects);
-    const { padding } = layoutNode.entity.transform;
+    const { padding } = layoutNode;
     const width = rect.width + padding.left + padding.right;
     const height = rect.height + padding.top + padding.bottom;
     const x = rect.x - padding.left;

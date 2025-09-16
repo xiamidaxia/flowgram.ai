@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { FlowNodeTransformData } from '@flowgram.ai/document';
 import { Graph as DagreGraph } from '@dagrejs/graphlib';
 
 import { dagreLib } from '../dagre-lib/index';
@@ -123,9 +122,8 @@ export class DagreLayout {
       return 0;
     }
     // 存在子节点才需计算padding带来的偏移
-    const nodeTransform = layoutNode.entity.getData(FlowNodeTransformData);
-    const { bounds, padding } = nodeTransform;
-    const leftOffset = -bounds.width / 2 + padding.left;
+    const { padding } = layoutNode;
+    const leftOffset = -layoutNode.size.width / 2 + padding.left;
     return leftOffset;
   }
 
