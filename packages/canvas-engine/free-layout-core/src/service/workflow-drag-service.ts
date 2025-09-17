@@ -150,10 +150,6 @@ export class WorkflowDragService {
       return Promise.resolve(false);
     }
     this.isDragging = true;
-    const sameParent = this.childrenOfContainer(selectedNodes);
-    if (sameParent && sameParent.flowNodeType !== FlowNodeBaseType.ROOT) {
-      selectedNodes = [sameParent];
-    }
     // 节点整体开始位置
     let startPosition = this.getNodesPosition(selectedNodes);
     // 单个节点开始位置
@@ -222,6 +218,7 @@ export class WorkflowDragService {
           triggerEvent,
           dragger,
         });
+        this.resetContainerInternalPosition(selectedNodes);
       },
     });
     const { clientX, clientY } = MouseTouchEvent.getEventCoord(triggerEvent);
@@ -559,12 +556,49 @@ export class WorkflowDragService {
     }
   }
 
+  /**
+   * 容器内子节点总体位置重置为0
+   */
+  private resetContainerInternalPosition(nodes: WorkflowNodeEntity[]) {
+    const container = this.childrenOfContainer(nodes);
+    if (!container) {
+      return;
+    }
+    const bounds: Rectangle = Rectangle.enlarge(
+      container.blocks.map((node) => {
+        const x = node.transform.position.x - node.transform.bounds.width / 2;
+        const y = node.transform.position.y;
+        const width = node.transform.bounds.width;
+        const height = node.transform.bounds.height;
+        return new Rectangle(x, y, width, height);
+      })
+    );
+    const containerTransform = container.getData(TransformData);
+    containerTransform.update({
+      position: {
+        x: containerTransform.position.x + bounds.x,
+        y: containerTransform.position.y + bounds.y,
+      },
+    });
+    this.document.layout.updateAffectedTransform(container);
+    container.blocks.forEach((node) => {
+      const transform = node.getData(TransformData);
+      transform.update({
+        position: {
+          x: transform.position.x - bounds.x,
+          y: transform.position.y - bounds.y,
+        },
+      });
+      this.document.layout.updateAffectedTransform(node);
+    });
+  }
+
   private childrenOfContainer(nodes: WorkflowNodeEntity[]): WorkflowNodeEntity | undefined {
     if (nodes.length === 0) {
       return;
     }
     const sourceContainer = nodes[0]?.parent;
-    if (!sourceContainer || sourceContainer.collapsedChildren.length !== nodes.length) {
+    if (!sourceContainer) {
       return;
     }
     const valid = nodes.every((node) => node?.parent === sourceContainer);

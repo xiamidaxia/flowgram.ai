@@ -322,10 +322,10 @@ describe('workflow-drag-service', () => {
     });
     expect(dragResult).toEqual(true);
     expect(startNode.getData(PositionData).toJSON()).toEqual({
-      x: 100,
+      x: 140,
       y: 100,
     });
-    expect(endNode.getData(PositionData).toJSON()).toEqual({ x: 900, y: 100 });
+    expect(endNode.getData(PositionData).toJSON()).toEqual({ x: 940, y: 100 });
   });
   it('startDragSelectedNodes with same parent', async () => {
     await document.fromJSON({
@@ -341,15 +341,15 @@ describe('workflow-drag-service', () => {
     });
     expect(dragResult).toEqual(true);
     expect(breakNode.getData(PositionData).toJSON()).toEqual({
-      x: 0,
+      x: 140,
       y: 0,
     });
     expect(variableNode.getData(PositionData).toJSON()).toEqual({
-      x: 400,
+      x: 540,
       y: 0,
     });
     expect(loopNode.getData(PositionData).toJSON()).toEqual({
-      x: 1300,
+      x: 1160,
       y: 100,
     });
   });
