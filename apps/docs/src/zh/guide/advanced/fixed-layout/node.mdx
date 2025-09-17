@@ -170,9 +170,10 @@ function BaseNode({ node }) {
 
 ```tsx pure
 function BaseNode() {
-  const { data, updateData, node } = useNodeRender();
-  // 对应节点的 data 数据
-  console.log(data, node.form)
+  const { data, updateData, form } = useNodeRender();
+  // 1. data, form.values 对应节点的 data 数据
+  // 2. form.setValueIn('title', 'xxxx') 修改 data.title
+  // 3. form.getValueIn('title') 获取 data.title
 
   function onChange(e) {
     updateData({
