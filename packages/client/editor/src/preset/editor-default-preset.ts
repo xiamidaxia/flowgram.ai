@@ -97,7 +97,6 @@ export function createDefaultPreset<CTX extends EditorPluginContext = EditorPlug
             if (opts.nodeEngine && opts.nodeEngine.enable !== false) {
               let cache: NodeFormProps<any> | undefined;
               Object.defineProperty(node, 'form', {
-                enumerable: false,
                 get: () => {
                   if (cache) return cache;
                   cache = getNodeForm(node);

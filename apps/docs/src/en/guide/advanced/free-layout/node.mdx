@@ -119,13 +119,13 @@ function BaseNode({ node }) {
 
 ## Update Node Data
 
-- Get node's data through [useNodeRender](/api/hooks/use-node-render.html) or [getNodeForm](/api/utils/get-node-form.html)
+- Get node's data through [useNodeRender](/api/hooks/use-node-render.html) or [node.form](https://flowgram.ai/auto-docs/editor/interfaces/NodeFormProps.html)
 
 ```tsx pure
 function BaseNode() {
-  const { data, updateData } = useNodeRender();
+  const { data, updateData, node } = useNodeRender();
   // Corresponds to node's data
-  console.log(data)
+  console.log(data, node.form)
 
   function onChange(e) {
     updateData({

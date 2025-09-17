@@ -120,13 +120,13 @@ function BaseNode({ node }) {
 
 ## 更新节点 data 数据
 
-- 通过 [useNodeRender](/api/hooks/use-node-render.html) 或 [getNodeForm](/api/utils/get-node-form.html) 获取节点的 data 数据
+- 通过 [useNodeRender](/api/hooks/use-node-render.html) 或 [node.form](https://flowgram.ai/auto-docs/editor/interfaces/NodeFormProps.html) 获取节点的 data 数据
 
 ```tsx pure
 function BaseNode() {
-  const { data, updateData } = useNodeRender();
+  const { data, updateData, node } = useNodeRender();
   // 对应节点的 data 数据
-  console.log(data)
+  console.log(data, node.form)
 
   function onChange(e) {
     updateData({

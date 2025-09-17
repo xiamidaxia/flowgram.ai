@@ -6,7 +6,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import { usePanelManager } from '@flowgram.ai/panel-manager-plugin';
-import { useClientContext, getNodeForm, FlowNodeEntity } from '@flowgram.ai/free-layout-editor';
+import { useClientContext, FlowNodeEntity } from '@flowgram.ai/free-layout-editor';
 import { Button, Badge } from '@douyinfe/semi-ui';
 import { IconPlay } from '@douyinfe/semi-icons';
 
@@ -19,7 +19,7 @@ export function TestRunButton(props: { disabled: boolean }) {
   const clientContext = useClientContext();
   const panelManager = usePanelManager();
   const updateValidateData = useCallback(() => {
-    const allForms = clientContext.document.getAllNodes().map((node) => getNodeForm(node));
+    const allForms = clientContext.document.getAllNodes().map((node) => node.form);
     const count = allForms.filter((form) => form?.state.invalid).length;
     setErrorCount(count);
   }, [clientContext]);
@@ -28,7 +28,7 @@ export function TestRunButton(props: { disabled: boolean }) {
    * Validate all node and Save
    */
   const onTestRun = useCallback(async () => {
-    const allForms = clientContext.document.getAllNodes().map((node) => getNodeForm(node));
+    const allForms = clientContext.document.getAllNodes().map((node) => node.form);
     await Promise.all(allForms.map(async (form) => form?.validate()));
     console.log('>>>>> save data: ', clientContext.document.toJSON());
     panelManager.open(testRunPanelFactory.key, 'right');
@@ -39,7 +39,7 @@ export function TestRunButton(props: { disabled: boolean }) {
    */
   useEffect(() => {
     const listenSingleNodeValidate = (node: FlowNodeEntity) => {
-      const form = getNodeForm(node);
+      const { form } = node;
       if (form) {
         const formValidateDispose = form.onValidate(() => updateValidateData());
         node.onDispose(() => formValidateDispose.dispose());

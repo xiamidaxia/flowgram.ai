@@ -10,7 +10,6 @@ import {
   createEffectFromVariableProvider,
   defineFormPluginCreator,
   FlowNodeRegistry,
-  getNodeForm,
   getNodeScope,
 } from '@flowgram.ai/editor';
 
@@ -51,7 +50,7 @@ export const createInferAssignPlugin = defineFormPluginCreator<InputConfig>({
             ASTFactory.createVariableDeclaration({
               key: `${ctx.node.id}`,
               meta: {
-                title: getNodeForm(ctx.node)?.getValueIn('title'),
+                title: ctx.node.form?.getValueIn('title'),
                 icon: ctx.node.getNodeRegistry<FlowNodeRegistry>().info?.icon,
               },
               type: ASTFactory.createObject({

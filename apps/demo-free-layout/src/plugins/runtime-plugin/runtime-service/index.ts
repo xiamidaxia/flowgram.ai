@@ -19,7 +19,6 @@ import {
   WorkflowNodeEntity,
   WorkflowNodeLinesData,
   Emitter,
-  getNodeForm,
 } from '@flowgram.ai/free-layout-editor';
 
 import { WorkflowRuntimeClient } from '../client';
@@ -139,7 +138,7 @@ export class WorkflowRuntimeService {
   }
 
   private async validateForm(): Promise<boolean> {
-    const allForms = this.document.getAllNodes().map((node) => getNodeForm(node));
+    const allForms = this.document.getAllNodes().map((node) => node.form);
     const formValidations = await Promise.all(allForms.map(async (form) => form?.validate()));
     const validations = formValidations.filter((validation) => validation !== undefined);
     const isValid = validations.every((validation) => validation);
