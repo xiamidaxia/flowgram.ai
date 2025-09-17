@@ -8,6 +8,7 @@ import { FlowRendererContainerModule, FlowRendererRegistry } from '@flowgram.ai/
 import { createReduxDevToolPlugin } from '@flowgram.ai/redux-devtool-plugin';
 import { createNodeVariablePlugin } from '@flowgram.ai/node-variable-plugin';
 import { createNodeCorePlugin } from '@flowgram.ai/node-core-plugin';
+import { getNodeForm, NodeFormProps } from '@flowgram.ai/node';
 import { createMaterialsPlugin } from '@flowgram.ai/materials-plugin';
 import { createI18nPlugin } from '@flowgram.ai/i18n-plugin';
 import { createHistoryNodePlugin } from '@flowgram.ai/history-node-plugin';
@@ -89,6 +90,22 @@ export function createDefaultPreset<CTX extends EditorPluginContext = EditorPlug
           // }
           // TODO 这个会触发组件注册，后续要废弃这个，通过 materials 插件来做
           ctx.get<FlowRendererRegistry>(FlowRendererRegistry).init();
+          /**
+           * Define node.form
+           */
+          ctx.document.onNodeCreate(({ node }) => {
+            if (opts.nodeEngine && opts.nodeEngine.enable !== false) {
+              let cache: NodeFormProps<any> | undefined;
+              Object.defineProperty(node, 'form', {
+                enumerable: false,
+                get: () => {
+                  if (cache) return cache;
+                  cache = getNodeForm(node);
+                  return cache;
+                },
+              });
+            }
+          });
         },
         onReady(ctx) {
           if (opts.initialData) {
