@@ -2,6 +2,27 @@
 
 节点通过 [FlowNodeEntity](/api/core/flow-node-entity.html) 定义
 
+## 节点核心 API
+
+- id: `string` 节点 id
+- flowNodeType: `string` | `number` 节点类型
+- bounds: `Rectangle` 获取节点的 x，y，width，height, 等价于 `transform.bounds`
+- blocks: `FlowNodeEntity[]` 获取子节点 (如 Loop)
+- parent: `FlowNodeEntity | undefined` 获取父节点
+- document: [WorkflowDocument](/api/core/workflow-document.html) 文档链接
+- transform: [FlowNodeTransformData](https://flowgram.ai/auto-docs/document/classes/FlowNodeTransformData.html) 获取节点的 transform 矩阵数据
+- renderData: [FlowNodeRenderData](https://flowgram.ai/auto-docs/document/classes/FlowNodeRenderData.html) 获取节点的渲染数据, 包含渲染状态等
+- form: [NodeFormProps](https://flowgram.ai/auto-docs/editor/interfaces/NodeFormProps.html) 获取节点的表单数据, 等价于 [getNodeForm](/api/utils/get-node-form.html)
+- scope: [FlowNodeScope](https://flowgram.ai/auto-docs/editor/interfaces/FlowNodeScope) 变量作用域
+- privateScope: [FlowNodeScope](https://flowgram.ai/auto-docs/editor/interfaces/FlowNodeScope) 变量私有作用域
+- line: [WorkflowNodeLinesData](https://flowgram.ai/auto-docs/free-layout-core/classes/WorkflowNodeLinesData.html) 自由布局线条数据
+- ports: [WorkflowNodePortsData](https://flowgram.ai/auto-docs/free-layout-core/classes/WorkflowNodePortsData.html) 自由布局端口数据
+- getNodeRegistry(): [WorkflowNodeRegistry](https://flowgram.ai/auto-docs/free-layout-core/interfaces/WorkflowNodeRegistry) 获取节点注册器
+- getService(): 获取 [IOC](/guide/concepts/ioc.html) 服务，如 `node.getService(HistoryService)`
+- getExtInfo(): 获取节点扩展数据, 如 `node.getExtInfo<{ test: string }>()`
+- updateExtInfo(): 更新节点扩展数据, 如 `node.updateExtInfo<{ test: string }>({ test: 'test' })`
+- dispose(): 销毁节点
+- toJSON(): json 序列化
 
 ## 节点数据
 
@@ -32,6 +53,7 @@ const nodeData: FlowNodeJSON = {
 ## 节点定义
 
 在自由布局场景，节点定义用于声明节点的初始化位置/大小，端口，表单渲染等, 详细见 [声明节点](/guide/getting-started/create-free-layout-simple.html#4-声明节点)
+
 
 ## 当前渲染节点获取
 
@@ -122,19 +144,16 @@ function BaseNode({ node }) {
 
 ```tsx pure
 function BaseNode() {
-  const { data, updateData, form } = useNodeRender();
-  // 对应节点的 data 数据
-  // 1. data, form.values 对应节点的 data 数据
+  const { node, form } = useNodeRender();
+  // 1. form.values 对应节点的 data 数据
   // 2. form.setValueIn('title', 'xxxx') 修改 data.title
   // 3. form.getValueIn('title') 获取 data.title
+  // 4. form.updateFormValues({ ... }) 更新表单所有数据
 
   function onChange(e) {
-    updateData({
-      ...data,
-      title: e.target.value
-    })
+    form.setValueIn('title', e.target.value)
   }
-  return <input value={data.title} onChange={onChange}/>
+  return <input value={form.values.title} onChange={onChange}/>
 }
 ```
 - 通过 Field 更新表单数据, 详细见 [表单的使用](/guide/advanced/form.html)

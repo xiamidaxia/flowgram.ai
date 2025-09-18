@@ -2,14 +2,12 @@
   {
     "type": "dir",
     "name": "free-layout",
-    "label": "自由布局",
-    "collapsed": true
+    "label": "自由布局"
   },
   {
     "type": "dir",
     "name": "fixed-layout",
-    "label": "固定布局",
-    "collapsed": true
+    "label": "固定布局"
   },
   "form",
   "without-form",
