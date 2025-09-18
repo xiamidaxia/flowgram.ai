@@ -17,12 +17,12 @@ Nodes are defined through [FlowNodeEntity](/api/core/flow-node-entity.html)
 - originParent: `FlowNodeEntity | undefined` Get the original parent node, this is used to find the entire virtual branch for the first node of the fixed layout branch (orderIcon)
 - allChildren: `FlowNodeEntity[]` Get all child nodes, not including collapsed child nodes
 - document: [FlowDocument](/api/core/flow-document.html) Document link
-- transform: [FlowNodeTransformData](https://flowgram.ai/auto-docs/document/classes/FlowNodeTransformData.html) Get the ndoe's transform data
+- transform: [FlowNodeTransformData](https://flowgram.ai/auto-docs/document/classes/FlowNodeTransformData.html) Get the node's transform data
 - renderData: [FlowNodeRenderData](https://flowgram.ai/auto-docs/document/classes/FlowNodeRenderData.html) Get the node's render data, including render status
 - form: [NodeFormProps](https://flowgram.ai/auto-docs/editor/interfaces/NodeFormProps.html) Get the node's form data, like [getNodeForm](/api/utils/get-node-form.html)
 - scope: [FlowNodeScope](https://flowgram.ai/auto-docs/editor/interfaces/FlowNodeScope) Get the node's variable public scope
 - privateScope: [FlowNodeScope](https://flowgram.ai/auto-docs/editor/interfaces/FlowNodeScope) Get the node's variable private scope
-- getNodeRegistry(): [WorkflowNodeRegistry](https://flowgram.ai/auto-docs/free-layout-core/interfaces/WorkflowNodeRegistry) Get the node's registry
+- getNodeRegistry(): [FlowNodeRegistry](https://flowgram.ai/auto-docs/document/interfaces/FlowNodeRegistry-1) Get the node's registry
 - getService(): Get the [IOC](/guide/concepts/ioc.html) Service, such as`node.getService(HistoryService)`
 - getExtInfo(): Get the node's ext info, such as `node.getExtInfo<{ test: string }>()`
 - updateExtInfo(): Update the node's ext info, such as `node.updateExtInfo<{ test: string }>({ test: 'test' })`

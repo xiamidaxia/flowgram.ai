@@ -85,18 +85,26 @@ export const NodeMenu: FC<NodeMenuProps> = ({ node, deleteNode, updateTitleEdit 
     },
     [clientContext, node]
   );
-  const handleEditTitle = useCallback(() => {
-    updateTitleEdit(true);
-  }, [updateTitleEdit]);
+  const handleEditTitle = useCallback(
+    (e: React.MouseEvent) => {
+      updateTitleEdit(true);
+      e.stopPropagation(); // Disable clicking prevents the sidebar from opening
+    },
+    [updateTitleEdit]
+  );
 
-  const handleAutoLayout = useCallback(async () => {
-    await tools.autoLayout({
-      containerNode: node,
-      enableAnimation: true,
-      animationDuration: 1000,
-      disableFitView: true,
-    });
-  }, [tools]);
+  const handleAutoLayout = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation(); // Disable clicking prevents the sidebar from opening
+      tools.autoLayout({
+        containerNode: node,
+        enableAnimation: true,
+        animationDuration: 1000,
+        disableFitView: true,
+      });
+    },
+    [tools]
+  );
 
   if (!visible) {
     return <></>;

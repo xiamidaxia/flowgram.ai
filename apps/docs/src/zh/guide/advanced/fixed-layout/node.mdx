@@ -23,7 +23,7 @@
 - form: [NodeFormProps](https://flowgram.ai/auto-docs/editor/interfaces/NodeFormProps.html) 获取节点的表单数据, 等价于 [getNodeForm](/api/utils/get-node-form.html)
 - scope: [FlowNodeScope](https://flowgram.ai/auto-docs/editor/interfaces/FlowNodeScope) 变量作用域
 - privateScope: [FlowNodeScope](https://flowgram.ai/auto-docs/editor/interfaces/FlowNodeScope) 变量私有作用域
-- getNodeRegistry(): [WorkflowNodeRegistry](https://flowgram.ai/auto-docs/free-layout-core/interfaces/WorkflowNodeRegistry) 获取节点注册器
+- getNodeRegistry(): [FlowNodeRegistry](https://flowgram.ai/auto-docs/document/interfaces/FlowNodeRegistry-1) 获取节点注册器
 - getService(): 获取 [IOC](/guide/concepts/ioc.html) 服务，如 `node.getService(HistoryService)`
 - getExtInfo(): 获取节点扩展数据, 如 `node.getExtInfo<{ test: string }>()`
 - updateExtInfo(): 更新节点扩展数据, 如 `node.updateExtInfo<{ test: string }>({ test: 'test' })`
