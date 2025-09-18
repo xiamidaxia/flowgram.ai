@@ -40,7 +40,7 @@ import {
 } from './typings';
 import { WorkflowSelectService } from './service/workflow-select-service';
 import { FREE_LAYOUT_KEY, type FreeLayout } from './layout';
-import { WorkflowNodeLinesData } from './entity-datas';
+import { WorkflowNodeLinesData, WorkflowNodePortsData } from './entity-datas';
 import {
   WorkflowLineEntity,
   WorkflowLinePortInfo,
@@ -339,6 +339,8 @@ export class WorkflowDocument extends FlowDocument {
         ? this.nodeDataRegistries.concat(...dataRegistries)
         : this.nodeDataRegistries;
       node.addInitializeData(datas);
+      node.ports = node.getData(WorkflowNodePortsData);
+      node.lines = node.getData(WorkflowNodeLinesData);
       node.onDispose(() => this.onNodeDisposeEmitter.fire({ node: node! }));
       this.options.fromNodeJSON?.(node, data, true);
       isNew = true;
