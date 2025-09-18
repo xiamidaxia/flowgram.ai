@@ -14,7 +14,6 @@ import {
   WorkflowLineRenderContributionFactory,
 } from '../typings';
 import { WorkflowLineEntity } from '../entities';
-import { WorkflowNodePortsData } from './workflow-node-ports-data';
 
 export interface WorkflowLineRenderDataSchema {
   version: string;
@@ -98,16 +97,12 @@ export class WorkflowLineRenderData extends EntityData<WorkflowLineRenderDataSch
    * WARNING: 这个方法，必须在 requestAnimationFrame / useLayoutEffect 中调用，否则会引起浏览器强制重排
    */
   private updatePosition(): void {
-    this.data.position.from = this.entity.from
-      .getData(WorkflowNodePortsData)!
-      .getOutputPoint(this.entity.info.fromPort);
+    this.data.position.from = this.entity.from.ports!.getOutputPoint(this.entity.info.fromPort);
 
     if (this.entity.info.drawingTo) {
       this.data.position.to = this.entity.info.drawingTo;
     } else {
-      this.data.position.to = this.entity.to
-        ?.getData(WorkflowNodePortsData)
-        ?.getInputPoint(this.entity.info.toPort) ?? {
+      this.data.position.to = this.entity.to?.ports?.getInputPoint(this.entity.info.toPort) ?? {
         x: this.data.position.from.x,
         y: this.data.position.from.y,
         location: this.data.position.from.location === 'right' ? 'left' : 'top',

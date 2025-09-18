@@ -61,7 +61,7 @@ const nodeRegistry = node.getNodeRegistry<FlowNodeRegistry>()
 ```ts pure
 node.getData(FlowNodeTransformData) // transform 矩阵数据, 包含节点的 x，y，width，height 等信息
 node.getData(FlowNodeRenderData) // 节点的渲染数据, 包含渲染状态等数据
-node.getData(WorkflowNodeLinesData) // 自由布局的线条数据
+node.lines // 自由布局的线条数据
 
 ```
 

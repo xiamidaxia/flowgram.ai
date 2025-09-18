@@ -39,7 +39,6 @@ import { WorkflowDocumentOptions } from '../workflow-document-option';
 import { WorkflowDocument } from '../workflow-document';
 import { LineEventProps, NodesDragEvent, OnDragLineEnd } from '../typings/workflow-drag';
 import { LinePointLocation, type WorkflowNodeJSON, type WorkflowNodeMeta } from '../typings';
-import { WorkflowNodePortsData } from '../entity-datas';
 import {
   type WorkflowLineEntity,
   type WorkflowLinePortInfo,
@@ -855,7 +854,7 @@ export class WorkflowDragService {
 
   /** 获取最近的 port */
   private getNearestPort(node: WorkflowNodeEntity, mousePos: IPoint): WorkflowPortEntity {
-    const portsData = node.getData(WorkflowNodePortsData)!;
+    const portsData = node.ports!;
     const distanceSortedPorts = portsData.inputPorts.sort((a, b) => {
       const aDistance = Math.abs(mousePos.y - a.point.y);
       const bDistance = Math.abs(mousePos.y - b.point.y);

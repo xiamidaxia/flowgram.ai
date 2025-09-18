@@ -27,7 +27,7 @@ import {
 } from './typings';
 import { WorkflowHoverService, WorkflowSelectService } from './service';
 import { WorkflowNodeLinesData } from './entity-datas/workflow-node-lines-data';
-import { WorkflowLineRenderData, WorkflowNodePortsData } from './entity-datas';
+import { WorkflowLineRenderData } from './entity-datas';
 import {
   LINE_HOVER_DISTANCE,
   WorkflowLineEntity,
@@ -429,7 +429,7 @@ export class WorkflowLinesManager {
    */
   getPortFromMousePos(pos: IPoint): WorkflowPortEntity | undefined {
     const allNodes = this.getSortedNodes().reverse();
-    const allPorts = allNodes.map((node) => node.getData(WorkflowNodePortsData).allPorts).flat();
+    const allPorts = allNodes.map((node) => node.ports.allPorts).flat();
     const targetPort = allPorts.find((port) => port.isHovered(pos.x, pos.y));
     if (targetPort) {
       const containNodes = this.getContainNodesFromMousePos(pos);

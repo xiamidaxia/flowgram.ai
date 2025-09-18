@@ -45,22 +45,20 @@ function BaseNode() {
 ## Get Input/Output Nodes or Lines for Current Node
 
 ```ts pure
-import { WorkflowNodeLinesData } from '@flowgram.ai/free-layout-editor'
-
 // get input nodes (calculated through connection lines)
-node.getData(WorkflowNodeLinesData).inputNodes
+node.lines.inputNodes
 // get all input nodes (recursively gets all upstream nodes)
-node.getData(WorkflowNodeLinesData).allInputNodes
+node.lines.allInputNodes
 // get output nodes
-node.getData(WorkflowNodeLinesData).outputNodes
+node.lines.outputNodes
 // get all output nodes
-node.getData(WorkflowNodeLinesData).allOutputNodes
+node.lines.allOutputNodes
 // input lines (contains the line that isDrawing or isHidden)
-node.getData(WorkflowNodeLinesData).inputLines
+node.lines.inputLines
 // output lines (contains the line that isDrawing or isHidden)
-node.getData(WorkflowNodeLinesData).outputLines
+node.lines.outputLines
 // all availableLines (Doesn't contain the lines that isDrawing or isHidden)
-node.getData(WorkflowNodeLinesData).availableLines
+node.lines.availableLines
 ```
 
 ## Create Node

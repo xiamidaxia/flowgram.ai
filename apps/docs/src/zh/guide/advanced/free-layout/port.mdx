@@ -96,7 +96,7 @@ function BaseNode() {
 ## 获取端口数据
 
 ```ts pure
-const ports = node.getData(WorkflowNodePortsData)
+const ports = node.ports
 
 console.log(ports.inputPorts) // 获取当前节点的所有输入端口
 console.log(ports.outputPorts) // 获取当前节点的所有输出端口

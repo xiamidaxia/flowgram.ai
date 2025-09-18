@@ -16,7 +16,6 @@ import {
   FlowNodeBaseType,
   FreeLayoutPluginContext,
   FreeLayoutProps,
-  WorkflowNodeLinesData,
 } from '@flowgram.ai/free-layout-editor';
 import { createFreeGroupPlugin } from '@flowgram.ai/free-group-plugin';
 import { createContainerNodePlugin } from '@flowgram.ai/free-container-plugin';
@@ -137,7 +136,7 @@ export function useEditorProps(
          * 线条环检测，不允许连接到前面的节点
          * Line loop detection, which is not allowed to connect to the node in front of it
          */
-        return !fromPort.node.getData(WorkflowNodeLinesData).allInputNodes.includes(toPort.node);
+        return !fromPort.node.lines.allInputNodes.includes(toPort.node);
       },
       /**
        * Check whether the line can be deleted, this triggers on the default shortcut `Bakspace` or `Delete`
