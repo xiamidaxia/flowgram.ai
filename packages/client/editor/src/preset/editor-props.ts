@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { VariablePluginOptions } from '@flowgram.ai/variable-plugin';
+import { FlowNodeScope, VariablePluginOptions } from '@flowgram.ai/variable-plugin';
 import { ReduxDevToolPluginOptions } from '@flowgram.ai/redux-devtool-plugin';
 import { PlaygroundReactProps, SelectionService } from '@flowgram.ai/playground-react';
 import { NodeCorePluginOptions } from '@flowgram.ai/node-core-plugin';
@@ -25,6 +25,8 @@ import { PluginContext } from '@flowgram.ai/core';
 declare module '@flowgram.ai/document' {
   interface FlowNodeEntity {
     form: NodeFormProps<any> | undefined;
+    scope: FlowNodeScope | undefined;
+    privateScope: FlowNodeScope | undefined;
   }
 }
 

@@ -7,10 +7,20 @@ import { FlowNodeEntity } from '@flowgram.ai/document';
 
 import { FlowNodeVariableData } from './flow-node-variable-data';
 
+/**
+ * Use `node.scope` instead
+ * @deprecated
+ * @param node
+ */
 export function getNodeScope(node: FlowNodeEntity) {
   return node.getData(FlowNodeVariableData).public;
 }
 
+/**
+ * Use `node.privateScope` instead
+ * @deprecated
+ * @param node
+ */
 export function getNodePrivateScope(node: FlowNodeEntity) {
   return node.getData(FlowNodeVariableData).initPrivate();
 }

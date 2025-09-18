@@ -12,7 +12,7 @@ We mainly divide variables into two categories:
 Outputting a node variable means that this variable is bound to the life cycle of the current node. When the node is created, the variable is born; when the node is deleted, the variable also disappears. We usually have two ways to output node variables:
 
 1.  **Through form configuration**: In the node's setting panel (Form), declare output variables through some preset configurations or custom logic. This method is very intuitive, what you see is what you get.
-2.  **Through API calls**: In the plugin (Plugin), dynamically add, modify or delete variables for the node by calling the `getNodeScope` API. This method is more flexible and suitable for handling complex and dynamic business scenarios.
+2.  **Through API calls**: In the plugin (Plugin), dynamically add, modify or delete variables for the node by calling the `node.scope` API. This method is more flexible and suitable for handling complex and dynamic business scenarios.
 
 Next, we will explore the specific usage of these two methods in depth.
 
@@ -117,13 +117,13 @@ export const nodeRegistries: FlowNodeRegistry[] = [
 
 ```
 
-### Method 2: Use the `getNodeScope` API
+### Method 2: Use the `node.scope` API
 
-In addition to static configuration in the form, we can also get the scope in the plugin (Plugin) through the `getNodeScope` API to dynamically operate the variables of the node.
+In addition to static configuration in the form, we can also get the scope in the plugin (Plugin) through the `node.scope` API to dynamically operate the variables of the node.
 
 This method gives you a high degree of freedom. You can add, delete, modify, and query the variables of the node at any time and any place.
 
-`getNodeScope` will return a node's variable scope (Scope) object, which has several core methods:
+`node.scope` will return a node's variable scope (Scope) object, which has several core methods:
 
 - `setVar(variable)`: Set a variable.
 - `setVar(namespace, variable)`: Set a variable under the specified namespace.
@@ -139,7 +139,6 @@ import {
   FlowDocument,
   definePluginCreator,
   PluginCreator,
-  getNodeScope,
 } from '@flowgram.ai/fixed-layout-editor';
 
 
@@ -147,7 +146,7 @@ export const createSyncVariablePlugin: PluginCreator<SyncVariablePluginOptions> 
   definePluginCreator<SyncVariablePluginOptions, FixedLayoutPluginContext>({
     onInit(ctx, options) {
       const startNode = ctx.get(FlowDocument).getNode('start_0');
-      const startScope =  getNodeScope(startNode)
+      const startScope =  startNode.scope!
 
       // 1. Set Variable For Start Scope
       startScope.setVar(

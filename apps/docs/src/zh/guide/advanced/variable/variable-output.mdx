@@ -12,7 +12,7 @@
 输出节点变量，意味着这个变量和当前节点的生命周期是绑定的。当节点被创建时，变量就诞生了；当节点被删除时，变量也随之消逝。我们通常有两种方式来输出节点变量：
 
 1.  **通过表单配置**：在节点的设置面板（Form）中，通过一些预设的配置或自定义的逻辑来声明输出变量。这种方式非常直观，所见即所得。
-2.  **通过 API 调用**：在插件（Plugin）中，通过调用 `getNodeScope` API 来动态地为节点添加、修改或删除变量。这种方式更加灵活，适合处理复杂的、动态的业务场景。
+2.  **通过 API 调用**：在插件（Plugin）中，通过调用 `node.scope` API 来动态地为节点添加、修改或删除变量。这种方式更加灵活，适合处理复杂的、动态的业务场景。
 
 接下来，我们将深入探讨这两种方式的具体用法。
 
@@ -117,13 +117,13 @@ export const nodeRegistries: FlowNodeRegistry[] = [
 
 ```
 
-### 方式二：使用 `getNodeScope` API
+### 方式二：使用 `node.scope` API
 
-除了在表单中静态配置，我们还可以在插件（Plugin）中，通过 `getNodeScope` API 来获取作用域，从而动态地操作节点的变量。
+除了在表单中静态配置，我们还可以在插件（Plugin）中，通过 `node.scope` API 来获取作用域，从而动态地操作节点的变量。
 
 这种方式赋予了你极高的自由度，你可以在任何时机、任何地点，对节点的变量进行增、删、改、查。
 
-`getNodeScope` 会返回一个节点的变量作用域（Scope）对象，这个对象上挂载了几个核心方法：
+`node.scope` 会返回一个节点的变量作用域（Scope）对象，这个对象上挂载了几个核心方法：
 
 - `setVar(variable)`: 设置一个变量。
 - `setVar(namespace, variable)`: 在指定的命名空间下设置一个变量。
@@ -139,7 +139,6 @@ import {
   FlowDocument,
   definePluginCreator,
   PluginCreator,
-  getNodeScope,
 } from '@flowgram.ai/fixed-layout-editor';
 
 
@@ -147,7 +146,7 @@ export const createSyncVariablePlugin: PluginCreator<SyncVariablePluginOptions> 
   definePluginCreator<SyncVariablePluginOptions, FixedLayoutPluginContext>({
     onInit(ctx, options) {
       const startNode = ctx.get(FlowDocument).getNode('start_0');
-      const startScope =  getNodeScope(startNode)
+      const startScope =  startNode.scope!
 
       // 1. Set Variable For Start Scope
       startScope.setVar(
