@@ -68,7 +68,7 @@ export class FreeLayoutScopeChain extends ScopeChain {
     while (queue.length) {
       const curr = queue.shift()!;
 
-      (curr.getData(WorkflowNodeLinesData)?.inputNodes || []).forEach((inputNode) => {
+      (curr.lines?.inputNodes || []).forEach((inputNode) => {
         if (this.getNodeParent(inputNode) === currParent) {
           if (result.has(inputNode)) {
             return;
@@ -86,7 +86,7 @@ export class FreeLayoutScopeChain extends ScopeChain {
   protected getAllOutputLayerNodes(curr: FlowNodeEntity): FlowNodeEntity[] {
     const currParent = this.getNodeParent(curr);
 
-    return (curr.getData(WorkflowNodeLinesData)?.allOutputNodes || []).filter(
+    return (curr.lines?.allOutputNodes || []).filter(
       (_node) => this.getNodeParent(_node) === currParent
     );
   }

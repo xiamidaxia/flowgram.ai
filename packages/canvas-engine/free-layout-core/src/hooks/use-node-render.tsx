@@ -17,7 +17,6 @@ import {
 } from '@flowgram.ai/core';
 
 import { WorkflowDragService, WorkflowSelectService } from '../service';
-import { WorkflowNodePortsData } from '../entity-datas';
 import { type WorkflowNodeEntity } from '../entities';
 import { usePlaygroundReadonlyState } from './use-playground-readonly-state';
 import { type NodeRenderReturnType } from './typings';
@@ -40,7 +39,7 @@ const isFirefox = navigator?.userAgent?.includes?.('Firefox');
 export function useNodeRender(nodeFromProps?: WorkflowNodeEntity): NodeRenderReturnType {
   const node = nodeFromProps || useContext<WorkflowNodeEntity>(PlaygroundEntityContext);
   const renderData = node.getData(FlowNodeRenderData)!;
-  const portsData = node.getData(WorkflowNodePortsData)!;
+  const portsData = node.ports!;
   const readonly = usePlaygroundReadonlyState();
   const dragService = useService<WorkflowDragService>(WorkflowDragService);
   const selectionService = useService<WorkflowSelectService>(WorkflowSelectService);

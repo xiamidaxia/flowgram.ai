@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { WorkflowNodeEntity, WorkflowNodeLinesData } from '@flowgram.ai/free-layout-core';
+import { WorkflowNodeEntity } from '@flowgram.ai/free-layout-core';
 import { FlowNodeBaseType } from '@flowgram.ai/document';
 
 import type {
@@ -200,7 +200,7 @@ export class LayoutStore implements ILayoutStore {
         visit(child);
       });
       // 访问后续节点
-      const { outputLines } = node.getData(WorkflowNodeLinesData);
+      const { outputLines } = node.lines;
       const sortedLines = outputLines.sort((a, b) => {
         const aNode = this.getNode(a.to?.id);
         const bNode = this.getNode(b.to?.id);

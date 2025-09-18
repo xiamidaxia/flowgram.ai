@@ -2,6 +2,28 @@
 
 Nodes are defined through [FlowNodeEntity](/api/core/flow-node-entity.html)
 
+## Node Core API
+
+- id: `string` Node id
+- flowNodeType: `string` | `number` Node type
+- bounds: `Rectangle` Get the node's x, y, width, height, equivalent to `transform.bounds`
+- blocks: `FlowNodeEntity[]` Get child nodes, including collapsed child nodes
+- parent: `FlowNodeEntity | undefined` Get the parent node (Such as loop)
+- document: [WorkflowDocument](/api/core/workflow-document.html) Document link
+- transform: [FlowNodeTransformData](https://flowgram.ai/auto-docs/document/classes/FlowNodeTransformData.html) Get the ndoe's transform data
+- renderData: [FlowNodeRenderData](https://flowgram.ai/auto-docs/document/classes/FlowNodeRenderData.html) Get the node's render data, including render status
+- form: [NodeFormProps](https://flowgram.ai/auto-docs/editor/interfaces/NodeFormProps.html) Get the node's form data, like [getNodeForm](/api/utils/get-node-form.html)
+- scope: [FlowNodeScope](https://flowgram.ai/auto-docs/editor/interfaces/FlowNodeScope) Get the node's variable public scope
+- privateScope: [FlowNodeScope](https://flowgram.ai/auto-docs/editor/interfaces/FlowNodeScope) Get the node's variable private scope
+- line: [WorkflowNodeLinesData](https://flowgram.ai/auto-docs/free-layout-core/classes/WorkflowNodeLinesData.html) Get the node's lines data
+- ports: [WorkflowNodePortsData](https://flowgram.ai/auto-docs/free-layout-core/classes/WorkflowNodePortsData.html) Get the node's ports data
+- getNodeRegistry(): [WorkflowNodeRegistry](https://flowgram.ai/auto-docs/free-layout-core/interfaces/WorkflowNodeRegistry) Get the node's registry
+- getService(): Get the [IOC](/guide/concepts/ioc.html) Service, such as`node.getService(HistoryService)`
+- getExtInfo(): Get the node's ext info, such as `node.getExtInfo<{ test: string }>()`
+- updateExtInfo(): Update the node's ext info, such as `node.updateExtInfo<{ test: string }>({ test: 'test' })`
+- dispose(): Destroy node
+- toJSON(): Get the node's json data
+
 ## Node Data
 
 Can be obtained through `node.toJSON()`
@@ -45,22 +67,20 @@ function BaseNode() {
 ## Get Input/Output Nodes or Lines for Current Node
 
 ```ts pure
-import { WorkflowNodeLinesData } from '@flowgram.ai/free-layout-editor'
-
 // get input nodes (calculated through connection lines)
-node.getData(WorkflowNodeLinesData).inputNodes
+node.lines.inputNodes
 // get all input nodes (recursively gets all upstream nodes)
-node.getData(WorkflowNodeLinesData).allInputNodes
+node.lines.allInputNodes
 // get output nodes
-node.getData(WorkflowNodeLinesData).outputNodes
+node.lines.outputNodes
 // get all output nodes
-node.getData(WorkflowNodeLinesData).allOutputNodes
+node.lines.allOutputNodes
 // input lines (contains the line that isDrawing or isHidden)
-node.getData(WorkflowNodeLinesData).inputLines
+node.lines.inputLines
 // output lines (contains the line that isDrawing or isHidden)
-node.getData(WorkflowNodeLinesData).outputLines
+node.lines.outputLines
 // all availableLines (Doesn't contain the lines that isDrawing or isHidden)
-node.getData(WorkflowNodeLinesData).availableLines
+node.lines.availableLines
 ```
 
 ## Create Node
@@ -123,19 +143,17 @@ function BaseNode({ node }) {
 
 ```tsx pure
 function BaseNode() {
-  const { data, updateData, form } = useNodeRender();
+  const { form, node } = useNodeRender();
   // Corresponds to node's data
-  // 1. data or form.values: Corresponds to node's data
+  // 1. form.values: Corresponds to node's data
   // 2. form.setValueIn('title', 'xxxx'): Update data.title
   // 3. form.getValueIn('title'): Get data.title
+  // 4. form.updateFormValues({ ... }) Update all form values
 
   function onChange(e) {
-    updateData({
-      ...data,
-      title: e.target.value
-    })
+    form.setValueIn('title', e.target.value)
   }
-  return <input value={data.title} onChange={onChange}/>
+  return <input value={form.values.title} onChange={onChange}/>
 }
 
 ```

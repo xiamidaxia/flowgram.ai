@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { WorkflowNodeEntity, WorkflowNodeLinesData } from '@flowgram.ai/free-layout-editor';
+import { WorkflowNodeEntity } from '@flowgram.ai/free-layout-editor';
 
 export function toggleLoopExpanded(
   node: WorkflowNodeEntity,
@@ -53,7 +53,7 @@ export function toggleLoopExpanded(
   // 隐藏子节点线条
   // Hide the child node lines
   node.blocks.forEach((block) => {
-    block.getData(WorkflowNodeLinesData).allLines.forEach((line) => {
+    block.lines.allLines.forEach((line) => {
       line.updateUIState({
         style: !expanded ? { display: 'none' } : {},
       });

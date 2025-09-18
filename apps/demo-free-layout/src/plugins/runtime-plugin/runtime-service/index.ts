@@ -17,7 +17,6 @@ import {
   Playground,
   WorkflowLineEntity,
   WorkflowNodeEntity,
-  WorkflowNodeLinesData,
   Emitter,
 } from '@flowgram.ai/free-layout-editor';
 
@@ -70,9 +69,7 @@ export class WorkflowRuntimeService {
   public onResultChanged = this.resultEmitter.event;
 
   public isFlowingLine(line: WorkflowLineEntity) {
-    return this.runningNodes.some((node) =>
-      node.getData(WorkflowNodeLinesData).inputLines.includes(line)
-    );
+    return this.runningNodes.some((node) => node.lines.inputLines.includes(line));
   }
 
   public async taskRun(inputs: WorkflowInputs): Promise<string | undefined> {

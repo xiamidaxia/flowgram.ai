@@ -8,7 +8,6 @@ import { interfaces } from 'inversify';
 import {
   WorkflowLinesManager,
   WorkflowDocument,
-  WorkflowNodeLinesData,
   WorkflowDocumentOptions,
   WorkflowLineRenderData,
   LineColors,
@@ -45,8 +44,8 @@ describe('workflow-lines-manager', () => {
       from: 'start_0',
       to: 'end_0',
     })!;
-    const startNode = document.getNode('start_0')!.getData(WorkflowNodeLinesData);
-    const endNode = document.getNode('end_0')!.getData(WorkflowNodeLinesData);
+    const startNode = document.getNode('start_0')!.lines;
+    const endNode = document.getNode('end_0')!.lines;
     expect(startNode.outputLines.length).toEqual(1);
     expect(startNode.allLines.length).toEqual(1);
     expect(endNode.inputLines.length).toEqual(1);
@@ -78,7 +77,7 @@ describe('workflow-lines-manager', () => {
       from: 'start_0',
       drawingTo: { x: 0, y: 0, location: 'right' },
     })!;
-    const startNode = document.getNode('start_0')!.getData(WorkflowNodeLinesData);
+    const startNode = document.getNode('start_0')!.lines;
     expect(startNode.outputLines.length).toEqual(1);
     expect(startNode.availableLines.length).toEqual(0);
     line.dispose();
@@ -134,9 +133,7 @@ describe('workflow-lines-manager', () => {
       to: 'end_0',
     });
 
-    const allNodeLineData = document
-      .getAllNodes()
-      .map((_node) => _node.getData(WorkflowNodeLinesData));
+    const allNodeLineData = document.getAllNodes().map((_node) => _node.lines);
 
     expect(
       allNodeLineData.map((_line) => ({

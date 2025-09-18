@@ -17,7 +17,6 @@ import {
   LineCenterPoint,
 } from '../typings/workflow-line';
 import { type WorkflowEdgeJSON } from '../typings';
-import { WorkflowNodePortsData } from '../entity-datas/workflow-node-ports-data';
 import { WorkflowLineRenderData } from '../entity-datas';
 import { type WorkflowPortEntity } from './workflow-port-entity';
 import { type WorkflowNodeEntity } from './workflow-node-entity';
@@ -389,16 +388,14 @@ export class WorkflowLineEntity extends Entity<WorkflowLineEntityOpts> {
   }
 
   get fromPort(): WorkflowPortEntity {
-    return this.from
-      .getData(WorkflowNodePortsData)
-      .getPortEntityByKey('output', this.info.fromPort);
+    return this.from.ports.getPortEntityByKey('output', this.info.fromPort);
   }
 
   get toPort(): WorkflowPortEntity | undefined {
     if (!this.to) {
       return undefined;
     }
-    return this.to.getData(WorkflowNodePortsData).getPortEntityByKey('input', this.info.toPort);
+    return this.to.ports.getPortEntityByKey('input', this.info.toPort);
   }
 
   /**

@@ -2,6 +2,33 @@
 
 Nodes are defined through [FlowNodeEntity](/api/core/flow-node-entity.html)
 
+## Node Core API
+
+- id: `string` Node id
+- flowNodeType: `string` | `number` Node type
+- bounds: `Rectangle` Get the node's x, y, width, height, equivalent to `transform.bounds`
+- blocks: `FlowNodeEntity[]` Get child nodes, including collapsed child nodes, equivalent to `collapsedChildren`
+- collapsedChildren: `FlowNodeEntity[]` Get child nodes, including collapsed child nodes
+- allCollapsedChildren: `FlowNodeEntity[]` Get all child nodes, including all collapsed child nodes
+- children: `FlowNodeEntity[]` Get child nodes, not including collapsed child nodes
+- pre: `FlowNodeEntity | undefined` Get the previous node
+- next: `FlowNodeEntity | undefined` Get the next node
+- parent: `FlowNodeEntity | undefined` Get the parent node
+- originParent: `FlowNodeEntity | undefined` Get the original parent node, this is used to find the entire virtual branch for the first node of the fixed layout branch (orderIcon)
+- allChildren: `FlowNodeEntity[]` Get all child nodes, not including collapsed child nodes
+- document: [FlowDocument](/api/core/flow-document.html) Document link
+- transform: [FlowNodeTransformData](https://flowgram.ai/auto-docs/document/classes/FlowNodeTransformData.html) Get the ndoe's transform data
+- renderData: [FlowNodeRenderData](https://flowgram.ai/auto-docs/document/classes/FlowNodeRenderData.html) Get the node's render data, including render status
+- form: [NodeFormProps](https://flowgram.ai/auto-docs/editor/interfaces/NodeFormProps.html) Get the node's form data, like [getNodeForm](/api/utils/get-node-form.html)
+- scope: [FlowNodeScope](https://flowgram.ai/auto-docs/editor/interfaces/FlowNodeScope) Get the node's variable public scope
+- privateScope: [FlowNodeScope](https://flowgram.ai/auto-docs/editor/interfaces/FlowNodeScope) Get the node's variable private scope
+- getNodeRegistry(): [WorkflowNodeRegistry](https://flowgram.ai/auto-docs/free-layout-core/interfaces/WorkflowNodeRegistry) Get the node's registry
+- getService(): Get the [IOC](/guide/concepts/ioc.html) Service, such as`node.getService(HistoryService)`
+- getExtInfo(): Get the node's ext info, such as `node.getExtInfo<{ test: string }>()`
+- updateExtInfo(): Update the node's ext info, such as `node.updateExtInfo<{ test: string }>({ test: 'test' })`
+- dispose(): Destroy node
+- toJSON(): Get the node's json data
+
 ## Node Data
 
 Can be obtained through `node.toJSON()`
@@ -169,19 +196,17 @@ function BaseNode({ node }) {
 
 ```tsx pure
 function BaseNode() {
-  const { data, updateData, form } = useNodeRender();
+  const { form, node } = useNodeRender();
   // Corresponds to node's data
-  // 1. data or form.values: Corresponds to node's data
+  // 1. form.values: Corresponds to node's data
   // 2. form.setValueIn('title', 'xxxx'): Update data.title
   // 3. form.getValueIn('title'): Get data.title
+  // 4. form.updateFormValues({ ... }) Update all form values
 
   function onChange(e) {
-    updateData({
-      ...data,
-      title: e.target.value
-    })
+    form.setValueIn('title', e.target.value)
   }
-  return <input value={data.title} onChange={onChange}/>
+  return <input value={form.values.title} onChange={onChange}/>
 }
 
 ```
