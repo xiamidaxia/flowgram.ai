@@ -9,17 +9,17 @@ import React from 'react';
 import { I18n } from '@flowgram.ai/editor';
 
 import { ConditionPresetOp } from '@/components/condition-context/op';
-import { CodeEditorMini } from '@/components/code-editor-mini';
+import { JsonCodeEditor } from '@/components/code-editor';
 
 import { type JsonSchemaTypeRegistry } from '../types';
 
 export const mapRegistry: Partial<JsonSchemaTypeRegistry> = {
   type: 'map',
   ConstantRenderer: (props) => (
-    <CodeEditorMini
+    <JsonCodeEditor
+      mini
       value={props.value}
       onChange={(v) => props.onChange?.(v)}
-      languageId="json"
       placeholder={I18n.t('Please Input Map')}
       readonly={props.readonly}
     />

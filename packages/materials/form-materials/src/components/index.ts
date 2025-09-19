@@ -8,14 +8,33 @@ export { AssignRows } from './assign-rows';
 export { BatchOutputs } from './batch-outputs';
 export { BatchVariableSelector } from './batch-variable-selector';
 export { BlurInput } from './blur-input';
-export { CodeEditor, type CodeEditorPropsType } from './code-editor';
+export {
+  BaseCodeEditor,
+  CodeEditor,
+  JsonCodeEditor,
+  PythonCodeEditor,
+  SQLCodeEditor,
+  ShellCodeEditor,
+  TypeScriptCodeEditor,
+  type CodeEditorPropsType,
+} from './code-editor';
 export { CodeEditorMini } from './code-editor-mini';
+export {
+  ConditionPresetOp,
+  ConditionProvider,
+  type ConditionOpConfig,
+  type ConditionOpConfigs,
+  type IConditionRule,
+  type IConditionRuleFactory,
+  useCondition,
+  useConditionContext,
+} from './condition-context';
 export { ConditionRow, type ConditionRowValueType } from './condition-row';
 export { ConstantInput, type ConstantInputStrategy } from './constant-input';
 export {
+  EditorInputsTree,
   EditorVariableTagInject,
   EditorVariableTree,
-  EditorInputsTree,
 } from './coze-editor-extensions';
 export {
   DBConditionRow,
@@ -44,6 +63,10 @@ export {
   PromptEditorWithVariables,
   type PromptEditorWithVariablesProps,
 } from './prompt-editor-with-variables';
+export {
+  SQLEditorWithVariables,
+  type SQLEditorWithVariablesProps,
+} from './sql-editor-with-variables';
 export {
   InjectTypeSelector,
   TypeSelector,

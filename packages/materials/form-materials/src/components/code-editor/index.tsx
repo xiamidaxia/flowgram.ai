@@ -3,12 +3,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { lazySuspense } from '@/shared';
-
-export const CodeEditor = lazySuspense(() =>
-  Promise.all([import('./editor'), import('./theme')]).then(([editorModule]) => ({
-    default: editorModule.CodeEditor,
-  }))
-);
-
-export type { CodeEditorPropsType } from './editor';
+export { CodeEditor } from './editor-all';
+export { TypeScriptCodeEditor } from './editor-ts';
+export { ShellCodeEditor } from './editor-shell';
+export { JsonCodeEditor } from './editor-json';
+export { SQLCodeEditor } from './editor-sql';
+export { PythonCodeEditor } from './editor-python';
+export { BaseCodeEditor, type CodeEditorPropsType } from './editor';

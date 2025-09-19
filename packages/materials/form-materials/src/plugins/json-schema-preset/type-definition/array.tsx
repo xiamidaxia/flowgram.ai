@@ -9,16 +9,16 @@ import React from 'react';
 import { I18n } from '@flowgram.ai/editor';
 
 import { ConditionPresetOp } from '@/components/condition-context/op';
-import { CodeEditorMini } from '@/components/code-editor-mini';
+import { JsonCodeEditor } from '@/components/code-editor';
 
 import { type JsonSchemaTypeRegistry } from '../types';
 
 export const arrayRegistry: Partial<JsonSchemaTypeRegistry> = {
   type: 'array',
   ConstantRenderer: (props) => (
-    <CodeEditorMini
+    <JsonCodeEditor
+      mini
       value={props.value}
-      languageId="json"
       onChange={(v) => props.onChange?.(v)}
       placeholder={I18n.t('Please Input Array')}
       readonly={props.readonly}

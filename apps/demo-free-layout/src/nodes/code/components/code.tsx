@@ -4,7 +4,7 @@
  */
 
 import { Field } from '@flowgram.ai/free-layout-editor';
-import { CodeEditor } from '@flowgram.ai/form-materials';
+import { TypeScriptCodeEditor } from '@flowgram.ai/form-materials';
 import { Divider } from '@douyinfe/semi-ui';
 
 import { useIsSidebar, useNodeRenderContext } from '../../../hooks';
@@ -22,8 +22,7 @@ export function Code() {
       <Divider />
       <Field<string> name="script.content">
         {({ field }) => (
-          <CodeEditor
-            languageId="typescript"
+          <TypeScriptCodeEditor
             value={field.value}
             onChange={(value) => field.onChange(value)}
             readonly={readonly}

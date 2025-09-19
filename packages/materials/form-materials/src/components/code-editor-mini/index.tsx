@@ -14,6 +14,9 @@ const UIMini = styled.div`
   }
 `;
 
+/**
+ * @deprecated use mini in CodeEditorPropsType instead
+ */
 export function CodeEditorMini(props: CodeEditorPropsType) {
   return (
     <UIMini>

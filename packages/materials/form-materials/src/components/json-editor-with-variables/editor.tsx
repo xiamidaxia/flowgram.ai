@@ -10,7 +10,7 @@ import { transformerCreator } from '@flowgram.ai/coze-editor/preset-code';
 import { Text } from '@flowgram.ai/coze-editor/language-json';
 
 import { EditorVariableTree, EditorVariableTagInject } from '@/components/coze-editor-extensions';
-import { CodeEditor, type CodeEditorPropsType } from '@/components/code-editor';
+import { JsonCodeEditor, type CodeEditorPropsType } from '@/components/code-editor';
 
 const TRIGGER_CHARACTERS = ['@'];
 
@@ -53,8 +53,7 @@ export interface JsonEditorWithVariablesProps extends Omit<CodeEditorPropsType, 
 
 export function JsonEditorWithVariables(props: JsonEditorWithVariablesProps) {
   return (
-    <CodeEditor
-      languageId="json"
+    <JsonCodeEditor
       activeLinePlaceholder={I18n.t("Press '@' to Select variable")}
       {...props}
       options={{
@@ -64,6 +63,6 @@ export function JsonEditorWithVariables(props: JsonEditorWithVariablesProps) {
     >
       <EditorVariableTree triggerCharacters={TRIGGER_CHARACTERS} />
       <EditorVariableTagInject />
-    </CodeEditor>
+    </JsonCodeEditor>
   );
 }

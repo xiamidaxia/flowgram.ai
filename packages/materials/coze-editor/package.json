@@ -50,6 +50,11 @@
       "require": "./dist/cjs/language-python.js",
       "import": "./dist/esm/language-python.mjs"
     },
+    "./language-sql": {
+      "types": "./dist/types/language-sql.d.ts",
+      "require": "./dist/cjs/language-sql.js",
+      "import": "./dist/esm/language-sql.mjs"
+    },
     "./preset-universal": {
       "types": "./dist/types/preset-universal.d.ts",
       "require": "./dist/cjs/preset-universal.js",
@@ -99,8 +104,8 @@
     "watch": "npm run build:fast -- --dts-resolve --watch --ignore-watch dist"
   },
   "dependencies": {
-    "@coze-editor/editor": "0.1.0-alpha.1bed7f",
-    "@coze-editor/code-language-typescript": "0.1.0-alpha.1bed7f",
+    "@coze-editor/editor": "0.1.0-alpha.868621",
+    "@coze-editor/code-language-typescript": "0.1.0-alpha.868621",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
