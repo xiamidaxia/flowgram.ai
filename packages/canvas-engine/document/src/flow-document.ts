@@ -250,6 +250,7 @@ export class FlowDocument<T = FlowDocumentJSON> implements Disposable {
         originParent,
         meta,
       });
+      this.options.preNodeCreate?.(node);
       const datas = dataRegistries
         ? this.nodeDataRegistries.concat(...dataRegistries)
         : this.nodeDataRegistries;

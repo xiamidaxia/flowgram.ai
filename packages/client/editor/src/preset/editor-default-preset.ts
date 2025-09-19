@@ -85,14 +85,7 @@ export function createDefaultPreset<CTX extends EditorPluginContext = EditorPlug
           if (opts.getNodeDefaultRegistry) {
             ctx.document.options.getNodeDefaultRegistry = opts.getNodeDefaultRegistry;
           }
-          // TODO
-          // if (opts.onContentChange) {
-          //   ctx.document.onContentChange(event => opts.onContentChange!(ctx, event));
-          // }
-          // TODO 这个会触发组件注册，后续要废弃这个，通过 materials 插件来做
-          ctx.get<FlowRendererRegistry>(FlowRendererRegistry).init();
-
-          ctx.document.onNodeCreate(({ node }) => {
+          ctx.document.options.preNodeCreate = (node) => {
             /**
              * Define node.form
              */
@@ -129,7 +122,8 @@ export function createDefaultPreset<CTX extends EditorPluginContext = EditorPlug
                 },
               });
             }
-          });
+          };
+          ctx.get<FlowRendererRegistry>(FlowRendererRegistry).init();
         },
         onReady(ctx) {
           if (opts.initialData) {
