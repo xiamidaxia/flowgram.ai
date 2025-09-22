@@ -13,8 +13,7 @@ import {
   WorkflowPortEntity,
 } from '@flowgram.ai/free-layout-editor';
 
-import { canContainNode } from '@/utils';
-
+import { canContainNode } from '../../utils';
 import { FlowNodeRegistry } from '../../typings';
 import { nodeRegistries } from '../../nodes';
 

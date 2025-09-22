@@ -5,7 +5,7 @@
 
 import { type FlowNodeType } from '@flowgram.ai/free-layout-editor';
 
-import { WorkflowNodeType } from '@/nodes';
+import { WorkflowNodeType } from '../nodes';
 
 /**
  * 判断父节点是否可以包含对应子节点

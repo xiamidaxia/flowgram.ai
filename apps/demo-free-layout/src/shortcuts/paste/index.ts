@@ -23,10 +23,9 @@ import {
 } from '@flowgram.ai/free-layout-editor';
 import { Toast } from '@douyinfe/semi-ui';
 
-import { canContainNode } from '@/utils';
-
 import { WorkflowClipboardData, WorkflowClipboardRect } from '../type';
 import { FlowCommandId, WorkflowClipboardDataID } from '../constants';
+import { canContainNode } from '../../utils';
 import { generateUniqueWorkflow } from './unique-workflow';
 
 export class PasteShortcut implements ShortcutsHandler {
