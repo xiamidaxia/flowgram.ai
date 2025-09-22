@@ -52,6 +52,7 @@ export const LineAddButton = (props: LineRenderProps) => {
       containerNode,
       panelProps: {
         enableScrollClose: true,
+        fromPort,
       },
     });
     if (!result) {

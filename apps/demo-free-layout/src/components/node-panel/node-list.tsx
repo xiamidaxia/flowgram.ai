@@ -7,10 +7,15 @@ import React, { FC } from 'react';
 
 import styled from 'styled-components';
 import { NodePanelRenderProps } from '@flowgram.ai/free-node-panel-plugin';
-import { useClientContext, WorkflowNodeEntity } from '@flowgram.ai/free-layout-editor';
+import {
+  useClientContext,
+  WorkflowNodeEntity,
+  WorkflowPortEntity,
+} from '@flowgram.ai/free-layout-editor';
 
+import { canContainNode } from '../../utils';
 import { FlowNodeRegistry } from '../../typings';
-import { nodeRegistries, WorkflowNodeType } from '../../nodes';
+import { nodeRegistries } from '../../nodes';
 
 const NodeWrap = styled.div`
   width: 100%;
@@ -62,11 +67,12 @@ const NodesWrap = styled.div`
 
 interface NodeListProps {
   onSelect: NodePanelRenderProps['onSelect'];
+  fromPort?: WorkflowPortEntity; // 从哪个端口添加 From which port to add
   containerNode?: WorkflowNodeEntity;
 }
 
 export const NodeList: FC<NodeListProps> = (props) => {
-  const { onSelect, containerNode } = props;
+  const { onSelect, containerNode, fromPort } = props;
   const context = useClientContext();
   const handleClick = (e: React.MouseEvent, registry: FlowNodeRegistry) => {
     const json = registry.onAdd?.(context);
@@ -76,6 +82,7 @@ export const NodeList: FC<NodeListProps> = (props) => {
       nodeJSON: json,
     });
   };
+  console.log('>>> fromNode', fromPort?.node);
   return (
     <NodesWrap style={{ width: 80 * 2 + 20 }}>
       {nodeRegistries
@@ -88,11 +95,7 @@ export const NodeList: FC<NodeListProps> = (props) => {
            * 循环节点无法嵌套循环节点
            * Loop node cannot nest loop node
            */
-          if (
-            containerNode &&
-            containerNode.flowNodeType === WorkflowNodeType.Loop &&
-            register.type === WorkflowNodeType.Loop
-          ) {
+          if (containerNode && !canContainNode(register.type, containerNode.flowNodeType)) {
             return false;
           }
           return true;

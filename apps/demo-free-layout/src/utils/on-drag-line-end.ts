@@ -57,6 +57,7 @@ export const onDragLineEnd = async (ctx: FreeLayoutPluginContext, params: onDrag
     panelProps: {
       enableNodePlaceholder: true,
       enableScrollClose: true,
+      fromPort,
     },
   });
 
