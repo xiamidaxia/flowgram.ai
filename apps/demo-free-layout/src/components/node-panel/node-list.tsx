@@ -9,8 +9,10 @@ import styled from 'styled-components';
 import { NodePanelRenderProps } from '@flowgram.ai/free-node-panel-plugin';
 import { useClientContext, WorkflowNodeEntity } from '@flowgram.ai/free-layout-editor';
 
+import { canContainNode } from '@/utils';
+
 import { FlowNodeRegistry } from '../../typings';
-import { nodeRegistries, WorkflowNodeType } from '../../nodes';
+import { nodeRegistries } from '../../nodes';
 
 const NodeWrap = styled.div`
   width: 100%;
@@ -88,11 +90,7 @@ export const NodeList: FC<NodeListProps> = (props) => {
            * 循环节点无法嵌套循环节点
            * Loop node cannot nest loop node
            */
-          if (
-            containerNode &&
-            containerNode.flowNodeType === WorkflowNodeType.Loop &&
-            register.type === WorkflowNodeType.Loop
-          ) {
+          if (containerNode && !canContainNode(register.type, containerNode.flowNodeType)) {
             return false;
           }
           return true;

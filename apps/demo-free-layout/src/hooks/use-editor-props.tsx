@@ -20,7 +20,7 @@ import {
 import { createFreeGroupPlugin } from '@flowgram.ai/free-group-plugin';
 import { createContainerNodePlugin } from '@flowgram.ai/free-container-plugin';
 
-import { onDragLineEnd } from '../utils';
+import { canContainNode, onDragLineEnd } from '../utils';
 import { FlowNodeRegistry, FlowDocumentJSON } from '../typings';
 import { shortcuts } from '../shortcuts';
 import { CustomService } from '../services';
@@ -156,43 +156,7 @@ export function useEditorProps(
        * 是否允许拖入子画布 (loop or group)
        * Whether to allow dragging into the sub-canvas (loop or group)
        */
-      canDropToNode: (ctx, params) => {
-        const { dragNodeType, dropNodeType } = params;
-        /**
-         * 开始/结束节点无法更改容器
-         * The start and end nodes cannot change container
-         */
-        if (
-          [
-            WorkflowNodeType.Start,
-            WorkflowNodeType.End,
-            WorkflowNodeType.BlockStart,
-            WorkflowNodeType.BlockEnd,
-          ].includes(dragNodeType as WorkflowNodeType)
-        ) {
-          return false;
-        }
-        /**
-         * 继续循环与终止循环只能在循环节点中
-         * Continue loop and break loop can only be in loop nodes
-         */
-        if (
-          [WorkflowNodeType.Continue, WorkflowNodeType.Break].includes(
-            dragNodeType as WorkflowNodeType
-          ) &&
-          dropNodeType !== WorkflowNodeType.Loop
-        ) {
-          return false;
-        }
-        /**
-         * 循环节点无法嵌套循环节点
-         * Loop node cannot nest loop node
-         */
-        if (dragNodeType === WorkflowNodeType.Loop && dropNodeType === WorkflowNodeType.Loop) {
-          return false;
-        }
-        return true;
-      },
+      canDropToNode: (ctx, params) => canContainNode(params.dragNodeType!, params.dropNodeType!),
       /**
        * Drag the end of the line to create an add panel (feature optional)
        * 拖拽线条结束需要创建一个添加面板 （功能可选）

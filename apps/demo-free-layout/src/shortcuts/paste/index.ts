@@ -23,6 +23,8 @@ import {
 } from '@flowgram.ai/free-layout-editor';
 import { Toast } from '@douyinfe/semi-ui';
 
+import { canContainNode } from '@/utils';
+
 import { WorkflowClipboardData, WorkflowClipboardRect } from '../type';
 import { FlowCommandId, WorkflowClipboardDataID } from '../constants';
 import { generateUniqueWorkflow } from './unique-workflow';
@@ -98,7 +100,11 @@ export class PasteShortcut implements ShortcutsHandler {
     });
 
     const offset = this.calcPasteOffset(data.bounds);
-    const parent = this.getSelectedContainer();
+    let parent = this.getSelectedContainer();
+    // loop 不支持嵌套
+    if (parent && json.nodes.some((n) => !canContainNode(n.type, parent!.flowNodeType))) {
+      parent = undefined;
+    }
     this.applyOffset({ json, offset, parent });
     const { nodes } = this.document.renderJSON(json, {
       parent,
