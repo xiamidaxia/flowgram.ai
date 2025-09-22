@@ -5,16 +5,23 @@
 
 import { FC, useRef } from 'react';
 
-import { NodePanelRenderProps } from '@flowgram.ai/free-node-panel-plugin';
+import { NodePanelRenderProps as NodePanelRenderPropsDefault } from '@flowgram.ai/free-node-panel-plugin';
+import { WorkflowPortEntity } from '@flowgram.ai/free-layout-editor';
 import { Popover } from '@douyinfe/semi-ui';
 
 import { NodePlaceholder } from './node-placeholder';
 import { NodeList } from './node-list';
 import './index.less';
 
+interface NodePanelRenderProps extends NodePanelRenderPropsDefault {
+  panelProps: {
+    fromPort?: WorkflowPortEntity; // 从哪个端口添加 From which port to add
+    enableNodePlaceholder?: boolean;
+  };
+}
 export const NodePanel: FC<NodePanelRenderProps> = (props) => {
   const { onSelect, position, onClose, containerNode, panelProps = {} } = props;
-  const { enableNodePlaceholder } = panelProps;
+  const { enableNodePlaceholder, fromPort } = panelProps;
   const ref = useRef<HTMLDivElement>(null);
 
   return (
@@ -22,7 +29,7 @@ export const NodePanel: FC<NodePanelRenderProps> = (props) => {
       trigger="click"
       visible={true}
       onVisibleChange={(v) => (v ? null : onClose())}
-      content={<NodeList onSelect={onSelect} containerNode={containerNode} />}
+      content={<NodeList onSelect={onSelect} containerNode={containerNode} fromPort={fromPort} />}
       getPopupContainer={containerNode ? () => ref.current || document.body : undefined}
       placement="right"
       popupAlign={{ offset: [30, 0] }}

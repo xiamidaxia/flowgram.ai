@@ -42,6 +42,7 @@ export const usePortClick = () => {
       containerNode,
       panelProps: {
         enableScrollClose: true,
+        fromPort: port,
       },
     });
 
