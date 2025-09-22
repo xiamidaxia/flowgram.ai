@@ -55,6 +55,7 @@ export const GroupNodeRender = () => {
           <GroupHeader
             onDrag={(e) => {
               startDrag(e as MouseEvent);
+              e.stopPropagation();
             }}
             onFocus={onFocus}
             onBlur={onBlur}
