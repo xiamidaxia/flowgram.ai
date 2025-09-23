@@ -266,7 +266,7 @@ describe('workflow-drag-service', () => {
     const line = newLine as WorkflowLineEntity;
     expect(linesManager.getAllLines().length).toBe(1);
     expect(line.inContainer).toBeTruthy();
-    expect(line.from.id).toBe(fromNodeId);
+    expect(line.from?.id).toBe(fromNodeId);
     expect(line.to?.id).toBe(toNodeId);
     expect(dragSuccess).toBeTruthy();
     expect(line.id).toBe(`${fromNodeId}_-${toNodeId}_`);
