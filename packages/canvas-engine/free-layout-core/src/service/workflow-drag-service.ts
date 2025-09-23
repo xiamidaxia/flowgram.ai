@@ -597,7 +597,7 @@ export class WorkflowDragService {
       return;
     }
     const sourceContainer = nodes[0]?.parent;
-    if (!sourceContainer) {
+    if (!sourceContainer || sourceContainer.flowNodeType === FlowNodeBaseType.ROOT) {
       return;
     }
     const valid = nodes.every((node) => node?.parent === sourceContainer);
