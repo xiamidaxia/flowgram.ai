@@ -533,6 +533,7 @@ export class WorkflowDragService {
     if (isDrawingTo) {
       successDrawing = !!(
         draggingPort &&
+        // 同一条线条则不用在判断 canAddLine
         (originLine?.toPort === draggingPort ||
           (draggingPort.portType === 'input' &&
             this.linesManager.canAddLine(line.fromPort!, draggingPort, true)))
@@ -540,6 +541,7 @@ export class WorkflowDragService {
     } else {
       successDrawing = !!(
         draggingPort &&
+        // 同一条线条则不用在判断 canAddLine
         (originLine?.fromPort === draggingPort ||
           (draggingPort.portType === 'output' &&
             this.linesManager.canAddLine(draggingPort, line.toPort!, true)))
@@ -547,7 +549,6 @@ export class WorkflowDragService {
     }
 
     if (successDrawing) {
-      // 同一条线条则不用在判断 canAddLine
       this.hoverService.updateHoveredKey(draggingPort!.id);
       if (isDrawingTo) {
         line.setToPort(draggingPort!);
@@ -811,7 +812,6 @@ export class WorkflowDragService {
     let hasError = false;
 
     const mouseNode = this.linesManager.getNodeFromMousePos(dragPos);
-    const mousePort = this.linesManager.getPortFromMousePos(dragPos);
     let toNode: WorkflowNodeEntity | undefined;
     let toPort: WorkflowPortEntity | undefined;
     let fromPort: WorkflowPortEntity | undefined;
@@ -820,26 +820,19 @@ export class WorkflowDragService {
     if (isDrawingTo) {
       fromPort = line.fromPort!;
       toNode = mouseNode;
-      toPort = mousePort;
-      if (!toPort) {
-        line.setToPort(undefined);
-      } else if (!this.linesManager.canAddLine(fromPort, toPort, true)) {
-        line.highlightColor = this.linesManager.lineColor.error;
-        hasError = true;
-        line.setToPort(undefined);
-      } else {
-        line.setToPort(toPort);
-      }
-
-      this._onDragLineEventEmitter.fire({
-        type: 'onDrag',
-      });
-
-      this.setLineColor(line, originLine?.lockedColor || this.linesManager.lineColor.drawing);
+      toPort = this.linesManager.getPortFromMousePos(dragPos, 'input');
       if (toNode && this.canBuildContainerLine(toNode, dragPos)) {
         // 如果鼠标 hover 在 node 中的时候，默认连线到这个 node 的初始位置
         toPort = this.getNearestPort(toNode, dragPos, 'input');
         hasError = this.checkDraggingPort(isDrawingTo, line, toNode, toPort, originLine).hasError;
+      }
+      if (!toPort) {
+        line.setToPort(undefined);
+      } else if (!this.linesManager.canAddLine(fromPort, toPort, true)) {
+        hasError = true;
+        line.setToPort(undefined);
+      } else {
+        line.setToPort(toPort);
       }
 
       if (line.toPort) {
@@ -858,22 +851,7 @@ export class WorkflowDragService {
     } else {
       toPort = line.toPort!;
       fromNode = mouseNode;
-      fromPort = mousePort;
-      if (!fromPort) {
-        line.setFromPort(undefined);
-      } else if (!this.linesManager.canAddLine(fromPort, toPort, true)) {
-        line.highlightColor = this.linesManager.lineColor.error;
-        hasError = true;
-        line.setFromPort(undefined);
-      } else {
-        line.setFromPort(fromPort);
-      }
-
-      this._onDragLineEventEmitter.fire({
-        type: 'onDrag',
-      });
-
-      this.setLineColor(line, originLine?.lockedColor || this.linesManager.lineColor.drawing);
+      fromPort = this.linesManager.getPortFromMousePos(dragPos, 'output');
       if (fromNode && this.canBuildContainerLine(fromNode, dragPos)) {
         // 如果鼠标 hover 在 node 中的时候，默认连线到这个 node 的初始位置
         fromPort = this.getNearestPort(fromNode, dragPos, 'output');
@@ -884,6 +862,14 @@ export class WorkflowDragService {
           fromPort,
           originLine
         ).hasError;
+      }
+      if (!fromPort) {
+        line.setFromPort(undefined);
+      } else if (!this.linesManager.canAddLine(fromPort, toPort, true)) {
+        hasError = true;
+        line.setFromPort(undefined);
+      } else {
+        line.setFromPort(fromPort);
       }
 
       if (line.fromPort) {
@@ -901,6 +887,15 @@ export class WorkflowDragService {
       }
     }
 
+    this._onDragLineEventEmitter.fire({
+      type: 'onDrag',
+    });
+
+    if (hasError) {
+      this.setLineColor(line, this.linesManager.lineColor.error);
+    } else {
+      this.setLineColor(line, originLine?.lockedColor || this.linesManager.lineColor.drawing);
+    }
     // 触发原 toPort 的校验
     originLine?.validate();
     line.validate();

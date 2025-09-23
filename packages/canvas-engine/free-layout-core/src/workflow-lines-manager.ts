@@ -11,6 +11,7 @@ import { EntityManager, PlaygroundConfigEntity } from '@flowgram.ai/core';
 
 import { WorkflowDocumentOptions } from './workflow-document-option';
 import { type WorkflowDocument } from './workflow-document';
+import { WorkflowPortType } from './utils';
 import {
   LineColor,
   LineColors,
@@ -430,9 +431,16 @@ export class WorkflowLinesManager {
    * 根据鼠标位置找到 port
    * @param pos
    */
-  getPortFromMousePos(pos: IPoint): WorkflowPortEntity | undefined {
+  getPortFromMousePos(pos: IPoint, portType?: WorkflowPortType): WorkflowPortEntity | undefined {
     const allNodes = this.getSortedNodes().reverse();
-    const allPorts = allNodes.map((node) => node.ports.allPorts).flat();
+    const allPorts = allNodes
+      .map((node) => {
+        if (!portType) {
+          return node.ports.allPorts;
+        }
+        return portType === 'input' ? node.ports.inputPorts : node.ports.outputPorts;
+      })
+      .flat();
     const targetPort = allPorts.find((port) => port.isHovered(pos.x, pos.y));
     if (targetPort) {
       const containNodes = this.getContainNodesFromMousePos(pos);
