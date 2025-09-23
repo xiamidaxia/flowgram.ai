@@ -142,12 +142,12 @@ interface FreeLayoutProps {
     canDeleteLine?: (ctx: FreeLayoutPluginContext, line: WorkflowLineEntity, newLineInfo?: Required<WorkflowLinePortInfo>, silent?: boolean) => boolean;
     /**
      * Whether to allow line reset
-     * @param fromPort - start point
-     * @param oldToPort - old connection point
-     * @param newToPort - new connection point
+     * @param ctx
+     * @param oldLine - old line
+     * @param newLineInfo - new line info
      * @param lines - line manager
      */
-    canResetLine?: (ctx: FreeLayoutPluginContext, fromPort: WorkflowPortEntity, oldToPort: WorkflowPortEntity, newToPort: WorkflowPortEntity, lines: WorkflowLinesManager) => boolean;
+    canResetLine?: (ctx: FreeLayoutPluginContext, oldLine: WorkflowLineEntity, newLineInfo: WorkflowLinePortInfo, lines: WorkflowLinesManager ) => boolean;
 }
 ```
 

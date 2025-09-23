@@ -469,7 +469,7 @@ export class WorkflowDocument extends FlowDocument {
       .getAllLines()
       .filter((line) => line.from && line.to)
       .map((line) => ({
-        from: line.from.id,
+        from: line.from!.id,
         to: line.to!.id,
       }));
 

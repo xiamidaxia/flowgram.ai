@@ -65,6 +65,11 @@ export function useEditorProps(
        */
       readonly: false,
       /**
+       * Line support both-way connection (default true)
+       * 线条支持双向连接
+       */
+      twoWayConnection: true,
+      /**
        * Initial data
        * 初始化数据
        */
@@ -157,6 +162,14 @@ export function useEditorProps(
        * Whether to allow dragging into the sub-canvas (loop or group)
        */
       canDropToNode: (ctx, params) => canContainNode(params.dragNodeType!, params.dropNodeType!),
+      /**
+       * Whether to reset line
+       * 是否允许重连
+       * @param ctx
+       * @param oldLine
+       * @param newLineInfo
+       */
+      canResetLine: (ctx, oldLine, newLineInfo) => true,
       /**
        * Drag the end of the line to create an add panel (feature optional)
        * 拖拽线条结束需要创建一个添加面板 （功能可选）

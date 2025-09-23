@@ -65,6 +65,7 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
       minWidth: 'unset',
       width: '100%',
     },
+    // defaultPorts: [{ type: 'output', location: 'right' }, { type: 'input', location: 'left'}, { type: 'output', location: 'bottom', portID: 'bottom' }, { type: 'input', location: 'top', portID: 'top'}]
   },
   onAdd() {
     return {
