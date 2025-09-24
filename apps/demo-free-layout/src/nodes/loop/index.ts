@@ -80,8 +80,8 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
           type: WorkflowNodeType.BlockStart,
           meta: {
             position: {
-              x: -80,
-              y: 120,
+              x: 32,
+              y: 0,
             },
           },
           data: {},
@@ -91,8 +91,8 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
           type: WorkflowNodeType.BlockEnd,
           meta: {
             position: {
-              x: 80,
-              y: 120,
+              x: 192,
+              y: 0,
             },
           },
           data: {},
