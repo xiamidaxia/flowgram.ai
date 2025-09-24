@@ -176,7 +176,12 @@ export class CopyShortcut implements ShortcutsHandler {
       const linesData = node.lines;
       const lines = [...linesData.inputLines, ...linesData.outputLines];
       lines.forEach((line) => {
-        if (nodeIdSet.has(line.from.id) && line.to?.id && nodeIdSet.has(line.to.id)) {
+        if (
+          line.from?.id &&
+          nodeIdSet.has(line.from.id) &&
+          line.to?.id &&
+          nodeIdSet.has(line.to.id)
+        ) {
           lineSet.add(line);
         }
       });
