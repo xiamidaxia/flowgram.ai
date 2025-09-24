@@ -193,8 +193,10 @@ export class HoverLayer extends Layer<HoverLayerOptions> {
   updateHoveredState(mousePos: IPoint, target?: HTMLElement): void {
     const { hoverService } = this;
     const nodeTransforms = this.nodeTransformsWithSort;
-    // // 判断连接点是否 hover
-    const portHovered = this.linesManager.getPortFromMousePos(mousePos);
+    const outputPortHovered = this.linesManager.getPortFromMousePos(mousePos, 'output');
+    const inputPortHovered = this.linesManager.getPortFromMousePos(mousePos, 'input');
+    // 在两个端口叠加情况，优先使用 outputPort
+    const portHovered = outputPortHovered || inputPortHovered;
 
     const lineDomNodes = this.playgroundNode.querySelectorAll(LINE_CLASS_NAME);
     const checkTargetFromLine = [...lineDomNodes].some((lineDom) =>
