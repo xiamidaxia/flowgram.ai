@@ -7,12 +7,19 @@ import { useRef } from 'react';
 
 import { NodePanelRenderProps as NodePanelRenderPropsDefault } from '@flowgram.ai/free-node-panel-plugin';
 import { Popover } from '@douyinfe/semi-ui';
+import { WorkflowPortEntity } from '@flowgram.ai/free-layout-editor'
 
 import { NodePlaceholder } from './node-placeholder';
 import { NodeList } from './node-list';
 import './index.less';
 
-export const NodePanel = (props: NodePanelRenderPropsDefault) => {
+interface NodePanelRenderProps extends NodePanelRenderPropsDefault {
+  panelProps?: {
+    fromPort?: WorkflowPortEntity; // 从哪个端口添加 From which port to add
+    enableNodePlaceholder?: boolean;
+  };
+}
+export const NodePanel: React.FC<NodePanelRenderProps> = (props) => {
   const { onSelect, position, onClose, containerNode, panelProps = {} } = props;
   const { enableNodePlaceholder, fromPort } = panelProps;
   const ref = useRef<HTMLDivElement>(null);

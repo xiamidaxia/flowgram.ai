@@ -146,7 +146,7 @@ export class NodeIntoContainerService {
   public async removeNodeLines(node: WorkflowNodeEntity): Promise<void> {
     const lines = this.linesManager.getAllLines();
     lines.forEach((line) => {
-      if (line.from.id !== node.id && line.to?.id !== node.id) {
+      if (line.from?.id !== node.id && line.to?.id !== node.id) {
         return;
       }
       line.dispose();

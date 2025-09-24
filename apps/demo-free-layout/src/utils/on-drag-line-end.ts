@@ -37,7 +37,7 @@ export const onDragLineEnd = async (ctx: FreeLayoutPluginContext, params: onDrag
   }
 
   // return if target port exists - 如果目标端口存在则返回
-  if (toPort) {
+  if (toPort || !fromPort) {
     return;
   }
 

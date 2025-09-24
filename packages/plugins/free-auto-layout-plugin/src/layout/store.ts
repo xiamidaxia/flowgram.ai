@@ -110,7 +110,7 @@ export class LayoutStore implements ILayoutStore {
           })
           .filter(Boolean) as LayoutEdge[];
         const groupToEdges = edges
-          .filter((edge) => blockIdSet.has(edge.from.id ?? ''))
+          .filter((edge) => blockIdSet.has(edge.from?.id ?? ''))
           .map((edge) => {
             const { from, to } = edge.info;
             if (!from || !to || edge.vertical) {

@@ -147,12 +147,12 @@ interface FreeLayoutProps {
     canDeleteLine?: (ctx: FreeLayoutPluginContext, line: WorkflowLineEntity, newLineInfo?: Required<WorkflowLinePortInfo>, silent?: boolean) => boolean;
     /**
      * 是否允许重置线条
-     * @param fromPort - 开始点
-     * @param oldToPort - 旧的连接点
-     * @param newToPort - 新的连接点
+     * @param ctx
+     * @param oldLine - 原来的线条
+     * @param newLineInfo - 新的线条信息
      * @param lines - 线条管理器
      */
-    canResetLine?: (ctx: FreeLayoutPluginContext, fromPort: WorkflowPortEntity, oldToPort: WorkflowPortEntity, newToPort: WorkflowPortEntity, lines: WorkflowLinesManager) => boolean;
+    canResetLine?: (ctx: FreeLayoutPluginContext, oldLine: WorkflowLineEntity, newLineInfo: WorkflowLinePortInfo, lines: WorkflowLinesManager ) => boolean;
 }
 ```
 

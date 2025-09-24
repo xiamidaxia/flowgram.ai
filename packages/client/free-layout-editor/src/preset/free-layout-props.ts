@@ -78,6 +78,11 @@ export interface FreeLayoutProps extends EditorProps<FreeLayoutPluginContext, Wo
     grabbing?: string;
   };
   /**
+   * Line support both-way connection (default true)
+   * 线条支持双向连接
+   */
+  twoWayConnection?: boolean;
+  /**
    * History configuration
    */
   history?: FreeHistoryPluginOptions<FreeLayoutPluginContext> & { disableShortcuts?: boolean };
@@ -215,16 +220,15 @@ export interface FreeLayoutProps extends EditorProps<FreeLayoutPluginContext, Wo
   /**
    * Whether to allow lines to be reset
    * 是否允许重置线条
-   * @param fromPort - source port
-   * @param oldToPort - old target port
-   * @param newToPort - new target port
+   * @param ctx
+   * @param oldLine - old line
+   * @param newLineInfo - new line info
    * @param lines - lines manager
    */
   canResetLine?: (
     ctx: FreeLayoutPluginContext,
-    fromPort: WorkflowPortEntity,
-    oldToPort: WorkflowPortEntity,
-    newToPort: WorkflowPortEntity,
+    oldLine: WorkflowLineEntity,
+    newLineInfo: Required<WorkflowLinePortInfo>,
     lines: WorkflowLinesManager
   ) => boolean;
   /**

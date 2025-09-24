@@ -44,6 +44,18 @@ export const nodeRegistries: WorkflowNodeRegistry[] = [
     },
   },
   {
+    // 支持双向连接, Support two-way connection
+    type: 'twoway',
+    meta: {
+      defaultPorts: [
+        { type: 'input', portID: 'input-left', location: 'left' },
+        { type: 'output', portID: 'output-left', location: 'left' },
+        { type: 'input', portID: 'input-right', location: 'right' },
+        { type: 'output', portID: 'output-right', location: 'right' },
+      ],
+    },
+  },
+  {
     type: 'end',
     meta: {
       deleteDisable: true,

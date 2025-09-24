@@ -98,14 +98,13 @@ namespace LineComputing {
       // 线条置顶条件：正在绘制 / hover / 选中
       return StackingConfig.maxLevel + 1;
     }
-    const fromLevel = NodeComputing.nodeStackingLevel(line.from, context, true);
-    if (!line.to) {
-      // 还处于连线中
-      return fromLevel;
-    }
-    const toLevel = NodeComputing.nodeStackingLevel(line.to, context, true);
-    const level = Math.min(fromLevel, toLevel);
-    return level;
+    const fromLevel = line.from
+      ? NodeComputing.nodeStackingLevel(line.from, context, true)
+      : StackingConfig.maxLevel;
+    const toLevel = line.to
+      ? NodeComputing.nodeStackingLevel(line.to, context, true)
+      : StackingConfig.maxLevel;
+    return Math.min(fromLevel, toLevel);
   };
 
   const lineZIndex = (line: WorkflowLineEntity, context: StackingContext): number | undefined => {

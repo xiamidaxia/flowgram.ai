@@ -55,7 +55,9 @@ export function toggleLoopExpanded(
   node.blocks.forEach((block) => {
     block.lines.allLines.forEach((line) => {
       line.updateUIState({
-        style: !expanded ? { display: 'none' } : {},
+        style: !expanded
+          ? { ...line.uiState.style, display: 'none' }
+          : { ...line.uiState.style, display: 'block' },
       });
     });
   });

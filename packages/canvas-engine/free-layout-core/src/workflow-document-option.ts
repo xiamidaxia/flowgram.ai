@@ -33,11 +33,13 @@ export interface WorkflowDocumentOptions extends FlowDocumentOptions {
     grab?: string;
     grabbing?: string;
   };
+  /** 双向连接 */
+  twoWayConnection?: boolean;
   /** 线条颜色 */
   lineColor?: Partial<LineColor>;
   /** 是否显示错误线条 */
   isErrorLine?: (
-    fromPort: WorkflowPortEntity,
+    fromPort: WorkflowPortEntity | undefined,
     toPort: WorkflowPortEntity | undefined,
     lines: WorkflowLinesManager
   ) => boolean;
@@ -81,9 +83,8 @@ export interface WorkflowDocumentOptions extends FlowDocumentOptions {
    * @param lines - 线条管理器
    */
   canResetLine?: (
-    fromPort: WorkflowPortEntity,
-    oldToPort: WorkflowPortEntity,
-    newToPort: WorkflowPortEntity,
+    oldLine: WorkflowLineEntity,
+    newLineInfo: Required<WorkflowLinePortInfo>,
     lines: WorkflowLinesManager
   ) => boolean;
   /**

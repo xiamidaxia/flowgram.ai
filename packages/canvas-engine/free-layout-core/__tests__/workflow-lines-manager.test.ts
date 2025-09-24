@@ -143,25 +143,29 @@ describe('workflow-lines-manager', () => {
     ).toMatchSnapshot();
   });
   it('create without to node', () => {
-    linesManager.createLine({
+    const line = linesManager.createLine({
       from: 'start_0',
       to: '',
+      drawingTo: { x: 0, y: 0, location: 'left' },
     });
-    expect(linesManager.toJSON()).toEqual([{ sourceNodeID: 'start_0', targetNodeID: '' }]);
+    expect(line!.isDrawing).toEqual(true);
+    expect(linesManager.toJSON()).toEqual([]);
   });
   it('create without from node', () => {
     const line = linesManager.createLine({
       from: '',
       to: 'end_0',
+      drawingFrom: { x: 0, y: 0, location: 'right' },
     });
-    expect(line).toBeUndefined();
+    expect(line!.isDrawing).toEqual(true);
     expect(linesManager.toJSON()).toEqual([]);
   });
   it('create without from node and to node', () => {
-    linesManager.createLine({
+    const line = linesManager.createLine({
       from: '',
       to: '',
     });
+    expect(line).toBeUndefined();
     expect(linesManager.toJSON()).toEqual([]);
   });
 
