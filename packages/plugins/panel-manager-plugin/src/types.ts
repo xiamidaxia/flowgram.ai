@@ -12,5 +12,7 @@ export interface PanelConfig {
 
 export interface PanelFactory<T extends any> {
   key: string;
+  defaultSize: number;
+  style?: React.CSSProperties;
   render: (props: T) => React.ReactNode;
 }

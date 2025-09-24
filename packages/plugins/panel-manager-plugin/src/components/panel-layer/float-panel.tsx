@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { useEffect, useRef, startTransition, useState } from 'react';
+import { useEffect, useRef, startTransition, useState, useCallback } from 'react';
 
 import { Area } from '../../types';
 import { usePanelManager } from '../../hooks/use-panel-manager';
 import { floatPanelWrap } from './css';
+import { ResizeBar } from '../resize-bar';
 
 export const FloatPanel: React.FC<{ area: Area }> = ({ area }) => {
   const [, setVersion] = useState(0);
@@ -15,7 +16,7 @@ export const FloatPanel: React.FC<{ area: Area }> = ({ area }) => {
   const panel = useRef(panelManager.getPanel(area));
   const render = () =>
     panel.current.elements.map((i) => (
-      <div className="float-panel-wrap" key={i.key} style={floatPanelWrap}>
+      <div className="float-panel-wrap" key={i.key} style={{ ...floatPanelWrap, ...i.style }}>
         {i.el}
       </div>
     ));
@@ -30,6 +31,24 @@ export const FloatPanel: React.FC<{ area: Area }> = ({ area }) => {
     });
     return () => dispose.dispose();
   }, [panel]);
+  const onResize = useCallback((newSize: number) => panel.current!.updateSize(newSize), []);
+  const size = panel.current!.currentSize;
+  const sizeStyle =
+    area === 'right' ? { width: size, height: '100%' } : { height: size, width: '100%' };
 
-  return <>{node.current}</>;
+  return (
+    <div
+      className="gedit-flow-panel"
+      style={{
+        position: 'relative',
+        display: panel.current.visible ? 'block' : 'none',
+        ...sizeStyle,
+      }}
+    >
+      {panelManager.config.autoResize && (
+        <ResizeBar size={size} isVertical={area === 'right'} onResize={onResize} />
+      )}
+      {node.current}
+    </div>
+  );
 };

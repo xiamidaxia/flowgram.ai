@@ -3,6 +3,12 @@
  * SPDX-License-Identifier: MIT
  */
 
+export const globalCSS = `
+  .gedit-flow-panel-layer * {
+    box-sizing: border-box;
+  }
+`;
+
 export const panelLayer: React.CSSProperties = {
   pointerEvents: 'none',
   position: 'absolute',
@@ -15,6 +21,7 @@ export const panelLayer: React.CSSProperties = {
   height: '100%',
   padding: '4px',
   boxSizing: 'border-box',
+  overflow: 'hidden',
 };
 
 export const leftArea: React.CSSProperties = {
@@ -33,7 +40,6 @@ export const rightArea: React.CSSProperties = {
   flexGrow: 1,
   flexShrink: 0,
   minWidth: 0,
-  overflowY: 'auto',
 
   display: 'flex',
   columnGap: '4px',
@@ -59,4 +65,5 @@ export const floatPanelWrap: React.CSSProperties = {
   pointerEvents: 'auto',
   height: '100%',
   width: '100%',
+  overflow: 'auto',
 };

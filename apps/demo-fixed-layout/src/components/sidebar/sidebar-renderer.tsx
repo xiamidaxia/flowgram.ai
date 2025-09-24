@@ -27,7 +27,7 @@ export const SidebarRenderer: React.FC<NodeFormPanelProps> = ({ nodeId }) => {
   const handleClose = useCallback(() => {
     // Sidebar delayed closing
     startTransition(() => {
-      panelManager.close(nodeFormPanelFactory.key, 'right');
+      panelManager.close(nodeFormPanelFactory.key);
     });
   }, []);
   const node = nodeId ? document.getNode(nodeId) : undefined;
@@ -64,7 +64,7 @@ export const SidebarRenderer: React.FC<NodeFormPanelProps> = ({ nodeId }) => {
   useEffect(() => {
     if (node) {
       const toDispose = node.onDispose(() => {
-        panelManager.close(nodeFormPanelFactory.key, 'right');
+        panelManager.close(nodeFormPanelFactory.key);
       });
       return () => toDispose.dispose();
     }
@@ -90,5 +90,6 @@ export const SidebarRenderer: React.FC<NodeFormPanelProps> = ({ nodeId }) => {
 
 export const nodeFormPanelFactory: PanelFactory<NodeFormPanelProps> = {
   key: 'node-form-panel',
+  defaultSize: 400,
   render: (props: NodeFormPanelProps) => <SidebarRenderer {...props} />,
 };

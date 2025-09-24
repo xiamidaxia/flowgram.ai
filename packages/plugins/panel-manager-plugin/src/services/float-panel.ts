@@ -9,30 +9,54 @@ import type { PanelFactory, PanelConfig } from '../types';
 
 export interface PanelElement {
   key: string;
+  style?: React.CSSProperties;
   el: React.ReactNode;
 }
+
+const PANEL_SIZE_DEFAULT = 400;
 
 export class FloatPanel {
   elements: PanelElement[] = [];
 
   private onUpdateEmitter = new Emitter<void>();
 
+  sizeMap = new Map<string, number>();
+
   onUpdate = this.onUpdateEmitter.event;
+
+  currentFactoryKey = '';
+
+  updateSize(newSize: number) {
+    this.sizeMap.set(this.currentFactoryKey, newSize);
+    this.onUpdateEmitter.fire();
+  }
+
+  get currentSize(): number {
+    return this.sizeMap.get(this.currentFactoryKey) || PANEL_SIZE_DEFAULT;
+  }
 
   constructor(private config: PanelConfig) {}
 
   open(factory: PanelFactory<any>, options: any) {
     const el = factory.render(options?.props);
     const idx = this.elements.findIndex((e) => e.key === factory.key);
+    this.currentFactoryKey = factory.key;
+    if (!this.sizeMap.has(factory.key)) {
+      this.sizeMap.set(factory.key, factory.defaultSize || PANEL_SIZE_DEFAULT);
+    }
     if (idx >= 0) {
-      this.elements[idx] = { el, key: factory.key };
+      this.elements[idx] = { el, key: factory.key, style: factory.style };
     } else {
-      this.elements.push({ el, key: factory.key });
+      this.elements.push({ el, key: factory.key, style: factory.style });
       if (this.elements.length > this.config.max) {
         this.elements.shift();
       }
     }
     this.onUpdateEmitter.fire();
+  }
+
+  get visible() {
+    return this.elements.length > 0;
   }
 
   close(key?: string) {

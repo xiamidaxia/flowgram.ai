@@ -44,21 +44,24 @@ return (
 
 这里以节点表单面板为例：
 
-```tsx
+```tsx pure
 import { type PanelFactory } from '@flowgram.ai/panel-manager-plugin';
 
 export const NODE_FORM_PANEL = 'node-form-panel';
 export const nodeFormPanelFactory: PanelFactory<NodeFormPanelProps> = {
   key: NODE_FORM_PANEL,
+  defaultSize: 400,
   render: (props: NodeFormPanelProps) => <NodeFormPanel {...props} />
 }
 ```
 
 将定义好的对象传入插件中：
 
-```ts
+```ts pure
 createPanelManagerPlugin({
-  factories: [nodeFormPanelFactory]
+  factories: [nodeFormPanelFactory],
+  getPopupContainer: (ctx) => ctx.playground.node.parentNode,
+  autoResize: true
 })
 ```
 
@@ -80,7 +83,7 @@ class NodeFormService {
     })
   }
   closePanel() {
-    this.panelManager.close(NODE_FORM_PANEL, 'right')
+    this.panelManager.close(NODE_FORM_PANEL)
   }
 }
 ```

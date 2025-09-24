@@ -11,7 +11,7 @@ import { FloatPanel } from './float-panel';
 
 @injectable()
 export class PanelManager {
-  @inject(PanelManagerConfig) private readonly config: PanelManagerConfig;
+  @inject(PanelManagerConfig) readonly config: PanelManagerConfig;
 
   readonly panelRegistry = new Map<string, PanelFactory<any>>();
 
@@ -38,9 +38,9 @@ export class PanelManager {
     panel.open(factory, options);
   }
 
-  close(key: string, area: Area = 'right') {
-    const panel = this.getPanel(area);
-    panel.close(key);
+  close(key?: string) {
+    this.right.close(key);
+    this.bottom.close(key);
   }
 
   getPanel(area: Area) {

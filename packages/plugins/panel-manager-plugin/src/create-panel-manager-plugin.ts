@@ -9,14 +9,12 @@ import { defineConfig } from './services/panel-config';
 import { PanelManager, PanelManagerConfig, PanelLayer } from './services';
 
 export const createPanelManagerPlugin = definePluginCreator<Partial<PanelManagerConfig>>({
-  onBind: ({ bind }) => {
+  onBind: ({ bind }, opt) => {
     bind(PanelManager).to(PanelManager).inSingletonScope();
-    bind(PanelManagerConfig).toConstantValue(defineConfig({}));
+    bind(PanelManagerConfig).toConstantValue(defineConfig(opt));
   },
   onInit(ctx, opt) {
     ctx.playground.registerLayer(PanelLayer);
-    const config = defineConfig(opt);
-    ctx.container.rebind(PanelManagerConfig).toConstantValue(config);
     const panelManager = ctx.container.get<PanelManager>(PanelManager);
     panelManager.init();
   },

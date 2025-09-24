@@ -4,19 +4,20 @@
  */
 
 import { FloatPanel } from './float-panel';
-import { panelLayer, leftArea, rightArea, mainArea, bottomArea } from './css';
+import { panelLayer, leftArea, rightArea, mainArea, bottomArea, globalCSS } from './css';
 
 export const PanelLayer: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <div className="panel-layer" style={panelLayer}>
-    <div className="left-area" style={leftArea}>
-      <div className="main-area" style={mainArea}>
+  <div style={panelLayer}>
+    <style dangerouslySetInnerHTML={{ __html: globalCSS }} />
+    <div className="gedit-flow-panel-left-area" style={leftArea}>
+      <div className="gedit-flow-panel-main-area" style={mainArea}>
         {children}
       </div>
-      <div className="bottom-area" style={bottomArea}>
+      <div className="gedit-flow-panel-bottom-area" style={bottomArea}>
         <FloatPanel area="bottom" />
       </div>
     </div>
-    <div className="right-area" style={rightArea}>
+    <div className="gedit-flow-panel-right-area" style={rightArea}>
       <FloatPanel area="right" />
     </div>
   </div>
