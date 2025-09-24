@@ -15,7 +15,7 @@ export const ProblemPanel = () => {
     <div
       style={{
         width: '100%',
-        height: '200px',
+        height: '100%',
         borderRadius: '8px',
         background: 'rgb(251, 251, 251)',
         border: '1px solid rgba(82,100,154, 0.13)',
@@ -36,6 +36,7 @@ export const ProblemPanel = () => {
 
 export const problemPanelFactory: PanelFactory<void> = {
   key: PROBLEM_PANEL,
+  defaultSize: 200,
   render: () => <ProblemPanel />,
 };
 

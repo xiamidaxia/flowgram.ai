@@ -157,5 +157,6 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = () => {
 
 export const testRunPanelFactory: PanelFactory<TestRunSidePanelProps> = {
   key: 'test-run-panel',
+  defaultSize: 400,
   render: () => <TestRunSidePanel />,
 };

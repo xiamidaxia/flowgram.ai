@@ -11,7 +11,7 @@ import { FloatPanel } from './float-panel';
 
 @injectable()
 export class PanelManager {
-  @inject(PanelManagerConfig) private readonly config: PanelManagerConfig;
+  @inject(PanelManagerConfig) readonly config: PanelManagerConfig;
 
   readonly panelRegistry = new Map<string, PanelFactory<any>>();
 

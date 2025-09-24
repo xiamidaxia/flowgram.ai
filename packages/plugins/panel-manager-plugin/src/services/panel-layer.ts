@@ -6,20 +6,25 @@
 import ReactDOM from 'react-dom';
 import { createElement } from 'react';
 
-import { injectable } from 'inversify';
+import { injectable, inject } from 'inversify';
 import { domUtils } from '@flowgram.ai/utils';
-import { Layer } from '@flowgram.ai/core';
+import { Layer, PluginContext } from '@flowgram.ai/core';
 
 import { PanelLayer as PanelLayerComp } from '../components/panel-layer';
+import { PanelManagerConfig } from './panel-config';
 
 @injectable()
 export class PanelLayer extends Layer {
-  panelRoot = domUtils.createDivWithClass('gedit-flow-panel-layer');
+  @inject(PanelManagerConfig) private readonly panelConfig: PanelManagerConfig;
+
+  @inject(PluginContext) private readonly pluginContext: PluginContext;
+
+  readonly panelRoot = domUtils.createDivWithClass('gedit-flow-panel-layer');
 
   layout: JSX.Element | null = null;
 
   onReady(): void {
-    this.playgroundNode.parentNode?.appendChild(this.panelRoot);
+    this.panelConfig.getPopupContainer(this.pluginContext).appendChild(this.panelRoot);
     const commonStyle = {
       pointerEvents: 'none',
       width: '100%',

@@ -12,5 +12,7 @@ export { PanelManager } from './services';
 /** react hooks */
 export { usePanelManager } from './hooks/use-panel-manager';
 
+export { ResizeBar } from './components/resize-bar';
+
 /** types */
 export type { Area, PanelFactory } from './types';

@@ -90,5 +90,6 @@ export const NodeFormPanel: React.FC<NodeFormPanelProps> = ({ nodeId }) => {
 
 export const nodeFormPanelFactory: PanelFactory<NodeFormPanelProps> = {
   key: 'node-form-panel',
+  defaultSize: 500,
   render: (props: NodeFormPanelProps) => <NodeFormPanel {...props} />,
 };
