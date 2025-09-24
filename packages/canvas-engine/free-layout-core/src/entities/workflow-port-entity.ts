@@ -45,7 +45,7 @@ export interface WorkflowPort {
    */
   size?: { width: number; height: number };
   /**
-   * 相对于 position 的偏移
+   * 相对于 location 的偏移
    */
   offset?: IPoint;
   /**

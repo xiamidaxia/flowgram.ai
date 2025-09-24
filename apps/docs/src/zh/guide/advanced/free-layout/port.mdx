@@ -9,13 +9,44 @@
 
 - 静态端口
 
-节点声明添加 `defaultPorts` , 如 `{ type: 'input' }`, 则会在节点左侧加入输入端口
+节点声明添加 `defaultPorts` , 如 `{ type: 'input', location: 'left' }`, 则会在节点左侧加入输入端口
+
+
+```ts pure
+// Port 接口
+export interface WorkflowPort {
+  /**
+   * 没有代表 默认连接点，默认 input 类型 为最左边中心，output 类型为最右边中心
+   */
+  portID?: string | number;
+  /**
+   * 输入或者输出点
+   */
+  type: WorkflowPortType;
+  /**
+   * 端口位置
+   */
+  location?: LinePointLocation;
+  /**
+   * 端口热区大小
+   */
+  size?: { width: number; height: number };
+  /**
+   * 相对于 location 的偏移
+   */
+  offset?: IPoint;
+  /**
+   * 禁用端口
+   */
+  disabled?: boolean;
+}
+```
 
 ```ts pure title="node-registries.ts"
 {
   type: 'start',
   meta: {
-    defaultPorts: [{ type: 'output' }, { type: 'input'}]
+    defaultPorts: [{ type: 'output', location: 'right' }, { type: 'input', location: 'left' }]
   },
 }
 ```
@@ -44,19 +75,36 @@
 function BaseNode() {
   return (
     <div>
-      <div data-port-id="condition-if-0" data-port-type="output"></div>
-      <div data-port-id="condition-if-1" data-port-type="output"></div>
+      <div data-port-id="condition-if-0" data-port-type="output" data-port-location="right"></div>
+      <div data-port-id="condition-if-1" data-port-type="output" data-port-location="righ" ></div>
       {/* others */}
     </div>
   )
 }
 ```
 
+## 更新端口数据
+
+- 静态端口更新
+```ts pure
+// 可以根据表单数据调用这个方法更新静态端口数据
+node.ports.updateAllPorts([
+    { type: 'output', location: 'right', offset: { x: 100, y: 100 }},
+    { type: 'input', location: 'left', offset: { x: -100, y: -100 }}
+])
+```
+- 动态端口更新
+
+```ts pure
+// 刷新并同步节点 dom 中的端口数据
+node.ports.updateDynamicPorts()
+```
+
 ## 端口渲染
 
 端口最终通过 `WorkflowPortRender` 组件渲染，支持自定义 style, 或者业务基于源码重新实现该组件, 参考 [自由布局最佳实践 - 节点渲染](https://github.com/bytedance/flowgram.ai/blob/main/apps/demo-free-layout/src/components/base-node/node-wrapper.tsx)
 
-### 自定义端口颜色
+## 自定义端口颜色
 
 可以通过向 `WorkflowPortRender` 传递颜色 props 来自定义端口颜色：
 
@@ -96,7 +144,7 @@ function BaseNode() {
 ## 获取端口数据
 
 ```ts pure
-const ports = node.ports
+const { ports } = node
 
 console.log(ports.inputPorts) // 获取当前节点的所有输入端口
 console.log(ports.outputPorts) // 获取当前节点的所有输出端口
@@ -106,4 +154,22 @@ console.log(ports.inputPorts.map(port => port.availableLines)) // 通过端口�
 ports.updateDynamicPorts() // 当动态端口修改了 dom 结构或位置，可以通过该方法手动刷新端口位置(dom 渲染有延迟，最好在 useEffect 或者 setTimeout 执行)
 ```
 
+## 端口双向连接
 
+<img loading="lazy" className="invert-img" src="/free-layout/two-way-connection.gif"/>
+
+```ts pure title="node-registries.ts"
+  {
+    type: 'twoway',
+    meta: {
+      defaultPorts: [
+        // input 和 output 端口 可以叠加
+        { type: 'input', portID: 'input-left', location: 'left' },
+        { type: 'output', portID: 'output-left', location: 'left' },
+        { type: 'input', portID: 'input-right', location: 'right' },
+        { type: 'output', portID: 'output-right', location: 'right' },
+      ],
+    },
+  },
+
+```
