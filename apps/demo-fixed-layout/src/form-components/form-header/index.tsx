@@ -76,7 +76,7 @@ export function FormHeader() {
     e.stopPropagation(); // Disable clicking prevents the sidebar from opening
   };
   const handleClose = () => {
-    panelManager.close(nodeFormPanelFactory.key, 'right');
+    panelManager.close(nodeFormPanelFactory.key);
   };
 
   return (

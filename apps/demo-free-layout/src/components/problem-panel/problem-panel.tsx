@@ -26,7 +26,7 @@ export const ProblemPanel = () => {
           type="tertiary"
           theme="borderless"
           icon={<IconClose />}
-          onClick={() => panelManager.close(PROBLEM_PANEL, 'bottom')}
+          onClick={() => panelManager.close(PROBLEM_PANEL)}
         />
       </div>
       <div>problem panel</div>

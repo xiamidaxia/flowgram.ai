@@ -27,7 +27,7 @@ export const NodeFormPanel: React.FC<NodeFormPanelProps> = ({ nodeId }) => {
   const handleClose = useCallback(() => {
     // Sidebar delayed closing
     startTransition(() => {
-      panelManager.close(nodeFormPanelFactory.key, 'right');
+      panelManager.close(nodeFormPanelFactory.key);
     });
   }, []);
   const node = document.getNode(nodeId);
@@ -64,7 +64,7 @@ export const NodeFormPanel: React.FC<NodeFormPanelProps> = ({ nodeId }) => {
   useEffect(() => {
     if (node) {
       const toDispose = node.onDispose(() => {
-        panelManager.close(nodeFormPanelFactory.key, 'right');
+        panelManager.close(nodeFormPanelFactory.key);
       });
       return () => toDispose.dispose();
     }

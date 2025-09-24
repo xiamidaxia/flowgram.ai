@@ -33,7 +33,7 @@ export function FormHeader() {
     ctx.get<CommandService>(CommandService).executeCommand(FlowCommandId.DELETE, [node]);
   };
   const handleClose = () => {
-    panelManager.close(nodeFormPanelFactory.key, 'right');
+    panelManager.close(nodeFormPanelFactory.key);
   };
   useEffect(() => {
     // 折叠 loop 子节点

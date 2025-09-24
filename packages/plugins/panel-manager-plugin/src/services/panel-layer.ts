@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import { createElement } from 'react';
 
 import { injectable, inject } from 'inversify';
-import { domUtils } from '@flowgram.ai/utils';
+import { domUtils, Disposable } from '@flowgram.ai/utils';
 import { Layer, PluginContext } from '@flowgram.ai/core';
 
 import { PanelLayer as PanelLayerComp } from '../components/panel-layer';
@@ -25,6 +25,12 @@ export class PanelLayer extends Layer {
 
   onReady(): void {
     this.panelConfig.getPopupContainer(this.pluginContext).appendChild(this.panelRoot);
+    this.toDispose.push(
+      Disposable.create(() => {
+        // Remove from PopupContainer
+        this.panelRoot.remove();
+      })
+    );
     const commonStyle = {
       pointerEvents: 'none',
       width: '100%',

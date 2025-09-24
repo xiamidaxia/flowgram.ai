@@ -65,7 +65,7 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = () => {
     await runtimeService.taskCancel();
     setValues({});
     setRunning(false);
-    panelManager.close(testRunPanelFactory.key, 'right');
+    panelManager.close(testRunPanelFactory.key);
   };
 
   const renderRunning = (
