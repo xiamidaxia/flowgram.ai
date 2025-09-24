@@ -15,10 +15,10 @@ import { DemoTools } from './components/tools';
 export const Editor = () => {
   const editorProps = useEditorProps(initialData, nodeRegistries);
   return (
-    <div className="doc-free-feature-overview">
+    <div className="doc-free-feature-overview ">
       <FreeLayoutEditorProvider {...editorProps}>
-        <div className="demo-container">
-          <EditorRenderer className="demo-editor" />
+        <div className="app-editor-container">
+          <EditorRenderer className="app-editor" />
         </div>
         <DemoTools />
       </FreeLayoutEditorProvider>

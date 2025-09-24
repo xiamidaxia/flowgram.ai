@@ -47,13 +47,13 @@
   border: 1px dashed rgb(78, 64, 229) !important;
   border-radius: 8px;
 }
-.demo-editor {
+.app-editor {
   flex-grow: 1;
   position: relative;
   height: 100%;
 }
 
-.demo-container {
+.app-editor-container {
   position: absolute;
   left: 0px;
   top: 0px;

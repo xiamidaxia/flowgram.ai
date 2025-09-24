@@ -32,7 +32,7 @@ export class PanelLayer extends Layer {
       position: 'absolute',
       left: 0,
       top: 0,
-      zIndex: 20,
+      zIndex: 100,
     };
     domUtils.setStyle(this.panelRoot, commonStyle);
   }
