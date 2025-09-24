@@ -19,7 +19,7 @@ import { EntityManager, PipelineRegistry, PipelineRenderer } from '@flowgram.ai/
 
 import type { StackingContext } from './type';
 import { StackingComputing } from './stacking-computing';
-import { StackingConfig } from './constant';
+import { BASE_Z_INDEX } from './constant';
 
 @injectable()
 export class StackingContextManager {
@@ -85,7 +85,7 @@ export class StackingContextManager {
         return;
       }
       nodeRenderData.stackIndex = level;
-      const zIndex = StackingConfig.startIndex + level;
+      const zIndex = BASE_Z_INDEX + level;
       element.style.zIndex = String(zIndex);
     });
     this.lines.forEach((line) => {
@@ -98,7 +98,7 @@ export class StackingContextManager {
         return;
       }
       line.stackIndex = level;
-      const zIndex = StackingConfig.startIndex + level;
+      const zIndex = BASE_Z_INDEX + level;
       element.style.zIndex = String(zIndex);
     });
   }
@@ -113,10 +113,9 @@ export class StackingContextManager {
 
   private get context(): StackingContext {
     return {
-      hoveredEntity: this.hoverService.hoveredNode,
-      hoveredEntityID: this.hoverService.hoveredNode?.id,
-      selectedEntities: this.selectService.selection,
-      selectedIDs: this.selectService.selection.map((entity) => entity.id),
+      hoveredEntityID: this.hoverService.someHovered?.id,
+      selectedNodes: this.selectService.selectedNodes,
+      selectedIDs: new Set(this.selectService.selection.map((entity) => entity.id)),
     };
   }
 

@@ -67,10 +67,27 @@ export class StackingComputing {
 
   private computeNodeIndexesMap(nodes: WorkflowNodeEntity[]): Map<string, number> {
     const nodeIndexMap = new Map<string, number>();
+    // 默认按照创建节点顺序排序
     nodes.forEach((node, index) => {
       nodeIndexMap.set(node.id, index);
     });
+    // 选中节点的父节点排序置顶
+    const maxNodeIndex = nodes.length - 1;
+    const latestNodes = this.context.selectedNodes.flatMap((node) => this.getNodeParents(node));
+    latestNodes.forEach((node, index) => {
+      nodeIndexMap.set(node.id, maxNodeIndex + index);
+    });
     return nodeIndexMap;
+  }
+
+  private getNodeParents(node: WorkflowNodeEntity): WorkflowNodeEntity[] {
+    const nodes: WorkflowNodeEntity[] = [];
+    let currentNode: WorkflowNodeEntity | undefined = node;
+    while (currentNode && currentNode.flowNodeType !== FlowNodeBaseType.ROOT) {
+      nodes.unshift(currentNode);
+      currentNode = currentNode.parent;
+    }
+    return nodes;
   }
 
   private computeTopLevel(nodes: WorkflowNodeEntity[]): number {
@@ -95,7 +112,7 @@ export class StackingComputing {
       if (
         line.isDrawing || // 正在绘制
         this.context.hoveredEntityID === line.id || // hover
-        this.context.selectedIDs.includes(line.id) // 选中
+        this.context.selectedIDs.has(line.id) // 选中
       ) {
         // 线条置顶条件：正在绘制 / hover / 选中
         this.lineLevel.set(line.id, this.maxLevel);
@@ -105,7 +122,7 @@ export class StackingComputing {
     });
     this.levelIncrease();
     nodes.forEach((node) => {
-      const selected = this.context.selectedIDs.includes(node.id);
+      const selected = this.context.selectedIDs.has(node.id);
       if (selected) {
         // 节点置顶条件：选中
         this.nodeLevel.set(node.id, this.topLevel);
