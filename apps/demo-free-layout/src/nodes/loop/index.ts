@@ -44,9 +44,9 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
      */
     padding: () => ({
       top: 120,
-      bottom: 60,
-      left: 60,
-      right: 60,
+      bottom: 80,
+      left: 80,
+      right: 80,
     }),
     /**
      * Controls the node selection status within the subcanvas
