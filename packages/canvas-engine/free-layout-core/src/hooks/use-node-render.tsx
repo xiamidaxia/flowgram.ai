@@ -123,8 +123,8 @@ export function useNodeRender(nodeFromProps?: WorkflowNodeEntity): NodeRenderRet
   }, []);
   const getExtInfo = useCallback(() => node.getExtInfo() as any, [node]);
   const updateExtInfo = useCallback(
-    (data: any) => {
-      node.updateExtInfo(data);
+    (data: any, fullUpdate?: boolean) => {
+      node.updateExtInfo(data, fullUpdate);
     },
     [node]
   );
@@ -161,7 +161,7 @@ export function useNodeRender(nodeFromProps?: WorkflowNodeEntity): NodeRenderRet
         if (form) {
           form.updateFormValues(values);
         } else {
-          updateExtInfo(values);
+          updateExtInfo(values, true);
         }
       },
       node,

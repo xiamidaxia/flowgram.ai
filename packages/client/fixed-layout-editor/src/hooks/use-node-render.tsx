@@ -84,7 +84,7 @@ export interface NodeRenderReturnType {
    * 更新节点的扩展数据
    * @param extInfo
    */
-  updateExtInfo<T = any>(extInfo: T): void;
+  updateExtInfo<T = any>(extInfo: T, fullUpdate?: boolean): void;
 
   /**
    * 展开/收起节点
@@ -154,8 +154,8 @@ export function useNodeRender(nodeFromProps?: FlowNodeEntity): NodeRenderReturnT
 
   const getExtInfo = useCallback(() => node.getExtInfo() as any, [node]);
   const updateExtInfo = useCallback(
-    (data: any) => {
-      node.updateExtInfo(data);
+    (data: any, fullUpdate?: boolean) => {
+      node.updateExtInfo(data, fullUpdate);
     },
     [node]
   );
@@ -198,7 +198,7 @@ export function useNodeRender(nodeFromProps?: FlowNodeEntity): NodeRenderReturnT
         if (form) {
           form.updateFormValues(values);
         } else {
-          updateExtInfo(values);
+          updateExtInfo(values, true);
         }
       },
       node,
