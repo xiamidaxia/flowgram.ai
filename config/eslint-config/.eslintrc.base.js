@@ -18,7 +18,7 @@ module.exports = {
       presets: ['@babel/preset-env', '@babel/preset-react'],
     },
   },
-  plugins: ['babel'],
+  plugins: ['babel', 'react-hooks'],
   ignorePatterns: [
     '**/*.d.ts',
     '**/__mocks__',
@@ -111,6 +111,8 @@ module.exports = {
         'react/no-array-index-key': 'off',
         'react/require-default-props': 'off',
         'no-dupe-class-members': 'off',
+        'react-hooks/rules-of-hooks': 'error',
+        'react-hooks/exhaustive-deps': 'error',
         'react/self-closing-comp': [
           'error',
           {
