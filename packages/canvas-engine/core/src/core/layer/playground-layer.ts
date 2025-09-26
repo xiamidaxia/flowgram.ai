@@ -292,17 +292,12 @@ export class PlaygroundLayer extends Layer<PlaygroundLayerOptions> {
     }
     if (state.cursor) {
       this.playgroundConfigEntity.updateCursor(state.cursor);
-
-      if (this.currentGesture && this.currentGesture.target.parentNode) {
-        (this.currentGesture.target.parentNode as HTMLElement).style.cursor = this.getCursor(
-          state.cursor
-        );
+      if (this.currentGesture) {
+        this.playgroundNode.style.cursor = this.getCursor(state.cursor);
       }
     } else {
       this.playgroundConfigEntity.updateCursor('');
-      if (this.currentGesture && this.currentGesture.target.parentNode) {
-        (this.currentGesture.target.parentNode as HTMLElement).style.cursor = '';
-      }
+      this.playgroundNode.style.cursor = '';
     }
 
     // 避免触发控件交互
@@ -390,7 +385,7 @@ export class PlaygroundLayer extends Layer<PlaygroundLayerOptions> {
 
   createGesture(): void {
     if (!this.currentGesture) {
-      this.currentGesture = new PlaygroundGesture(this.pipelineNode.parentElement!, this.config);
+      this.currentGesture = new PlaygroundGesture(this.playgroundNode, this.config);
       this.currentGesture.onDispose(() => {
         this.currentGesture = undefined;
       });
@@ -531,8 +526,7 @@ export class PlaygroundLayer extends Layer<PlaygroundLayerOptions> {
       width: playgroundConfig.width,
       height: playgroundConfig.height,
     });
-    this.pipelineNode.parentElement!.style.cursor = finalCursor;
-
+    this.playgroundNode.style.cursor = finalCursor;
     // Note: 为什么要通过 style 注入样式
     // 原因：在 pipelineNode.parentElement 上设置 style.cursor，子元素继承样式时 cursor 样式优先级不够（子元素自身也存在 cursor 配置）
     if (cursor === 'grab' || cursor === 'grabbing') {
