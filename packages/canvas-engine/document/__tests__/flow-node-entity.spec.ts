@@ -156,5 +156,9 @@ describe('flow-node-entity', () => {
       type: 'start',
       data: { title: 'start', content: 'content' }, // By default, extInfo will be present in data
     });
+    node.updateExtInfo({ title: 'start2' }, true);
+    expect(node.getExtInfo()).toEqual({ title: 'start2' });
+    expect(changedTimes).toEqual(3);
+    expect(node.toJSON().data).toEqual({ title: 'start2' });
   });
 });
