@@ -1039,6 +1039,9 @@ importers:
       eslint-plugin-react:
         specifier: ^7.28.0
         version: 7.37.5(eslint@8.57.1)
+      eslint-plugin-react-hooks:
+        specifier: ^5.2.0
+        version: 5.2.0(eslint@8.57.1)
       eslint-plugin-tsdoc:
         specifier: ^0.2.16
         version: 0.2.17
