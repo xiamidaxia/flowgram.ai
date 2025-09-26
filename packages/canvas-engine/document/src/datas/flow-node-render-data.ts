@@ -54,12 +54,13 @@ export class FlowNodeRenderData extends EntityData<FlowNodeRenderSchema> {
   }
 
   updateExtInfo(info: Record<string, any>) {
-    if (Compare.isChanged(this.data.extInfo, info)) {
-      const oldInfo = this.data.extInfo;
+    const oldInfo = this.data.extInfo;
+    const newInfo = { ...oldInfo, ...info };
+    if (Compare.isChanged(oldInfo, newInfo)) {
       this.update({
-        extInfo: info,
+        extInfo: newInfo,
       });
-      this.onExtInfoChangeEmitter.fire({ oldInfo, newInfo: info });
+      this.onExtInfoChangeEmitter.fire({ oldInfo, newInfo });
     }
   }
 
