@@ -20,8 +20,6 @@ export interface VariableAbilityCommonContext {
 export interface VariableAbilityInitCtx extends VariableAbilityCommonContext {}
 
 export interface VariableAbilityOptions {
-  // 变量提供能力可复用
-  key?: string;
   /**
    * @deprecated use scope: 'private'
    */
@@ -40,7 +38,10 @@ export interface VariableAbilityParseContext extends VariableAbilityCommonContex
 
 export interface VariableProviderAbilityOptions<V = any> extends VariableAbilityOptions {
   // 解析变量协议
-  parse: (v: V, ctx: VariableAbilityParseContext) => VariableDeclarationJSON[];
+  parse: (
+    v: V,
+    ctx: VariableAbilityParseContext
+  ) => VariableDeclarationJSON | VariableDeclarationJSON[];
 }
 
 export interface VariableConsumerAbilityOptions<V = any> extends VariableAbilityOptions {

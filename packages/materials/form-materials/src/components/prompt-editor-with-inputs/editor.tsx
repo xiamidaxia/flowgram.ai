@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import type { IInputsValues } from '@/shared/flow-value';
 import { PromptEditor, PromptEditorPropsType } from '@/components/prompt-editor';
 import { EditorInputsTree } from '@/components/coze-editor-extensions';
 
 export interface PromptEditorWithInputsProps extends PromptEditorPropsType {
-  inputsValues: any;
+  inputsValues: IInputsValues;
 }
 
 export function PromptEditorWithInputs({

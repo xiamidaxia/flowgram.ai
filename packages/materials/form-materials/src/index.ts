@@ -115,6 +115,7 @@ export {
   type IFlowTemplateValue,
   type IFlowValue,
   type IFlowValueExtra,
+  type IInputsValues,
   type IPolyfillRoot,
   unstableSetCreateRoot,
   withSuspense,

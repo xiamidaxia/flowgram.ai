@@ -13,4 +13,5 @@ export {
   type IFlowExpressionValue,
   type IFlowTemplateValue,
   type IFlowConstantRefValue,
+  type IInputsValues,
 } from './types';

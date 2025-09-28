@@ -24,7 +24,8 @@ import { EditorAPI } from '@flowgram.ai/coze-editor/preset-prompt';
 import { type TreeNodeData } from '@douyinfe/semi-ui/lib/es/tree';
 import { Tree, Popover } from '@douyinfe/semi-ui';
 
-import { IFlowValue, FlowValueUtils } from '@/shared';
+import { IInputsValues } from '@/shared/flow-value/types';
+import { FlowValueUtils } from '@/shared';
 
 type VariableField = BaseVariableField<{ icon?: string | JSX.Element; title?: string }>;
 
@@ -32,7 +33,7 @@ export function InputsPicker({
   inputsValues,
   onSelect,
 }: {
-  inputsValues: any;
+  inputsValues: IInputsValues;
   onSelect: (v: string) => void;
 }) {
   const available = useScopeAvailable();
@@ -130,7 +131,7 @@ export function InputsTree({
   inputsValues,
   triggerCharacters = DEFAULT_TRIGGER_CHARACTERS,
 }: {
-  inputsValues: Record<string, IFlowValue>;
+  inputsValues: IInputsValues;
   triggerCharacters?: string[];
 }) {
   const [posKey, setPosKey] = useState('');

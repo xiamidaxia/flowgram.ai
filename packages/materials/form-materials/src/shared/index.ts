@@ -13,6 +13,7 @@ export {
   type IFlowTemplateValue,
   type IFlowValue,
   type IFlowValueExtra,
+  type IInputsValues,
 } from './flow-value';
 export {
   formatLegacyRefOnInit,
