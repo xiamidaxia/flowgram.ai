@@ -42,7 +42,7 @@ export const useModel = () => {
   // 同步表单外部值变化：undo/redo/协同
   useEffect(() => {
     const disposer = formModel.onFormValuesChange(({ name }) => {
-      if (name !== CommentEditorFormField.Note) {
+      if (name !== CommentEditorFormField.Note && name !== '') {
         return;
       }
       const value = formModel.getValueIn<string>(CommentEditorFormField.Note);

@@ -341,9 +341,11 @@ export function useEditorProps(
         createContextMenuPlugin({}),
         /**
          * Runtime plugin
+         * ⚠️ Browser mode is for demo only; for production, please deploy the server-side runtime
+         * https://flowgram.ai/guide/runtime/introduction.html
          */
         createRuntimePlugin({
-          mode: 'browser',
+          mode: 'browser', // browser mode is for demo only!
           // mode: 'server',
           // serverConfig: {
           //   domain: 'localhost',

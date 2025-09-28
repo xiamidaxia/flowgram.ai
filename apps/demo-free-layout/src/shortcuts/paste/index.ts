@@ -105,7 +105,7 @@ export class PasteShortcut implements ShortcutsHandler {
       parent = undefined;
     }
     this.applyOffset({ json, offset, parent });
-    const { nodes } = this.document.renderJSON(json, {
+    const { nodes } = this.document.batchAddFromJSON(json, {
       parent,
     });
     this.selectNodes(nodes);
