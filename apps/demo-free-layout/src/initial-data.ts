@@ -13,7 +13,7 @@ export const initialData: FlowDocumentJSON = {
       meta: {
         position: {
           x: 180,
-          y: 586.2,
+          y: 601.2,
         },
       },
       data: {
@@ -53,7 +53,7 @@ export const initialData: FlowDocumentJSON = {
       meta: {
         position: {
           x: 1100,
-          y: 531.2,
+          y: 546.2,
         },
       },
       data: {
@@ -81,8 +81,8 @@ export const initialData: FlowDocumentJSON = {
       type: 'end',
       meta: {
         position: {
-          x: 2928,
-          y: 586.2,
+          x: 2968,
+          y: 601.2,
         },
       },
       data: {
@@ -119,7 +119,7 @@ export const initialData: FlowDocumentJSON = {
       meta: {
         position: {
           x: 180,
-          y: 760.2,
+          y: 775.2,
         },
       },
       data: {
@@ -136,7 +136,7 @@ export const initialData: FlowDocumentJSON = {
       meta: {
         position: {
           x: 640,
-          y: 406.35,
+          y: 421.35,
         },
       },
       data: {
@@ -176,8 +176,8 @@ export const initialData: FlowDocumentJSON = {
       type: 'loop',
       meta: {
         position: {
-          x: 1440,
-          y: 90,
+          x: 1460,
+          y: 0,
         },
       },
       data: {
@@ -190,6 +190,18 @@ export const initialData: FlowDocumentJSON = {
           acm: {
             type: 'ref',
             content: ['llm_6aSyo', 'result'],
+          },
+        },
+        outputs: {
+          type: 'object',
+          required: [],
+          properties: {
+            acm: {
+              type: 'array',
+              items: {
+                type: 'string',
+              },
+            },
           },
         },
       },
@@ -391,8 +403,8 @@ export const initialData: FlowDocumentJSON = {
       type: 'group',
       meta: {
         position: {
-          x: 1604,
-          y: 738.2,
+          x: 1624,
+          y: 698.2,
         },
       },
       data: {
@@ -587,4 +599,13 @@ export const initialData: FlowDocumentJSON = {
       targetNodeID: 'llm_vTyMa',
     },
   ],
+  globalVariable: {
+    type: 'object',
+    required: [],
+    properties: {
+      userId: {
+        type: 'string',
+      },
+    },
+  },
 };
