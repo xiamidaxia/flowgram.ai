@@ -126,7 +126,7 @@ function App() {
 }
 ```
 
-- 动态 reload 所有数据
+- 动态重载画布所有数据 (会产生 redo/undo/onContentChange )
 
 ```tsx pure
 
@@ -135,13 +135,13 @@ import { FreeLayoutEditorProvider, FreeLayoutPluginContext, EditorRenderer } fro
 function App({ data }) {
   const ref = useRef<FreeLayoutPluginContext | undefined>();
 
-  useEffect(async () => {
-    // 当 data 变化时候重新加载画布数据
-    await ref.current.document.reload(data)
+  useEffect(() => {
+    // ctx.operation 支持 diff 重新加载画布数据并可通过 undo 撤销
+    ref.current.operation.fromJSON(data)
     setTimeout(() => {
       // 加载后触发画布的 fitview 让节点自动居中
       ref.current.document.fitView()
-    }, 100)
+    }, 10)
   }, [data])
   return (
     <FreeLayoutEditorProvider ref={ref} {...otherProps}>

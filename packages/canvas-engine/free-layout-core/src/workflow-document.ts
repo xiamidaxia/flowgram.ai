@@ -123,7 +123,7 @@ export class WorkflowDocument extends FlowDocument {
   }
 
   /**
-   * @deprecated use `fromJSON` instead
+   * @deprecated use `ctx.operation.fromJSON` instead
    */
   async reload(json: WorkflowJSON, delayTime = 0): Promise<void> {
     if (this.disposed) return;
