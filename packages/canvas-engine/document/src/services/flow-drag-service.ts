@@ -8,10 +8,14 @@ import { Emitter } from '@flowgram.ai/utils';
 import { EntityManager } from '@flowgram.ai/core';
 
 import { FlowGroupUtils } from './flow-group-service/flow-group-utils';
-import { FlowNodeBaseType, FlowOperationBaseService, LABEL_SIDE_TYPE } from '../typings';
+import {
+  FlowNodeBaseType,
+  FlowNodeJSON,
+  FlowOperationBaseService,
+  LABEL_SIDE_TYPE,
+} from '../typings';
 import { FlowDocument } from '../flow-document';
 import { FlowNodeEntity, FlowRendererStateEntity } from '../entities';
-import { FlowNodeRenderData } from '../datas';
 
 /**
  * 拖拽相关操作
@@ -31,6 +35,7 @@ export class FlowDragService {
   protected onDropEmitter = new Emitter<{
     dropNode: FlowNodeEntity;
     dragNodes: FlowNodeEntity[];
+    dragJSON?: FlowNodeJSON;
   }>();
 
   readonly onDrop = this.onDropEmitter.event;
@@ -65,8 +70,7 @@ export class FlowDragService {
   }
 
   get dragging(): boolean {
-    const renderData = this.dragStartNode?.getData<FlowNodeRenderData>(FlowNodeRenderData)!;
-    return !!renderData?.dragging;
+    return !!this.renderState.dragging;
   }
 
   get labelSide(): LABEL_SIDE_TYPE | undefined {
@@ -78,6 +82,30 @@ export class FlowDragService {
    */
   dropBranch(): void {
     this.dropNode();
+  }
+
+  /**
+   * 移动并且创建节点
+   * Move and create node
+   */
+  async dropCreateNode(
+    json: FlowNodeJSON,
+    onCreateNode?: (json: FlowNodeJSON, dropEntity: FlowNodeEntity) => Promise<FlowNodeEntity>
+  ) {
+    const dropEntity = this.document.getNode(this.dropNodeId!);
+
+    if (!dropEntity) {
+      return;
+    }
+
+    if (json) {
+      const dragNodes = await onCreateNode?.(json, dropEntity);
+      this.onDropEmitter.fire({
+        dropNode: dropEntity,
+        dragNodes: dragNodes ? [dragNodes] : [],
+        dragJSON: json,
+      });
+    }
   }
 
   /**

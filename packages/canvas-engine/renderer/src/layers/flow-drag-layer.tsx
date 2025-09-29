@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { inject, injectable } from 'inversify';
-import { Rectangle } from '@flowgram.ai/utils';
+import { Rectangle, Xor } from '@flowgram.ai/utils';
 import {
   FlowDocument,
   FlowNodeBaseType,
@@ -17,6 +17,7 @@ import {
   FlowRendererStateEntity,
   type LABEL_SIDE_TYPE,
   FlowDragService,
+  FlowNodeJSON,
 } from '@flowgram.ai/document';
 import {
   EditorState,
@@ -47,13 +48,34 @@ interface Position {
   y: number;
 }
 
+type StartDragProps = {
+  dragEntities?: FlowNodeEntity[];
+} & Xor<
+  {
+    dragStartEntity: FlowNodeEntity;
+  },
+  {
+    dragJSON: FlowNodeJSON;
+    isBranch?: boolean;
+    onCreateNode: (json: FlowNodeJSON, dropEntity: FlowNodeEntity) => Promise<FlowNodeEntity>;
+  }
+>;
+
 export interface FlowDragOptions {
   onDrop?: (opts: { dragNodes: FlowNodeEntity[]; dropNode: FlowNodeEntity }) => void;
-  canDrop?: (opts: {
-    dragNodes: FlowNodeEntity[];
-    dropNode: FlowNodeEntity;
-    isBranch?: boolean;
-  }) => boolean;
+  canDrop?: (
+    opts: {
+      dropNode: FlowNodeEntity;
+      isBranch?: boolean;
+    } & Xor<
+      {
+        dragNodes: FlowNodeEntity[];
+      },
+      {
+        dragJSON: FlowNodeJSON;
+      }
+    >
+  ) => boolean;
 }
 /**
  * 监听节点的激活状态
@@ -62,7 +84,7 @@ export interface FlowDragOptions {
 export class FlowDragLayer extends Layer<FlowDragOptions> {
   @inject(FlowDocument) readonly document: FlowDocument;
 
-  @inject(FlowDragService) readonly service: FlowDragService;
+  @inject(FlowDragService) readonly flowDragService: FlowDragService;
 
   @observeEntityDatas(FlowNodeEntity, FlowNodeTransformData) transforms: FlowNodeTransformData[];
 
@@ -82,6 +104,15 @@ export class FlowDragLayer extends Layer<FlowDragOptions> {
   protected selectConfigEntity: FlowSelectConfigEntity;
 
   private initialPosition: Position;
+
+  private disableDragScroll: Boolean = false;
+
+  private dragJSON?: FlowNodeJSON;
+
+  private onCreateNode?: (
+    json: FlowNodeJSON,
+    dropEntity: FlowNodeEntity
+  ) => Promise<FlowNodeEntity>;
 
   private dragOffset = {
     x: DEFAULT_DRAG_OFFSET_X,
@@ -126,13 +157,14 @@ export class FlowDragLayer extends Layer<FlowDragOptions> {
   }
 
   setDraggingStatus(status: boolean): void {
-    if (this.service.nodeDragIdsWithChildren.length) {
-      this.service.nodeDragIdsWithChildren.forEach((_id) => {
+    if (this.flowDragService.nodeDragIdsWithChildren.length) {
+      this.flowDragService.nodeDragIdsWithChildren.forEach((_id) => {
         const node = this.entityManager.getEntityById(_id);
         const data = node?.getData<FlowNodeRenderData>(FlowNodeRenderData)!;
         data.dragging = status;
       });
     }
+    this.flowRenderStateEntity.setDragging(status);
   }
 
   dragEnable(e: MouseEvent) {
@@ -143,7 +175,7 @@ export class FlowDragLayer extends Layer<FlowDragOptions> {
   }
 
   handleMouseMove(event: MouseEvent) {
-    if (this.dragStartEntity && this.dragEnable(event)) {
+    if ((this.dragJSON || this.dragStartEntity) && this.dragEnable(event)) {
       // 变更拖拽节点的位置
       this.setDraggingStatus(true);
       const scale = this.playgroundConfigEntity.finalScale;
@@ -163,7 +195,7 @@ export class FlowDragLayer extends Layer<FlowDragOptions> {
           (dragNode.clientHeight - this.dragOffset.y) * scale;
 
         // 获取节点状态是节点类型还是分支类型
-        const isBranch = this.service.isDragBranch;
+        const isBranch = this.flowDragService.isDragBranch;
 
         // 节点类型拖拽碰撞检测
         const draggingRect = new Rectangle(
@@ -189,8 +221,8 @@ export class FlowDragLayer extends Layer<FlowDragOptions> {
         if (
           collisionTransition &&
           (isBranch
-            ? this.service.isDroppableBranch(collisionTransition.entity, side)
-            : this.service.isDroppableNode(collisionTransition.entity)) &&
+            ? this.flowDragService.isDroppableBranch(collisionTransition.entity, side)
+            : this.flowDragService.isDroppableNode(collisionTransition.entity)) &&
           (!this.options.canDrop ||
             this.options.canDrop({
               dragNodes: this.dragEntities,
@@ -214,26 +246,33 @@ export class FlowDragLayer extends Layer<FlowDragOptions> {
         this.containerRef.current.style.top = `${dragBlockY}px`;
         this.containerRef.current.style.transformOrigin = 'top left';
         this.containerRef.current.style.transform = `scale(${scale})`;
-        this.flowDragConfigEntity.scrollDirection(
-          event,
-          this.containerRef.current,
-          dragBlockX,
-          dragBlockY
-        );
+
+        if (!this.disableDragScroll) {
+          this.flowDragConfigEntity.scrollDirection(
+            event,
+            this.containerRef.current,
+            dragBlockX,
+            dragBlockY
+          );
+        }
       }
     }
   }
 
-  handleMouseUp() {
+  async handleMouseUp() {
     this.setDraggingStatus(false);
-    if (this.dragStartEntity) {
-      const activatedNodeId = this.service.dropNodeId;
+    if (this.dragStartEntity || this.dragJSON) {
+      const activatedNodeId = this.flowDragService.dropNodeId;
 
       if (activatedNodeId) {
-        if (this.service.isDragBranch) {
-          this.service.dropBranch();
+        if (this.flowDragService.isDragBranch) {
+          this.flowDragService.dropBranch();
         } else {
-          this.service.dropNode();
+          if (this.dragJSON) {
+            await this.flowDragService.dropCreateNode(this.dragJSON, this.onCreateNode);
+          } else {
+            this.flowDragService.dropNode();
+          }
           this.selectConfigEntity.clearSelectedNodes();
         }
       }
@@ -248,6 +287,8 @@ export class FlowDragLayer extends Layer<FlowDragOptions> {
       this.flowDragConfigEntity.stopAllScroll();
     }
 
+    this.disableDragScroll = false;
+    this.dragJSON = undefined;
     if (this.containerRef.current) {
       this.containerRef.current.style.visibility = 'hidden';
       if (this.pipelineNode.parentElement!.contains(this.draggingNodeMask)) {
@@ -272,16 +313,11 @@ export class FlowDragLayer extends Layer<FlowDragOptions> {
    */
   async startDrag(
     e: { clientX: number; clientY: number },
-    {
-      dragStartEntity: startEntityFromProps,
-      dragEntities,
-    }: {
-      dragStartEntity: FlowNodeEntity;
-      dragEntities?: FlowNodeEntity[];
-    },
+    { dragStartEntity: startEntityFromProps, dragEntities, dragJSON, onCreateNode }: StartDragProps,
     options?: {
       dragOffsetX?: number;
       dragOffsetY?: number;
+      disableDragScroll?: boolean;
     }
   ) {
     // 1. 避免按住空格拖动滚动场景覆盖，context disabled 会出现在画布编辑被抢锁时候触发
@@ -289,17 +325,23 @@ export class FlowDragLayer extends Layer<FlowDragOptions> {
       return;
     }
 
+    this.disableDragScroll = Boolean(options?.disableDragScroll);
+    this.dragJSON = dragJSON;
+    this.onCreateNode = onCreateNode;
+
     this.dragOffset.x = options?.dragOffsetX || DEFAULT_DRAG_OFFSET_X;
     this.dragOffset.y = options?.dragOffsetY || DEFAULT_DRAG_OFFSET_Y;
 
-    const isIcon = startEntityFromProps.flowNodeType === FlowNodeBaseType.BLOCK_ICON;
-    const isOrderIcon = startEntityFromProps.flowNodeType === FlowNodeBaseType.BLOCK_ORDER_ICON;
+    const type = startEntityFromProps?.flowNodeType || dragJSON?.type;
+
+    const isIcon = type === FlowNodeBaseType.BLOCK_ICON;
+    const isOrderIcon = type === FlowNodeBaseType.BLOCK_ORDER_ICON;
 
     const dragStartEntity =
-      isIcon || isOrderIcon ? startEntityFromProps.parent! : startEntityFromProps;
+      isIcon || isOrderIcon ? startEntityFromProps!.parent! : startEntityFromProps;
 
     // 部分节点不支持拖拽
-    if (!dragStartEntity.getData(FlowNodeRenderData).draggable) {
+    if (dragStartEntity && !dragStartEntity!.getData(FlowNodeRenderData).draggable) {
       return;
     }
 
@@ -309,7 +351,7 @@ export class FlowDragLayer extends Layer<FlowDragOptions> {
     };
 
     this.dragStartEntity = dragStartEntity;
-    this.dragEntities = dragEntities || [this.dragStartEntity];
+    this.dragEntities = dragEntities || (this.dragStartEntity ? [this.dragStartEntity!] : []);
 
     return this._dragger.start(e.clientX, e.clientY);
   }
@@ -325,7 +367,7 @@ export class FlowDragLayer extends Layer<FlowDragOptions> {
     this.dragNodeComp = this.rendererRegistry.getRendererComponent(FlowRendererKey.DRAG_NODE);
     // 监听拖入事件
     if (this.options.onDrop) {
-      this.toDispose.push(this.service.onDrop(this.options.onDrop));
+      this.toDispose.push(this.flowDragService.onDrop(this.options.onDrop));
     }
   }
 
@@ -339,7 +381,11 @@ export class FlowDragLayer extends Layer<FlowDragOptions> {
         style={{ position: 'absolute', zIndex: 99999, visibility: 'hidden' }}
         onMouseEnter={(e) => e.stopPropagation()}
       >
-        <DragComp dragStart={this.dragStartEntity} dragNodes={this.dragEntities} />
+        <DragComp
+          dragJSON={this.dragJSON}
+          dragStart={this.dragStartEntity}
+          dragNodes={this.dragEntities}
+        />
       </div>
     );
   }
