@@ -13,7 +13,7 @@ import type {
 } from '@flowgram.ai/free-layout-core';
 import type { EntityManager, PipelineRegistry, PipelineRenderer } from '@flowgram.ai/core';
 
-import type { StackingContext } from '../src/type';
+import type { StackContextManagerOptions, StackingContext } from '../src/type';
 
 /** mock类型便于测试内部方法 */
 export interface IStackingContextManager {
@@ -25,6 +25,7 @@ export interface IStackingContextManager {
   selectService: WorkflowSelectService;
   node: HTMLDivElement;
   disposers: Disposable[];
+  options: StackContextManagerOptions;
   init(): void;
   ready(): void;
   dispose(): void;

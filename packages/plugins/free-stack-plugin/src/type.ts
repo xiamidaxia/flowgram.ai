@@ -5,8 +5,15 @@
 
 import type { WorkflowNodeEntity } from '@flowgram.ai/free-layout-core';
 
-export type StackingContext = {
+export interface StackingContext {
   hoveredEntityID?: string;
   selectedNodes: WorkflowNodeEntity[];
   selectedIDs: Set<string>;
-};
+  sortNodes: (nodes: WorkflowNodeEntity[]) => WorkflowNodeEntity[];
+}
+
+export interface StackContextManagerOptions {
+  sortNodes: (nodes: WorkflowNodeEntity[]) => WorkflowNodeEntity[];
+}
+
+export type FreeStackPluginOptions = Partial<StackContextManagerOptions>;

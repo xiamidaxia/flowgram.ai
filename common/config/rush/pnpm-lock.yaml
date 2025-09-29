@@ -277,6 +277,9 @@ importers:
       '@flowgram.ai/free-snap-plugin':
         specifier: workspace:*
         version: link:../../packages/plugins/free-snap-plugin
+      '@flowgram.ai/free-stack-plugin':
+        specifier: workspace:*
+        version: link:../../packages/plugins/free-stack-plugin
       '@flowgram.ai/minimap-plugin':
         specifier: workspace:*
         version: link:../../packages/plugins/minimap-plugin

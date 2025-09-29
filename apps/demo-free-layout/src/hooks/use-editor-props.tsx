@@ -9,6 +9,7 @@ import { useMemo } from 'react';
 import { debounce } from 'lodash-es';
 import { createPanelManagerPlugin } from '@flowgram.ai/panel-manager-plugin';
 import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin';
+import { createFreeStackPlugin } from '@flowgram.ai/free-stack-plugin';
 import { createFreeSnapPlugin } from '@flowgram.ai/free-snap-plugin';
 import { createFreeNodePanelPlugin } from '@flowgram.ai/free-node-panel-plugin';
 import { createFreeLinesPlugin } from '@flowgram.ai/free-lines-plugin';
@@ -16,6 +17,7 @@ import {
   FlowNodeBaseType,
   FreeLayoutPluginContext,
   FreeLayoutProps,
+  WorkflowNodeEntity,
 } from '@flowgram.ai/free-layout-editor';
 import { createFreeGroupPlugin } from '@flowgram.ai/free-group-plugin';
 import { createContainerNodePlugin } from '@flowgram.ai/free-container-plugin';
@@ -274,6 +276,20 @@ export function useEditorProps(
         },
       },
       plugins: () => [
+        createFreeStackPlugin({
+          sortNodes: (nodes) => {
+            const commentNodes: WorkflowNodeEntity[] = [];
+            const otherNodes: WorkflowNodeEntity[] = [];
+            nodes.forEach((node) => {
+              if (node.flowNodeType === WorkflowNodeType.Comment) {
+                commentNodes.push(node);
+              } else {
+                otherNodes.push(node);
+              }
+            });
+            return [...commentNodes, ...otherNodes];
+          },
+        }),
         /**
          * Line render plugin
          * 连线渲染插件

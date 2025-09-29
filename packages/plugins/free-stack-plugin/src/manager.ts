@@ -17,7 +17,7 @@ import { WorkflowDocument } from '@flowgram.ai/free-layout-core';
 import { FlowNodeRenderData } from '@flowgram.ai/document';
 import { EntityManager, PipelineRegistry, PipelineRenderer } from '@flowgram.ai/core';
 
-import type { StackingContext } from './type';
+import type { StackContextManagerOptions, StackingContext } from './type';
 import { StackingComputing } from './stacking-computing';
 import { BASE_Z_INDEX } from './constant';
 
@@ -43,11 +43,16 @@ export class StackingContextManager {
     'gedit-playground-layer gedit-flow-render-layer'
   );
 
+  private options: StackContextManagerOptions = {
+    sortNodes: (nodes: WorkflowNodeEntity[]) => nodes,
+  };
+
   private disposers: Disposable[] = [];
 
   constructor() {}
 
-  public init(): void {
+  public init(options: Partial<StackContextManagerOptions> = {}): void {
+    this.options = { ...this.options, ...options };
     this.pipelineRenderer.node.appendChild(this.node);
     this.mountListener();
   }
@@ -116,6 +121,7 @@ export class StackingContextManager {
       hoveredEntityID: this.hoverService.someHovered?.id,
       selectedNodes: this.selectService.selectedNodes,
       selectedIDs: new Set(this.selectService.selection.map((entity) => entity.id)),
+      sortNodes: this.options.sortNodes,
     };
   }
 

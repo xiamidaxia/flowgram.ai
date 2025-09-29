@@ -125,6 +125,7 @@ describe('StackingContextManager private methods', () => {
       hoveredEntityID: undefined,
       selectedIDs: new Set(),
       selectedNodes: [],
+      sortNodes: stackingContextManager.options.sortNodes,
     });
     hoverService.updateHoveredKey('start_0');
     const breakNode = document.getNode('break_0')!;

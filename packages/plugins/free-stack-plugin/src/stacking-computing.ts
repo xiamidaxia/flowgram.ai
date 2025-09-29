@@ -25,6 +25,8 @@ export class StackingComputing {
 
   private lineLevel: Map<string, number>;
 
+  private selectedNodeParentSet: Set<string>;
+
   private context: StackingContext;
 
   public compute(params: {
@@ -45,6 +47,7 @@ export class StackingComputing {
     const { root, nodes, context } = params;
     this.context = context;
     this.nodeIndexes = this.computeNodeIndexesMap(nodes);
+    this.selectedNodeParentSet = this.computeSelectedNodeParentSet(nodes);
     this.topLevel = this.computeTopLevel(nodes);
     this.maxLevel = this.topLevel * 2;
     this.layerHandler(root.blocks);
@@ -71,13 +74,14 @@ export class StackingComputing {
     nodes.forEach((node, index) => {
       nodeIndexMap.set(node.id, index);
     });
-    // 选中节点的父节点排序置顶
-    const maxNodeIndex = nodes.length - 1;
-    const latestNodes = this.context.selectedNodes.flatMap((node) => this.getNodeParents(node));
-    latestNodes.forEach((node, index) => {
-      nodeIndexMap.set(node.id, maxNodeIndex + index);
-    });
     return nodeIndexMap;
+  }
+
+  private computeSelectedNodeParentSet(nodes: WorkflowNodeEntity[]): Set<string> {
+    const selectedNodeParents = this.context.selectedNodes.flatMap((node) =>
+      this.getNodeParents(node)
+    );
+    return new Set(selectedNodeParents.map((node) => node.id));
   }
 
   private getNodeParents(node: WorkflowNodeEntity): WorkflowNodeEntity[] {
@@ -139,13 +143,25 @@ export class StackingComputing {
   }
 
   private sortNodes(nodes: WorkflowNodeEntity[]): WorkflowNodeEntity[] {
-    return nodes.sort((a, b) => {
+    const baseSortNodes = nodes.sort((a, b) => {
       const aIndex = this.nodeIndexes.get(a.id);
       const bIndex = this.nodeIndexes.get(b.id);
       if (aIndex === undefined || bIndex === undefined) {
         return 0;
       }
       return aIndex - bIndex;
+    });
+    const contextSortNodes = this.context.sortNodes(baseSortNodes);
+    return contextSortNodes.sort((a, b) => {
+      const aIsSelectedParent = this.selectedNodeParentSet.has(a.id);
+      const bIsSelectedParent = this.selectedNodeParentSet.has(b.id);
+      if (aIsSelectedParent && !bIsSelectedParent) {
+        return 1;
+      } else if (!aIsSelectedParent && bIsSelectedParent) {
+        return -1;
+      } else {
+        return 0;
+      }
     });
   }
 
