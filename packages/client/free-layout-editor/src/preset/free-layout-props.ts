@@ -29,6 +29,7 @@ import {
   FlowNodeType,
 } from '@flowgram.ai/editor';
 
+import { WorkflowOperationService } from '../types';
 import { AutoLayoutResetFn, AutoLayoutToolOptions } from '../tools';
 
 export const FreeLayoutPluginContext = PluginContext;
@@ -45,6 +46,10 @@ export interface FreeLayoutPluginContext extends EditorPluginContext {
   document: WorkflowDocument;
   clipboard: ClipboardService;
   selection: SelectionService;
+  /**
+   * 提供对画布节点相关操作方法, 并 支持 redo/undo
+   */
+  operation: WorkflowOperationService;
   history: HistoryService;
   tools: FreeLayoutPluginTools;
 }

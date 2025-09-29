@@ -123,7 +123,7 @@ function App() {
 }
 ```
 
-- Dynamic reload of all data
+- Dynamic reload of all data (will produce redo/undo/onContentChange)
 
 ```tsx pure
 import { FreeLayoutEditorProvider, FreeLayoutPluginContext, EditorRenderer } from '@flowgram.ai/free-layout-editor'
@@ -133,7 +133,7 @@ function App({ data }) {
 
   useEffect(async () => {
     // Reload canvas data when data changes
-    await ref.current.document.reload(data)
+    await ref.current.operation.fromJSON(data)
     setTimeout(() => {
       // Trigger canvas fitview after loading to center nodes automatically
       ref.current.document.fitView()
