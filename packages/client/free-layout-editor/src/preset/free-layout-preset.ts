@@ -38,6 +38,7 @@ import {
 } from '@flowgram.ai/editor';
 
 import { WorkflowAutoLayoutTool } from '../tools';
+import { createOperationPlugin } from '../plugins/create-operation-plugin';
 import { fromNodeJSON, toNodeJSON } from './node-serialize';
 import { FreeLayoutProps, FreeLayoutPluginContext } from './free-layout-props';
 
@@ -206,6 +207,7 @@ export function createFreeLayoutPreset(
         },
         containerModules: [WorkflowDocumentContainerModule],
       }),
+      createOperationPlugin(opts),
       /**
        * 渲染层级管理
        */

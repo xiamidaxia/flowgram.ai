@@ -39,6 +39,22 @@ export class CommentEditorModel {
     });
   }
 
+  /** 外部设置模型值 */
+  public setInitValue(value: string = CommentEditorDefaultValue): void {
+    if (!this.initialized) {
+      return;
+    }
+    if (value === this.innerValue) {
+      return;
+    }
+    this.innerValue = value;
+    this.syncEditorValue();
+    this.emitter.fire({
+      type: CommentEditorEvent.Init,
+      value: this.innerValue,
+    });
+  }
+
   public set element(el: HTMLTextAreaElement) {
     if (this.initialized) {
       return;

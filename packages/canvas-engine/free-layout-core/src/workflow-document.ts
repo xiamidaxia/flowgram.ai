@@ -191,9 +191,11 @@ export class WorkflowDocument extends FlowDocument {
     json: WorkflowNodeJSON,
     options?: {
       parentID?: string;
+      onNodeCreated?: (node: WorkflowNodeEntity) => void;
+      onEdgeCreated?: (edge: WorkflowLineEntity) => void;
     }
   ): WorkflowNodeEntity {
-    const { parentID } = options ?? {};
+    const { parentID, onNodeCreated, onEdgeCreated } = options ?? {};
     // 是否是一个已经存在的节点
     const isExistedNode = this.getNode(json.id);
     const parent = this.getNode(parentID ?? this.root.id) ?? this.root;
@@ -293,6 +295,8 @@ export class WorkflowDocument extends FlowDocument {
         { nodes: json.blocks, edges: json.edges ?? [] },
         {
           parent: node,
+          onNodeCreated,
+          onEdgeCreated,
         }
       );
     }
@@ -729,6 +733,8 @@ export class WorkflowDocument extends FlowDocument {
     json: WorkflowJSON,
     options?: {
       parent?: WorkflowNodeEntity;
+      onNodeCreated?: (node: WorkflowNodeEntity) => void;
+      onEdgeCreated?: (edge: WorkflowLineEntity) => void;
     }
   ): {
     nodes: WorkflowNodeEntity[];
@@ -747,6 +753,9 @@ export class WorkflowDocument extends FlowDocument {
     const edges = processedJSON.edges
       .map((edge) => this.createWorkflowLine(edge, parentID))
       .filter(Boolean) as WorkflowLineEntity[];
+    // 触发回调
+    nodes.forEach((node) => options?.onNodeCreated?.(node));
+    edges.forEach((edge) => options?.onEdgeCreated?.(edge));
     return { nodes, edges };
   }
 

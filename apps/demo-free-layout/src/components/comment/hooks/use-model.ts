@@ -35,7 +35,7 @@ export const useModel = () => {
   // 同步表单值初始化
   useEffect(() => {
     const value = formModel.getValueIn<string>(CommentEditorFormField.Note);
-    model.setValue(value); // 设置初始值
+    model.setInitValue(value); // 设置初始值
     model.selectEnd(); // 设置初始化光标位置
   }, [formModel, model]);
 
